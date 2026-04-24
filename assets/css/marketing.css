@@ -51,6 +51,43 @@ body.landing { background: var(--paper); color: var(--ink); }
 .nav-links a { font-weight: 500; opacity: 0.85; transition: opacity var(--dur-fast) var(--ease); }
 .nav-links a:hover { opacity: 1; }
 .nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-hamburger {
+  display: none !important;
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+}
+.nav-hamburger:hover { border-color: var(--ink); }
+
+.nav-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 20px;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 49;
+  box-shadow: 0 20px 40px -16px rgba(11,15,14,0.15);
+}
+.nav-drawer[data-open="true"] { display: flex; }
+.nav-drawer a {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-alt);
+}
+.nav-drawer a:last-of-type { border-bottom: none; }
+.nav-drawer .drawer-pill { align-self: flex-start; }
 
 .country-pill {
   display: inline-flex;
@@ -709,8 +746,9 @@ body.landing { background: var(--paper); color: var(--ink); }
   .blog-head h2 { font-size: 48px; }
 }
 @media (max-width: 900px) {
-  .nav { padding: 16px 20px; }
+  .nav { padding: 16px 20px; position: relative; }
   .nav-links, .nav-right .country-pill { display: none; }
+  .nav-hamburger { display: inline-flex !important; }
   .hero, .press, .how, .features, .audience, .testimonials, .pricing, .blog, .cta-final, .footer {
     padding-left: 20px;
     padding-right: 20px;
