@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+
+<title>MyMilesAI — Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="/assets/css/tokens.css" />
+<link rel="stylesheet" href="/assets/css/app.css" />
+
+<style>
+  /* App-specific one-off: subtle fade-in once data is ready */
+  body.app-shell { opacity: 0.4; transition: opacity 220ms ease; }
+  body.app-shell.mmai-ready { opacity: 1; }
+</style>
+
+<script>
+  // Runtime config — supabase publishable/anon key ONLY. Never service_role.
+  window.__MMAI_CONFIG__ = {
+    SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
+    // TODO: paste the Supabase ANON/publishable key (sb_publishable_…) before first production build.
+    SUPABASE_ANON_KEY: 'SB_ANON_KEY_PLACEHOLDER'
+  };
+</script>
+</head>
+
+<body class="app-shell">
+
+<div class="app">
+  <aside class="sidebar" aria-label="App navigation">
+    <div class="logo"><span class="dot"></span>MyMiles<span style="color:var(--accent)">.</span>ai</div>
+
+    <div class="nav-section">Drive</div>
+    <button class="nav-item active" id="nav-dashboard" onclick="mmaiGo('dashboard')"><span class="ic">◐</span>Dashboard</button>
+    <button class="nav-item" id="nav-trips" onclick="mmaiGo('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">0</span></button>
+    <button class="nav-item" id="nav-places" onclick="mmaiGo('places')"><span class="ic">◎</span>Places<span class="count">0</span></button>
+
+    <div class="nav-section">Business</div>
+    <button class="nav-item" id="nav-reports" onclick="mmaiGo('reports')"><span class="ic">◇</span>Reports</button>
+    <button class="nav-item disabled" aria-disabled="true"><span class="ic">▤</span>Accountants<span class="badge-soon">Coming soon</span></button>
+    <button class="nav-item" id="nav-vehicles" onclick="mmaiGo('vehicles')"><span class="ic">◱</span>Vehicles<span class="count">—</span></button>
+
+    <div class="nav-section">Account</div>
+    <button class="nav-item" id="nav-settings" onclick="mmaiGo('settings')"><span class="ic">◴</span>Settings</button>
+    <a class="nav-item" href="mailto:support@mymilesai.com"><span class="ic">?</span>Help</a>
+
+    <div class="profile">
+      <div class="avatar" aria-hidden="true"><span style="color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%" data-mmai="profile-initial">—</span></div>
+      <div>
+        <div class="nm" data-mmai="profile-name">…</div>
+        <div class="em" data-mmai="profile-plan">Free · 2026</div>
+      </div>
+      <button class="signout-btn" data-mmai="signout" title="Sign out">↩</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <section class="page on" id="p-dashboard">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow" data-mmai="eyebrow-date">—</div>
+          <div class="greeting">
+            <span data-mmai="greeting-name">Hello —</span><br/>
+            <em data-mmai="greeting-count">loading…</em>
+          </div>
+        </div>
+        <div class="tools">
+          <input class="search" placeholder="Search trips, places, reports…" />
+          <button class="btn">+ Log trip</button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi dark">
+          <div class="pill"><span class="pdot"></span>LIVE · AUTO-DETECTING</div>
+          <div class="l">YTD deduction · 2026</div>
+          <div class="v" style="color:var(--accent)" data-mmai="ytd-deduction">$0.00</div>
+          <div class="s">Based on business miles × $0.725 (2026 IRS rate)</div>
+          <div class="chart" aria-hidden="true">
+            <span style="height:30%"></span><span style="height:45%"></span><span style="height:38%"></span>
+            <span style="height:62%"></span><span style="height:50%"></span><span style="height:72%"></span>
+            <span style="height:48%"></span><span style="height:80%"></span><span style="height:65%"></span>
+            <span style="height:90%" class="hi"></span><span style="height:76%"></span><span style="height:88%" class="hi"></span>
+          </div>
+        </div>
+        <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">0</div><div class="s">Business + personal</div></div>
+        <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">—</div><div class="s" data-mmai="business-of-total">— of —</div></div>
+        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:var(--accent)" data-mmai="needs-review">0</div><div class="s">Unclassified trips</div></div>
+      </div>
+
+      <div class="content">
+        <div class="panel">
+          <div class="panel-head">
+            <div><h3>Recent trips</h3><div class="sub">Pulled live from Supabase. Full trips list in the Trips tab.</div></div>
+            <a onclick="mmaiGo('trips')">View all →</a>
+          </div>
+          <div class="trip"><div class="time">—</div><div><div class="from">Your trips will appear here</div><div class="to">Start a drive on your iPhone; it syncs automatically.</div></div><div class="mi">—</div><div class="tag pers">Empty</div></div>
+        </div>
+
+        <div>
+          <div class="ded">
+            <div class="l">YTD deduction progress</div>
+            <div class="v" data-mmai="ytd-deduction">$0.00</div>
+            <div class="s">2026 IRS standard mileage rate: $0.725/mi</div>
+            <div class="bar"><div style="width:0%"></div></div>
+            <div class="bar-label"><span>PROGRESS</span><span>—</span></div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(246,243,238,0.15)">
+              <div class="row"><span>IRS rate (2026)</span><span>$0.725 / mi</span></div>
+              <div class="row"><span>Est. tax saved (24% bracket)</span><span style="color:var(--accent)">—</span></div>
+            </div>
+          </div>
+          <div class="export">
+            <h4>Export for your CPA</h4>
+            <p>IRS-compliant PDF with GPS traces, odometer, routes, and purpose.</p>
+            <button class="btn accent">Generate report →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TRIPS ═══ -->
+    <section class="page" id="p-trips">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">All trips · filter by tag</div>
+          <div class="greeting">All <em>trips</em></div>
+        </div>
+        <div class="tools">
+          <input class="search" placeholder="Search by address, purpose…" />
+          <button class="btn ghost">⬇ Export CSV</button>
+          <button class="btn">+ Log trip</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="pill on">All</span>
+        <span class="pill">Business</span>
+        <span class="pill">Personal</span>
+        <span class="pill" style="color:var(--accent);border-color:var(--accent)">Needs review</span>
+        <span class="pill" style="margin-left:auto">This month ▾</span>
+        <span class="pill">All vehicles ▾</span>
+        <span class="pill">All purposes ▾</span>
+      </div>
+      <div class="trips-table">
+        <div class="tt-head"><div>DATE</div><div>ROUTE</div><div>PURPOSE</div><div style="text-align:right">MILES</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
+        <div class="tt-row">
+          <div class="dt">—</div>
+          <div><div class="from">No trips yet</div><div class="to">Trips logged on iPhone will sync here automatically.</div></div>
+          <div class="pur">—</div>
+          <div class="mi">—</div>
+          <div class="val">—</div>
+          <div style="text-align:center"><span class="tag pers">Empty</span></div>
+          <div class="more"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PLACES (static preview v1) ═══ -->
+    <section class="page" id="p-places">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">Places · static preview (v1)</div>
+          <div class="greeting">Your <em>regular stops</em></div>
+        </div>
+        <div class="tools">
+          <button class="btn ghost">+ Add place</button>
+        </div>
+      </div>
+      <div class="map-view">
+        <div class="map-surface" aria-label="Static map preview — live map landing in a future release">
+          <svg viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,300 Q200,100 400,250 T800,220" stroke="#BDB5A3" stroke-width="2" fill="none" stroke-dasharray="5 8" />
+            <path d="M100,500 Q300,400 500,450 T800,500" stroke="#BDB5A3" stroke-width="2" fill="none" />
+          </svg>
+          <div class="map-label" style="left:25%;top:30%">Home</div>
+          <div class="map-pin" style="left:25%;top:30%">H</div>
+          <div class="map-label biz" style="left:60%;top:45%">Downtown Office</div>
+          <div class="map-pin biz" style="left:60%;top:45%">O</div>
+          <div class="map-label" style="left:78%;top:62%">Warehouse</div>
+          <div class="map-pin" style="left:78%;top:62%">W</div>
+        </div>
+        <div class="place-list">
+          <div class="pcard sel">
+            <div class="ph">Home</div>
+            <div class="pa">123 Main St · San Francisco, CA</div>
+            <span class="pbadge pers">Personal</span>
+            <div class="prow"><span>Visits</span><span class="v">—</span></div>
+          </div>
+          <div class="pcard">
+            <div class="ph">Downtown Office</div>
+            <div class="pa">450 Market St · San Francisco, CA</div>
+            <span class="pbadge biz">Business</span>
+            <div class="prow"><span>Visits</span><span class="v">—</span></div>
+          </div>
+          <div class="pcard">
+            <div class="ph">Warehouse</div>
+            <div class="pa">1200 3rd St · San Francisco, CA</div>
+            <span class="pbadge biz">Business</span>
+            <div class="prow"><span>Visits</span><span class="v">—</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ REPORTS ═══ -->
+    <section class="page" id="p-reports">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">IRS-ready exports</div>
+          <div class="greeting">Build a <em>report</em></div>
+        </div>
+      </div>
+      <div class="rep-grid">
+        <div class="rep-builder">
+          <h3>Mileage <em>report builder</em></h3>
+          <div class="sub">Select a period, vehicles, and classifications. We generate an audit-grade PDF.</div>
+
+          <div class="field">
+            <div class="field-label">Period</div>
+            <div class="period-pills">
+              <span class="pill on">This month</span>
+              <span class="pill">Q1</span>
+              <span class="pill">YTD</span>
+              <span class="pill">Last year</span>
+              <span class="pill">Custom…</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Include</div>
+            <div class="vehicles-check">
+              <div class="vcheck on"><span class="cb">✓</span>Business only</div>
+              <div class="vcheck"><span class="cb"></span>Include personal (for context)</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Vehicles</div>
+            <div class="vehicles-check">
+              <div class="vcheck on"><span class="cb">✓</span>All vehicles</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rep-prev">
+          <div class="pdfcard">
+            <div class="pdf-head">
+              <div>
+                <div>IRS FORM 2106 — 2026</div>
+                <div class="pdf-title">Mileage Log · Q1 Summary</div>
+              </div>
+              <div>✓ VERIFIED</div>
+            </div>
+            <div class="pdf-row"><div>DATE</div><div>ROUTE</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
+            <div class="pdf-row"><div>—</div><div>Live preview unlocks once you add trips</div><div style="text-align:right">—</div><div style="text-align:right">—</div></div>
+          </div>
+          <div class="rep-totals">
+            <div class="lbl">Estimated deduction</div>
+            <div class="big" data-mmai="ytd-deduction">$0.00</div>
+            <div class="lb2">Based on business miles × $0.725 (2026 IRS rate)</div>
+            <div class="rep-cta">
+              <button class="btn accent">Generate PDF</button>
+              <button class="btn ghost">CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ VEHICLES ═══ -->
+    <section class="page" id="p-vehicles">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">Garage</div>
+          <div class="greeting">Your <em>vehicles</em></div>
+        </div>
+        <div class="tools">
+          <button class="btn">+ Add vehicle</button>
+        </div>
+      </div>
+      <div class="veh-grid">
+        <div class="vcard add">
+          <div class="plus">+</div>
+          <div>Add your first vehicle to start tracking by plate.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SETTINGS ═══ -->
+    <section class="page" id="p-settings">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">Your account</div>
+          <div class="greeting">Settings</div>
+        </div>
+      </div>
+      <div class="set-grid">
+        <div class="set-nav">
+          <button class="snav on">Profile</button>
+          <button class="snav">Preferences</button>
+          <button class="snav">Notifications</button>
+          <button class="snav">Billing</button>
+          <button class="snav">Data</button>
+        </div>
+        <div class="set-panel">
+          <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px">
+            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#E8502E,#FFB38A)"></div>
+            <div style="flex:1">
+              <div style="font-family:'Instrument Serif';font-size:22px" data-mmai="profile-name">—</div>
+              <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono';letter-spacing:0.05em;text-transform:uppercase;margin-top:2px" data-mmai="profile-plan">—</div>
+            </div>
+            <button class="btn ghost">Manage plan</button>
+          </div>
+          <div class="set-group" style="border-top:none;padding-top:0">
+            <div class="set-row"><div><div class="nm">Auto-detect drives</div><div class="ds">Log trips automatically in the background via GPS + motion.</div></div><div class="toggle"></div></div>
+            <div class="set-row"><div><div class="nm">AI auto-classify</div><div class="ds">Learn your recurring routes and classify them automatically.</div></div><div class="toggle"></div></div>
+            <div class="set-row"><div><div class="nm">Exclude daily commute</div><div class="ds">Home ⇄ Office is non-deductible under IRS rules.</div></div><div class="toggle off"></div></div>
+            <div class="set-row"><div><div class="nm">Work hours only</div><div class="ds">Only auto-classify as Business during work hours.</div></div><div class="toggle"></div></div>
+          </div>
+          <div class="set-group">
+            <div class="set-row"><div><div class="nm">IRS mileage rate</div><div class="ds">2026 business rate, per IRS Notice 2026-10.</div></div><span class="set-val">$0.725 / MI · 2026</span></div>
+            <div class="set-row"><div><div class="nm">Default tax bracket</div><div class="ds">Used for "tax saved" estimates across the app.</div></div><span class="set-val">24%</span></div>
+          </div>
+          <div class="set-group">
+            <div class="set-row"><div><div class="nm">Email notifications</div><div class="ds">Weekly summaries + unreviewed trip reminders.</div></div><div class="toggle"></div></div>
+            <div class="set-row"><div><div class="nm">Push notifications</div><div class="ds">Configure in the iOS app.</div></div><span class="set-val">iOS ONLY</span></div>
+          </div>
+          <div class="set-group">
+            <div class="set-row"><div><div class="nm">Export all data</div><div class="ds">Download a ZIP of every trip, vehicle, and report.</div></div><button class="btn ghost">Export ⬇</button></div>
+            <div class="set-row"><div><div class="nm">Sign out</div><div class="ds">End this session on the web.</div></div><button class="btn ghost" data-mmai="signout">Sign out →</button></div>
+            <div class="set-row"><div><div class="nm">Delete account</div><div class="ds">Permanent. All logs, trips, and reports erased.</div></div><button class="btn ghost" style="color:var(--accent);border-color:var(--accent)">Delete →</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/assets/js/app.js" defer></script>
+</body>
+</html>

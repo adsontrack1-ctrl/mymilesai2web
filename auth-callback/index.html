@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+
+<title>Signing you in… · MyMilesAI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="/assets/css/tokens.css" />
+<link rel="stylesheet" href="/assets/css/auth.css" />
+
+<script>
+  window.__MMAI_CONFIG__ = {
+    SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
+    SUPABASE_ANON_KEY: 'SB_ANON_KEY_PLACEHOLDER'
+  };
+</script>
+</head>
+<body class="auth" data-auth-page="callback">
+
+<main class="auth-main">
+  <section class="auth-card callback-box">
+    <div class="spinner" aria-hidden="true"></div>
+    <h1 style="font-size:32px;margin-bottom:12px">Signing you in…</h1>
+    <p class="sub" style="margin-bottom:20px">Completing the handshake with your provider.</p>
+    <div id="auth-msg" class="auth-msg"></div>
+    <a data-retry href="/signin/" class="btn-primary" style="display:none;text-decoration:none">Try again</a>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/assets/js/auth.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.env
+.env.local
+.vscode/
+*.log
+apple-auth-key-*.p8
+tools/AuthKey_*.p8
