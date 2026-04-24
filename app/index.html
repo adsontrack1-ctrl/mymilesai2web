@@ -9,7 +9,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="../assets/css/tokens.css" />
 <link rel="stylesheet" href="../assets/css/app.css" />
@@ -34,7 +36,15 @@
 
 <div class="app">
   <aside class="sidebar" aria-label="App navigation">
-    <div class="logo"><span class="dot"></span>MyMiles<span style="color:var(--accent)">.</span>ai</div>
+    <div class="logo">
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <circle cx="12" cy="50" r="4" fill="#0B0F0E" />
+        <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#DA0A7F" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        <circle cx="52" cy="14" r="5" fill="#DA0A7F" />
+        <circle cx="52" cy="14" r="2" fill="#F6F3EE" />
+      </svg>
+      <span class="logo-w">MyMiles<span class="ai">AI</span></span>
+    </div>
 
     <div class="nav-section">Drive</div>
     <button class="nav-item active" id="nav-dashboard" onclick="mmaiGo('dashboard')"><span class="ic">◐</span>Dashboard</button>
@@ -80,7 +90,7 @@
 
       <div class="kpi-row">
         <div class="kpi dark">
-          <div class="pill"><span class="pdot"></span>LIVE · AUTO-DETECTING</div>
+          <div class="pill"><span class="pdot"></span>Live · auto-detecting</div>
           <div class="l">YTD deduction · 2026</div>
           <div class="v" style="color:var(--accent)" data-mmai="ytd-deduction">$0.00</div>
           <div class="s">Based on business miles × $0.725 (2026 IRS rate)</div>
@@ -149,7 +159,7 @@
         <span class="pill">All purposes ▾</span>
       </div>
       <div class="trips-table">
-        <div class="tt-head"><div>DATE</div><div>ROUTE</div><div>PURPOSE</div><div style="text-align:right">MILES</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
+        <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">Value</div><div style="text-align:center">Class</div><div></div></div>
         <div class="tt-row">
           <div class="dt">—</div>
           <div><div class="from">No trips yet</div><div class="to">Trips logged on iPhone will sync here automatically.</div></div>
@@ -258,7 +268,7 @@
               </div>
               <div>✓ VERIFIED</div>
             </div>
-            <div class="pdf-row"><div>DATE</div><div>ROUTE</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
+            <div class="pdf-row"><div>Date</div><div>Route</div><div style="text-align:right">Mi</div><div style="text-align:right">$</div></div>
             <div class="pdf-row"><div>—</div><div>Live preview unlocks once you add trips</div><div style="text-align:right">—</div><div style="text-align:right">—</div></div>
           </div>
           <div class="rep-totals">
@@ -311,10 +321,10 @@
         </div>
         <div class="set-panel">
           <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px">
-            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#E8502E,#FFB38A)"></div>
+            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6)"></div>
             <div style="flex:1">
               <div style="font-family:'Instrument Serif';font-size:22px" data-mmai="profile-name">—</div>
-              <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono';letter-spacing:0.05em;text-transform:uppercase;margin-top:2px" data-mmai="profile-plan">—</div>
+              <div style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px" data-mmai="profile-plan">—</div>
             </div>
             <button class="btn ghost">Manage plan</button>
           </div>
