@@ -37,14 +37,12 @@ and any future native client load through the same auth and data plane behind it
 
 ## Before deploy
 
-1. Replace the placeholder `SB_ANON_KEY_PLACEHOLDER` in:
-   - `app/index.html`
-   - `signin/index.html`
-   - `signup/index.html`
-   - `auth-callback/index.html`
-
-   with the **publishable / anon key** from Supabase → Project Settings → API
-   (prefixed `sb_publishable_…`). **Never commit `service_role`.**
+1. ✓ **Publishable key is wired** in all 4 auth-aware pages
+   (`app/`, `signin/`, `signup/`, `auth-callback/`). The embedded key is the
+   `sb_publishable_…` key from Supabase → Project Settings → API Keys.
+   It's safe in the browser as long as RLS is enforced on every table.
+   **Never commit `service_role`.** To rotate: swap the literal in the four
+   `<script>window.__MMAI_CONFIG__ = …</script>` blocks.
 
 2. Run the `profiles.plan` migration in Supabase SQL Editor:
    ```sql
