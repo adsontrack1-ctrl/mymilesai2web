@@ -1,0 +1,74 @@
+/* ==========================================================
+   MyMiles.AI — Canonical Brand Logo
+   Winner from logo-explorations.html — "№ 05 The Route"
+   Include this stylesheet on any page that needs the mark.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap');
+
+/* ROOT TOKENS — fall back to these if host page doesn't define them */
+.mm-logo,
+.mm-logo-stacked,
+.mm-logo-mono-dark,
+.mm-logo-mono-light {
+  --mm-ink: #0B0F0E;
+  --mm-paper: #F6F3EE;
+  --mm-accent: #E8502E;
+  --mm-violet: #7C3AED;
+  --mm-pink: #EC4899;
+}
+
+/* ── HORIZONTAL LOCKUP (default) ── */
+.mm-logo { display:inline-flex; align-items:center; gap:12px; line-height:1; }
+.mm-logo svg { width:var(--mm-icon-size,36px); height:var(--mm-icon-size,36px); flex-shrink:0; display:block; }
+.mm-logo .mm-w {
+  font-family:'Satoshi','Inter Tight',-apple-system,system-ui,sans-serif;
+  font-weight:700;
+  font-size:var(--mm-type-size,24px);
+  letter-spacing:-0.035em;
+  color:var(--mm-ink);
+  line-height:1;
+}
+.mm-logo .mm-ai {
+  font-family:'Instrument Serif',serif;
+  font-style:italic;
+  font-weight:400;
+  background:linear-gradient(90deg,var(--mm-violet),var(--mm-pink));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  letter-spacing:-0.02em;
+  padding-left:0.03em;
+}
+
+/* Monochrome on dark (navs, footers, buttons) */
+.mm-logo.on-dark .mm-w { color:var(--mm-paper); }
+.mm-logo.on-dark svg .mm-route-dot{ fill:var(--mm-paper); }
+
+/* All-ink monochrome (single-color print) */
+.mm-logo.mono-ink .mm-w,
+.mm-logo.mono-ink svg .mm-route-dot,
+.mm-logo.mono-ink svg .mm-route-pin-outer { color:var(--mm-ink); fill:var(--mm-ink); }
+.mm-logo.mono-ink svg .mm-route-line { stroke:var(--mm-ink); }
+.mm-logo.mono-ink .mm-ai {
+  background:none; -webkit-text-fill-color:var(--mm-ink); color:var(--mm-ink);
+}
+
+/* All-paper monochrome (on accent backgrounds) */
+.mm-logo.mono-paper .mm-w,
+.mm-logo.mono-paper svg .mm-route-dot,
+.mm-logo.mono-paper svg .mm-route-pin-outer { color:var(--mm-paper); fill:var(--mm-paper); }
+.mm-logo.mono-paper svg .mm-route-line { stroke:var(--mm-paper); }
+.mm-logo.mono-paper .mm-ai {
+  background:none; -webkit-text-fill-color:var(--mm-paper); color:var(--mm-paper);
+}
+
+/* Animated path-draw on hover (apply to a hover container) */
+@keyframes mm-route-draw { from{stroke-dashoffset:120} to{stroke-dashoffset:0} }
+.mm-hover:hover .mm-logo svg path.mm-route-line,
+.mm-logo.animate svg path.mm-route-line { animation:mm-route-draw 2s ease forwards; }
+
+/* Standalone MARK (icon only — for favicons, app icons, avatars) */
+.mm-logo-mark { display:inline-flex; width:var(--mm-icon-size,48px); height:var(--mm-icon-size,48px); }
+.mm-logo-mark svg { width:100%; height:100%; display:block; }

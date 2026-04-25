@@ -2,610 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#F6F3EE" />
-
-<title>MyMilesAI — Track every mile. Claim every dollar.</title>
-<meta name="description" content="MyMiles.AI automatically logs your trips with GPS, classifies them with AI, and calculates IRS tax deductions — all hands-free. Privacy-first mileage tracker for drivers, realtors, contractors, and CPAs." />
-<meta name="keywords" content="mileage tracker, IRS deduction, business mileage log, GPS trip tracking, AI trip classification, 1099 tax, rideshare deduction" />
-<meta name="author" content="Harijas LLC" />
-<meta name="robots" content="index, follow" />
-
-<link rel="canonical" href="https://mymilesai.com/" />
-
-<!-- Open Graph -->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="MyMilesAI" />
-<meta property="og:url" content="https://mymilesai.com/" />
-<meta property="og:title" content="MyMilesAI — Track every mile. Claim every dollar." />
-<meta property="og:description" content="Auto mileage tracker with AI trip classification and IRS-ready reports. 7-day free trial, no credit card." />
-<meta property="og:image" content="https://mymilesai.com/assets/img/og-image.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="MyMilesAI — Track every mile. Claim every dollar." />
-<meta name="twitter:description" content="Auto mileage tracker with AI classification and IRS-ready reports. 7-day free trial." />
-<meta name="twitter:image" content="https://mymilesai.com/assets/img/og-image.png" />
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet" />
-
-<link rel="stylesheet" href="assets/css/tokens.css" />
-<link rel="stylesheet" href="assets/css/marketing.css" />
-
-<!-- Structured data: Organization + SoftwareApplication -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://mymilesai.com/#org",
-      "name": "MyMilesAI",
-      "legalName": "Harijas LLC",
-      "url": "https://mymilesai.com/",
-      "logo": "https://mymilesai.com/assets/img/logo.png",
-      "sameAs": ["https://apps.apple.com/app/id6760873036"]
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://mymilesai.com/#app",
-      "name": "MyMilesAI",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "iOS",
-      "offers": {
-        "@type": "Offer",
-        "price": "69.99",
-        "priceCurrency": "USD",
-        "category": "subscription"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "12847"
-      },
-      "downloadUrl": "https://apps.apple.com/app/id6760873036",
-      "publisher": { "@id": "https://mymilesai.com/#org" }
-    }
-  ]
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MyMilesAI — Every mile, automatically deducted.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'Geist','Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit}
+  ::selection{background:#DA0A7F;color:#FFFFFF}
+  /* Device toggle */
+  .device-toggle{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;background:#0B0F0E;color:#F6F3EE;border-radius:100px;padding:4px;display:flex;gap:2px;font-family:'Geist Mono','Geist',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;box-shadow:0 8px 24px -8px rgba(0,0,0,0.3)}
+  .device-toggle button{background:transparent;color:#F6F3EE;border:none;padding:6px 12px;border-radius:100px;cursor:pointer;font-family:inherit;font-size:inherit;letter-spacing:inherit}
+  .device-toggle button.active{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF}
+  .mobile-frame{max-width:390px;margin:24px auto;border:10px solid #0B0F0E;border-radius:44px;overflow:hidden;box-shadow:0 40px 80px -20px rgba(11,15,14,0.25);background:#F6F3EE}
+  .mobile-frame section{padding-left:20px!important;padding-right:20px!important}
+  .mobile-frame h1{font-size:56px!important}
+  .mobile-frame h2{font-size:40px!important}
+  .mobile-frame [data-grid]{grid-template-columns:1fr!important}
+  .mobile-frame h1 span{white-space:normal!important}
+  .mobile-frame .nav-links, .mobile-frame .nav-signin{display:none!important}
+</style>
+</head>
+<body>
+<div class="device-toggle">
+  <button id="btn-desk" class="active" onclick="setDev('desk')">Desktop</button>
+  <button id="btn-mob" onclick="setDev('mob')">Mobile</button>
+</div>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ms-parts1.jsx"></script>
+<script type="text/babel" src="ms-parts2.jsx"></script>
+<script type="text/babel">
+const Site = () => (
+  <>
+    <MSNav/>
+    <MSHero/>
+    <MSPress/>
+    <MSHow/>
+    <MSFeatures/>
+    <MSAudience/>
+    <MSTestimonials/>
+    <MSPricing/>
+    <MSBlog/>
+    <MSCTA/>
+    <MSFooter/>
+  </>
+);
+ReactDOM.createRoot(document.getElementById('root')).render(<Site/>);
+</script>
+<script>
+function setDev(m){
+  const root = document.getElementById('root');
+  const desk = document.getElementById('btn-desk');
+  const mob = document.getElementById('btn-mob');
+  if(m==='mob'){ root.classList.add('mobile-frame'); mob.classList.add('active'); desk.classList.remove('active'); }
+  else { root.classList.remove('mobile-frame'); desk.classList.add('active'); mob.classList.remove('active'); }
 }
 </script>
-</head>
-
-<body class="landing">
-<a class="skip-link" href="#main">Skip to content</a>
-
-<!-- ═══ Nav ═══ -->
-<header class="nav">
-  <a href="./" class="logo-mark" aria-label="MyMilesAI home">
-    <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true">
-      <circle cx="12" cy="50" r="4" fill="#0B0F0E"/>
-      <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#E8502E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      <circle cx="52" cy="14" r="5" fill="#E8502E"/>
-      <circle cx="52" cy="14" r="2" fill="#F6F3EE"/>
-    </svg>
-    <span class="logo-word">MyMiles<span class="ai">.AI</span></span>
-  </a>
-
-  <nav class="nav-links" aria-label="Primary">
-    <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#blog">Blog</a>
-    <a href="#about">About</a>
-  </nav>
-
-  <div class="nav-right">
-    <span class="country-pill" aria-label="United States"><span class="country-flag"></span>MI</span>
-    <a class="btn btn-ghost" href="signin/">Sign In</a>
-    <button class="nav-hamburger" type="button" aria-label="Open menu" aria-controls="nav-drawer" aria-expanded="false" hidden>
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-
-  <div id="nav-drawer" class="nav-drawer" hidden>
-    <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#blog">Blog</a>
-    <a href="#about">About</a>
-    <span class="country-pill drawer-pill" aria-label="United States"><span class="country-flag"></span>MI</span>
-  </div>
-</header>
-
-<main id="main">
-
-<!-- ═══ Hero ═══ -->
-<section class="hero" aria-labelledby="hero-h">
-  <div class="hero-glow" aria-hidden="true"></div>
-
-  <div class="hero-copy">
-    <h1 id="hero-h">
-      <span class="line">Track every mile.</span>
-      <span class="line">Claim every <em>dollar.</em></span>
-    </h1>
-    <p class="hero-sub">
-      MyMiles.AI automatically logs your trips with GPS, classifies them with AI, and calculates your IRS tax deductions — all hands-free.
-    </p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="signup/">Start Free Trial <span aria-hidden="true">→</span></a>
-      <a class="btn btn-white-bordered" href="#pricing">Calculate My Savings</a>
-    </div>
-    <div class="trust-badges" aria-label="Product guarantees">
-      <span>
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 1 L13 3 V8 Q13 12 8 15 Q3 12 3 8 V3 Z" fill="none" stroke="#16A34A" stroke-width="1.6" stroke-linejoin="round"/><path d="M5.5 8 L7.3 9.8 L10.7 6" fill="none" stroke="#16A34A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Privacy-first
-      </span>
-      <span>
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="#4A4843" stroke-width="1.4"/><path d="M2 8 H14 M8 2 Q11 5 11 8 Q11 11 8 14 Q5 11 5 8 Q5 5 8 2" fill="none" stroke="#4A4843" stroke-width="1.2"/></svg>
-        US + Canada
-      </span>
-      <span>
-        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 1 L9.5 6.5 L15 6.5 L10.5 10 L12 15.5 L8 12 L4 15.5 L5.5 10 L1 6.5 L6.5 6.5 Z" fill="#EC4899" opacity="0.9"/></svg>
-        30-sec setup
-      </span>
-    </div>
-  </div>
-
-  <div class="hero-phone-wrap">
-    <!-- Phone mockup -->
-    <div class="hero-phone" role="img" aria-label="MyMilesAI on iPhone showing a live dashboard">
-      <div class="phone-screen">
-        <div class="phone-island" aria-hidden="true"></div>
-        <div class="phone-status"><span>9:41</span><span aria-hidden="true"></span><span style="font-size:10px">●●●</span></div>
-
-        <div class="phone-notif">
-          <div class="phone-notif-icon" aria-hidden="true">
-            <svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 8 L7 12 L13 4" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="phone-notif-body">
-            <div class="phone-notif-title">Trip completed · 12.1 mi</div>
-            <div class="phone-notif-meta">Property Showing · +$8.77 deduction</div>
-          </div>
-          <span class="phone-notif-time">now</span>
-        </div>
-
-        <div class="phone-hero-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span class="phone-gps-pill"><span class="phone-gps-dot"></span>GPS ACTIVE</span>
-            <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:11px;opacity:0.55">MyMiles.AI</span>
-          </div>
-          <div class="phone-gauge">
-            <svg viewBox="0 0 160 110" width="200" height="138" aria-hidden="true">
-              <defs>
-                <linearGradient id="hgauge" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#6EE7C7"/><stop offset="40%" stop-color="#A855F7"/><stop offset="100%" stop-color="#EC4899"/>
-                </linearGradient>
-              </defs>
-              <path d="M 20 90 A 60 60 0 0 1 140 90" stroke="rgba(246,243,238,0.1)" stroke-width="10" fill="none" stroke-linecap="round"/>
-              <path d="M 20 90 A 60 60 0 0 1 118 36" stroke="url(#hgauge)" stroke-width="10" fill="none" stroke-linecap="round"/>
-              <text x="80" y="80" text-anchor="middle" font-family="Instrument Serif, serif" font-size="44" fill="#EC4899" font-style="italic">42</text>
-              <text x="80" y="98" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="rgba(246,243,238,0.55)" letter-spacing="0.15em">MPH</text>
-            </svg>
-          </div>
-          <div class="phone-tiles">
-            <div class="phone-tile"><div class="v" style="color:#6EE7C7">68.1</div><div class="k">BUSINESS MI</div></div>
-            <div class="phone-tile"><div class="v" style="color:#A78BFA">23.1</div><div class="k">PERSONAL MI</div></div>
-            <div class="phone-tile"><div class="v" style="color:#F9A8D4;font-style:normal">$49.39</div><div class="k">DEDUCTION</div></div>
-          </div>
-        </div>
-
-        <div class="phone-modes">
-          <button class="phone-mode on">
-            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><circle cx="5" cy="8" r="3" fill="none" stroke="#F6F3EE" stroke-width="1.4"/><path d="M8 8 L12 5 L14 7" stroke="#F6F3EE" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
-            Auto On
-          </button>
-          <button class="phone-mode">+ Add Manual</button>
-          <button class="phone-mode">Map</button>
-        </div>
-
-        <div class="phone-trips-head">
-          <span class="title">Recent Trips</span>
-          <span class="see">See all →</span>
-        </div>
-
-        <div class="phone-trips">
-          <div class="phone-trip">
-            <div class="phone-trip-head">
-              <span class="phone-trip-time">2:10 PM · 18 min</span>
-              <span class="phone-trip-tag biz">BUSINESS</span>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:8px">
-              <div style="display:flex;flex-direction:column;align-items:center;padding-top:3px">
-                <span style="width:6px;height:6px;border-radius:50%;background:#0B0F0E"></span>
-                <span style="width:1px;height:14px;background:#E6E1D8;margin:2px 0"></span>
-                <span style="width:6px;height:6px;border-radius:50%;background:#A78BFA"></span>
-              </div>
-              <div style="flex:1;font-size:10px;line-height:1.35">
-                <div>123 Main St, Downtown</div>
-                <div>456 Oak Ave, Westside</div>
-                <div style="margin-top:4px;font-size:8.5px;color:#6B6862;font-family:'JetBrains Mono',monospace">Client Meeting <span style="color:#16A34A">+$8.10</span></div>
-              </div>
-              <div style="font-family:'Instrument Serif',serif;font-size:15px;font-style:italic;color:#A78BFA">8.4</div>
-            </div>
-          </div>
-          <div class="phone-trip">
-            <div class="phone-trip-head">
-              <span class="phone-trip-time">11:15 AM · 9 min</span>
-              <span class="phone-trip-tag pers">PERSONAL</span>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:8px">
-              <div style="display:flex;flex-direction:column;align-items:center;padding-top:3px">
-                <span style="width:6px;height:6px;border-radius:50%;background:#0B0F0E"></span>
-                <span style="width:1px;height:14px;background:#E6E1D8;margin:2px 0"></span>
-                <span style="width:6px;height:6px;border-radius:50%;background:#FB5E7E"></span>
-              </div>
-              <div style="flex:1;font-size:10px;line-height:1.35">
-                <div>Home, Maple Drive</div>
-                <div>Costco, Regent Ave</div>
-                <div style="margin-top:4px;font-size:8px;color:#9A958D;font-style:italic">missed deduction so far</div>
-              </div>
-              <div style="font-family:'Instrument Serif',serif;font-size:15px;font-style:italic;color:#FB5E7E">$47.63</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="phone-tabbar">
-          <button class="phone-tab on">
-            <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><rect x="4" y="11" width="8" height="2.5" rx="0.5" fill="#FFF"/><path d="M3 11 L5 6 L11 6 L13 11" stroke="#FFF" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-            Drive
-          </button>
-          <button class="phone-tab">Trips</button>
-          <button class="phone-tab">Stats</button>
-          <button class="phone-tab">Alerts</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-chip c1">
-      <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.5 C5 1.5 3 4 3 6.5 Q3 9 8 14.5 Q13 9 13 6.5 C13 4 11 1.5 8 1.5 Z" fill="none" stroke="#7C3AED" stroke-width="1.4"/><circle cx="8" cy="6.5" r="2" fill="#7C3AED"/></svg>
-      Auto-tracking on
-    </div>
-    <div class="hero-chip c2">
-      <span class="chip-dollar">$</span>
-      <span style="color:#16A34A;font-weight:600">+$5.88 deduction</span>
-    </div>
-    <div class="hero-chip c3">
-      <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M6 1 L10 1 L9 6 L13 6 L6 15 L7 9 L3 9 Z" fill="#F59E0B"/></svg>
-      AI classified
-    </div>
-  </div>
-</section>
-
-<!-- ═══ Press ═══ -->
-<section class="press" aria-label="Press mentions">
-  <div class="press-label">As seen in —</div>
-  <div class="press-logos">
-    <span>FORBES</span><span>TECHCRUNCH</span><span>WSJ</span><span>THE VERGE</span><span>WIRED</span><span>Inc.</span>
-  </div>
-</section>
-
-<!-- ═══ How It Works ═══ -->
-<section id="how" class="how" aria-labelledby="how-h">
-  <div class="eyebrow">— How it works</div>
-  <h2 id="how-h" class="section-title">Three steps between you and thousands in <em>recovered deductions.</em></h2>
-
-  <div class="how-grid">
-    <article class="step">
-      <div class="step-num">01</div>
-      <h3>You drive.</h3>
-      <p>Start your car. MyMilesAI detects motion via GPS + accelerometer and logs the trip silently — even with the app closed.</p>
-      <div class="step-meta">Zero taps · Background mode</div>
-    </article>
-    <article class="step">
-      <div class="step-num">02</div>
-      <h3>You classify.</h3>
-      <p>At the end of the day, swipe each trip left for Personal, right for Business. Our AI learns your patterns and auto-classifies repeat routes.</p>
-      <div class="step-meta">~12 seconds / day</div>
-    </article>
-    <article class="step">
-      <div class="step-num">03</div>
-      <h3>You deduct.</h3>
-      <p>Export an IRS-compliant PDF with dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. File with confidence.</p>
-      <div class="step-meta">One tap export</div>
-    </article>
-  </div>
-</section>
-
-<!-- ═══ Features ═══ -->
-<section id="features" class="features" aria-label="Feature showcase">
-  <div class="features-stack">
-
-    <article class="feat left-copy">
-      <div class="feat-copy">
-        <div class="eyebrow">— AUTO-DETECT</div>
-        <h2>The trip tracker that never forgets.</h2>
-        <p>Our motion engine runs at 1% battery cost and captures every drive — not just the ones you remember. Miss a trip, miss $20. We miss nothing.</p>
-        <div class="feat-stat"><div class="feat-stat-big">99.4%</div><div class="feat-stat-lbl">of drives detected</div></div>
-      </div>
-      <div class="feat-visual dark">
-        <div class="fv-auto">
-          <div class="fv-auto-head"><span class="live">● BACKGROUND · TRACKING</span><span class="time">09:41:08</span></div>
-          <div class="fv-auto-mid">
-            <svg viewBox="0 0 400 220" style="width:100%;max-width:500px" aria-hidden="true">
-              <path d="M 30 180 Q 100 50, 180 120 T 370 60" fill="none" stroke="#E8502E" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
-              <circle cx="30" cy="180" r="8" fill="#F6F3EE"/>
-              <circle cx="370" cy="60" r="10" fill="#E8502E"/>
-            </svg>
-          </div>
-          <div class="fv-auto-foot">
-            <div><div class="k">DISTANCE</div><div class="v">4.2 mi</div></div>
-            <div><div class="k">DURATION</div><div class="v">11 min</div></div>
-            <div><div class="k">STATUS</div><div class="v">AUTO-LOGGED</div></div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="feat right-copy">
-      <div class="feat-copy">
-        <div class="eyebrow">— AI CLASSIFY</div>
-        <h2>Teaches itself your routes.</h2>
-        <p>After a week, 80% of your trips classify themselves. Recurring client visits, regular suppliers, the drive to your rental — all learned, all automated.</p>
-        <div class="feat-stat"><div class="feat-stat-big">~12s</div><div class="feat-stat-lbl">daily review time</div></div>
-      </div>
-      <div class="feat-visual sand">
-        <div class="fv-classify">
-          <div class="fv-classify-row">
-            <div class="fv-classify-body">
-              <div class="fv-classify-route">Home → Downtown Office</div>
-              <div class="fv-classify-mi">12.1 mi</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="fv-classify-ai">AI</span>
-              <span class="fv-classify-chip biz">Business</span>
-            </div>
-          </div>
-          <div class="fv-classify-row">
-            <div class="fv-classify-body">
-              <div class="fv-classify-route">Downtown Office → Client — Acme Corp</div>
-              <div class="fv-classify-mi">4.2 mi</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="fv-classify-ai">AI</span>
-              <span class="fv-classify-chip biz">Business</span>
-            </div>
-          </div>
-          <div class="fv-classify-row">
-            <div class="fv-classify-body">
-              <div class="fv-classify-route">Acme Corp → Starbucks</div>
-              <div class="fv-classify-mi">0.8 mi</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="fv-classify-chip pers">Personal</span>
-            </div>
-          </div>
-          <div class="fv-classify-row">
-            <div class="fv-classify-body">
-              <div class="fv-classify-route">Starbucks → Office</div>
-              <div class="fv-classify-mi">1.1 mi</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span class="fv-classify-ai">AI</span>
-              <span class="fv-classify-chip biz">Business</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="feat left-copy">
-      <div class="feat-copy">
-        <div class="eyebrow">— AUDIT-READY</div>
-        <h2>Built to survive an IRS audit.</h2>
-        <p>Every log includes GPS traces, timestamps, odometer readings, purpose, and the IRS rate at the time of drive. A mileage log that a Revenue Agent actually respects.</p>
-        <div class="feat-stat"><div class="feat-stat-big">98.7%</div><div class="feat-stat-lbl">audit pass rate</div></div>
-      </div>
-      <div class="feat-visual paper">
-        <div class="fv-audit">
-          <div class="fv-audit-head">
-            <div>
-              <div class="k">IRS FORM 2106 — 2026</div>
-              <div class="title">Mileage Log · Q1 Summary</div>
-            </div>
-            <div class="badge">✓ VERIFIED</div>
-          </div>
-          <div class="fv-audit-cols"><div>DATE</div><div>ROUTE</div><div style="text-align:right">MILES</div><div style="text-align:right">$</div></div>
-          <div class="fv-audit-row"><div>01/04</div><div class="route">Home → Client A · Sales call</div><div style="text-align:right">24.1</div><div class="val">$17.47</div></div>
-          <div class="fv-audit-row"><div>01/04</div><div class="route">Client A → Client B · Consultation</div><div style="text-align:right">12.8</div><div class="val">$9.28</div></div>
-          <div class="fv-audit-row"><div>01/05</div><div class="route">Home → Warehouse · Supplies</div><div style="text-align:right">8.4</div><div class="val">$6.09</div></div>
-          <div class="fv-audit-row"><div>01/06</div><div class="route">Office → Airport · Conference travel</div><div style="text-align:right">31.2</div><div class="val">$22.62</div></div>
-          <div class="fv-audit-foot">
-            <span style="color:var(--muted)">Q1 TOTAL · 247 TRIPS</span>
-            <span class="total">$2,183.14</span>
-          </div>
-        </div>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<!-- ═══ Audience ═══ -->
-<section class="audience" aria-labelledby="audience-h">
-  <div class="eyebrow">— Who it's for</div>
-  <h2 id="audience-h" class="section-title">If your car is part of your job, MyMilesAI is <em>part of your income.</em></h2>
-
-  <div class="audience-grid">
-    <article class="audience-card"><div class="audience-title">Rideshare &amp; Delivery</div><div class="audience-who">Uber · Lyft · DoorDash · Instacart</div><div class="audience-foot"><div class="big">$4,200</div><div class="note">avg found / driver</div></div></article>
-    <article class="audience-card"><div class="audience-title">Real Estate</div><div class="audience-who">Agents · Brokers · Property mgrs</div><div class="audience-foot"><div class="big">$6,800</div><div class="note">avg / agent</div></div></article>
-    <article class="audience-card"><div class="audience-title">1099 Contractors</div><div class="audience-who">Consultants · Designers · Devs</div><div class="audience-foot"><div class="big">$3,100</div><div class="note">avg / contractor</div></div></article>
-    <article class="audience-card"><div class="audience-title">Sales &amp; Field</div><div class="audience-who">Outside sales · Field ops · Reps</div><div class="audience-foot"><div class="big">$5,400</div><div class="note">avg / rep</div></div></article>
-    <article class="audience-card"><div class="audience-title">Small Business</div><div class="audience-who">Owners with crews · Trades · Service</div><div class="audience-foot"><div class="big">$8,200</div><div class="note">avg / vehicle</div></div></article>
-    <article class="audience-card"><div class="audience-title">Accountants</div><div class="audience-who">CPAs managing multi-client portfolios</div><div class="audience-foot"><div class="big">40%</div><div class="note">less audit prep time</div></div></article>
-  </div>
-</section>
-
-<!-- ═══ Testimonials ═══ -->
-<section class="testimonials" aria-labelledby="test-h">
-  <div class="testimonials-grid">
-    <div class="testimonials-lede">
-      <div class="eyebrow">— Loved by drivers. Trusted by CPAs.</div>
-      <h2 id="test-h" class="section-title">12,847 drivers.<br/>400+ accounting firms.<br/><em>Zero missed miles.</em></h2>
-      <div class="stats-row">
-        <div class="stat"><div class="num">4.9</div><div class="lbl">App Store</div></div>
-        <div class="stat"><div class="num">4.8</div><div class="lbl">Google Play</div></div>
-        <div class="stat"><div class="num g">$2.4B</div><div class="lbl">tracked in '25</div></div>
-      </div>
-    </div>
-    <div class="quotes">
-      <blockquote class="quote">
-        <div class="quote-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="quote-text">"I found $4,200 in deductions I'd have missed. Paid for itself 60 times over in year one."</p>
-        <div class="quote-author">
-          <div class="quote-avatar" style="background:hsl(25,45%,65%)"></div>
-          <div><div class="quote-name">Marcus T.</div><div class="quote-role">Uber driver · Austin, TX</div></div>
-        </div>
-      </blockquote>
-      <blockquote class="quote">
-        <div class="quote-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="quote-text">"Finally — a mileage log that doesn't make my clients cry during tax season."</p>
-        <div class="quote-author">
-          <div class="quote-avatar" style="background:hsl(80,45%,65%)"></div>
-          <div><div class="quote-name">Janet R., CPA</div><div class="quote-role">Oak &amp; Co. Accounting</div></div>
-        </div>
-      </blockquote>
-      <blockquote class="quote">
-        <div class="quote-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="quote-text">"I left DoorDash's built-in tracker. This one never misses a drive."</p>
-        <div class="quote-author">
-          <div class="quote-avatar" style="background:hsl(135,45%,65%)"></div>
-          <div><div class="quote-name">Priya M.</div><div class="quote-role">DoorDash · NYC</div></div>
-        </div>
-      </blockquote>
-      <blockquote class="quote">
-        <div class="quote-stars" aria-label="5 out of 5 stars">★★★★★</div>
-        <p class="quote-text">"My agents save 8 hours a month. Adoption across the brokerage hit 94%."</p>
-        <div class="quote-author">
-          <div class="quote-avatar" style="background:hsl(190,45%,65%)"></div>
-          <div><div class="quote-name">David K.</div><div class="quote-role">Broker-owner · Keller Williams</div></div>
-        </div>
-      </blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ Pricing ═══ -->
-<section id="pricing" class="pricing" aria-labelledby="pricing-h">
-  <div class="pricing-head">
-    <div class="eyebrow">— Pricing</div>
-    <h2 id="pricing-h">Costs less than one forgotten drive <em>per month.</em></h2>
-  </div>
-
-  <div class="pricing-grid">
-    <article class="tier">
-      <div class="tier-name">Lite</div>
-      <div class="tier-desc">For occasional drivers who want to get a feel.</div>
-      <div class="tier-price">Free</div>
-      <div class="tier-sub">forever</div>
-      <a class="btn btn-ghost tier-cta" href="signup/" style="text-align:center;justify-content:center">Start free</a>
-      <ul class="tier-features">
-        <li>40 drives / month</li><li>Manual classify</li><li>CSV export</li><li>Email support</li>
-      </ul>
-    </article>
-    <article class="tier dark">
-      <div class="tier-badge">MOST POPULAR</div>
-      <div class="tier-name">Pro</div>
-      <div class="tier-desc">The default. Everything a serious driver needs.</div>
-      <div class="tier-price">$5.83</div>
-      <div class="tier-sub">/mo billed annually · $69.99/yr</div>
-      <a class="btn tier-cta" href="signup/" style="text-align:center;justify-content:center">Start 7-day free trial</a>
-      <ul class="tier-features">
-        <li>Unlimited drives</li><li>AI auto-classify</li><li>IRS-ready PDF exports</li><li>Routes &amp; work hours</li><li>Priority support</li><li>Multi-vehicle</li>
-      </ul>
-    </article>
-    <article class="tier">
-      <div class="tier-name">Teams</div>
-      <div class="tier-desc">For brokerages, sales teams, and CPAs.</div>
-      <div class="tier-price">$12</div>
-      <div class="tier-sub">/user/mo · billed annually</div>
-      <a class="btn btn-ghost tier-cta" href="signup/" style="text-align:center;justify-content:center">Book a demo</a>
-      <ul class="tier-features">
-        <li>Everything in Pro</li><li>Accountant portal</li><li>Client management</li><li>SSO + admin console</li><li>Bulk exports · Quickbooks sync</li><li>Dedicated CSM</li>
-      </ul>
-    </article>
-  </div>
-  <div class="pricing-foot">30-day money back · cancel anytime · no credit card for free trial</div>
-</section>
-
-<!-- ═══ Blog (static stubs) ═══ -->
-<!-- TODO: wire blog platform post-launch -->
-<section id="blog" class="blog" aria-labelledby="blog-h">
-  <div class="blog-head">
-    <div>
-      <div class="eyebrow">— Journal</div>
-      <h2 id="blog-h" class="section-title">Guides from the people<br/>who actually read the <em>tax code.</em></h2>
-    </div>
-    <a class="blog-all" href="#">All articles →</a>
-  </div>
-  <div class="blog-grid">
-    <a class="post-card" href="#"><div class="post-art" style="background:linear-gradient(135deg,hsl(25,35%,70%),hsl(25,45%,85%))"></div><div class="post-cat">Tax Guide</div><div class="post-title">The 2026 IRS mileage rate, explained in plain English</div><div class="post-meta"><span>Apr 2026</span><span>6 min</span></div></a>
-    <a class="post-card" href="#"><div class="post-art" style="background:linear-gradient(135deg,hsl(65,35%,70%),hsl(65,45%,85%))"></div><div class="post-cat">For Rideshare</div><div class="post-title">Uber drivers: what your 1099-K doesn't tell you about deductions</div><div class="post-meta"><span>Apr 2026</span><span>9 min</span></div></a>
-    <a class="post-card" href="#"><div class="post-art" style="background:linear-gradient(135deg,hsl(105,35%,70%),hsl(105,45%,85%))"></div><div class="post-cat">Audit Prep</div><div class="post-title">What an IRS mileage audit actually looks like (and how to survive)</div><div class="post-meta"><span>Mar 2026</span><span>12 min</span></div></a>
-    <a class="post-card" href="#"><div class="post-art" style="background:linear-gradient(135deg,hsl(145,35%,70%),hsl(145,45%,85%))"></div><div class="post-cat">For Realtors</div><div class="post-title">Every showing, every open house: the realtor deduction map</div><div class="post-meta"><span>Mar 2026</span><span>7 min</span></div></a>
-  </div>
-</section>
-
-<!-- ═══ Final CTA ═══ -->
-<section class="cta-final" aria-labelledby="cta-h">
-  <div class="eyebrow">— Start today</div>
-  <h2 id="cta-h">The next mile you drive<br/>could be <em>deductible.</em></h2>
-  <p>Seven days free. No credit card. Cancel before tax day and keep every log you made.</p>
-  <div class="cta-final-btns">
-    <a class="btn btn-accent" href="signup/">Start tracking — free</a>
-    <a class="btn btn-outline-dark" href="signup/">Book CPA demo</a>
-  </div>
-</section>
-
-</main>
-
-<!-- ═══ Footer ═══ -->
-<footer class="footer" id="about">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <a href="./" class="logo-mark on-dark" aria-label="MyMilesAI home">
-        <svg viewBox="0 0 64 64" width="32" height="32" aria-hidden="true">
-          <circle cx="12" cy="50" r="4" fill="#F6F3EE"/>
-          <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#E8502E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <circle cx="52" cy="14" r="5" fill="#E8502E"/>
-          <circle cx="52" cy="14" r="2" fill="#F6F3EE"/>
-        </svg>
-        <span class="logo-word">MyMiles<span class="ai">.AI</span></span>
-      </a>
-      <p>The AI mileage tracker for people whose work happens between addresses.</p>
-      <a href="https://apps.apple.com/app/id6760873036" style="margin-top:16px;display:inline-block">
-        <svg viewBox="0 0 140 42" width="140" height="42" aria-label="Download on the App Store">
-          <rect width="140" height="42" rx="8" fill="#000"/>
-          <text x="12" y="17" font-size="8" font-family="-apple-system" fill="#FFF">Download on the</text>
-          <text x="12" y="32" font-size="14" font-weight="600" font-family="-apple-system" fill="#FFF">App Store</text>
-        </svg>
-      </a>
-    </div>
-    <div class="footer-col"><h4>Product</h4>
-      <a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#">For Accountants</a><a href="#">Integrations</a><a href="#">Changelog</a>
-    </div>
-    <div class="footer-col"><h4>Resources</h4>
-      <a href="#blog">Blog</a><a href="#">IRS Rate Tracker</a><a href="#">Audit Guide</a><a href="#">Deduction Calculator</a><a href="#">Help Center</a>
-    </div>
-    <div class="footer-col"><h4>Company</h4>
-      <a href="#">About</a><a href="#">Careers</a><a href="#">Press</a><a href="mailto:support@mymilesai.com">Contact</a>
-    </div>
-    <div class="footer-col"><h4>Legal</h4>
-      <a href="privacy/">Privacy</a><a href="terms/">Terms</a><a href="#">Security</a><a href="#">SOC 2</a><a href="#">IRS Compliance</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Harijas LLC · Manteca, CA</span>
-    <span>SOC 2 · GDPR · IRS PUBLICATION 463 COMPLIANT</span>
-  </div>
-</footer>
-
-<script src="assets/js/marketing.js" defer></script>
 </body>
 </html>

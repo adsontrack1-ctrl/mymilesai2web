@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MyMilesAI — Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#EFEBE3;font-family:'Geist','Inter',sans-serif;color:#0B0F0E;padding:40px 24px 80px}
+  .header{max-width:1320px;margin:0 auto 28px;display:flex;justify-content:space-between;align-items:center}
+  .title{font-family:'Instrument Serif';font-size:28px;font-style:italic}
+  .header a{font-size:13px;color:#6B6862;text-decoration:none}
+  .grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .screen{background:#F6F3EE;border:1px solid #D9D3C7;border-radius:24px;overflow:hidden;aspect-ratio:9/16;max-width:400px;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 50px -30px rgba(11,15,14,0.25)}
+  .statusbar{padding:14px 22px 0;display:flex;justify-content:space-between;font-family:'Geist Mono','Geist',monospace;font-size:11px}
+  .screen-label{font-family:'Geist Mono','Geist',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#6B6862;padding:8px 22px}
+  .screen-body{padding:8px 26px 22px;flex:1;display:flex;flex-direction:column}
+  .step{font-family:'Geist Mono','Geist',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#E8502E;margin-bottom:14px}
+  .screen h2{font-family:'Instrument Serif';font-weight:400;font-size:34px;line-height:1;letter-spacing:-0.01em;margin-bottom:14px}
+  .screen h2 em{color:#E8502E}
+  .screen p{font-size:14px;line-height:1.4;color:#4A4843;margin-bottom:20px}
+  .btn{background:#0B0F0E;color:#F6F3EE;border:none;padding:14px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;width:100%;font-family:inherit;margin-top:auto}
+  .btn.ghost{background:transparent;color:#0B0F0E;border:1px solid #E6E1D8;margin-top:8px}
+  .btn.accent{background:#E8502E;color:#FFFFFF}
+  .dots{display:flex;gap:6px;padding:12px 22px 4px}
+  .dots span{flex:1;height:3px;background:#E6E1D8;border-radius:2px}
+  .dots span.on{background:#E8502E}
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+  .role{background:#FFFFFF;border:1px solid #E6E1D8;border-radius:12px;padding:14px;font-size:12px}
+  .role.sel{border-color:#0B0F0E;background:#0B0F0E;color:#F6F3EE}
+  .role .ic{font-size:20px;margin-bottom:8px}
+  /* Canonical MyMilesAI lockup — The Route */
+  .logo{display:flex;align-items:center;gap:8px;margin-bottom:40px;line-height:1}
+  .logo svg{width:22px;height:22px;flex-shrink:0}
+  .logo-w{font-family:'Geist','Inter',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.035em;color:#0B0F0E}
+  .logo-w .ai-mark{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;background:linear-gradient(90deg,#7C3AED,#EC4899);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.02em;padding-left:0.03em}
+  /* Perm */
+  .perm{background:#FFFFFF;border:1px solid #E6E1D8;border-radius:16px;padding:20px;margin-bottom:12px;display:flex;gap:12px;align-items:start}
+  .perm .ic{width:32px;height:32px;background:rgba(232,80,46,0.1);color:#E8502E;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .perm h4{font-size:13px;font-weight:600;margin-bottom:4px}
+  .perm p{font-size:11px;color:#6B6862;line-height:1.35;margin:0}
+  /* Live card */
+  .live-trip{background:#0B0F0E;color:#F6F3EE;border-radius:16px;padding:18px;margin-bottom:14px}
+  .live-trip .live-p{display:flex;align-items:center;gap:6px;font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.15em;color:#E8502E;margin-bottom:10px}
+  .live-trip .dot{width:5px;height:5px;border-radius:50%;background:#E8502E}
+  .live-trip .rt{font-size:11px;color:rgba(246,243,238,0.65);margin-bottom:2px}
+  .live-trip .mi{font-family:'Instrument Serif';font-size:36px;margin-top:6px}
+  /* Chips */
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+  .chip{padding:7px 12px;border-radius:100px;background:#FFFFFF;border:1px solid #E6E1D8;font-size:11px}
+  .chip.sel{background:#0B0F0E;color:#F6F3EE;border-color:#0B0F0E}
+  /* Calc inline */
+  .calc{background:#FFFFFF;border:1px solid #E6E1D8;border-radius:16px;padding:16px;margin-bottom:14px}
+  .calc .big{font-family:'Instrument Serif';font-size:44px;color:#1B5E3F;line-height:1}
+  .calc .lab{font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.12em;color:#6B6862;text-transform:uppercase;margin-bottom:4px}
+  /* Confetti burst */
+  .burst{position:relative;padding:8px 0 22px}
+  .burst svg{width:100%;height:80px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="title">Onboarding · 6 screens</div>
+  <a href="index.html">← Back to hub</a>
+</div>
+<div class="grid">
+  <!-- 01 Welcome -->
+  <div class="screen" data-screen-label="Onb 01 Welcome">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">01 · Welcome</div>
+    <div class="dots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="screen-body">
+      <div class="logo">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="12" cy="50" r="4" fill="#0B0F0E"/><path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#E8502E" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="52" cy="14" r="5" fill="#E8502E"/><circle cx="52" cy="14" r="2" fill="#F6F3EE"/></svg>
+        <span class="logo-w">MyMiles<span class="ai-mark">AI</span></span>
+      </div>
+      <div class="step">— Welcome</div>
+      <h2>Every mile, <em>automatically</em> deducted.</h2>
+      <p>In the next 90 seconds we'll set up automatic tracking. No receipts. No spreadsheets. No missed deductions.</p>
+      <div style="background:#FFF;border:1px solid #E6E1D8;border-radius:14px;padding:14px;display:flex;gap:10px;align-items:center;margin-bottom:18px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#F6F3EE;display:flex;align-items:center;justify-content:center;font-size:16px;color:#1B5E3F">✓</div>
+        <div>
+          <div style="font-size:12px;font-weight:600">7 days free</div>
+          <div style="font-size:10px;color:#6B6862">No card required</div>
+        </div>
+      </div>
+      <button class="btn">Get started</button>
+      <button class="btn ghost">I already have an account</button>
+    </div>
+  </div>
+
+  <!-- 02 Role -->
+  <div class="screen" data-screen-label="Onb 02 Role">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">02 · What do you drive for?</div>
+    <div class="dots"><span class="on"></span><span class="on"></span><span></span><span></span><span></span><span></span></div>
+    <div class="screen-body">
+      <div class="step">— 02 of 06</div>
+      <h2>What do you <em>drive for?</em></h2>
+      <p>We'll tune detection and auto-classify logic to your workflow.</p>
+      <div class="roles">
+        <div class="role sel"><div class="ic">◉</div>Rideshare · Delivery</div>
+        <div class="role"><div class="ic">◎</div>Real estate</div>
+        <div class="role"><div class="ic">◈</div>1099 Contractor</div>
+        <div class="role"><div class="ic">◬</div>Sales / field</div>
+        <div class="role"><div class="ic">◆</div>Small business</div>
+        <div class="role"><div class="ic">○</div>Other</div>
+      </div>
+      <button class="btn">Continue →</button>
+    </div>
+  </div>
+
+  <!-- 03 Permissions -->
+  <div class="screen" data-screen-label="Onb 03 Permissions">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">03 · Permissions</div>
+    <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></div>
+    <div class="screen-body">
+      <div class="step">— 03 of 06</div>
+      <h2>Two taps between you and <em>zero-effort</em> logging.</h2>
+      <p style="margin-bottom:14px">We promise: your location never leaves your device except for trip start &amp; end.</p>
+      <div class="perm">
+        <div class="ic">◉</div>
+        <div>
+          <h4>Always Allow Location</h4>
+          <p>Detects when you start and stop driving — in background, at ~1% battery cost.</p>
+        </div>
+      </div>
+      <div class="perm">
+        <div class="ic">◑</div>
+        <div>
+          <h4>Motion &amp; Fitness</h4>
+          <p>Distinguishes driving from walking / biking. Reduces false trips by 96%.</p>
+        </div>
+      </div>
+      <button class="btn accent">Grant both →</button>
+      <button class="btn ghost">Why we ask</button>
+    </div>
+  </div>
+
+  <!-- 04 Vehicle -->
+  <div class="screen" data-screen-label="Onb 04 Vehicle">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">04 · Your vehicle</div>
+    <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div>
+    <div class="screen-body">
+      <div class="step">— 04 of 06</div>
+      <h2>Tell us about your <em>ride.</em></h2>
+      <p>Needed for the IRS log. You can add more vehicles later.</p>
+      <div style="background:#FFF;border:1px solid #E6E1D8;border-radius:14px;padding:16px;margin-bottom:10px">
+        <div style="font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.12em;color:#6B6862;text-transform:uppercase;margin-bottom:6px">Make / Model / Year</div>
+        <div style="font-family:'Instrument Serif';font-size:22px">2022 Toyota RAV4</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <div style="background:#FFF;border:1px solid #E6E1D8;border-radius:14px;padding:14px">
+          <div style="font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.12em;color:#6B6862;text-transform:uppercase;margin-bottom:4px">Plate</div>
+          <div style="font-family:'Instrument Serif';font-size:18px">8JKL392</div>
+        </div>
+        <div style="background:#FFF;border:1px solid #E6E1D8;border-radius:14px;padding:14px">
+          <div style="font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.12em;color:#6B6862;text-transform:uppercase;margin-bottom:4px">Odometer</div>
+          <div style="font-family:'Instrument Serif';font-size:18px">47,184</div>
+        </div>
+      </div>
+      <div class="chips">
+        <div class="chip sel">Primary business</div>
+        <div class="chip">Personal</div>
+        <div class="chip">Fleet</div>
+      </div>
+      <button class="btn">Save &amp; continue →</button>
+    </div>
+  </div>
+
+  <!-- 05 Plan / calc -->
+  <div class="screen" data-screen-label="Onb 05 Plan">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">05 · Estimate</div>
+    <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+    <div class="screen-body">
+      <div class="step">— 05 of 06 · projection</div>
+      <h2>Based on your role, you could deduct —</h2>
+      <div class="calc">
+        <div class="lab">Projected annual deduction</div>
+        <div class="big">$14,508</div>
+        <div style="font-size:11px;color:#6B6862;margin-top:6px">Based on rideshare averages · 20,000 mi/yr · IRS 2026 rate</div>
+      </div>
+      <div class="calc" style="background:#0B0F0E;color:#F6F3EE;border-color:#0B0F0E">
+        <div class="lab" style="color:rgba(246,243,238,0.5)">Tax saved at 24%</div>
+        <div class="big" style="color:#E8502E">$3,482</div>
+      </div>
+      <button class="btn accent" style="margin-top:18px">Start 7-day free trial</button>
+      <button class="btn ghost">Continue with Lite (free · 40 drives/mo)</button>
+    </div>
+  </div>
+
+  <!-- 06 First trip detected -->
+  <div class="screen" data-screen-label="Onb 06 First drive">
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">06 · First drive detected</div>
+    <div class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+    <div class="screen-body">
+      <div class="burst">
+        <svg viewBox="0 0 300 80"><g stroke="#E8502E" stroke-width="2" stroke-linecap="round">
+          <line x1="40" y1="40" x2="55" y2="25"/><line x1="80" y1="30" x2="95" y2="20"/>
+          <line x1="130" y1="15" x2="135" y2="30"/><line x1="170" y1="20" x2="185" y2="30"/>
+          <line x1="220" y1="30" x2="235" y2="20"/><line x1="260" y1="40" x2="270" y2="25"/>
+          <circle cx="60" cy="55" r="3" fill="#E8502E"/><circle cx="110" cy="48" r="3" fill="#1B5E3F"/>
+          <circle cx="200" cy="52" r="3" fill="#E8502E"/><circle cx="245" cy="60" r="3" fill="#1B5E3F"/>
+        </g></svg>
+      </div>
+      <div class="step">— We caught your first one</div>
+      <h2>You just drove <em>4.2 miles.</em></h2>
+      <p>That's about $3.05 in deductions. Classify once and we'll learn this route forever.</p>
+      <div class="live-trip">
+        <div class="live-p"><span class="dot"></span>DETECTED · 2 MIN AGO</div>
+        <div class="rt">From · Current location</div>
+        <div class="rt">To · 1450 Market St</div>
+        <div class="mi">4.2<span style="font-size:12px;color:rgba(246,243,238,0.5)"> mi · 11 min</span></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="btn" style="background:#1B5E3F;color:#F6F3EE;margin-top:0">✓ Business</button>
+        <button class="btn ghost" style="margin-top:0">Personal</button>
+      </div>
+      <button class="btn accent">Go to dashboard →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

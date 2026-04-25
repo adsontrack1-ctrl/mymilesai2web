@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MyMilesAI — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#EFEBE3;font-family:'Geist','Inter',sans-serif;color:#0B0F0E;padding:40px 24px 80px}
+  .header{max-width:1320px;margin:0 auto 28px;display:flex;justify-content:space-between;align-items:center}
+  .title{font-family:'Geist','Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em}
+  .header a{font-size:13px;color:#6B6862;text-decoration:none}
+  .grid{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .phone{background:#0B0F0E;border-radius:42px;padding:8px;aspect-ratio:9/19.5;box-shadow:0 30px 60px -30px rgba(11,15,14,0.3)}
+  .scr{background:#F6F3EE;border-radius:34px;height:100%;overflow:hidden;position:relative;display:flex;flex-direction:column}
+  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:80px;height:22px;background:#0B0F0E;border-radius:100px;z-index:10}
+  .statusbar{padding:12px 22px 0;display:flex;justify-content:space-between;font-family:'Geist Mono','Geist',monospace;font-size:10px;font-weight:500}
+  .screen-label{text-align:center;font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#6B6862;padding:30px 16px 8px}
+  .sbody{flex:1;padding:4px 18px;overflow:hidden;display:flex;flex-direction:column}
+  .tabbar{display:flex;justify-content:space-around;padding:10px 0 22px;border-top:1px solid #E6E1D8;background:#FFFFFF}
+  .tabbar .t{font-family:'Geist Mono','Geist',monospace;font-size:8px;letter-spacing:0.1em;color:#6B6862;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .tabbar .t.a{color:#DA0A7F}
+  .tabbar .t span{font-size:16px}
+  /* Today */
+  .top-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}
+  .date{font-family:'Geist Mono','Geist',monospace;font-size:9px;letter-spacing:0.15em;color:#6B6862;text-transform:uppercase}
+  .avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#FFB38A)}
+  .greeting{font-family:'Geist','Inter',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px}
+  .greeting em{color:#DA0A7F}
+  .sub{font-size:11px;color:#6B6862;margin-bottom:14px}
+  .big-kpi{background:#0B0F0E;color:#F6F3EE;border-radius:16px;padding:16px;margin-bottom:10px}
+  .big-kpi .lv{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'Geist Mono','Geist',monospace;font-size:8px;letter-spacing:0.1em;margin-bottom:8px}
+  .big-kpi .lv span{width:4px;height:4px;border-radius:50%;background:#DA0A7F}
+  .big-kpi .l{font-family:'Geist Mono','Geist',monospace;font-size:8px;letter-spacing:0.12em;color:rgba(246,243,238,0.55);text-transform:uppercase;margin-bottom:4px}
+  .big-kpi .v{font-family:'Geist','Inter',sans-serif;font-size:34px;font-weight:700;letter-spacing:-0.02em;color:#DA0A7F;line-height:1}
+  .big-kpi .ss{font-size:10px;color:rgba(246,243,238,0.6);margin-top:6px}
+  .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+  .mini{background:#FFF;border:1px solid #E6E1D8;border-radius:12px;padding:12px}
+  .mini .l{font-family:'Geist Mono','Geist',monospace;font-size:8px;letter-spacing:0.12em;color:#6B6862;text-transform:uppercase;margin-bottom:4px}
+  .mini .v{font-family:'Geist','Inter',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.01em;line-height:1.1}
+  .mini.green .v{color:#1B5E3F}
+  .sec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .sec-h .nm{font-family:'Geist','Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:-0.01em}
+  .sec-h .ct{font-family:'Geist Mono','Geist',monospace;font-size:9px;color:#DA0A7F;letter-spacing:0.1em}
+  /* Trip card */
+  .mtrip{background:#FFF;border:1px solid #E6E1D8;border-radius:12px;padding:12px;margin-bottom:6px}
+  .mtrip .tt{font-family:'Geist Mono','Geist',monospace;font-size:9px;color:#6B6862;letter-spacing:0.1em}
+  .mtrip .rt{font-size:11px;color:#0B0F0E;margin:4px 0}
+  .mtrip-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+  .mtrip .mi{font-family:'Geist','Inter',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.01em}
+  .tag{padding:3px 8px;border-radius:100px;font-size:9px;font-weight:500}
+  .tag.biz{background:#1B5E3F;color:#F6F3EE}
+  .tag.rev{background:rgba(218,10,127,0.15);color:#DA0A7F}
+  /* Classify swipe */
+  .swipe-card{background:#FFF;border:1px solid #E6E1D8;border-radius:20px;padding:18px;margin:12px 0;flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .stepi{font-family:'Geist Mono','Geist',monospace;font-size:9px;color:#6B6862;letter-spacing:0.15em;margin-bottom:10px}
+  .rtb{font-family:'Geist','Inter',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;line-height:1.3;margin-bottom:6px}
+  .rta{font-size:11px;color:#6B6862;margin-bottom:14px;font-family:'Geist Mono','Geist',monospace;letter-spacing:0.05em}
+  .map{background:linear-gradient(135deg,#F6F3EE,#E6E1D8);border-radius:12px;flex:1;min-height:120px;position:relative;overflow:hidden;margin-bottom:14px}
+  .map svg{position:absolute;inset:0;width:100%;height:100%}
+  .facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px}
+  .fact{background:#F6F3EE;border-radius:8px;padding:8px;text-align:center}
+  .fact .k{font-family:'Geist Mono','Geist',monospace;font-size:8px;color:#6B6862;letter-spacing:0.08em;text-transform:uppercase}
+  .fact .v{font-family:'Geist','Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:-0.01em;margin-top:2px}
+  .swipe-actions{display:flex;gap:8px}
+  .swipe-actions button{flex:1;padding:12px;border-radius:100px;border:none;font-size:12px;font-weight:500;font-family:inherit}
+  .b-pers{background:#E6E1D8;color:#0B0F0E}
+  .b-biz{background:#1B5E3F;color:#F6F3EE}
+  .progress{display:flex;gap:3px;margin-bottom:10px}
+  .progress span{flex:1;height:2px;background:#E6E1D8;border-radius:1px}
+  .progress span.on{background:#DA0A7F}
+  /* Report builder */
+  .rep-head{font-family:'Geist','Inter',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.05;margin-bottom:10px}
+  .rep-head em{color:#DA0A7F}
+  .period-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+  .per{padding:6px 10px;border-radius:100px;border:1px solid #E6E1D8;background:#FFF;font-size:10px}
+  .per.on{background:#0B0F0E;color:#F6F3EE;border-color:#0B0F0E}
+  .rep-total{background:#0B0F0E;color:#F6F3EE;border-radius:16px;padding:18px;margin-bottom:10px}
+  .rep-total .l{font-family:'Geist Mono','Geist',monospace;font-size:8px;color:rgba(246,243,238,0.55);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px}
+  .rep-total .v{font-family:'Geist','Inter',sans-serif;font-size:34px;font-weight:700;letter-spacing:-0.02em;color:#DA0A7F;line-height:1}
+  .rep-total .sub2{font-size:10px;color:rgba(246,243,238,0.6);margin-top:4px}
+  .rep-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0ECE2;font-size:11px}
+  .rep-row span:last-child{font-family:'Geist Mono','Geist',monospace;color:#0B0F0E}
+  .fbtn{background:#DA0A7F;color:#FFF;border:none;padding:14px;border-radius:100px;font-size:12px;font-weight:500;width:100%;margin-top:10px;font-family:inherit}
+  /* Settings */
+  .st-grp{font-family:'Geist Mono','Geist',monospace;font-size:8px;letter-spacing:0.15em;color:#6B6862;text-transform:uppercase;padding:14px 0 6px}
+  .st-item{background:#FFF;border:1px solid #E6E1D8;padding:12px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+  .st-item:first-of-type{border-radius:12px 12px 0 0}
+  .st-item:last-of-type{border-radius:0 0 12px 12px}
+  .st-item + .st-item{border-top:none}
+  .st-item .v{color:#6B6862;font-size:11px;font-family:'Geist Mono','Geist',monospace;letter-spacing:0.05em}
+  .toggle{width:36px;height:20px;background:#1B5E3F;border-radius:100px;position:relative}
+  .toggle::after{content:'';position:absolute;top:2px;right:2px;width:16px;height:16px;background:#FFF;border-radius:50%}
+  .toggle.off{background:#E6E1D8}
+  .toggle.off::after{left:2px;right:auto}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="title">Mobile · iOS</div>
+  <a href="index.html">← Back to hub</a>
+</div>
+<div class="grid">
+
+  <!-- TODAY -->
+  <div class="phone"><div class="scr" data-screen-label="iOS 01 Today">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">01 · Today</div>
+    <div class="sbody">
+      <div class="top-row">
+        <div>
+          <div class="date">Tue · Apr 22</div>
+          <div class="greeting">Hi <em>Marcus</em></div>
+        </div>
+        <div class="avatar"></div>
+      </div>
+      <div class="sub">3 drives to review · $312 this week</div>
+      <div class="big-kpi">
+        <div class="lv"><span></span>TRACKING NOW</div>
+        <div class="l">YTD deduction</div>
+        <div class="v">$7,428</div>
+        <div class="ss">+$312.40 this week ▲ 4.4%</div>
+      </div>
+      <div class="mini-row">
+        <div class="mini green"><div class="l">Miles · mo</div><div class="v">2,184</div></div>
+        <div class="mini"><div class="l">Business %</div><div class="v">71%</div></div>
+      </div>
+      <div class="sec-h"><div class="nm">Needs review</div><div class="ct">3 NEW</div></div>
+      <div class="mtrip"><div class="tt">2:14PM · TODAY</div><div class="rt">Office → 1450 Market St</div><div class="mtrip-foot"><div class="mi">4.2 mi</div><div class="tag rev">Review →</div></div></div>
+      <div class="mtrip"><div class="tt">12:02PM · TODAY</div><div class="rt">Office → Tartine Bakery</div><div class="mtrip-foot"><div class="mi">1.8 mi</div><div class="tag rev">Review →</div></div></div>
+      <div class="mtrip"><div class="tt">8:14AM · TODAY</div><div class="rt">Home → Office · daily</div><div class="mtrip-foot"><div class="mi">12.1 mi</div><div class="tag biz">✓ Biz · AI</div></div></div>
+    </div>
+    <div class="tabbar">
+      <div class="t a"><span>◐</span>Today</div>
+      <div class="t"><span>↝</span>Trips</div>
+      <div class="t"><span>◇</span>Reports</div>
+      <div class="t"><span>◴</span>More</div>
+    </div>
+  </div></div>
+
+  <!-- CLASSIFY -->
+  <div class="phone"><div class="scr" data-screen-label="iOS 02 Classify">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">02 · Classify · swipe</div>
+    <div class="sbody">
+      <div class="progress"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></div>
+      <div class="stepi">TRIP 2 OF 5 · UNREVIEWED</div>
+      <div class="swipe-card" style="flex:0 0 auto;margin:4px 0">
+        <div class="rtb">Downtown Office<br/>→ 1450 Market St</div>
+        <div class="rta">Tue 2:14pm · 11 min</div>
+        <div class="map">
+          <svg viewBox="0 0 200 120">
+            <path d="M 20 100 Q 70 40 110 80 T 180 30" fill="none" stroke="#DA0A7F" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+            <circle cx="20" cy="100" r="5" fill="#0B0F0E"/>
+            <circle cx="180" cy="30" r="6" fill="#DA0A7F"/>
+          </svg>
+        </div>
+        <div class="facts">
+          <div class="fact"><div class="k">DIST</div><div class="v">4.2 mi</div></div>
+          <div class="fact"><div class="k">VALUE</div><div class="v" style="color:#1B5E3F">$3.05</div></div>
+          <div class="fact"><div class="k">TIME</div><div class="v">11m</div></div>
+        </div>
+        <div style="background:#F6F3EE;border-radius:10px;padding:10px;font-size:10px;color:#6B6862;margin-bottom:12px">
+          <span style="color:#DA0A7F;font-family:'Geist Mono','Geist',monospace;letter-spacing:0.1em">AI SUGGESTS · BUSINESS</span><br/>
+          Matches your 1450 Market St pattern (14 prior visits)
+        </div>
+        <div class="swipe-actions">
+          <button class="b-pers">← Personal</button>
+          <button class="b-biz">Business →</button>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar">
+      <div class="t"><span>◐</span>Today</div>
+      <div class="t a"><span>↝</span>Trips</div>
+      <div class="t"><span>◇</span>Reports</div>
+      <div class="t"><span>◴</span>More</div>
+    </div>
+  </div></div>
+
+  <!-- REPORT -->
+  <div class="phone"><div class="scr" data-screen-label="iOS 03 Report">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">03 · Report · export</div>
+    <div class="sbody">
+      <div class="stepi">REPORT BUILDER</div>
+      <div class="rep-head">Build an <em>IRS-ready</em> log.</div>
+      <div class="sub">Select period · share with CPA.</div>
+      <div class="period-row">
+        <div class="per">Last week</div>
+        <div class="per">Last month</div>
+        <div class="per on">Q1 2026</div>
+        <div class="per">YTD</div>
+        <div class="per">Custom</div>
+      </div>
+      <div class="rep-total">
+        <div class="l">Q1 deduction total</div>
+        <div class="v">$2,183.14</div>
+        <div class="sub2">247 business trips · 3,012 business miles</div>
+      </div>
+      <div style="background:#FFF;border:1px solid #E6E1D8;border-radius:12px;padding:14px;margin-bottom:10px">
+        <div class="rep-row"><span>Business miles</span><span>3,012</span></div>
+        <div class="rep-row"><span>Personal miles</span><span>1,284</span></div>
+        <div class="rep-row"><span>IRS rate</span><span>$0.725</span></div>
+        <div class="rep-row" style="border:none"><span>Vehicles</span><span>1</span></div>
+      </div>
+      <div style="font-size:10px;color:#6B6862;margin-bottom:8px">Includes · GPS traces · odometer · purpose · IRS Publication 463 compliance</div>
+      <button class="fbtn">Share PDF with CPA →</button>
+    </div>
+    <div class="tabbar">
+      <div class="t"><span>◐</span>Today</div>
+      <div class="t"><span>↝</span>Trips</div>
+      <div class="t a"><span>◇</span>Reports</div>
+      <div class="t"><span>◴</span>More</div>
+    </div>
+  </div></div>
+
+  <!-- SETTINGS -->
+  <div class="phone"><div class="scr" data-screen-label="iOS 04 Settings">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+    <div class="screen-label">04 · Settings</div>
+    <div class="sbody">
+      <div class="stepi">ACCOUNT</div>
+      <div style="display:flex;align-items:center;gap:12px;background:#FFF;border:1px solid #E6E1D8;border-radius:14px;padding:14px">
+        <div class="avatar" style="width:42px;height:42px"></div>
+        <div>
+          <div style="font-size:13px;font-weight:600">Marcus Torres</div>
+          <div style="font-size:11px;color:#6B6862">Pro · renews Apr 2027</div>
+        </div>
+      </div>
+      <div class="st-grp">AUTOMATION</div>
+      <div class="st-item"><span>Auto-detect drives</span><div class="toggle"></div></div>
+      <div class="st-item"><span>AI auto-classify</span><div class="toggle"></div></div>
+      <div class="st-item"><span>Commute exclusion</span><div class="toggle off"></div></div>
+      <div class="st-grp">PREFERENCES</div>
+      <div class="st-item"><span>IRS rate</span><span class="v">$0.725 / MI</span></div>
+      <div class="st-item"><span>Default classification</span><span class="v">BUSINESS</span></div>
+      <div class="st-item"><span>Work hours</span><span class="v">7AM – 7PM</span></div>
+      <div class="st-grp">DATA</div>
+      <div class="st-item"><span>Export all data</span><span class="v">→</span></div>
+      <div class="st-item"><span>Privacy</span><span class="v">→</span></div>
+    </div>
+    <div class="tabbar">
+      <div class="t"><span>◐</span>Today</div>
+      <div class="t"><span>↝</span>Trips</div>
+      <div class="t"><span>◇</span>Reports</div>
+      <div class="t a"><span>◴</span>More</div>
+    </div>
+  </div></div>
+
+</div>
+</body>
+</html>

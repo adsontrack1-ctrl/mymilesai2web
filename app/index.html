@@ -1,351 +1,668 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="robots" content="noindex, nofollow" />
+<!DOCType html><html lang="en"><head>
 
-<title>MyMilesAI — Dashboard</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet" />
-
-<link rel="stylesheet" href="../assets/css/tokens.css" />
-<link rel="stylesheet" href="../assets/css/app.css" />
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyMilesAI — Logged-in App · Full Package</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-  /* App-specific one-off: subtle fade-in once data is ready */
-  body.app-shell { opacity: 0.4; transition: opacity 220ms ease; }
-  body.app-shell.mmai-ready { opacity: 1; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F1F3F8;font-family:'Manrope','Inter',sans-serif;color:#0B0F0E;padding:32px 40px 80px}
+  .header{max-width:1400px;margin:0 auto 20px;display:flex;align-items:center;justify-content:space-between}
+  .header .title{font-family:'Manrope','Inter',sans-serif;font-size:28px;font-weight:600;letter-spacing:-0.01em}
+  .header a{font-size:13px;color:#6B6862;text-decoration:none}
+  .tabs{max-width:1400px;margin:0 auto 28px;display:flex;gap:6px;padding:6px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:100px;width:fit-content;box-shadow:0 4px 16px -8px rgba(0,0,0,0.05)}
+  .tabs button{background:transparent;border:none;padding:9px 18px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'Manrope','Inter',sans-serif;font-weight:600;color:#6B6862;letter-spacing:-0.005em}
+  .tabs button.on{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF}
+  .app{max-width:1400px;margin:0 auto;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:24px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(11,15,30,0.15);display:grid;grid-template-columns:240px 1fr;min-height:860px}
+  .sidebar{background:#FAFAFB;border-right:1px solid #EEEFF3;padding:24px 16px;display:flex;flex-direction:column}
+  .logo{display:flex;align-items:center;gap:8px;padding:0 8px 24px;border-bottom:1px solid #E5E7EB;margin-bottom:20px;line-height:1}
+  .logo svg{width:20px;height:20px;flex-shrink:0}
+  .logo-w{font-family:'Satoshi','Inter Tight',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.035em;color:#0B0F0E}
+  .logo-w .ai{font-family:'Instrument Serif',serif;font-weight:400;background:linear-gradient(90deg,#7C3AED,#DA0A7F);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.02em;padding-left:0.03em}
+  .nav-section{font-family:'IBM Plex Mono';font-weight:600;font-size:9px;letter-spacing:0.01em;color:#6B6862;padding:16px 8px 8px}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;font-size:13.5px;color:#0B0F0E;cursor:pointer;margin-bottom:2px}
+  .nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,0.10),rgba(218,10,127,0.10));font-weight:600;color:#7C3AED}
+  .nav-item .ic{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6B6862}
+  .nav-item.active .ic{color:#DA0A7F}
+  .nav-item .count{margin-left:auto;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862}
+  .nav-item.active .count{color:#DA0A7F}
+  .profile{margin-top:auto;padding:14px 12px;border-top:1px solid #E5E7EB;display:flex;align-items:center;gap:10px}
+  .profile .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6)}
+  .profile .nm{font-size:13px;font-weight:500}
+  .profile .em{font-size:11px;color:#6B6862}
+  .main{padding:32px 40px;overflow-y:auto;max-height:860px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:20px}
+  .eyebrow{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:8px}
+  .greeting{font-family:'Manrope','Inter',sans-serif;font-size:38px;letter-spacing:-0.01em;line-height:1.05;font-weight:600;letter-spacing:-0.02em}
+  .greeting em{color:#DA0A7F;font-style:normal;font-weight:700}
+  .tools{display:flex;gap:10px;align-items:center;flex-shrink:0}
+  .search{background:#FFF;border:1px solid #E5E7EB;border-radius:100px;padding:10px 16px;font-size:13px;width:220px;font-family:inherit}
+  .btn{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF;border:none;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(124,58,237,0.4)}
+  .btn.ghost{background:transparent;color:#0B0F0E;border:1px solid #E5E7EB}
+  .btn.accent{background:#DA0A7F;color:#FFF}
+  .page{display:none}
+  .page.on{display:block}
+  /* ─── DASHBOARD ─── */
+  .kpi-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px;margin-bottom:24px}
+  .kpi{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:14px;padding:22px}
+  .kpi.dark{background:#0B0F0E;color:#F8F9FB;border-color:#0B0F0E}
+  .kpi .l{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:14px}
+  .kpi.dark .l{color:rgba(246,243,238,0.55)}
+  .kpi .v{font-family:'Manrope','Inter',sans-serif;font-size:46px;line-height:1;letter-spacing:-0.01em;font-weight:600;letter-spacing:-0.02em}
+  .kpi.green .v{color:#1B5E3F}
+  .kpi .s{font-size:12px;color:#6B6862;margin-top:10px}
+  .kpi.dark .s{color:rgba(246,243,238,0.6)}
+  .kpi .up{color:#1B5E3F;font-family:'IBM Plex Mono';font-weight:600;font-size:11px}
+  .kpi .chart{margin-top:16px;height:50px;display:flex;align-items:end;gap:3px}
+  .kpi .chart span{flex:1;background:rgba(218,10,127,0.3);border-radius:2px}
+  .kpi .chart span.hi{background:#DA0A7F}
+  .kpi.dark .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px}
+  .kpi.dark .pdot{width:6px;height:6px;border-radius:50%;background:#DA0A7F;animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+  .content{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+  .panel{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:14px;padding:24px}
+  .panel h3{font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:400;margin-bottom:4px;letter-spacing:-0.01em}
+  .panel .sub{font-size:12px;color:#6B6862;margin-bottom:20px}
+  .panel-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:18px}
+  .panel-head a{font-size:12px;color:#DA0A7F;text-decoration:none}
+  .trip{display:grid;grid-template-columns:auto 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid #EFF1F5}
+  .trip:last-child{border-bottom:none}
+  .trip .time{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;color:#6B6862;letter-spacing:0.05em}
+  .trip .from{font-family:'Manrope','Inter',sans-serif;font-size:18px;line-height:1.1;font-weight:600}
+  .trip .to{color:#6B6862;font-size:12px;margin-top:2px}
+  .trip .mi{font-family:'Manrope','Inter',sans-serif;font-size:22px;font-weight:600}
+  .tag{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap}
+  .tag.biz{background:#1B5E3F;color:#F8F9FB}
+  .tag.pers{background:#E5E7EB;color:#0B0F0E}
+  .tag.unreviewed{background:rgba(218,10,127,0.15);color:#DA0A7F;display:flex;align-items:center;gap:6px}
+  .ded{background:#0B0F0E;color:#F8F9FB;border-radius:14px;padding:26px;margin-bottom:14px}
+  .ded .l{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.55);margin-bottom:12px}
+  .ded .v{font-family:'Manrope','Inter',sans-serif;font-size:60px;line-height:1;color:#DA0A7F;margin-bottom:6px}
+  .ded .s{font-size:13px;color:rgba(246,243,238,0.6);margin-bottom:22px}
+  .ded .bar{height:6px;background:rgba(246,243,238,0.1);border-radius:3px;overflow:hidden;margin-bottom:10px}
+  .ded .bar div{height:100%;background:#DA0A7F;width:62%}
+  .ded .bar-label{display:flex;justify-content:space-between;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.5)}
+  .ded .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(246,243,238,0.1);font-size:12px}
+  .ded .row:last-child{border-bottom:none}
+  .ded .row span:last-child{font-family:'IBM Plex Mono';font-weight:600}
+  .export{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:20px}
+  .export h4{font-family:'Manrope','Inter',sans-serif;font-size:20px;margin-bottom:6px}
+  .export p{font-size:12px;color:#6B6862;margin-bottom:14px}
+  .export button{width:100%}
+
+  /* ─── TRIPS PAGE ─── */
+  .filter-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .pill{padding:8px 14px;border-radius:100px;background:#FFF;border:1px solid #E5E7EB;font-size:12px;color:#0B0F0E;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+  .pill.on{background:#0B0F0E;color:#F8F9FB;border-color:#0B0F0E}
+  .pill .ct{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;opacity:0.8;margin-left:4px}
+  .trips-table{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;overflow:hidden}
+  .tt-head{display:grid;grid-template-columns:100px 1.5fr 1fr 70px 80px 110px 32px;gap:14px;padding:12px 22px;background:#F8F9FB;border-bottom:1px solid #E5E7EB;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;}
+  .tt-row{display:grid;grid-template-columns:100px 1.5fr 1fr 70px 80px 110px 32px;gap:14px;padding:14px 22px;align-items:center;border-bottom:1px solid #EFF1F5}
+  .tt-row:last-child{border-bottom:none}
+  .tt-row:hover{background:#F8F9FB}
+  .tt-row .dt{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;color:#4A4843}
+  .tt-row .from{font-family:'Manrope','Inter',sans-serif;font-size:17px}
+  .tt-row .to{font-size:11px;color:#6B6862;margin-top:2px}
+  .tt-row .pur{font-size:12px;color:#4A4843}
+  .tt-row .mi{font-family:'Manrope','Inter',sans-serif;font-size:18px;text-align:right}
+  .tt-row .val{font-family:'IBM Plex Mono';font-weight:600;font-size:12px;color:#1B5E3F;text-align:right}
+  .tt-row .more{color:#6B6862;text-align:center;font-size:14px;cursor:pointer}
+
+  /* ─── REPORTS ─── */
+  .rep-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:20px}
+  .rep-builder{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:28px}
+  .rep-builder h3{font-family:'Manrope','Inter',sans-serif;font-size:30px;font-weight:400;margin-bottom:6px;letter-spacing:-0.01em}
+  .rep-builder h3 em{color:#DA0A7F;}
+  .rep-builder .sub{font-size:13px;color:#6B6862;margin-bottom:24px}
+  .field{margin-bottom:20px}
+  .field-label{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:10px}
+  .period-pills{display:flex;gap:6px;flex-wrap:wrap}
+  .vehicles-check{display:flex;flex-direction:column;gap:8px}
+  .vcheck{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px;font-size:13px}
+  .vcheck.on{background:#0B0F0E;color:#F8F9FB;border-color:#0B0F0E}
+  .vcheck .cb{width:16px;height:16px;border-radius:4px;border:1.5px solid #6B6862;display:flex;align-items:center;justify-content:center;font-size:10px}
+  .vcheck.on .cb{background:#DA0A7F;border-color:#DA0A7F;color:#FFF}
+  .rep-prev{background:#0B0F0E;color:#F8F9FB;border-radius:14px;padding:28px;display:flex;flex-direction:column}
+  .rep-prev .pdfcard{background:#F8F9FB;color:#0B0F0E;border-radius:10px;padding:20px;margin-bottom:18px;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;line-height:1.6}
+  .pdfcard .pdf-head{display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #E5E7EB}
+  .pdfcard .pdf-title{font-family:'Manrope','Inter',sans-serif;font-size:16px;}
+  .pdf-row{display:grid;grid-template-columns:50px 1fr 50px 50px;gap:6px;padding:4px 0;font-size:9.5px;border-bottom:1px dashed #E5E7EB}
+  .pdf-row:last-child{border:none}
+  .rep-totals{margin-top:auto;padding-top:20px;border-top:1px solid rgba(246,243,238,0.15)}
+  .rep-totals .big{font-family:'Manrope','Inter',sans-serif;font-size:56px;line-height:1;color:#DA0A7F}
+  .rep-totals .lbl{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.55);margin-bottom:6px}
+  .rep-totals .lb2{font-size:12px;color:rgba(246,243,238,0.6);margin-top:6px}
+  .rep-cta{display:flex;gap:8px;margin-top:20px}
+  .rep-cta button{flex:1}
+  .prev-reports{margin-top:20px}
+  .prev-reports-head{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:12px}
+  .prev-row{display:grid;grid-template-columns:1fr auto auto auto;gap:14px;align-items:center;padding:14px 18px;background:#FFF;border:1px solid #E5E7EB;border-radius:10px;margin-bottom:8px;font-size:13px}
+  .prev-row .nm{font-family:'Manrope','Inter',sans-serif;font-size:17px}
+  .prev-row .mt{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.01em;margin-top:2px}
+  .prev-row .val2{font-family:'Manrope','Inter',sans-serif;font-size:18px;color:#1B5E3F}
+
+  /* ─── VEHICLES ─── */
+  .veh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .vcard{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:24px;position:relative}
+  .vcard.add{background:transparent;border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;text-align:center;color:#6B6862;cursor:pointer}
+  .vcard.add .plus{width:44px;height:44px;border-radius:50%;border:1px solid #6B6862;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+  .vbadge{position:absolute;top:22px;right:22px;padding:4px 10px;border-radius:100px;background:#1B5E3F;color:#F8F9FB;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em}
+  .vhead{font-family:'Manrope','Inter',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px;line-height:1.15}
+  .vsub{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.01em;margin-bottom:20px}
+  .vstat{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 0;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;margin-bottom:16px}
+  .vstat .k{font-family:'IBM Plex Mono';font-weight:600;font-size:9px;letter-spacing:0.01em;color:#6B6862;margin-bottom:6px;white-space:nowrap}
+  .vstat .v{font-family:'Manrope','Inter',sans-serif;font-size:20px;line-height:1;font-weight:600;white-space:nowrap}
+  .vfoot{display:flex;justify-content:space-between;font-size:11px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em}
+
+  /* ─── SETTINGS ─── */
+  .set-grid{display:grid;grid-template-columns:220px 1fr;gap:32px}
+  .set-nav{display:flex;flex-direction:column;gap:4px}
+  .set-nav .snav{padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;color:#4A4843}
+  .set-nav .snav.on{background:#0B0F0E;color:#F8F9FB}
+  .set-panel{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:32px}
+  .set-panel h3{font-family:'Manrope','Inter',sans-serif;font-size:32px;margin-bottom:6px;letter-spacing:-0.01em}
+  .set-panel .sub{font-size:13px;color:#6B6862;margin-bottom:28px}
+  .set-group{padding-top:24px;border-top:1px solid #E5E7EB;margin-top:24px}
+  .set-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #EFF1F5}
+  .set-row:last-child{border:none}
+  .set-row .nm{font-size:14px;font-weight:500;margin-bottom:3px}
+  .set-row .ds{font-size:12px;color:#6B6862;max-width:400px;line-height:1.4}
+  .toggle{width:40px;height:22px;background:#1B5E3F;border-radius:100px;position:relative;cursor:pointer;flex-shrink:0}
+  .toggle::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;background:#FFF;border-radius:50%}
+  .toggle.off{background:#E5E7EB}
+  .toggle.off::after{left:2px;right:auto}
+  .set-val{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;letter-spacing:0.01em;color:#6B6862;}
+  .set-val.edit-link{cursor:pointer}
+  .set-val.edit-link:hover{color:#DA0A7F}
+  .sp{display:none}
+  .sp.on{display:block}
+
+  /* ─── PLACES ─── */
+  .map-view{display:grid;grid-template-columns:1fr 340px;gap:18px;height:760px}
+  .map-surface{background:linear-gradient(135deg,#E8E3D6,#D4CCBA);border:1px solid #E5E7EB;border-radius:14px;position:relative;overflow:hidden}
+  .map-surface svg{position:absolute;inset:0;width:100%;height:100%}
+  .map-pin{position:absolute;width:28px;height:28px;border-radius:50%;background:#DA0A7F;color:#FFF;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;transform:translate(-50%,-100%);box-shadow:0 6px 16px -4px rgba(218,10,127,0.5);border:2px solid #FFF}
+  .map-pin.biz{background:#1B5E3F}
+  .map-label{position:absolute;transform:translate(-50%,-100%) translateY(-34px);background:#FFF;border:1px solid #E5E7EB;padding:4px 10px;border-radius:100px;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;white-space:nowrap;letter-spacing:0.05em}
+  .place-list{display:flex;flex-direction:column;gap:8px;max-height:760px;overflow-y:auto}
+  .pcard{background:#FFF;border:1px solid #E5E7EB;border-radius:12px;padding:16px}
+  .pcard.sel{border-color:#0B0F0E;box-shadow:0 6px 20px -10px rgba(11,15,14,0.2)}
+  .pcard .ph{font-family:'Manrope','Inter',sans-serif;font-size:18px;margin-bottom:4px}
+  .pcard .pa{font-size:11px;color:#6B6862;margin-bottom:12px}
+  .pcard .prow{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #EFF1F5;font-size:12px}
+  .pcard .prow .v{font-family:'IBM Plex Mono';font-weight:600;color:#0B0F0E}
+  .pbadge{display:inline-block;padding:3px 8px;border-radius:100px;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em;}
+  .pbadge.biz{background:rgba(27,94,63,0.12);color:#1B5E3F}
+  .pbadge.pers{background:rgba(218,10,127,0.12);color:#DA0A7F}
 </style>
+<link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap"></head>
+<body>
+<div class="header">
+  <div class="title">Logged-in app · Complete package</div>
+  <a href="index.html">← Back to hub</a>
+</div>
 
-<script>
-  // Runtime config — supabase publishable/anon key ONLY. Never service_role.
-  window.__MMAI_CONFIG__ = {
-    SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
-    // TODO: paste the Supabase ANON/publishable key (sb_publishable_…) before first production build.
-    SUPABASE_ANON_KEY: 'sb_publishable_fiH2OGcy-0lon9qlXxFFIg_QqTDhm3u'
-  };
-</script>
-</head>
-
-<body class="app-shell">
+<div class="tabs">
+  <button class="on" onclick="go('dashboard')">Dashboard</button>
+  <button onclick="go('trips')">Trips</button>
+  <button onclick="go('places')">Places</button>
+  <button onclick="go('reports')">Reports</button>
+  <button onclick="go('vehicles')">Vehicles</button>
+  <button onclick="go('settings')">Settings</button>
+</div>
 
 <div class="app">
-  <aside class="sidebar" aria-label="App navigation">
+  <aside class="sidebar">
     <div class="logo">
-      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-        <circle cx="12" cy="50" r="4" fill="#0B0F0E" />
-        <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#DA0A7F" stroke-width="2.5" stroke-linecap="round" fill="none" />
-        <circle cx="52" cy="14" r="5" fill="#DA0A7F" />
-        <circle cx="52" cy="14" r="2" fill="#F6F3EE" />
-      </svg>
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="12" cy="50" r="4" fill="#0B0F0E"></circle><path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#DA0A7F" stroke-width="2.5" stroke-linecap="round" fill="none"></path><circle cx="52" cy="14" r="5" fill="#DA0A7F"></circle><circle cx="52" cy="14" r="2" fill="#F8F9FB"></circle></svg>
       <span class="logo-w">MyMiles<span class="ai">AI</span></span>
     </div>
-
     <div class="nav-section">Drive</div>
-    <button class="nav-item active" id="nav-dashboard" onclick="mmaiGo('dashboard')"><span class="ic">◐</span>Dashboard</button>
-    <button class="nav-item" id="nav-trips" onclick="mmaiGo('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">0</span></button>
-    <button class="nav-item" id="nav-places" onclick="mmaiGo('places')"><span class="ic">◎</span>Places<span class="count">0</span></button>
-
+    <div class="nav-item active" id="nav-dashboard" onclick="go('dashboard')"><span class="ic">◐</span>Dashboard</div>
+    <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count">847</span></div>
+    <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count">42</span></div>
     <div class="nav-section">Business</div>
-    <button class="nav-item" id="nav-reports" onclick="mmaiGo('reports')"><span class="ic">◇</span>Reports</button>
-    <button class="nav-item disabled" aria-disabled="true"><span class="ic">▤</span>Accountants<span class="badge-soon">Coming soon</span></button>
-    <button class="nav-item" id="nav-vehicles" onclick="mmaiGo('vehicles')"><span class="ic">◱</span>Vehicles<span class="count">—</span></button>
-
+    <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports</div>
+    <div class="nav-item"><span class="ic">▤</span>Accountants</div>
+    <div class="nav-item" id="nav-vehicles" onclick="go('vehicles')"><span class="ic">◱</span>Vehicles<span class="count">2</span></div>
     <div class="nav-section">Account</div>
-    <button class="nav-item" id="nav-settings" onclick="mmaiGo('settings')"><span class="ic">◴</span>Settings</button>
-    <a class="nav-item" href="mailto:support@mymilesai.com"><span class="ic">?</span>Help</a>
-
+    <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
+    <div class="nav-item"><span class="ic">?</span>Help</div>
     <div class="profile">
-      <div class="avatar" aria-hidden="true"><span style="color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%" data-mmai="profile-initial">—</span></div>
-      <div>
-        <div class="nm" data-mmai="profile-name">…</div>
-        <div class="em" data-mmai="profile-plan">Free · 2026</div>
-      </div>
-      <button class="signout-btn" data-mmai="signout" title="Sign out">↩</button>
+      <div class="avatar"></div>
+      <div><div class="nm">Marcus T.</div><div class="em">Pro · 2026</div></div>
     </div>
   </aside>
-
   <main class="main">
 
-    <!-- ═══ DASHBOARD ═══ -->
-    <section class="page on" id="p-dashboard">
+    <!-- DASHBOARD -->
+    <section class="page on" id="p-dashboard" data-screen-label="App 01 Dashboard">
       <div class="topbar">
         <div>
-          <div class="eyebrow" data-mmai="eyebrow-date">—</div>
-          <div class="greeting">
-            <span data-mmai="greeting-name">Hello —</span><br/>
-            <em data-mmai="greeting-count">loading…</em>
-          </div>
+          <div class="eyebrow">Tuesday · April 22</div>
+          <div class="greeting">Good afternoon, Marcus —<br>you have <em>3 trips to review.</em></div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search trips, places, reports…" />
+          <input class="search" placeholder="Search trips, places, reports…">
           <button class="btn">+ Log trip</button>
         </div>
       </div>
-
       <div class="kpi-row">
         <div class="kpi dark">
-          <div class="pill"><span class="pdot"></span>Live · auto-detecting</div>
-          <div class="l">YTD deduction · 2026</div>
-          <div class="v" style="color:var(--accent)" data-mmai="ytd-deduction">$0.00</div>
-          <div class="s">Based on business miles × $0.725 (2026 IRS rate)</div>
-          <div class="chart" aria-hidden="true">
+          <div class="pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px"><span class="pdot"></span>Live · auto-detecting</div>
+          <div class="l" style="margin-bottom:6px">YTD deduction · 2026</div>
+          <div class="v" style="color:#DA0A7F">$7,428.14</div>
+          <div class="s">+ $312.40 this week <span class="up">▲ 4.4%</span></div>
+          <div class="chart">
             <span style="height:30%"></span><span style="height:45%"></span><span style="height:38%"></span>
             <span style="height:62%"></span><span style="height:50%"></span><span style="height:72%"></span>
             <span style="height:48%"></span><span style="height:80%"></span><span style="height:65%"></span>
             <span style="height:90%" class="hi"></span><span style="height:76%"></span><span style="height:88%" class="hi"></span>
           </div>
         </div>
-        <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">0</div><div class="s">Business + personal</div></div>
-        <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">—</div><div class="s" data-mmai="business-of-total">— of —</div></div>
-        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:var(--accent)" data-mmai="needs-review">0</div><div class="s">Unclassified trips</div></div>
+        <div class="kpi green"><div class="l">Miles · month</div><div class="v">2,184</div><div class="s"><span class="up">▲ 12%</span> vs March</div></div>
+        <div class="kpi"><div class="l">Business %</div><div class="v">71%</div><div class="s">1,551 of 2,184 mi</div></div>
+        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F">3</div><div class="s">Trips since 8am today</div></div>
       </div>
-
       <div class="content">
         <div class="panel">
-          <div class="panel-head">
-            <div><h3>Recent trips</h3><div class="sub">Pulled live from Supabase. Full trips list in the Trips tab.</div></div>
-            <a onclick="mmaiGo('trips')">View all →</a>
-          </div>
-          <div class="trip"><div class="time">—</div><div><div class="from">Your trips will appear here</div><div class="to">Start a drive on your iPhone; it syncs automatically.</div></div><div class="mi">—</div><div class="tag pers">Empty</div></div>
+          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Swipe right for Business · left for Personal · AI auto-classifies recurring routes</div></div><a>View all 847 →</a></div>
+          <div class="trip"><div class="time">2:14pm</div><div><div class="from">Office → 1450 Market St</div><div class="to">San Francisco · Client visit · 11 min</div></div><div class="mi">4.2<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
+          <div class="trip"><div class="time">12:02pm</div><div><div class="from">Office → Tartine Bakery</div><div class="to">Lunch · 6 min</div></div><div class="mi">1.8<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
+          <div class="trip"><div class="time">8:14am</div><div><div class="from">Home → Downtown Office</div><div class="to">Commute · 22 min · Daily route</div></div><div class="mi">12.1<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag biz">✓ Business · AI</div></div>
+          <div class="trip"><div class="time">Mon 6:48pm</div><div><div class="from">Acme Corp → Home</div><div class="to">After client meeting · 34 min</div></div><div class="mi">14.8<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag biz">✓ Business</div></div>
+          <div class="trip"><div class="time">Mon 1:12pm</div><div><div class="from">Home → Whole Foods</div><div class="to">Groceries · 9 min</div></div><div class="mi">2.4<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag pers">Personal</div></div>
         </div>
-
         <div>
           <div class="ded">
-            <div class="l">YTD deduction progress</div>
-            <div class="v" data-mmai="ytd-deduction">$0.00</div>
-            <div class="s">2026 IRS standard mileage rate: $0.725/mi</div>
-            <div class="bar"><div style="width:0%"></div></div>
-            <div class="bar-label"><span>PROGRESS</span><span>—</span></div>
+            <div class="l">Q2 deduction progress</div>
+            <div class="v">$2,183</div>
+            <div class="s">At current pace: $8,940 by tax day</div>
+            <div class="bar"><div></div></div>
+            <div class="bar-label"><span>62% OF Q2 GOAL</span><span>$3,500</span></div>
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(246,243,238,0.15)">
-              <div class="row"><span>IRS rate (2026)</span><span>$0.725 / mi</span></div>
-              <div class="row"><span>Est. tax saved (24% bracket)</span><span style="color:var(--accent)">—</span></div>
+              <div class="row"><span>Business miles</span><span>3,012</span></div>
+              <div class="row"><span>IRS rate</span><span>$0.725</span></div>
+              <div class="row"><span>Est. tax saved (24%)</span><span style="color:#DA0A7F">$524</span></div>
             </div>
           </div>
           <div class="export">
             <h4>Export for your CPA</h4>
             <p>IRS-compliant PDF with GPS traces, odometer, routes, and purpose.</p>
-            <button class="btn accent">Generate report →</button>
+            <button class="btn accent">Generate Q1 report →</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ TRIPS ═══ -->
-    <section class="page" id="p-trips">
+    <!-- TRIPS -->
+    <section class="page" id="p-trips" data-screen-label="App 02 Trips">
       <div class="topbar">
         <div>
-          <div class="eyebrow">All trips · filter by tag</div>
+          <div class="eyebrow">847 trips · 3 need review</div>
           <div class="greeting">All <em>trips</em></div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search by address, purpose…" />
+          <input class="search" placeholder="Search by address, purpose…">
           <button class="btn ghost">⬇ Export CSV</button>
           <button class="btn">+ Log trip</button>
         </div>
       </div>
       <div class="filter-row">
-        <span class="pill on">All</span>
-        <span class="pill">Business</span>
-        <span class="pill">Personal</span>
-        <span class="pill" style="color:var(--accent);border-color:var(--accent)">Needs review</span>
+        <span class="pill on">All<span class="ct">847</span></span>
+        <span class="pill">Business<span class="ct">604</span></span>
+        <span class="pill">Personal<span class="ct">240</span></span>
+        <span class="pill" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct">3</span></span>
         <span class="pill" style="margin-left:auto">This month ▾</span>
         <span class="pill">All vehicles ▾</span>
         <span class="pill">All purposes ▾</span>
       </div>
       <div class="trips-table">
-        <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">Value</div><div style="text-align:center">Class</div><div></div></div>
-        <div class="tt-row">
-          <div class="dt">—</div>
-          <div><div class="from">No trips yet</div><div class="to">Trips logged on iPhone will sync here automatically.</div></div>
-          <div class="pur">—</div>
-          <div class="mi">—</div>
-          <div class="val">—</div>
-          <div style="text-align:center"><span class="tag pers">Empty</span></div>
-          <div class="more"></div>
-        </div>
+        <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
+        <div class="tt-row" style="background:rgba(218,10,127,0.04)"><div class="dt">APR 22 · 2:14PM</div><div><div class="from">Office → 1450 Market St</div><div class="to">San Francisco · 11 min</div></div><div class="pur" style="color:#DA0A7F">— Needs purpose</div><div class="mi">4.2</div><div class="val">$3.05</div><div style="text-align:center"><span class="tag unreviewed">Review</span></div><div class="more">⋯</div></div>
+        <div class="tt-row" style="background:rgba(218,10,127,0.04)"><div class="dt">APR 22 · 12:02PM</div><div><div class="from">Office → Tartine Bakery</div><div class="to">Lunch · 6 min</div></div><div class="pur" style="color:#DA0A7F">— Needs purpose</div><div class="mi">1.8</div><div class="val">$1.31</div><div style="text-align:center"><span class="tag unreviewed">Review</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 22 · 8:14AM</div><div><div class="from">Home → Downtown Office</div><div class="to">San Francisco · 22 min</div></div><div class="pur">Commute · AI</div><div class="mi">12.1</div><div class="val">$8.77</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 21 · 6:48PM</div><div><div class="from">Acme Corp → Home</div><div class="to">After client meeting · 34 min</div></div><div class="pur">Client visit</div><div class="mi">14.8</div><div class="val">$10.73</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 21 · 1:12PM</div><div><div class="from">Home → Whole Foods</div><div class="to">Groceries · 9 min</div></div><div class="pur">Personal</div><div class="mi">2.4</div><div class="val">—</div><div style="text-align:center"><span class="tag pers">Personal</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 21 · 9:30AM</div><div><div class="from">Home → Acme Corp</div><div class="to">Client site · 28 min</div></div><div class="pur">Client visit</div><div class="mi">12.6</div><div class="val">$9.14</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 20 · 3:44PM</div><div><div class="from">Office → 45 King St</div><div class="to">Prospect tour · 17 min</div></div><div class="pur">Showing</div><div class="mi">6.8</div><div class="val">$4.93</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 20 · 11:08AM</div><div><div class="from">Office → Airport · SFO</div><div class="to">Conference · 42 min</div></div><div class="pur">Travel</div><div class="mi">19.2</div><div class="val">$13.92</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div class="tt-row"><div class="dt">APR 19 · 4:22PM</div><div><div class="from">Office → Starbucks Sutter</div><div class="to">Coffee meeting · 5 min</div></div><div class="pur">Client coffee</div><div class="mi">1.2</div><div class="val">$0.87</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
       </div>
     </section>
 
-    <!-- ═══ PLACES (static preview v1) ═══ -->
-    <section class="page" id="p-places">
+    <!-- PLACES -->
+    <section class="page" id="p-places" data-screen-label="App 03 Places">
       <div class="topbar">
         <div>
-          <div class="eyebrow">Places · static preview (v1)</div>
-          <div class="greeting">Your <em>regular stops</em></div>
+          <div class="eyebrow">42 saved places · 28 auto-detected</div>
+          <div class="greeting">Your <em>frequent places.</em></div>
         </div>
         <div class="tools">
-          <button class="btn ghost">+ Add place</button>
+          <input class="search" placeholder="Search places…">
+          <button class="btn">+ Add place</button>
         </div>
       </div>
       <div class="map-view">
-        <div class="map-surface" aria-label="Static map preview — live map landing in a future release">
-          <svg viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0,300 Q200,100 400,250 T800,220" stroke="#BDB5A3" stroke-width="2" fill="none" stroke-dasharray="5 8" />
-            <path d="M100,500 Q300,400 500,450 T800,500" stroke="#BDB5A3" stroke-width="2" fill="none" />
+        <div class="map-surface">
+          <svg viewBox="0 0 700 760" preserveAspectRatio="none">
+            <path d="M 50 150 L 650 150 M 50 280 L 650 280 M 50 410 L 650 410 M 50 540 L 650 540 M 50 670 L 650 670" stroke="rgba(11,15,14,0.08)" stroke-width="1" fill="none"></path>
+            <path d="M 150 50 L 150 710 M 300 50 L 300 710 M 450 50 L 450 710 M 600 50 L 600 710" stroke="rgba(11,15,14,0.08)" stroke-width="1" fill="none"></path>
+            <path d="M 100 600 Q 280 420 460 380 T 680 120" stroke="#DA0A7F" stroke-width="2.5" fill="none" stroke-dasharray="6 6" opacity="0.6"></path>
+            <path d="M 180 200 Q 320 310 500 280" stroke="#1B5E3F" stroke-width="2.5" fill="none" stroke-dasharray="6 6" opacity="0.5"></path>
           </svg>
-          <div class="map-label" style="left:25%;top:30%">Home</div>
-          <div class="map-pin" style="left:25%;top:30%">H</div>
-          <div class="map-label biz" style="left:60%;top:45%">Downtown Office</div>
-          <div class="map-pin biz" style="left:60%;top:45%">O</div>
-          <div class="map-label" style="left:78%;top:62%">Warehouse</div>
-          <div class="map-pin" style="left:78%;top:62%">W</div>
+          <div class="map-pin biz" style="left:22%;top:32%">14</div>
+          <div class="map-label" style="left:22%;top:32%">Home</div>
+          <div class="map-pin biz" style="left:52%;top:52%">38</div>
+          <div class="map-label" style="left:52%;top:52%">Downtown Office</div>
+          <div class="map-pin" style="left:72%;top:28%">12</div>
+          <div class="map-label" style="left:72%;top:28%">Acme Corp · Client</div>
+          <div class="map-pin biz" style="left:38%;top:64%">6</div>
+          <div class="map-pin" style="left:82%;top:62%">4</div>
+          <div class="map-pin biz" style="left:30%;top:80%">3</div>
+          <div class="map-pin" style="left:65%;top:80%">2</div>
         </div>
         <div class="place-list">
-          <div class="pcard sel">
-            <div class="ph">Home</div>
-            <div class="pa">123 Main St · San Francisco, CA</div>
-            <span class="pbadge pers">Personal</span>
-            <div class="prow"><span>Visits</span><span class="v">—</span></div>
-          </div>
-          <div class="pcard">
-            <div class="ph">Downtown Office</div>
-            <div class="pa">450 Market St · San Francisco, CA</div>
-            <span class="pbadge biz">Business</span>
-            <div class="prow"><span>Visits</span><span class="v">—</span></div>
-          </div>
-          <div class="pcard">
-            <div class="ph">Warehouse</div>
-            <div class="pa">1200 3rd St · San Francisco, CA</div>
-            <span class="pbadge biz">Business</span>
-            <div class="prow"><span>Visits</span><span class="v">—</span></div>
-          </div>
+          <div class="pcard sel"><div class="ph">Downtown Office</div><div class="pa">482 Market St · San Francisco</div><div><span class="pbadge biz">Business · Primary</span></div><div class="prow"><span>Visits</span><span class="v">38</span></div><div class="prow"><span>Miles driven to</span><span class="v">467</span></div><div class="prow"><span>Auto-classify</span><span class="v">Business</span></div></div>
+          <div class="pcard"><div class="ph">Home</div><div class="pa">1620 Divisadero · San Francisco</div><div><span class="pbadge pers">Personal</span></div><div class="prow"><span>Visits</span><span class="v">89</span></div></div>
+          <div class="pcard"><div class="ph">Acme Corp</div><div class="pa">3200 Bryant St</div><div><span class="pbadge biz">Business · Client</span></div><div class="prow"><span>Visits</span><span class="v">12</span></div></div>
+          <div class="pcard"><div class="ph">SFO Airport</div><div class="pa">Terminal 2 · San Francisco</div><div><span class="pbadge biz">Business · Travel</span></div><div class="prow"><span>Visits</span><span class="v">6</span></div></div>
+          <div class="pcard"><div class="ph">Starbucks Sutter</div><div class="pa">201 Sutter St</div><div><span class="pbadge biz">Business · Meeting</span></div><div class="prow"><span>Visits</span><span class="v">9</span></div></div>
+          <div class="pcard"><div class="ph">Whole Foods</div><div class="pa">399 Fourth St</div><div><span class="pbadge pers">Personal</span></div><div class="prow"><span>Visits</span><span class="v">14</span></div></div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ REPORTS ═══ -->
-    <section class="page" id="p-reports">
+    <!-- REPORTS -->
+    <section class="page" id="p-reports" data-screen-label="App 04 Reports">
       <div class="topbar">
         <div>
-          <div class="eyebrow">IRS-ready exports</div>
-          <div class="greeting">Build a <em>report</em></div>
+          <div class="eyebrow">IRS Publication 463 compliant</div>
+          <div class="greeting">Build an <em>audit-ready</em> mileage log.</div>
+        </div>
+        <div class="tools">
+          <button class="btn ghost">Share with accountant</button>
+          <button class="btn accent">Export PDF</button>
         </div>
       </div>
       <div class="rep-grid">
         <div class="rep-builder">
-          <h3>Mileage <em>report builder</em></h3>
-          <div class="sub">Select a period, vehicles, and classifications. We generate an audit-grade PDF.</div>
-
-          <div class="field">
-            <div class="field-label">Period</div>
-            <div class="period-pills">
-              <span class="pill on">This month</span>
-              <span class="pill">Q1</span>
-              <span class="pill">YTD</span>
-              <span class="pill">Last year</span>
-              <span class="pill">Custom…</span>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field-label">Include</div>
-            <div class="vehicles-check">
-              <div class="vcheck on"><span class="cb">✓</span>Business only</div>
-              <div class="vcheck"><span class="cb"></span>Include personal (for context)</div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="field-label">Vehicles</div>
-            <div class="vehicles-check">
-              <div class="vcheck on"><span class="cb">✓</span>All vehicles</div>
-            </div>
+          <h3>Report <em>builder</em></h3>
+          <div class="sub">Configure the period, scope, and format. Preview updates live on the right.</div>
+          <div class="field"><div class="field-label">Period</div><div class="period-pills"><span class="pill">Last week</span><span class="pill">Last month</span><span class="pill on">Q1 2026</span><span class="pill">YTD</span><span class="pill">2025</span><span class="pill">Custom</span></div></div>
+          <div class="field"><div class="field-label">Vehicles</div><div class="vehicles-check"><div class="vcheck on"><div class="cb">✓</div><div><strong style="font-weight:500">2022 Toyota RAV4</strong> · CA 8JKL392 · Primary</div></div><div class="vcheck on"><div class="cb">✓</div><div><strong style="font-weight:500">2019 Honda CR-V</strong> · CA 7FDE102 · Secondary</div></div></div></div>
+          <div class="field"><div class="field-label">Classification</div><div class="period-pills"><span class="pill on">Business only</span><span class="pill">Business + Personal</span><span class="pill">All</span></div></div>
+          <div class="field"><div class="field-label">Format</div><div class="period-pills"><span class="pill on">PDF · IRS Pub 463</span><span class="pill">CSV</span><span class="pill">QuickBooks</span><span class="pill">Xero</span></div></div>
+          <div class="field"><div class="field-label">Include</div>
+            <div class="set-row" style="border-bottom:1px solid #EFF1F5;padding:10px 0"><div><div class="nm">GPS traces per trip</div><div class="ds">Exact start/end coordinates, visible to auditors.</div></div><div class="toggle"></div></div>
+            <div class="set-row" style="border-bottom:1px solid #EFF1F5;padding:10px 0"><div><div class="nm">Odometer snapshots</div><div class="ds">Start + end of period from vehicle records.</div></div><div class="toggle"></div></div>
+            <div class="set-row" style="border:none;padding:10px 0"><div><div class="nm">Purpose &amp; client notes</div><div class="ds">Written rationale for each business trip.</div></div><div class="toggle"></div></div>
           </div>
         </div>
-
         <div class="rep-prev">
           <div class="pdfcard">
-            <div class="pdf-head">
-              <div>
-                <div>IRS FORM 2106 — 2026</div>
-                <div class="pdf-title">Mileage Log · Q1 Summary</div>
-              </div>
-              <div>✓ VERIFIED</div>
-            </div>
-            <div class="pdf-row"><div>Date</div><div>Route</div><div style="text-align:right">Mi</div><div style="text-align:right">$</div></div>
-            <div class="pdf-row"><div>—</div><div>Live preview unlocks once you add trips</div><div style="text-align:right">—</div><div style="text-align:right">—</div></div>
+            <div class="pdf-head"><div><div style="color:#6B6862">MYMilesAI · IRS PUB 463</div><div class="pdf-title">Q1 2026 Mileage Log</div></div><div style="padding:4px 8px;background:#1B5E3F;color:#F8F9FB;border-radius:100px;font-size:8px;letter-spacing:0.01em">✓ VERIFIED</div></div>
+            <div class="pdf-row" style="color:#6B6862"><div>Date</div><div>Route</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
+            <div class="pdf-row"><div>01/04</div><div style="color:#0B0F0E">Home → Acme · Sales call</div><div style="text-align:right">24.1</div><div style="text-align:right;color:#1B5E3F">17.47</div></div>
+            <div class="pdf-row"><div>01/04</div><div style="color:#0B0F0E">Acme → Beacon · Consult</div><div style="text-align:right">12.8</div><div style="text-align:right;color:#1B5E3F">9.28</div></div>
+            <div class="pdf-row"><div>01/05</div><div style="color:#0B0F0E">Home → Warehouse · Supplies</div><div style="text-align:right">8.4</div><div style="text-align:right;color:#1B5E3F">6.09</div></div>
+            <div class="pdf-row"><div>01/06</div><div style="color:#0B0F0E">Office → SFO · Conference</div><div style="text-align:right">31.2</div><div style="text-align:right;color:#1B5E3F">22.62</div></div>
+            <div class="pdf-row"><div>01/08</div><div style="color:#0B0F0E">Home → Downtown Office</div><div style="text-align:right">12.1</div><div style="text-align:right;color:#1B5E3F">8.77</div></div>
+            <div class="pdf-row"><div>01/09</div><div style="color:#0B0F0E">Office → Client HQ · Review</div><div style="text-align:right">4.8</div><div style="text-align:right;color:#1B5E3F">3.48</div></div>
           </div>
           <div class="rep-totals">
-            <div class="lbl">Estimated deduction</div>
-            <div class="big" data-mmai="ytd-deduction">$0.00</div>
-            <div class="lb2">Based on business miles × $0.725 (2026 IRS rate)</div>
+            <div class="lbl">Q1 total deduction</div>
+            <div class="big">$2,183.14</div>
+            <div class="lb2">247 business trips · 3,012 business miles · IRS rate $0.725</div>
             <div class="rep-cta">
               <button class="btn accent">Generate PDF</button>
-              <button class="btn ghost">CSV</button>
+              <button class="btn" style="background:transparent;border:1px solid rgba(246,243,238,0.3);color:#F8F9FB">Email to CPA</button>
             </div>
           </div>
         </div>
       </div>
+      <div class="prev-reports">
+        <div class="prev-reports-head">Previous reports</div>
+        <div class="prev-row"><div><div class="nm">Q4 2025 Mileage Log</div><div class="mt">GENERATED JAN 12 · 214 TRIPS · PDF</div></div><div class="val2">$1,892.40</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
+        <div class="prev-row"><div><div class="nm">2025 Annual Log</div><div class="mt">GENERATED APR 01 · 812 TRIPS · PDF</div></div><div class="val2">$7,104.22</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
+        <div class="prev-row"><div><div class="nm">Q3 2025 Mileage Log</div><div class="mt">GENERATED OCT 04 · 196 TRIPS · PDF</div></div><div class="val2">$1,643.18</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
+      </div>
     </section>
 
-    <!-- ═══ VEHICLES ═══ -->
-    <section class="page" id="p-vehicles">
+    <!-- VEHICLES -->
+    <section class="page" id="p-vehicles" data-screen-label="App 05 Vehicles">
       <div class="topbar">
         <div>
-          <div class="eyebrow">Garage</div>
-          <div class="greeting">Your <em>vehicles</em></div>
+          <div class="eyebrow">2 vehicles · 1 primary</div>
+          <div class="greeting">Your <em>fleet.</em></div>
         </div>
-        <div class="tools">
-          <button class="btn">+ Add vehicle</button>
-        </div>
+        <div class="tools"><button class="btn">+ Add vehicle</button></div>
       </div>
       <div class="veh-grid">
+        <div class="vcard">
+          <div class="vbadge">● PRIMARY</div>
+          <div class="vhead">2022 Toyota RAV4</div>
+          <div class="vsub">CA · 8JKL392 · HYBRID</div>
+          <div class="vstat"><div><div class="k">Odometer</div><div class="v">47,184 mi</div></div><div><div class="k">This month</div><div class="v" style="color:#1B5E3F">1,842 mi</div></div></div>
+          <div class="vstat"><div><div class="k">YTD business</div><div class="v">6,104 mi</div></div><div><div class="k">YTD deduction</div><div class="v" style="color:#DA0A7F">$4,425</div></div></div>
+          <div class="vfoot"><span>ADDED JAN 2024</span><span>EDIT ⋯</span></div>
+        </div>
+        <div class="vcard">
+          <div class="vhead">2019 Honda CR-V</div>
+          <div class="vsub">CA · 7FDE102 · GASOLINE</div>
+          <div class="vstat"><div><div class="k">Odometer</div><div class="v">84,210 mi</div></div><div><div class="k">This month</div><div class="v" style="color:#1B5E3F">342 mi</div></div></div>
+          <div class="vstat"><div><div class="k">YTD business</div><div class="v">1,204 mi</div></div><div><div class="k">YTD deduction</div><div class="v" style="color:#DA0A7F">$873</div></div></div>
+          <div class="vfoot"><span>ADDED MAR 2025</span><span>EDIT ⋯</span></div>
+        </div>
         <div class="vcard add">
           <div class="plus">+</div>
-          <div>Add your first vehicle to start tracking by plate.</div>
+          <div style="font-family:'Manrope','Inter',sans-serif;font-size:22px;color:#0B0F0E;margin-bottom:6px">Add another vehicle</div>
+          <div style="font-size:12px">Track multiple cars — each gets its own odometer and logs.</div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ SETTINGS ═══ -->
-    <section class="page" id="p-settings">
+    <!-- SETTINGS -->
+    <section class="page" id="p-settings" data-screen-label="App 06 Settings">
       <div class="topbar">
         <div>
-          <div class="eyebrow">Your account</div>
-          <div class="greeting">Settings</div>
+          <div class="eyebrow">Account &amp; automation</div>
+          <div class="greeting"><em>Settings.</em></div>
         </div>
       </div>
       <div class="set-grid">
         <div class="set-nav">
-          <button class="snav on">Profile</button>
-          <button class="snav">Preferences</button>
-          <button class="snav">Notifications</button>
-          <button class="snav">Billing</button>
-          <button class="snav">Data</button>
+          <div class="snav on" data-sp="account">Account</div>
+          <div class="snav" data-sp="automation">Automation</div>
+          <div class="snav" data-sp="tax">Tax preferences</div>
+          <div class="snav" data-sp="notif">Notifications</div>
+          <div class="snav" data-sp="data">Data &amp; privacy</div>
+          <div class="snav" data-sp="billing">Billing</div>
+          <div class="snav" data-sp="accountant">Accountant</div>
+          <div class="snav" data-sp="security">Security</div>
         </div>
-        <div class="set-panel">
-          <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px">
-            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6)"></div>
-            <div style="flex:1">
-              <div style="font-family:'Instrument Serif';font-size:22px" data-mmai="profile-name">—</div>
-              <div style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px" data-mmai="profile-plan">—</div>
+        <div>
+          <!-- ACCOUNT -->
+          <div class="set-panel sp on" id="sp-account">
+            <h3>Account</h3>
+            <div class="sub">Profile, plan, and workspace preferences.</div>
+            <div style="display:flex;align-items:center;gap:16px;padding-bottom:24px;border-bottom:1px solid #E5E7EB">
+              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6);display:flex;align-items:center;justify-content:center;color:#FFF;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:20px">MT</div>
+              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:22px">Marcus Torres</div><div style="font-size:12px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px">PRO · RENEWS APR 2027 · $69.99/YR</div></div>
+              <button class="btn ghost" data-jump="billing">Manage plan</button>
             </div>
-            <button class="btn ghost">Manage plan</button>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row"><div><div class="nm">Full name</div><div class="ds">Marcus Torres</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Email</div><div class="ds">marcus@torrescre.com</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Phone</div><div class="ds">+1 (415) 555 0148 · verified</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Time zone</div><div class="ds">Used for trip timestamps and report cutoffs.</div></div><span class="set-val">PT · LOS ANGELES</span></div>
+              <div class="set-row"><div><div class="nm">Language</div><div class="ds">UI language. Reports always export in English.</div></div><span class="set-val">ENGLISH (US)</span></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Workspace</div><div class="ds">Torres Real Estate · solo workspace</div></div><span class="set-val edit-link">RENAME →</span></div>
+              <div class="set-row"><div><div class="nm">Default trip purpose</div><div class="ds">Pre-fills the purpose field on new business trips.</div></div><span class="set-val">CLIENT VISIT</span></div>
+            </div>
           </div>
-          <div class="set-group" style="border-top:none;padding-top:0">
-            <div class="set-row"><div><div class="nm">Auto-detect drives</div><div class="ds">Log trips automatically in the background via GPS + motion.</div></div><div class="toggle"></div></div>
-            <div class="set-row"><div><div class="nm">AI auto-classify</div><div class="ds">Learn your recurring routes and classify them automatically.</div></div><div class="toggle"></div></div>
-            <div class="set-row"><div><div class="nm">Exclude daily commute</div><div class="ds">Home ⇄ Office is non-deductible under IRS rules.</div></div><div class="toggle off"></div></div>
-            <div class="set-row"><div><div class="nm">Work hours only</div><div class="ds">Only auto-classify as Business during work hours.</div></div><div class="toggle"></div></div>
+
+          <!-- AUTOMATION -->
+          <div class="set-panel sp" id="sp-automation">
+            <h3>Automation</h3>
+            <div class="sub">Tell the app what to log automatically and when.</div>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row"><div><div class="nm">Auto-detect drives</div><div class="ds">Log trips automatically in the background via GPS + motion.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">AI auto-classify</div><div class="ds">Learn your recurring routes and classify them automatically.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Exclude daily commute</div><div class="ds">Home ⇄ Office is non-deductible under IRS rules.</div></div><div class="toggle off"></div></div>
+              <div class="set-row"><div><div class="nm">Work hours only</div><div class="ds">Only auto-classify as Business during work hours.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Detect parking events</div><div class="ds">End trips reliably when you stop for &gt; 90 seconds.</div></div><div class="toggle"></div></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Work hours</div><div class="ds">Mon–Fri, 7:00 AM – 7:00 PM</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Minimum trip distance</div><div class="ds">Discard auto-detected drives shorter than this.</div></div><span class="set-val">0.5 MI</span></div>
+              <div class="set-row"><div><div class="nm">Battery saver</div><div class="ds">Cut polling rate when phone battery is &lt; 20%.</div></div><div class="toggle"></div></div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Smart rules <span style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.06em;margin-left:8px">3 ACTIVE</span></div>
+              <div class="set-row"><div><div class="nm">Trips to <em style="font-style:normal;color:#DA0A7F">Whole Foods Lakeshore</em> → Personal</div><div class="ds">Auto-applied · 12 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Trips to <em style="font-style:normal;color:#DA0A7F">Properties tagged "showings"</em> → Business</div><div class="ds">Auto-applied · 47 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div><div class="nm">Drives between 9 PM – 6 AM → Personal</div><div class="ds">Auto-applied · 21 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
+              <div class="set-row"><div></div><button class="btn ghost">+ New rule</button></div>
+            </div>
           </div>
-          <div class="set-group">
-            <div class="set-row"><div><div class="nm">IRS mileage rate</div><div class="ds">2026 business rate, per IRS Notice 2026-10.</div></div><span class="set-val">$0.725 / MI · 2026</span></div>
-            <div class="set-row"><div><div class="nm">Default tax bracket</div><div class="ds">Used for "tax saved" estimates across the app.</div></div><span class="set-val">24%</span></div>
+
+          <!-- TAX -->
+          <div class="set-panel sp" id="sp-tax">
+            <h3>Tax preferences</h3>
+            <div class="sub">Rates and assumptions used in deduction estimates.</div>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row"><div><div class="nm">IRS mileage rate</div><div class="ds">Automatically kept current. Override only if instructed by your CPA.</div></div><span class="set-val">$0.725 / MI · 2026</span></div>
+              <div class="set-row"><div><div class="nm">Filing status</div><div class="ds">Single, married, head of household, etc.</div></div><span class="set-val edit-link">SINGLE →</span></div>
+              <div class="set-row"><div><div class="nm">Federal tax bracket</div><div class="ds">Used for "tax saved" estimates across the app.</div></div><span class="set-val edit-link">24% →</span></div>
+              <div class="set-row"><div><div class="nm">State</div><div class="ds">California · 9.3% bracket auto-applied.</div></div><span class="set-val edit-link">CA →</span></div>
+              <div class="set-row"><div><div class="nm">Self-employment tax</div><div class="ds">Adds 15.3% SE on top of income tax estimates.</div></div><div class="toggle"></div></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Deduction method</div><div class="ds">Standard mileage rate. Switch to actual-expense at year-end if it wins.</div></div><span class="set-val edit-link">STANDARD →</span></div>
+              <div class="set-row"><div><div class="nm">Tax year</div><div class="ds">Reports default to this period.</div></div><span class="set-val">2026</span></div>
+              <div class="set-row"><div><div class="nm">Quarterly estimate reminders</div><div class="ds">Push 14 days before each Q deadline.</div></div><div class="toggle"></div></div>
+            </div>
           </div>
-          <div class="set-group">
-            <div class="set-row"><div><div class="nm">Email notifications</div><div class="ds">Weekly summaries + unreviewed trip reminders.</div></div><div class="toggle"></div></div>
-            <div class="set-row"><div><div class="nm">Push notifications</div><div class="ds">Configure in the iOS app.</div></div><span class="set-val">iOS ONLY</span></div>
+
+          <!-- NOTIFICATIONS -->
+          <div class="set-panel sp" id="sp-notif">
+            <h3>Notifications</h3>
+            <div class="sub">When to nudge you, and where.</div>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Push</div>
+              <div class="set-row"><div><div class="nm">Trip detected</div><div class="ds">When auto-detect logs a new drive.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Classify reminder</div><div class="ds">Once a day if there are unreviewed trips.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">AI suggestion ready</div><div class="ds">When AI has &gt; 5 trips queued for one-tap classify.</div></div><div class="toggle off"></div></div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Email</div>
+              <div class="set-row"><div><div class="nm">Weekly summary</div><div class="ds">Sundays at 7 PM · trips, miles, deductions found.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Monthly report ready</div><div class="ds">First of the month · download link inside.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Product updates</div><div class="ds">~1 / month. New features, IRS rate changes.</div></div><div class="toggle off"></div></div>
+              <div class="set-row"><div><div class="nm">Tips &amp; offers</div><div class="ds">Promotional. Off by default.</div></div><div class="toggle off"></div></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Quiet hours</div><div class="ds">No push between these times.</div></div><span class="set-val edit-link">10 PM – 7 AM →</span></div>
+            </div>
           </div>
-          <div class="set-group">
-            <div class="set-row"><div><div class="nm">Export all data</div><div class="ds">Download a ZIP of every trip, vehicle, and report.</div></div><button class="btn ghost">Export ⬇</button></div>
-            <div class="set-row"><div><div class="nm">Sign out</div><div class="ds">End this session on the web.</div></div><button class="btn ghost" data-mmai="signout">Sign out →</button></div>
-            <div class="set-row"><div><div class="nm">Delete account</div><div class="ds">Permanent. All logs, trips, and reports erased.</div></div><button class="btn ghost" style="color:var(--accent);border-color:var(--accent)">Delete →</button></div>
+
+          <!-- DATA -->
+          <div class="set-panel sp" id="sp-data">
+            <h3>Data &amp; privacy</h3>
+            <div class="sub">Your trips and locations belong to you.</div>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row"><div><div class="nm">Location data</div><div class="ds">Required for trip detection. Stored encrypted at rest.</div></div><span class="set-val">ENABLED · IN-USE ONLY</span></div>
+              <div class="set-row"><div><div class="nm">Anonymous analytics</div><div class="ds">Help us improve trip-detection accuracy.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Crash reports</div><div class="ds">Send stack traces to debug issues.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">AI training opt-in</div><div class="ds">Use my anonymized trip patterns to improve auto-classify.</div></div><div class="toggle off"></div></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Export all data</div><div class="ds">ZIP of every trip, vehicle, place, and report (CSV + PDF).</div></div><button class="btn ghost">Export ⬇</button></div>
+              <div class="set-row"><div><div class="nm">Backup to iCloud</div><div class="ds">End-to-end encrypted snapshot. Daily.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Connected services</div><div class="ds">QuickBooks · Apple Health · Google Maps</div></div><span class="set-val edit-link">3 LINKED →</span></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Clear all trip data</div><div class="ds">Wipe trips and places. Vehicles and account preserved.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Clear →</button></div>
+              <div class="set-row"><div><div class="nm">Delete account</div><div class="ds">Permanent. All logs, trips, and reports erased within 30 days.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Delete →</button></div>
+            </div>
+          </div>
+
+          <!-- BILLING -->
+          <div class="set-panel sp" id="sp-billing">
+            <h3>Billing</h3>
+            <div class="sub">Plan, payment method, and invoices.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px">
+              <div style="border:1px solid #DA0A7F;border-radius:12px;padding:18px;background:linear-gradient(180deg,rgba(218,10,127,0.05),transparent)">
+                <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#DA0A7F">CURRENT PLAN</div>
+                <div style="font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:700;margin-top:6px">Pro</div>
+                <div style="font-size:12px;color:#6B6862;margin-top:4px">$69.99 / yr · renews Apr 14, 2027</div>
+                <div style="margin-top:14px;display:flex;gap:8px"><button class="btn ghost" style="font-size:11px;padding:6px 12px">Change plan</button><button class="btn ghost" style="font-size:11px;padding:6px 12px">Cancel</button></div>
+              </div>
+              <div style="border:1px solid #E5E7EB;border-radius:12px;padding:18px">
+                <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#6B6862">PAYMENT METHOD</div>
+                <div style="font-family:'Manrope','Inter',sans-serif;font-size:18px;font-weight:600;margin-top:6px">Visa •••• 4419</div>
+                <div style="font-size:12px;color:#6B6862;margin-top:4px">Expires 09 / 2028 · Marcus Torres</div>
+                <div style="margin-top:14px"><button class="btn ghost" style="font-size:11px;padding:6px 12px">Update card</button></div>
+              </div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Invoices</div>
+              <div class="set-row"><div><div class="nm">Apr 2026 · Pro Annual</div><div class="ds">Paid · INV-20260414</div></div><span class="set-val edit-link">$69.99 ⬇</span></div>
+              <div class="set-row"><div><div class="nm">Apr 2025 · Pro Annual</div><div class="ds">Paid · INV-20250414</div></div><span class="set-val edit-link">$59.99 ⬇</span></div>
+              <div class="set-row"><div><div class="nm">Apr 2024 · Pro Annual</div><div class="ds">Paid · INV-20240414</div></div><span class="set-val edit-link">$59.99 ⬇</span></div>
+              <div class="set-row"><div><div class="nm">Apr 2023 · Pro Annual</div><div class="ds">Paid · INV-20230414</div></div><span class="set-val edit-link">$49.99 ⬇</span></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Billing email</div><div class="ds">Where invoices are sent.</div></div><span class="set-val edit-link">marcus@torrescre.com →</span></div>
+              <div class="set-row"><div><div class="nm">Tax ID / VAT</div><div class="ds">Added to invoices for business expense tracking.</div></div><span class="set-val edit-link">+ ADD</span></div>
+            </div>
+          </div>
+
+          <!-- ACCOUNTANT -->
+          <div class="set-panel sp" id="sp-accountant">
+            <h3>Accountant</h3>
+            <div class="sub">Invite your CPA to view reports and audit-ready logs.</div>
+            <div style="display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #E5E7EB;border-radius:12px;margin-top:8px;background:#FAFAF7">
+              <div style="width:48px;height:48px;border-radius:50%;background:#0B0F0E;color:#F8F9FB;display:flex;align-items:center;justify-content:center;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:16px">SK</div>
+              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:17px;font-weight:600">Sarah Kim, CPA</div><div style="font-size:12px;color:#6B6862;margin-top:2px">sarah@kimcpa.com · Read-only · Linked Mar 2025</div></div>
+              <button class="btn ghost" style="font-size:11px;padding:6px 12px">Revoke</button>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Auto-share monthly reports</div><div class="ds">PDF + CSV emailed on the 1st of each month.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Auto-share at year-end</div><div class="ds">Full prior-year package on Jan 5.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Allow CPA to flag trips</div><div class="ds">Comments visible to you, no edit access.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Notify on CPA login</div><div class="ds">Push when they access the dashboard.</div></div><div class="toggle off"></div></div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Invite another</div>
+              <div class="set-row"><div><div class="nm">Add a tax preparer or bookkeeper</div><div class="ds">Up to 3 collaborators on Pro.</div></div><button class="btn">+ Invite</button></div>
+            </div>
+          </div>
+
+          <!-- SECURITY -->
+          <div class="set-panel sp" id="sp-security">
+            <h3>Security</h3>
+            <div class="sub">Two-factor, sessions, and recovery.</div>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row"><div><div class="nm">Password</div><div class="ds">Last changed Feb 2026.</div></div><span class="set-val edit-link">CHANGE →</span></div>
+              <div class="set-row"><div><div class="nm">Two-factor authentication</div><div class="ds">Authenticator app · 1Password</div></div><span class="set-val" style="color:#1B5E3F">ENABLED ✓</span></div>
+              <div class="set-row"><div><div class="nm">Backup codes</div><div class="ds">10 generated · 8 unused.</div></div><span class="set-val edit-link">VIEW →</span></div>
+              <div class="set-row"><div><div class="nm">Biometric unlock</div><div class="ds">Face ID required to open the app.</div></div><div class="toggle"></div></div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Active sessions <span style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.06em;margin-left:8px">3 DEVICES</span></div>
+              <div class="set-row"><div><div class="nm">iPhone 15 Pro · Oakland, CA</div><div class="ds">This device · last active just now</div></div><span class="set-val" style="color:#1B5E3F">CURRENT</span></div>
+              <div class="set-row"><div><div class="nm">MacBook Pro · Oakland, CA</div><div class="ds">Safari · last active 2 hrs ago</div></div><span class="set-val edit-link" style="color:#DA0A7F">SIGN OUT →</span></div>
+              <div class="set-row"><div><div class="nm">iPad Air · Oakland, CA</div><div class="ds">Last active 3 days ago</div></div><span class="set-val edit-link" style="color:#DA0A7F">SIGN OUT →</span></div>
+            </div>
+            <div class="set-group">
+              <div class="set-row"><div><div class="nm">Sign out everywhere</div><div class="ds">Forces a fresh login on all devices except this one.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Sign out all →</button></div>
+              <div class="set-row"><div><div class="nm">Login history</div><div class="ds">Last 30 days of sign-ins.</div></div><span class="set-val edit-link">VIEW →</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -354,7 +671,59 @@
   </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="../assets/js/app.js" defer></script>
-</body>
-</html>
+<script>
+function go(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));
+  event && event.target && event.target.classList && event.target.classList.add('on');
+  // sidebar active
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const s = document.getElementById('nav-'+name);
+  if(s) s.classList.add('active');
+  // tab active fallback (when triggered from sidebar)
+  const tabs = document.querySelectorAll('.tabs button');
+  const order = ['dashboard','trips','places','reports','vehicles','settings'];
+  const idx = order.indexOf(name);
+  tabs.forEach((b,i)=>b.classList.toggle('on', i===idx));
+  document.querySelector('.main').scrollTop = 0;
+}
+document.getElementById('nav-dashboard').classList.add('active');
+
+// ─── Settings interactivity ───
+// Left-rail nav switches the visible panel.
+document.querySelectorAll('.set-nav .snav').forEach(n => {
+  n.addEventListener('click', () => {
+    const target = n.getAttribute('data-sp');
+    document.querySelectorAll('.set-nav .snav').forEach(x => x.classList.remove('on'));
+    n.classList.add('on');
+    document.querySelectorAll('.sp').forEach(p => p.classList.remove('on'));
+    const panel = document.getElementById('sp-' + target);
+    if (panel) panel.classList.add('on');
+  });
+});
+// "Manage plan" jump-to-billing.
+document.querySelectorAll('[data-jump]').forEach(b => {
+  b.addEventListener('click', () => {
+    const t = b.getAttribute('data-jump');
+    const nav = document.querySelector('.set-nav .snav[data-sp="'+t+'"]');
+    if (nav) nav.click();
+  });
+});
+// Toggles flip on/off.
+document.querySelectorAll('#p-settings .toggle').forEach(t => {
+  t.addEventListener('click', () => t.classList.toggle('off'));
+});
+// Edit-links flash to confirm the click registers.
+document.querySelectorAll('.edit-link').forEach(el => {
+  el.addEventListener('click', () => {
+    const orig = el.textContent;
+    el.style.color = '#DA0A7F';
+    el.textContent = 'EDITING…';
+    setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 900);
+  });
+});
+</script>
+
+
+</body></html>
