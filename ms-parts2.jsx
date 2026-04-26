@@ -212,34 +212,7 @@ const MSAbout = () => {
           Built by drivers, for the people who can't stop driving.
         </h2>
         <div style={{fontSize:16,lineHeight:1.65,color:'#4A4843'}}>
-          <p style={{marginBottom:18}}>MyMilesAI started in 2021 in a 2014 Honda Civic somewhere on I-35 between Austin and Dallas. Our co-founders were a tax CPA and a machine-learning engineer who realized the same thing on the same week: the average self-employed driver was leaving thousands of dollars on the table because manual mileage logging is broken.</p>
-          <p>Five years later, we're a team of 47 across Austin, Lisbon, and remote — building the first mileage tracker that drivers actually keep installed.</p>
-        </div>
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'#E6E1D8',border:'1px solid #E6E1D8',borderRadius:16,overflow:'hidden',marginBottom:96}}>
-        {stats.map(s=>(
-          <div key={s.n} style={{padding:'40px 32px',background:'#F6F3EE'}}>
-            <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:34,letterSpacing:'-0.02em',color:'#0B0F0E',lineHeight:1}}>{s.n}</div>
-            <div style={{fontSize:13,color:'#4A4843',marginTop:14,lineHeight:1.5}}>{s.l}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1.2fr',gap:80,alignItems:'start'}}>
-        <div>
-          <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:18}}>— Leadership</div>
-          <h3 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:36,letterSpacing:'-0.015em',lineHeight:1.1,marginBottom:14}}>The people behind the algorithm.</h3>
-          <p style={{fontSize:14,color:'#4A4843',lineHeight:1.6,maxWidth:380}}>Tax expertise meets machine-learning engineering. Every decision routed through both lenses.</p>
-        </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:20}}>
-          {team.map(t=>(
-            <div key={t.n} style={{padding:'24px',background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:14,display:'flex',gap:16,alignItems:'center'}}>
-              <div style={{width:56,height:56,borderRadius:'50%',background:t.bg,color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:18,flexShrink:0}}>{t.i}</div>
-              <div>
-                <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:600,fontSize:16,letterSpacing:'-0.005em'}}>{t.n}</div>
-                <div style={{fontSize:12,color:'#6B6862',marginTop:2}}>{t.r}</div>
-              </div>
-            </div>
-          ))}
+          <p>MyMilesAI started in 2026. A machine-learning engineer realized the average self-employed driver was leaving thousands of dollars on the table because manual mileage logging is broken. Tax expertise meets machine-learning engineering — every decision routed through both lenses. The people behind the algorithm.</p>
         </div>
       </div>
     </section>
