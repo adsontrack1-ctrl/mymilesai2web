@@ -12,24 +12,9 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'Geist','Inter',sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#DA0A7F;color:#FFFFFF}
-  /* Device toggle */
-  .device-toggle{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;background:#0B0F0E;color:#F6F3EE;border-radius:100px;padding:4px;display:flex;gap:2px;font-family:'Geist Mono','Geist',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;box-shadow:0 8px 24px -8px rgba(0,0,0,0.3)}
-  .device-toggle button{background:transparent;color:#F6F3EE;border:none;padding:6px 12px;border-radius:100px;cursor:pointer;font-family:inherit;font-size:inherit;letter-spacing:inherit}
-  .device-toggle button.active{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF}
-  .mobile-frame{max-width:390px;margin:24px auto;border:10px solid #0B0F0E;border-radius:44px;overflow:hidden;box-shadow:0 40px 80px -20px rgba(11,15,14,0.25);background:#F6F3EE}
-  .mobile-frame section{padding-left:20px!important;padding-right:20px!important}
-  .mobile-frame h1{font-size:56px!important}
-  .mobile-frame h2{font-size:40px!important}
-  .mobile-frame [data-grid]{grid-template-columns:1fr!important}
-  .mobile-frame h1 span{white-space:normal!important}
-  .mobile-frame .nav-links, .mobile-frame .nav-signin{display:none!important}
 </style>
 </head>
 <body>
-<div class="device-toggle">
-  <button id="btn-desk" class="active" onclick="setDev('desk')">Desktop</button>
-  <button id="btn-mob" onclick="setDev('mob')">Mobile</button>
-</div>
 <div id="root"></div>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -53,15 +38,6 @@ const Site = () => (
   </>
 );
 ReactDOM.createRoot(document.getElementById('root')).render(<Site/>);
-</script>
-<script>
-function setDev(m){
-  const root = document.getElementById('root');
-  const desk = document.getElementById('btn-desk');
-  const mob = document.getElementById('btn-mob');
-  if(m==='mob'){ root.classList.add('mobile-frame'); mob.classList.add('active'); desk.classList.remove('active'); }
-  else { root.classList.remove('mobile-frame'); desk.classList.add('active'); mob.classList.remove('active'); }
-}
 </script>
 </body>
 </html>
