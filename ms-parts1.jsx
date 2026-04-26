@@ -80,13 +80,13 @@ const MSNav = ({mobile}) => {
   const here = (typeof window!=='undefined' ? window.location.pathname.split('/').pop() : '') || 'marketing-site.html';
   if(mobile) return (
     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #E6E1D8'}}>
-      <a href="marketing-site.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
-      <button style={{background:'transparent',color:'#0B0F0E',border:'1px solid #0B0F0E',padding:'8px 16px',borderRadius:100,fontSize:12,fontWeight:500}}>Sign In</button>
+      <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
+      <a href="signin/" style={{background:'transparent',color:'#0B0F0E',border:'1px solid #0B0F0E',padding:'8px 16px',borderRadius:100,fontSize:12,fontWeight:500,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Sign In</a>
     </div>
   );
   return (
     <div className="nav-links" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'22px 56px',position:'sticky',top:0,background:'rgba(246,243,238,0.88)',backdropFilter:'blur(14px)',zIndex:50,borderBottom:'1px solid rgba(11,15,14,0.05)'}}>
-      <a href="marketing-site.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
+      <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
       <div style={{display:'flex',gap:40,fontSize:14,color:'#1F1D1A'}}>
         {links.map(l=>{
           const active = here === l.href;
@@ -94,7 +94,7 @@ const MSNav = ({mobile}) => {
         })}
       </div>
       <div className="nav-signin" style={{display:'flex',alignItems:'center',gap:14}}>
-        <button style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E6E1D8'}}>Sign In</button>
+        <a href="signin/" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s',textDecoration:'none',display:'inline-flex',alignItems:'center'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E6E1D8'}}>Sign In</a>
       </div>
     </div>
   );
