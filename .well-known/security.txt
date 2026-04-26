@@ -1,0 +1,11 @@
+Contact: mailto:security@mymilesai.com
+Contact: mailto:harijasllc@outlook.com
+Expires: 2027-04-26T00:00:00.000Z
+Encryption: https://mymilesai.com/.well-known/security.txt
+Preferred-Languages: en
+Canonical: https://mymilesai.com/.well-known/security.txt
+Policy: https://mymilesai.com/privacy/
+Acknowledgments: https://mymilesai.com/.well-known/security.txt
+
+# We appreciate responsible disclosure. Please give us 30 days to remediate
+# before public disclosure. We do not currently offer a paid bug bounty.

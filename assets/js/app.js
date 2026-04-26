@@ -18,9 +18,8 @@
   const _sb = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
   });
-
-  // Expose for debugging
-  window._sb = _sb;
+  // Closure-only — never expose on `window`. Any extension or console
+  // attacker who got that handle would have full session privileges.
 
   // ───────── Auth guard ─────────
   async function guard() {

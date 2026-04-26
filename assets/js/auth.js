@@ -14,7 +14,9 @@
   const _sb = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
   });
-  window._sb = _sb;
+  // Closure-only reference. Earlier debug code attached this to window which
+  // let any console attacker / extension call _sb.auth.* with full session
+  // privileges. Keep it private.
 
   const CALLBACK_URL = 'https://mymilesai.com/auth-callback/';
 
