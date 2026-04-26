@@ -94,51 +94,34 @@ const MSAudience = () => {
 
 const MSTestimonials = () => {
   const q = [
-    {q:'"I found $4,200 in deductions I\'d have missed. Paid for itself 60 times over in year one."',who:'Marcus T.',role:'Uber driver · Austin, TX',stars:5},
+    {q:'"I found $4,200 in deductions I\'d have missed. Paid for itself 60 times over in year one."',who:'Tina B.',role:'Business Owner · Tracy, CA',stars:5},
     {q:'"Finally — a mileage log that doesn\'t make my clients cry during tax season."',who:'Janet R., CPA',role:'Oak & Co. Accounting',stars:5},
     {q:'"I left DoorDash\'s built-in tracker. This one never misses a drive."',who:'Priya M.',role:'DoorDash · NYC',stars:5},
     {q:'"My agents save 8 hours a month. Adoption across the brokerage hit 94%."',who:'David K.',role:'Broker-owner · Keller Williams',stars:5},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
-        <div style={{position:'sticky',top:120}}>
-          <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Loved by drivers. Trusted by CPAs.</div>
-          <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:24}}>
-            Loved by drivers.<br/>Trusted by CPAs.
-          </h2>
-          <div style={{display:'flex',gap:32,marginTop:40,paddingTop:32,borderTop:'1px solid #E6E1D8'}}>
-            <div><div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:32,lineHeight:1}}>4.9</div><div style={{fontSize:12,color:'#6B6862',fontFamily:'Geist Mono',letterSpacing:'0.1em',textTransform:'uppercase',marginTop:6}}>App Store</div></div>
-            <div><div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:32,lineHeight:1}}>4.8</div><div style={{fontSize:12,color:'#6B6862',fontFamily:'Geist Mono',letterSpacing:'0.1em',textTransform:'uppercase',marginTop:6}}>Google Play</div></div>
-            <div><div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:32,lineHeight:1,color:'#1B5E3F'}}>$2.4B</div><div style={{fontSize:12,color:'#6B6862',fontFamily:'Geist Mono',letterSpacing:'0.1em',textTransform:'uppercase',marginTop:6}}>tracked in '25</div></div>
-          </div>
-        </div>
-        <div style={{display:'flex',flexDirection:'column',gap:18}}>
-          {q.map((t,i)=>(
-            <div key={i} style={{background:'#FAFAF9',border:'1px solid #EEEBE5',borderRadius:16,padding:28}}>
-              <div style={{color:'#F59E0B',fontSize:14,letterSpacing:3,marginBottom:14}}>{'★'.repeat(t.stars)}</div>
-              <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:20,lineHeight:1.35,marginBottom:18,letterSpacing:'-0.01em'}}>{t.q}</div>
-              <div style={{display:'flex',alignItems:'center',gap:12,fontSize:13}}>
-                <div style={{width:38,height:38,borderRadius:'50%',background:`hsl(${25+i*55},45%,65%)`}}/>
-                <div>
-                  <div style={{fontWeight:600}}>{t.who}</div>
-                  <div style={{color:'#6B6862',fontSize:12}}>{t.role}</div>
-                </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:18,maxWidth:1100,margin:'0 auto'}}>
+        {q.map((t,i)=>(
+          <div key={i} style={{background:'#FAFAF9',border:'1px solid #EEEBE5',borderRadius:16,padding:28}}>
+            <div style={{color:'#F59E0B',fontSize:14,letterSpacing:3,marginBottom:14}}>{'★'.repeat(t.stars)}</div>
+            <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:20,lineHeight:1.35,marginBottom:18,letterSpacing:'-0.01em'}}>{t.q}</div>
+            <div style={{display:'flex',alignItems:'center',gap:12,fontSize:13}}>
+              <div style={{width:38,height:38,borderRadius:'50%',background:`hsl(${25+i*55},45%,65%)`}}/>
+              <div>
+                <div style={{fontWeight:600}}>{t.who}</div>
+                <div style={{color:'#6B6862',fontSize:12}}>{t.role}</div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );
 };
 
 const MSPricing = () => {
-  const tiers = [
-    {name:'Lite',price:'Free',sub:'forever',desc:'For occasional drivers who want to get a feel.',features:['40 drives / month','Manual classify','CSV export','Email support'],cta:'Start free',dark:false},
-    {name:'Pro',price:'$5.83',sub:'/mo billed annually · $69.99/yr',desc:'The default. Everything a serious driver needs.',features:['Unlimited drives','AI auto-classify','IRS-ready PDF exports','Routes & work hours','Priority support','Multi-vehicle'],cta:'Start 7-day free trial',dark:true,badge:'MOST POPULAR'},
-    {name:'Teams',price:'$12',sub:'/user/mo · billed annually',desc:'For brokerages, sales teams, and CPAs.',features:['Everything in Pro','Accountant portal','Client management','SSO + admin console','Bulk exports · Quickbooks sync','Dedicated CSM'],cta:'Book a demo',dark:false},
-  ];
+  const t = {name:'Pro',price:'$6.99',sub:'/mo · $69.99/yr billed annually',desc:'The default. Everything a serious driver needs.',features:['Unlimited drives','AI auto-classify','IRS-ready PDF exports','Routes & work hours','Priority support','Multi-vehicle'],cta:'Start 7-day free trial',dark:true,badge:'MOST POPULAR'};
   return (
     <section id="pricing" style={{padding:'120px 56px'}}>
       <div style={{textAlign:'center',marginBottom:64}}>
@@ -147,30 +130,28 @@ const MSPricing = () => {
           Costs less than one forgotten drive per month.
         </h2>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,maxWidth:1200,margin:'0 auto'}}>
-        {tiers.map(t=>(
-          <div key={t.name} style={{background:t.dark?'#0B0F0E':'#FFFFFF',color:t.dark?'#F6F3EE':'#0B0F0E',border:`1px solid ${t.dark?'#0B0F0E':'#E6E1D8'}`,borderRadius:20,padding:36,position:'relative',display:'flex',flexDirection:'column'}}>
-            {t.badge && <div style={{position:'absolute',top:-12,left:36,background:'#DA0A7F',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:10,fontFamily:'Geist Mono',letterSpacing:'0.15em'}}>{t.badge}</div>}
-            <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:24,marginBottom:6}}>{t.name}</div>
-            <div style={{fontSize:14,color:t.dark?'rgba(246,243,238,0.65)':'#6B6862',marginBottom:28,minHeight:40}}>{t.desc}</div>
-            <div style={{display:'flex',alignItems:'baseline',gap:6,marginBottom:4}}>
-              <span style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1}}>{t.price}</span>
-            </div>
-            <div style={{fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.08em',color:t.dark?'rgba(246,243,238,0.55)':'#6B6862',marginBottom:28}}>{t.sub}</div>
-            <button style={{background:t.dark?'#FFFFFF':'#0B0F0E',color:t.dark?'#0B0F0E':'#F6F3EE',border:'none',padding:'14px',borderRadius:100,fontSize:14,fontWeight:500,cursor:'pointer',marginBottom:32}}>{t.cta}</button>
-            <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:`1px solid ${t.dark?'rgba(246,243,238,0.15)':'#E6E1D8'}`}}>
-              {t.features.map(f=>(
-                <div key={f} style={{display:'flex',gap:10,fontSize:14}}>
-                  <span style={{color:'#1B5E3F'}}>✓</span>
-                  <span>{f}</span>
-                </div>
-              ))}
-            </div>
+      <div style={{display:'flex',justifyContent:'center',maxWidth:1200,margin:'0 auto'}}>
+        <div style={{background:t.dark?'#0B0F0E':'#FFFFFF',color:t.dark?'#F6F3EE':'#0B0F0E',border:`1px solid ${t.dark?'#0B0F0E':'#E6E1D8'}`,borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:440}}>
+          {t.badge && <div style={{position:'absolute',top:-12,left:40,background:'#DA0A7F',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:10,fontFamily:'Geist Mono',letterSpacing:'0.15em'}}>{t.badge}</div>}
+          <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:24,marginBottom:6}}>{t.name}</div>
+          <div style={{fontSize:14,color:t.dark?'rgba(246,243,238,0.65)':'#6B6862',marginBottom:28,minHeight:40}}>{t.desc}</div>
+          <div style={{display:'flex',alignItems:'baseline',gap:6,marginBottom:4}}>
+            <span style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1}}>{t.price}</span>
           </div>
-        ))}
+          <div style={{fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.08em',color:t.dark?'rgba(246,243,238,0.55)':'#6B6862',marginBottom:28}}>{t.sub}</div>
+          <button style={{background:t.dark?'#FFFFFF':'#0B0F0E',color:t.dark?'#0B0F0E':'#F6F3EE',border:'none',padding:'14px',borderRadius:100,fontSize:14,fontWeight:500,cursor:'pointer',marginBottom:32}}>{t.cta}</button>
+          <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:`1px solid ${t.dark?'rgba(246,243,238,0.15)':'#E6E1D8'}`}}>
+            {t.features.map(f=>(
+              <div key={f} style={{display:'flex',gap:10,fontSize:14}}>
+                <span style={{color:'#DA0A7F'}}>✓</span>
+                <span>{f}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <div style={{textAlign:'center',marginTop:40,fontSize:13,color:'#6B6862'}}>
-        30-day money back · cancel anytime · no credit card for free trial
+        7-day money back · cancel anytime · no credit card for free trial
       </div>
     </section>
   );
@@ -221,7 +202,7 @@ const MSAbout = () => {
     {n:'Anya Reyes',r:'Co-founder, CEO',bg:'linear-gradient(135deg,#7C3AED,#DA0A7F)',i:'AR'},
     {n:'Daniel Park',r:'Co-founder, CTO',bg:'linear-gradient(135deg,#0EA5E9,#7C3AED)',i:'DP'},
     {n:'Priya Shah',r:'Head of Tax & Compliance',bg:'linear-gradient(135deg,#DA0A7F,#F59E0B)',i:'PS'},
-    {n:'Marcus Liu',r:'Head of Product',bg:'linear-gradient(135deg,#1B5E3F,#0EA5E9)',i:'ML'},
+    {n:'Marcus Liu',r:'Head of Product',bg:'linear-gradient(135deg,#DA0A7F,#0EA5E9)',i:'ML'},
   ];
   return (
     <section style={{padding:'140px 56px',background:'#F6F3EE',color:'#0B0F0E'}}>
@@ -276,7 +257,6 @@ const MSCTA = () => (
     </p>
     <div style={{display:'flex',gap:12,justifyContent:'center'}}>
       <button style={{background:'linear-gradient(90deg,#7C3AED,#DA0A7F)',color:'#FFFFFF',border:'none',padding:'20px 32px',borderRadius:100,fontSize:16,fontWeight:600,cursor:'pointer',boxShadow:'0 12px 32px -8px rgba(124,58,237,0.5)'}}>Start tracking — free</button>
-      <button style={{background:'transparent',color:'#F6F3EE',border:'1px solid rgba(246,243,238,0.3)',padding:'19px 30px',borderRadius:100,fontSize:16,cursor:'pointer'}}>Book CPA demo</button>
     </div>
   </section>
 );

@@ -77,16 +77,16 @@ const MSNav = ({mobile}) => {
     {label:'Blog', href:'blog.html'},
     {label:'About', href:'about.html'},
   ];
-  const here = (typeof window!=='undefined' ? window.location.pathname.split('/').pop() : '') || 'index.html';
+  const here = (typeof window!=='undefined' ? window.location.pathname.split('/').pop() : '') || 'marketing-site.html';
   if(mobile) return (
     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #E6E1D8'}}>
-      <a href="index.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
+      <a href="marketing-site.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
       <button style={{background:'transparent',color:'#0B0F0E',border:'1px solid #0B0F0E',padding:'8px 16px',borderRadius:100,fontSize:12,fontWeight:500}}>Sign In</button>
     </div>
   );
   return (
     <div className="nav-links" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'22px 56px',position:'sticky',top:0,background:'rgba(246,243,238,0.88)',backdropFilter:'blur(14px)',zIndex:50,borderBottom:'1px solid rgba(11,15,14,0.05)'}}>
-      <a href="index.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
+      <a href="marketing-site.html" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
       <div style={{display:'flex',gap:40,fontSize:14,color:'#1F1D1A'}}>
         {links.map(l=>{
           const active = here === l.href;
@@ -94,7 +94,6 @@ const MSNav = ({mobile}) => {
         })}
       </div>
       <div className="nav-signin" style={{display:'flex',alignItems:'center',gap:14}}>
-        <MSRegionPill/>
         <button style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E6E1D8'}}>Sign In</button>
       </div>
     </div>
@@ -210,7 +209,7 @@ const MSFeatures = () => {
               <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:20}}>{f.h}</h2>
               <p style={{fontSize:16,lineHeight:1.55,color:'#4A4843',maxWidth:480,marginBottom:28}}>{f.p}</p>
               <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E6E1D8',maxWidth:280}}>
-                <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:38,color:'#1B5E3F',lineHeight:1}}>{f.stat}</div>
+                <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:38,color:'#DA0A7F',lineHeight:1}}>{f.stat}</div>
                 <div style={{fontSize:13,color:'#6B6862'}}>{f.label}</div>
               </div>
             </div>
@@ -264,7 +263,7 @@ const FeatVisClassify = () => (
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           {t.auto && <span style={{fontFamily:'Geist Mono',fontSize:9,letterSpacing:'0.12em',color:'#DA0A7F'}}>AI</span>}
-          <span style={{padding:'6px 12px',borderRadius:100,background:t.cls==='biz'?'#1B5E3F':'#E6E1D8',color:t.cls==='biz'?'#F6F3EE':'#0B0F0E',fontSize:11,fontWeight:500}}>{t.cls==='biz'?'Business':'Personal'}</span>
+          <span style={{padding:'6px 12px',borderRadius:100,background:t.cls==='biz'?'#DA0A7F':'#E6E1D8',color:t.cls==='biz'?'#F6F3EE':'#0B0F0E',fontSize:11,fontWeight:500}}>{t.cls==='biz'?'Business':'Personal'}</span>
         </div>
       </div>
     ))}
@@ -278,19 +277,19 @@ const FeatVisAudit = () => (
         <div style={{color:'#6B6862',marginBottom:4}}>IRS FORM 2106 — 2026</div>
         <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:18,fontStyle:'normal'}}>Mileage Log · Q1 Summary</div>
       </div>
-      <div style={{padding:'6px 10px',background:'#1B5E3F',color:'#F6F3EE',borderRadius:100,fontFamily:"'Geist Mono','Geist',monospace",fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
+      <div style={{padding:'6px 10px',background:'#DA0A7F',color:'#F6F3EE',borderRadius:100,fontFamily:"'Geist Mono','Geist',monospace",fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
     </div>
     <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B6862',marginBottom:10}}>
       <div>DATE</div><div>ROUTE</div><div style={{textAlign:'right'}}>MILES</div><div style={{textAlign:'right'}}>$</div>
     </div>
     {[['01/04','Home → Client A · Sales call','24.1','17.47'],['01/04','Client A → Client B · Consultation','12.8','9.28'],['01/05','Home → Warehouse · Supplies','8.4','6.09'],['01/06','Office → Airport · Conference travel','31.2','22.62']].map((r,i)=>(
       <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F6F3EE',fontSize:11}}>
-        <div>{r[0]}</div><div style={{color:'#0B0F0E'}}>{r[1]}</div><div style={{textAlign:'right'}}>{r[2]}</div><div style={{textAlign:'right',color:'#1B5E3F'}}>${r[3]}</div>
+        <div>{r[0]}</div><div style={{color:'#0B0F0E'}}>{r[1]}</div><div style={{textAlign:'right'}}>{r[2]}</div><div style={{textAlign:'right',color:'#DA0A7F'}}>${r[3]}</div>
       </div>
     ))}
     <div style={{marginTop:16,paddingTop:12,borderTop:'1px solid #0B0F0E',display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
       <span style={{color:'#6B6862'}}>Q1 TOTAL · 247 TRIPS</span>
-      <span style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:24,color:'#1B5E3F'}}>$2,183.14</span>
+      <span style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:24,color:'#DA0A7F'}}>$2,183.14</span>
     </div>
   </div>
 );
