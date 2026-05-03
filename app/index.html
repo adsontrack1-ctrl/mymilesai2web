@@ -1,4 +1,5 @@
 <!DOCType html><html lang="en"><head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' data: https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://accounts.google.com https://appleid.apple.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 
 
 <meta charset="utf-8">
@@ -195,8 +196,19 @@
   .pbadge{display:inline-block;padding:3px 8px;border-radius:100px;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em;}
   .pbadge.biz{background:rgba(27,94,63,0.12);color:#1B5E3F}
   .pbadge.pers{background:rgba(218,10,127,0.12);color:#DA0A7F}
+  body:not(.mmai-ready) .main { visibility: hidden; }
+  .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
+  .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
+  .signout-link:hover { color: #DA0A7F; }
 </style>
-<link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap"></head>
+<link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
+<script>
+  window.__MMAI_CONFIG__ = {
+    SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
+    SUPABASE_ANON_KEY: 'sb_publishable_fiH2OGcy-0lon9qlXxFFIg_QqTDhm3u'
+  };
+</script>
+</head>
 <body>
 <div class="header">
   <div class="title">Logged-in app · Complete package</div>
@@ -220,7 +232,7 @@
     </div>
     <div class="nav-section">Drive</div>
     <div class="nav-item active" id="nav-dashboard" onclick="go('dashboard')"><span class="ic">◐</span>Dashboard</div>
-    <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count">847</span></div>
+    <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">847</span></div>
     <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count">42</span></div>
     <div class="nav-section">Business</div>
     <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports</div>
@@ -230,9 +242,10 @@
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
     <div class="nav-item"><span class="ic">?</span>Help</div>
     <div class="profile">
-      <div class="avatar"></div>
-      <div><div class="nm">Marcus T.</div><div class="em">Pro · 2026</div></div>
+      <div class="avatar" data-mmai="profile-initial"></div>
+      <div><div class="nm" data-mmai="profile-name">Marcus T.</div><div class="em" data-mmai="profile-plan">Pro · 2026</div></div>
     </div>
+    <a href="#" data-mmai="signout" class="signout-link">Sign out</a>
   </aside>
   <main class="main">
 
@@ -240,8 +253,11 @@
     <section class="page on" id="p-dashboard" data-screen-label="App 01 Dashboard">
       <div class="topbar">
         <div>
-          <div class="eyebrow">Tuesday · April 22</div>
-          <div class="greeting">Good afternoon, Marcus —<br>you have <em>3 trips to review.</em></div>
+          <div class="eyebrow" data-mmai="eyebrow-date">Tuesday · April 22</div>
+          <div class="greeting">
+            <span data-mmai="greeting-name">Good afternoon, Marcus —</span><br>
+            you have <em><span data-mmai="greeting-count">3</span> trips to review.</em>
+          </div>
         </div>
         <div class="tools">
           <input class="search" placeholder="Search trips, places, reports…">
@@ -252,7 +268,7 @@
         <div class="kpi dark">
           <div class="pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px"><span class="pdot"></span>Live · auto-detecting</div>
           <div class="l" style="margin-bottom:6px">YTD deduction · 2026</div>
-          <div class="v" style="color:#DA0A7F">$7,428.14</div>
+          <div class="v" style="color:#DA0A7F" data-mmai="ytd-deduction">$7,428.14</div>
           <div class="s">+ $312.40 this week <span class="up">▲ 4.4%</span></div>
           <div class="chart">
             <span style="height:30%"></span><span style="height:45%"></span><span style="height:38%"></span>
@@ -261,13 +277,13 @@
             <span style="height:90%" class="hi"></span><span style="height:76%"></span><span style="height:88%" class="hi"></span>
           </div>
         </div>
-        <div class="kpi green"><div class="l">Miles · month</div><div class="v">2,184</div><div class="s"><span class="up">▲ 12%</span> vs March</div></div>
-        <div class="kpi"><div class="l">Business %</div><div class="v">71%</div><div class="s">1,551 of 2,184 mi</div></div>
-        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F">3</div><div class="s">Trips since 8am today</div></div>
+        <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">2,184</div></div>
+        <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">71%</div><div class="s" data-mmai="business-of-total">1,551 of 2,184 mi</div></div>
+        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F" data-mmai="needs-review">3</div><div class="s">Trips since 8am today</div></div>
       </div>
       <div class="content">
         <div class="panel">
-          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Swipe right for Business · left for Personal · AI auto-classifies recurring routes</div></div><a>View all 847 →</a></div>
+          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Swipe right for Business · left for Personal · AI auto-classifies recurring routes</div></div><a>View all <span data-mmai="trips-count">847</span> →</a></div>
           <div class="trip"><div class="time">2:14pm</div><div><div class="from">Office → 1450 Market St</div><div class="to">San Francisco · Client visit · 11 min</div></div><div class="mi">4.2<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
           <div class="trip"><div class="time">12:02pm</div><div><div class="from">Office → Tartine Bakery</div><div class="to">Lunch · 6 min</div></div><div class="mi">1.8<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
           <div class="trip"><div class="time">8:14am</div><div><div class="from">Home → Downtown Office</div><div class="to">Commute · 22 min · Daily route</div></div><div class="mi">12.1<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag biz">✓ Business · AI</div></div>
@@ -300,7 +316,7 @@
     <section class="page" id="p-trips" data-screen-label="App 02 Trips">
       <div class="topbar">
         <div>
-          <div class="eyebrow">847 trips · 3 need review</div>
+          <div class="eyebrow"><span data-mmai="trips-count">847</span> trips · 3 need review</div>
           <div class="greeting">All <em>trips</em></div>
         </div>
         <div class="tools">
@@ -310,7 +326,7 @@
         </div>
       </div>
       <div class="filter-row">
-        <span class="pill on">All<span class="ct">847</span></span>
+        <span class="pill on">All<span class="ct" data-mmai="trips-count">847</span></span>
         <span class="pill">Business<span class="ct">604</span></span>
         <span class="pill">Personal<span class="ct">240</span></span>
         <span class="pill" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct">3</span></span>
@@ -671,6 +687,8 @@
   </main>
 </div>
 
+<script src="../assets/vendor/supabase.min.js"></script>
+<script src="../assets/js/app.js"></script>
 <script>
 function go(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));

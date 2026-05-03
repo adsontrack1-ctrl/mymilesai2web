@@ -142,9 +142,7 @@
     const first = name.split(' ')[0];
     setText('[data-mmai="eyebrow-date"]', `${formatDate().split(',')[0]} · ${formatDate().split(',').slice(1).join(',').trim()}`);
     setText('[data-mmai="greeting-name"]', `${greetingFor()}, ${first} —`);
-    setText('[data-mmai="greeting-count"]', kpis.needsReview
-      ? `you have ${kpis.needsReview} ${kpis.needsReview === 1 ? 'trip' : 'trips'} to review.`
-      : `you're all caught up.`);
+    setText('[data-mmai="greeting-count"]', String(kpis.needsReview));
     setText('[data-mmai="profile-name"]', name);
     setText('[data-mmai="profile-plan"]', `${profile.plan || 'Free'} · ${new Date().getFullYear()}`);
 
@@ -159,7 +157,9 @@
     setText('[data-mmai="business-pct"]', `${kpis.businessPct}%`);
     setText('[data-mmai="business-of-total"]', `${kpis.businessMiles.toFixed(0)} of ${kpis.totalMiles.toFixed(0)} mi`);
     setText('[data-mmai="needs-review"]', kpis.needsReview);
-    setText('[data-mmai="trips-count"]', kpis.tripCount.toLocaleString());
+    $$('[data-mmai="trips-count"]').forEach((el) => {
+      el.textContent = kpis.tripCount.toLocaleString();
+    });
   }
 
   // ───────── Sign-out ─────────
