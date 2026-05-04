@@ -255,7 +255,10 @@ const MSFooter = () => (
     </div>
     <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.05em'}}>
       <span>© 2026 MyMiles, Inc. · Austin, TX</span>
-      <span>SOC 2 · GDPR · IRS PUBLICATION 463 COMPLIANT</span>
+      <span>SOC 2 · GDPR · IRS PUB. 463 FORMAT</span>
+    </div>
+    <div style={{paddingTop:24,fontSize:11,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
+      <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available IRS and CRA guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee IRS or tax-authority acceptance of your records or your tax return.
     </div>
   </footer>
 );

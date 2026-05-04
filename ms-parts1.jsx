@@ -170,7 +170,7 @@ const MSHow = () => {
   const steps = [
     {n:'01',title:'You drive.',body:'Start your car. MyMilesAI detects motion via GPS + accelerometer and logs the trip silently — even with the app closed.',meta:'Zero taps · Background mode'},
     {n:'02',title:'You classify.',body:'At the end of the day, swipe each trip left for Personal, right for Business. Our AI learns your patterns and auto-classifies repeat routes.',meta:'~12 seconds / day'},
-    {n:'03',title:'You deduct.',body:'Export an IRS-compliant PDF with dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. File with confidence.',meta:'One tap export'},
+    {n:'03',title:'You deduct.',body:'Export a PDF in IRS Pub. 463 format — dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. Review with your tax professional before filing.',meta:'One tap export'},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
@@ -195,9 +195,9 @@ const MSHow = () => {
 /* FEATURE SHOWCASE — split visual + copy */
 const MSFeatures = () => {
   const feats = [
-    {k:'AUTO-DETECT',h:'The trip tracker that never forgets.',p:'Our motion engine runs at 1% battery cost and captures every drive — not just the ones you remember. Miss a trip, miss $20. We miss nothing.',stat:'99.4%',label:'of drives detected'},
+    {k:'AUTO-DETECT',h:'The trip tracker that never forgets.',p:'Our motion engine runs at 1% battery cost and captures every drive — not just the ones you remember. Every captured mile is a deductible mile you would have missed.',stat:'99.4%',label:'of drives detected'},
     {k:'AI CLASSIFY',h:'Teaches itself your routes.',p:'After a week, 80% of your trips classify themselves. Recurring client visits, regular suppliers, the drive to your rental — all learned, all automated.',stat:'~12s',label:'daily review time'},
-    {k:'AUDIT-READY',h:'Built to survive an IRS audit.',p:'Every log includes GPS traces, timestamps, odometer readings, purpose, and the IRS rate at the time of drive. A mileage log that a Revenue Agent actually respects.',stat:'98.7%',label:'audit pass rate'},
+    {k:'AUDIT-READY',h:'Records that hold up to an IRS audit.',p:'Every log includes GPS traces, timestamps, odometer readings, purpose, and the IRS rate at the time of drive — the four substantiation elements required by IRS Pub. 463.',stat:'4 / 4',label:'IRS Pub. 463 elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
