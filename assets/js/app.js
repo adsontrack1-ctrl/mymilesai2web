@@ -653,7 +653,18 @@
     const summary = $('[data-mmai="rep-summary"]');
     if (!summary) return;
     if (!trips.length) {
-      summary.innerHTML = '<div style="padding:14px 0;color:#6B6862;font-size:11px">No trips in this period match the filter.</div>';
+      // Build an actionable hint based on what's currently selected.
+      let hint = '';
+      const v = _reportState.vehicle;
+      const c = _reportState.classification;
+      if (v && v !== UNASSIGNED_VID) {
+        hint = 'Try a different vehicle, "All vehicles", or pick "Unassigned" if your trips don\'t have a vehicle tag.';
+      } else if (c === 'biz') {
+        hint = 'Try Classification: "All trips" — your trips may be unclassified ("Needs review").';
+      } else {
+        hint = 'Try a wider period (YTD or Last year).';
+      }
+      summary.innerHTML = `<div style="padding:14px 0;color:#6B6862;font-size:11px;line-height:1.5">No trips match this filter.<br><span style="color:#0B0F0E">${escapeHtml(hint)}</span></div>`;
       return;
     }
     const top = trips.slice(0, 6);
