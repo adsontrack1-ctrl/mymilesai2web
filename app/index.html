@@ -212,6 +212,12 @@
   .toggle.disabled { opacity: 0.4; pointer-events: none; }
   .pill[data-trips-filter] { cursor: pointer; user-select: none; }
   .pill[data-trips-filter]:hover { filter: brightness(0.97); }
+  .pill[data-rep-period], .pill[data-rep-class], .pill[data-rep-format] { cursor: pointer; user-select: none; }
+  .pill[data-rep-period]:hover, .pill[data-rep-class]:hover, .pill[data-rep-format]:hover { filter: brightness(0.97); }
+  .vcheck[data-rep-vehicle] { cursor: pointer; user-select: none; transition: transform 0.05s ease; }
+  .vcheck[data-rep-vehicle]:hover { filter: brightness(0.97); }
+  .vcheck[data-rep-vehicle]:active { transform: scale(0.99); }
+  .vehicle-notice { font-size: 11px; color: #6B6862; padding: 8px 12px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; margin-top: 8px; line-height: 1.45; }
 </style>
 <link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
 <script>
