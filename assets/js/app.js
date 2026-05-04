@@ -23,7 +23,13 @@
   // Closure state for the trips page filter pills.
   let _allTrips = [];
   let _profileRef = {};
+  let _vehiclesList = [];
   let _tripsFilter = 'all';
+
+  // Sentinel for trips with no vehicle_id assigned. Used as a pseudo-vehicle
+  // option in the Reports page vehicle filter so users can see those trips
+  // explicitly instead of wondering why their per-vehicle filter is empty.
+  const UNASSIGNED_VID = '__unassigned__';
 
   // ───────── Auth guard ─────────
   async function guard() {
@@ -539,15 +545,16 @@
       if (d < start || d >= end) return false;
       if (cls === 'biz' && !isBusiness(t.type)) return false;
       if (cls === 'bizpers' && !isBusiness(t.type) && !isPersonal(t.type)) return false;
-      if (wantVid) {
+      if (wantVid === UNASSIGNED_VID) {
+        // "Unassigned" pseudo-vehicle: only trips with null vehicle_id.
+        if (t.vehicle_id) return false;
+      } else if (wantVid) {
         if (t.vehicle_id) {
           if (t.vehicle_id !== wantVid) return false;
-        } else if (defaultVid) {
-          // Trip has no vehicle assigned: attribute to the user's default.
-          if (defaultVid !== wantVid) return false;
+        } else if (defaultVid && defaultVid === wantVid) {
+          // Trip is unassigned but the user's default vehicle is the one they
+          // picked: attribute the trip to the default vehicle.
         } else {
-          // No default vehicle set and trip is unassigned — exclude from
-          // per-vehicle filter. The notice below tells the user why.
           return false;
         }
       }
@@ -555,41 +562,75 @@
     });
   }
 
-  function renderReportVehicleChecks(vehicles) {
+  function computeVehicleCounts() {
+    // Count trips per vehicle for the current period + classification (but
+    // ignoring the vehicle filter — that's what we're trying to summarize).
+    const [start, end] = periodRange(_reportState.period);
+    const cls = _reportState.classification;
+    const counts = { [UNASSIGNED_VID]: 0, total: 0 };
+    for (const v of _vehiclesList) counts[v.id] = 0;
+    for (const t of _allTrips) {
+      const d = new Date(t.trip_date + 'T00:00:00');
+      if (d < start || d >= end) continue;
+      if (cls === 'biz' && !isBusiness(t.type)) continue;
+      if (cls === 'bizpers' && !isBusiness(t.type) && !isPersonal(t.type)) continue;
+      counts.total++;
+      const key = t.vehicle_id || UNASSIGNED_VID;
+      counts[key] = (counts[key] || 0) + 1;
+    }
+    return counts;
+  }
+
+  function renderReportVehicleChecks() {
     const root = $('[data-mmai="rep-vehicles-list"]');
     if (!root) return;
-    if (!vehicles.length) {
+    if (!_vehiclesList.length) {
       root.innerHTML = '<div class="empty" style="text-align:left;padding:16px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px">No vehicles. Add one in the iOS app to filter reports by vehicle.</div>';
       return;
     }
-    const allRow = `<div class="vcheck on" data-rep-vehicle="">
+
+    const counts = computeVehicleCounts();
+    const current = _reportState.vehicle;
+    const tripWord = (n) => `${n} trip${n === 1 ? '' : 's'}`;
+
+    const allRow = `<div class="vcheck${current === '' ? ' on' : ''}" data-rep-vehicle="">
       <div class="cb"></div>
-      <div><strong style="font-weight:500">All vehicles</strong> · ${vehicles.length}</div>
+      <div><strong style="font-weight:500">All vehicles</strong> · ${tripWord(counts.total)}</div>
     </div>`;
-    const veh = vehicles.map((v) => {
+
+    const veh = _vehiclesList.map((v) => {
       const sub = [v.year, v.make, v.model].filter(Boolean).join(' ');
       const isDefault = _profileRef.default_vehicle_id === v.id;
-      return `<div class="vcheck" data-rep-vehicle="${escapeHtml(v.id)}">
+      const cnt = counts[v.id] || 0;
+      const onClass = current === v.id ? ' on' : '';
+      return `<div class="vcheck${onClass}" data-rep-vehicle="${escapeHtml(v.id)}">
         <div class="cb"></div>
-        <div><strong style="font-weight:500">${escapeHtml(v.name || 'Vehicle')}</strong>${sub ? ' · ' + escapeHtml(sub) : ''}${isDefault ? ' · DEFAULT' : ''}</div>
+        <div><strong style="font-weight:500">${escapeHtml(v.name || 'Vehicle')}</strong>${sub ? ' · ' + escapeHtml(sub) : ''}${isDefault ? ' · DEFAULT' : ''} · ${tripWord(cnt)}</div>
       </div>`;
     }).join('');
 
-    // If any YTD trips have null vehicle_id and there's no default vehicle,
-    // per-vehicle filtering will exclude those trips. Tell the user why.
-    const unassignedCount = _allTrips.filter((t) => !t.vehicle_id).length;
-    let notice = '';
-    if (unassignedCount > 0 && !_profileRef.default_vehicle_id) {
-      notice = `<div class="vehicle-notice"><strong>Note:</strong> ${unassignedCount} of your trips don't have a vehicle assigned. Per-vehicle filters will exclude those trips. Set a default vehicle in the iOS app to attribute past unassigned trips.</div>`;
-    } else if (unassignedCount > 0) {
-      notice = `<div class="vehicle-notice">${unassignedCount} unassigned trip${unassignedCount === 1 ? '' : 's'} are attributed to your default vehicle.</div>`;
+    let unassignedRow = '';
+    if (counts[UNASSIGNED_VID] > 0) {
+      const onClass = current === UNASSIGNED_VID ? ' on' : '';
+      unassignedRow = `<div class="vcheck${onClass}" data-rep-vehicle="${UNASSIGNED_VID}">
+        <div class="cb"></div>
+        <div><strong style="font-weight:500">Unassigned</strong> · trips with no vehicle tag · ${tripWord(counts[UNASSIGNED_VID])}</div>
+      </div>`;
     }
-    root.innerHTML = allRow + veh + notice;
+
+    let notice = '';
+    if (counts[UNASSIGNED_VID] > 0 && !_profileRef.default_vehicle_id) {
+      notice = `<div class="vehicle-notice">Set a default vehicle in the iOS app to attribute past unassigned trips automatically.</div>`;
+    } else if (counts[UNASSIGNED_VID] > 0 && _profileRef.default_vehicle_id) {
+      notice = `<div class="vehicle-notice">${tripWord(counts[UNASSIGNED_VID])} unassigned — included when "Default" vehicle is selected.</div>`;
+    }
+
+    root.innerHTML = allRow + veh + unassignedRow + notice;
 
     $$('.vcheck[data-rep-vehicle]').forEach((el) => {
       el.addEventListener('click', () => {
         const vid = el.getAttribute('data-rep-vehicle');
-        _reportState.vehicle = vid; // '' for "All", else vehicle UUID
+        _reportState.vehicle = vid;
         $$('.vcheck[data-rep-vehicle]').forEach((x) => x.classList.toggle('on', x === el));
         renderReportPreview();
       });
@@ -842,6 +883,7 @@ tr.pers td { background: rgba(218,10,127,0.03); }
       p.addEventListener('click', () => {
         _reportState.period = p.getAttribute('data-rep-period');
         $$('.pill[data-rep-period]').forEach((x) => x.classList.toggle('on', x === p));
+        renderReportVehicleChecks();
         renderReportPreview();
       });
     });
@@ -849,6 +891,7 @@ tr.pers td { background: rgba(218,10,127,0.03); }
       p.addEventListener('click', () => {
         _reportState.classification = p.getAttribute('data-rep-class');
         $$('.pill[data-rep-class]').forEach((x) => x.classList.toggle('on', x === p));
+        renderReportVehicleChecks();
         renderReportPreview();
       });
     });
@@ -891,6 +934,7 @@ tr.pers td { background: rgba(218,10,127,0.03); }
 
     _allTrips = trips;
     _profileRef = profile;
+    _vehiclesList = vehicles;
 
     const kpis = computeKpis(trips, profile);
 
@@ -903,7 +947,7 @@ tr.pers td { background: rgba(218,10,127,0.03); }
     renderBilling(profile);
     renderVehicles(vehicles);
     renderPlaces(profile);
-    renderReportVehicleChecks(vehicles);
+    renderReportVehicleChecks();
     renderReportPreview();
 
     document.body.classList.add('mmai-ready');
