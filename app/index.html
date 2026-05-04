@@ -200,6 +200,16 @@
   .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
   .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
   .signout-link:hover { color: #DA0A7F; }
+  .cs-badge { margin-left: auto; font-family:'IBM Plex Mono'; font-weight:600; font-size:9px; letter-spacing:0.06em; color:#6B6862; background:#F1F3F8; padding:2px 6px; border-radius:6px; }
+  .nav-item.disabled { opacity: 0.55; cursor: not-allowed; }
+  .empty { padding: 32px 16px; text-align:center; color:#6B6862; font-size:13px; font-family:'Manrope','Inter',sans-serif; }
+  .coming-soon { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:480px; padding:48px 32px; text-align:center; }
+  .coming-soon .cs-eyebrow { font-family:'IBM Plex Mono'; font-weight:600; font-size:10px; letter-spacing:0.08em; color:#DA0A7F; margin-bottom:14px; }
+  .coming-soon h2 { font-family:'Manrope','Inter',sans-serif; font-size:34px; font-weight:600; letter-spacing:-0.01em; margin-bottom:10px; }
+  .coming-soon p { font-size:14px; color:#6B6862; max-width:480px; line-height:1.55; }
+  button[disabled], .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .edit-link.disabled { opacity: 0.4; pointer-events: none; }
+  .toggle.disabled { opacity: 0.4; pointer-events: none; }
 </style>
 <link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
 <script>
@@ -233,11 +243,11 @@
     <div class="nav-section">Drive</div>
     <div class="nav-item active" id="nav-dashboard" onclick="go('dashboard')"><span class="ic">◐</span>Dashboard</div>
     <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">847</span></div>
-    <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count">42</span></div>
+    <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count" data-mmai="places-count">0</span></div>
     <div class="nav-section">Business</div>
-    <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports</div>
-    <div class="nav-item"><span class="ic">▤</span>Accountants</div>
-    <div class="nav-item" id="nav-vehicles" onclick="go('vehicles')"><span class="ic">◱</span>Vehicles<span class="count">2</span></div>
+    <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports<span class="cs-badge">SOON</span></div>
+    <div class="nav-item disabled"><span class="ic">▤</span>Accountants<span class="cs-badge">SOON</span></div>
+    <div class="nav-item" id="nav-vehicles" onclick="go('vehicles')"><span class="ic">◱</span>Vehicles<span class="count" data-mmai="vehicles-count">0</span></div>
     <div class="nav-section">Account</div>
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
     <div class="nav-item"><span class="ic">?</span>Help</div>
@@ -253,60 +263,50 @@
     <section class="page on" id="p-dashboard" data-screen-label="App 01 Dashboard">
       <div class="topbar">
         <div>
-          <div class="eyebrow" data-mmai="eyebrow-date">Tuesday · April 22</div>
+          <div class="eyebrow" data-mmai="eyebrow-date">—</div>
           <div class="greeting">
-            <span data-mmai="greeting-name">Good afternoon, Marcus —</span><br>
-            you have <em><span data-mmai="greeting-count">3</span> trips to review.</em>
+            <span data-mmai="greeting-name">Welcome —</span><br>
+            you have <em><span data-mmai="greeting-count">0</span> trips to review.</em>
           </div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search trips, places, reports…">
-          <button class="btn">+ Log trip</button>
+          <input class="search" placeholder="Search trips, places, reports…" disabled title="Coming soon">
+          <button class="btn" disabled title="Log new trips from the iOS app">+ Log trip</button>
         </div>
       </div>
       <div class="kpi-row">
         <div class="kpi dark">
           <div class="pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px"><span class="pdot"></span>Live · auto-detecting</div>
-          <div class="l" style="margin-bottom:6px">YTD deduction · 2026</div>
-          <div class="v" style="color:#DA0A7F" data-mmai="ytd-deduction">$7,428.14</div>
-          <div class="s">+ $312.40 this week <span class="up">▲ 4.4%</span></div>
-          <div class="chart">
-            <span style="height:30%"></span><span style="height:45%"></span><span style="height:38%"></span>
-            <span style="height:62%"></span><span style="height:50%"></span><span style="height:72%"></span>
-            <span style="height:48%"></span><span style="height:80%"></span><span style="height:65%"></span>
-            <span style="height:90%" class="hi"></span><span style="height:76%"></span><span style="height:88%" class="hi"></span>
-          </div>
+          <div class="l" style="margin-bottom:6px">YTD deduction</div>
+          <div class="v" style="color:#DA0A7F" data-mmai="ytd-deduction">$0.00</div>
+          <div class="s">Updated live as trips classify</div>
         </div>
-        <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">2,184</div></div>
-        <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">71%</div><div class="s" data-mmai="business-of-total">1,551 of 2,184 mi</div></div>
-        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F" data-mmai="needs-review">3</div><div class="s">Trips since 8am today</div></div>
+        <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">0</div></div>
+        <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">0%</div><div class="s" data-mmai="business-of-total">0 of 0 mi</div></div>
+        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F" data-mmai="needs-review">0</div><div class="s">Unclassified trips this year</div></div>
       </div>
       <div class="content">
         <div class="panel">
-          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Swipe right for Business · left for Personal · AI auto-classifies recurring routes</div></div><a>View all <span data-mmai="trips-count">847</span> →</a></div>
-          <div class="trip"><div class="time">2:14pm</div><div><div class="from">Office → 1450 Market St</div><div class="to">San Francisco · Client visit · 11 min</div></div><div class="mi">4.2<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
-          <div class="trip"><div class="time">12:02pm</div><div><div class="from">Office → Tartine Bakery</div><div class="to">Lunch · 6 min</div></div><div class="mi">1.8<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag unreviewed"><span style="width:6px;height:6px;border-radius:50%;background:#DA0A7F"></span>Review</div></div>
-          <div class="trip"><div class="time">8:14am</div><div><div class="from">Home → Downtown Office</div><div class="to">Commute · 22 min · Daily route</div></div><div class="mi">12.1<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag biz">✓ Business · AI</div></div>
-          <div class="trip"><div class="time">Mon 6:48pm</div><div><div class="from">Acme Corp → Home</div><div class="to">After client meeting · 34 min</div></div><div class="mi">14.8<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag biz">✓ Business</div></div>
-          <div class="trip"><div class="time">Mon 1:12pm</div><div><div class="from">Home → Whole Foods</div><div class="to">Groceries · 9 min</div></div><div class="mi">2.4<span style="font-size:11px;color:#6B6862"> mi</span></div><div class="tag pers">Personal</div></div>
+          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Most recent five trips this year. Classify in the iOS app.</div></div><a onclick="mmaiGo('trips')" style="cursor:pointer">View all <span data-mmai="trips-count">0</span> →</a></div>
+          <div data-mmai="recent-trips"></div>
         </div>
         <div>
           <div class="ded">
-            <div class="l">Q2 deduction progress</div>
-            <div class="v">$2,183</div>
-            <div class="s">At current pace: $8,940 by tax day</div>
-            <div class="bar"><div></div></div>
-            <div class="bar-label"><span>62% OF Q2 GOAL</span><span>$3,500</span></div>
+            <div class="l" data-mmai="quarter-label">Q deduction progress</div>
+            <div class="v" data-mmai="quarter-deduction">$0.00</div>
+            <div class="s">Computed from classified business trips this quarter.</div>
+            <div class="bar"><div data-mmai="quarter-progress-bar" style="width:0%"></div></div>
+            <div class="bar-label"><span data-mmai="quarter-progress-pct">NO GOAL SET</span><span data-mmai="quarter-goal">—</span></div>
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(246,243,238,0.15)">
-              <div class="row"><span>Business miles</span><span>3,012</span></div>
-              <div class="row"><span>IRS rate</span><span>$0.725</span></div>
-              <div class="row"><span>Est. tax saved (24%)</span><span style="color:#DA0A7F">$524</span></div>
+              <div class="row"><span>Business miles</span><span data-mmai="quarter-business-miles">0</span></div>
+              <div class="row"><span>Mileage rate</span><span data-mmai="quarter-rate">$0.725</span></div>
+              <div class="row"><span>Est. tax saved (24%)</span><span style="color:#DA0A7F" data-mmai="quarter-tax-saved">$0.00</span></div>
             </div>
           </div>
           <div class="export">
             <h4>Export for your CPA</h4>
-            <p>IRS-compliant PDF with GPS traces, odometer, routes, and purpose.</p>
-            <button class="btn accent">Generate Q1 report →</button>
+            <p>IRS-compliant PDF reports — coming soon to web. Generate from the iOS app today.</p>
+            <button class="btn accent" disabled title="Coming soon">PDF export · coming soon</button>
           </div>
         </div>
       </div>
@@ -316,35 +316,24 @@
     <section class="page" id="p-trips" data-screen-label="App 02 Trips">
       <div class="topbar">
         <div>
-          <div class="eyebrow"><span data-mmai="trips-count">847</span> trips · 3 need review</div>
+          <div class="eyebrow" data-mmai="trips-eyebrow-review">0 trips · 0 need review</div>
           <div class="greeting">All <em>trips</em></div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search by address, purpose…">
-          <button class="btn ghost">⬇ Export CSV</button>
-          <button class="btn">+ Log trip</button>
+          <input class="search" placeholder="Search by address, purpose…" disabled title="Coming soon">
+          <button class="btn ghost" disabled title="Coming soon">⬇ Export CSV</button>
+          <button class="btn" disabled title="Log new trips from the iOS app">+ Log trip</button>
         </div>
       </div>
       <div class="filter-row">
-        <span class="pill on">All<span class="ct" data-mmai="trips-count">847</span></span>
-        <span class="pill">Business<span class="ct">604</span></span>
-        <span class="pill">Personal<span class="ct">240</span></span>
-        <span class="pill" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct">3</span></span>
-        <span class="pill" style="margin-left:auto">This month ▾</span>
-        <span class="pill">All vehicles ▾</span>
-        <span class="pill">All purposes ▾</span>
+        <span class="pill on">All<span class="ct" data-mmai="trips-count">0</span></span>
+        <span class="pill">Business<span class="ct" data-mmai="trips-filter-biz">0</span></span>
+        <span class="pill">Personal<span class="ct" data-mmai="trips-filter-pers">0</span></span>
+        <span class="pill" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct" data-mmai="trips-filter-unc">0</span></span>
       </div>
       <div class="trips-table">
         <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
-        <div class="tt-row" style="background:rgba(218,10,127,0.04)"><div class="dt">APR 22 · 2:14PM</div><div><div class="from">Office → 1450 Market St</div><div class="to">San Francisco · 11 min</div></div><div class="pur" style="color:#DA0A7F">— Needs purpose</div><div class="mi">4.2</div><div class="val">$3.05</div><div style="text-align:center"><span class="tag unreviewed">Review</span></div><div class="more">⋯</div></div>
-        <div class="tt-row" style="background:rgba(218,10,127,0.04)"><div class="dt">APR 22 · 12:02PM</div><div><div class="from">Office → Tartine Bakery</div><div class="to">Lunch · 6 min</div></div><div class="pur" style="color:#DA0A7F">— Needs purpose</div><div class="mi">1.8</div><div class="val">$1.31</div><div style="text-align:center"><span class="tag unreviewed">Review</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 22 · 8:14AM</div><div><div class="from">Home → Downtown Office</div><div class="to">San Francisco · 22 min</div></div><div class="pur">Commute · AI</div><div class="mi">12.1</div><div class="val">$8.77</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 21 · 6:48PM</div><div><div class="from">Acme Corp → Home</div><div class="to">After client meeting · 34 min</div></div><div class="pur">Client visit</div><div class="mi">14.8</div><div class="val">$10.73</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 21 · 1:12PM</div><div><div class="from">Home → Whole Foods</div><div class="to">Groceries · 9 min</div></div><div class="pur">Personal</div><div class="mi">2.4</div><div class="val">—</div><div style="text-align:center"><span class="tag pers">Personal</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 21 · 9:30AM</div><div><div class="from">Home → Acme Corp</div><div class="to">Client site · 28 min</div></div><div class="pur">Client visit</div><div class="mi">12.6</div><div class="val">$9.14</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 20 · 3:44PM</div><div><div class="from">Office → 45 King St</div><div class="to">Prospect tour · 17 min</div></div><div class="pur">Showing</div><div class="mi">6.8</div><div class="val">$4.93</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 20 · 11:08AM</div><div><div class="from">Office → Airport · SFO</div><div class="to">Conference · 42 min</div></div><div class="pur">Travel</div><div class="mi">19.2</div><div class="val">$13.92</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
-        <div class="tt-row"><div class="dt">APR 19 · 4:22PM</div><div><div class="from">Office → Starbucks Sutter</div><div class="to">Coffee meeting · 5 min</div></div><div class="pur">Client coffee</div><div class="mi">1.2</div><div class="val">$0.87</div><div style="text-align:center"><span class="tag biz">Business</span></div><div class="more">⋯</div></div>
+        <div data-mmai="trips-table-body"></div>
       </div>
     </section>
 
@@ -352,97 +341,22 @@
     <section class="page" id="p-places" data-screen-label="App 03 Places">
       <div class="topbar">
         <div>
-          <div class="eyebrow">42 saved places · 28 auto-detected</div>
+          <div class="eyebrow"><span data-mmai="places-count">0</span> saved places</div>
           <div class="greeting">Your <em>frequent places.</em></div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search places…">
-          <button class="btn">+ Add place</button>
+          <button class="btn" disabled title="Add places from the iOS app">+ Add place</button>
         </div>
       </div>
-      <div class="map-view">
-        <div class="map-surface">
-          <svg viewBox="0 0 700 760" preserveAspectRatio="none">
-            <path d="M 50 150 L 650 150 M 50 280 L 650 280 M 50 410 L 650 410 M 50 540 L 650 540 M 50 670 L 650 670" stroke="rgba(11,15,14,0.08)" stroke-width="1" fill="none"></path>
-            <path d="M 150 50 L 150 710 M 300 50 L 300 710 M 450 50 L 450 710 M 600 50 L 600 710" stroke="rgba(11,15,14,0.08)" stroke-width="1" fill="none"></path>
-            <path d="M 100 600 Q 280 420 460 380 T 680 120" stroke="#DA0A7F" stroke-width="2.5" fill="none" stroke-dasharray="6 6" opacity="0.6"></path>
-            <path d="M 180 200 Q 320 310 500 280" stroke="#1B5E3F" stroke-width="2.5" fill="none" stroke-dasharray="6 6" opacity="0.5"></path>
-          </svg>
-          <div class="map-pin biz" style="left:22%;top:32%">14</div>
-          <div class="map-label" style="left:22%;top:32%">Home</div>
-          <div class="map-pin biz" style="left:52%;top:52%">38</div>
-          <div class="map-label" style="left:52%;top:52%">Downtown Office</div>
-          <div class="map-pin" style="left:72%;top:28%">12</div>
-          <div class="map-label" style="left:72%;top:28%">Acme Corp · Client</div>
-          <div class="map-pin biz" style="left:38%;top:64%">6</div>
-          <div class="map-pin" style="left:82%;top:62%">4</div>
-          <div class="map-pin biz" style="left:30%;top:80%">3</div>
-          <div class="map-pin" style="left:65%;top:80%">2</div>
-        </div>
-        <div class="place-list">
-          <div class="pcard sel"><div class="ph">Downtown Office</div><div class="pa">482 Market St · San Francisco</div><div><span class="pbadge biz">Business · Primary</span></div><div class="prow"><span>Visits</span><span class="v">38</span></div><div class="prow"><span>Miles driven to</span><span class="v">467</span></div><div class="prow"><span>Auto-classify</span><span class="v">Business</span></div></div>
-          <div class="pcard"><div class="ph">Home</div><div class="pa">1620 Divisadero · San Francisco</div><div><span class="pbadge pers">Personal</span></div><div class="prow"><span>Visits</span><span class="v">89</span></div></div>
-          <div class="pcard"><div class="ph">Acme Corp</div><div class="pa">3200 Bryant St</div><div><span class="pbadge biz">Business · Client</span></div><div class="prow"><span>Visits</span><span class="v">12</span></div></div>
-          <div class="pcard"><div class="ph">SFO Airport</div><div class="pa">Terminal 2 · San Francisco</div><div><span class="pbadge biz">Business · Travel</span></div><div class="prow"><span>Visits</span><span class="v">6</span></div></div>
-          <div class="pcard"><div class="ph">Starbucks Sutter</div><div class="pa">201 Sutter St</div><div><span class="pbadge biz">Business · Meeting</span></div><div class="prow"><span>Visits</span><span class="v">9</span></div></div>
-          <div class="pcard"><div class="ph">Whole Foods</div><div class="pa">399 Fourth St</div><div><span class="pbadge pers">Personal</span></div><div class="prow"><span>Visits</span><span class="v">14</span></div></div>
-        </div>
-      </div>
+      <div class="place-list" data-mmai="places-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px"></div>
     </section>
 
     <!-- REPORTS -->
     <section class="page" id="p-reports" data-screen-label="App 04 Reports">
-      <div class="topbar">
-        <div>
-          <div class="eyebrow">IRS Publication 463 compliant</div>
-          <div class="greeting">Build an <em>audit-ready</em> mileage log.</div>
-        </div>
-        <div class="tools">
-          <button class="btn ghost">Share with accountant</button>
-          <button class="btn accent">Export PDF</button>
-        </div>
-      </div>
-      <div class="rep-grid">
-        <div class="rep-builder">
-          <h3>Report <em>builder</em></h3>
-          <div class="sub">Configure the period, scope, and format. Preview updates live on the right.</div>
-          <div class="field"><div class="field-label">Period</div><div class="period-pills"><span class="pill">Last week</span><span class="pill">Last month</span><span class="pill on">Q1 2026</span><span class="pill">YTD</span><span class="pill">2025</span><span class="pill">Custom</span></div></div>
-          <div class="field"><div class="field-label">Vehicles</div><div class="vehicles-check"><div class="vcheck on"><div class="cb">✓</div><div><strong style="font-weight:500">2022 Toyota RAV4</strong> · CA 8JKL392 · Primary</div></div><div class="vcheck on"><div class="cb">✓</div><div><strong style="font-weight:500">2019 Honda CR-V</strong> · CA 7FDE102 · Secondary</div></div></div></div>
-          <div class="field"><div class="field-label">Classification</div><div class="period-pills"><span class="pill on">Business only</span><span class="pill">Business + Personal</span><span class="pill">All</span></div></div>
-          <div class="field"><div class="field-label">Format</div><div class="period-pills"><span class="pill on">PDF · IRS Pub 463</span><span class="pill">CSV</span><span class="pill">QuickBooks</span><span class="pill">Xero</span></div></div>
-          <div class="field"><div class="field-label">Include</div>
-            <div class="set-row" style="border-bottom:1px solid #EFF1F5;padding:10px 0"><div><div class="nm">GPS traces per trip</div><div class="ds">Exact start/end coordinates, visible to auditors.</div></div><div class="toggle"></div></div>
-            <div class="set-row" style="border-bottom:1px solid #EFF1F5;padding:10px 0"><div><div class="nm">Odometer snapshots</div><div class="ds">Start + end of period from vehicle records.</div></div><div class="toggle"></div></div>
-            <div class="set-row" style="border:none;padding:10px 0"><div><div class="nm">Purpose &amp; client notes</div><div class="ds">Written rationale for each business trip.</div></div><div class="toggle"></div></div>
-          </div>
-        </div>
-        <div class="rep-prev">
-          <div class="pdfcard">
-            <div class="pdf-head"><div><div style="color:#6B6862">MYMilesAI · IRS PUB 463</div><div class="pdf-title">Q1 2026 Mileage Log</div></div><div style="padding:4px 8px;background:#1B5E3F;color:#F8F9FB;border-radius:100px;font-size:8px;letter-spacing:0.01em">✓ VERIFIED</div></div>
-            <div class="pdf-row" style="color:#6B6862"><div>Date</div><div>Route</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
-            <div class="pdf-row"><div>01/04</div><div style="color:#0B0F0E">Home → Acme · Sales call</div><div style="text-align:right">24.1</div><div style="text-align:right;color:#1B5E3F">17.47</div></div>
-            <div class="pdf-row"><div>01/04</div><div style="color:#0B0F0E">Acme → Beacon · Consult</div><div style="text-align:right">12.8</div><div style="text-align:right;color:#1B5E3F">9.28</div></div>
-            <div class="pdf-row"><div>01/05</div><div style="color:#0B0F0E">Home → Warehouse · Supplies</div><div style="text-align:right">8.4</div><div style="text-align:right;color:#1B5E3F">6.09</div></div>
-            <div class="pdf-row"><div>01/06</div><div style="color:#0B0F0E">Office → SFO · Conference</div><div style="text-align:right">31.2</div><div style="text-align:right;color:#1B5E3F">22.62</div></div>
-            <div class="pdf-row"><div>01/08</div><div style="color:#0B0F0E">Home → Downtown Office</div><div style="text-align:right">12.1</div><div style="text-align:right;color:#1B5E3F">8.77</div></div>
-            <div class="pdf-row"><div>01/09</div><div style="color:#0B0F0E">Office → Client HQ · Review</div><div style="text-align:right">4.8</div><div style="text-align:right;color:#1B5E3F">3.48</div></div>
-          </div>
-          <div class="rep-totals">
-            <div class="lbl">Q1 total deduction</div>
-            <div class="big">$2,183.14</div>
-            <div class="lb2">247 business trips · 3,012 business miles · IRS rate $0.725</div>
-            <div class="rep-cta">
-              <button class="btn accent">Generate PDF</button>
-              <button class="btn" style="background:transparent;border:1px solid rgba(246,243,238,0.3);color:#F8F9FB">Email to CPA</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="prev-reports">
-        <div class="prev-reports-head">Previous reports</div>
-        <div class="prev-row"><div><div class="nm">Q4 2025 Mileage Log</div><div class="mt">GENERATED JAN 12 · 214 TRIPS · PDF</div></div><div class="val2">$1,892.40</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
-        <div class="prev-row"><div><div class="nm">2025 Annual Log</div><div class="mt">GENERATED APR 01 · 812 TRIPS · PDF</div></div><div class="val2">$7,104.22</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
-        <div class="prev-row"><div><div class="nm">Q3 2025 Mileage Log</div><div class="mt">GENERATED OCT 04 · 196 TRIPS · PDF</div></div><div class="val2">$1,643.18</div><button class="btn ghost" style="padding:8px 14px;font-size:12px">⬇ Download</button><button class="btn ghost" style="padding:8px 14px;font-size:12px">Share</button></div>
+      <div class="coming-soon">
+        <div class="cs-eyebrow">REPORTS · COMING SOON</div>
+        <h2>IRS-compliant mileage reports on the way.</h2>
+        <p>Generate audit-ready PDF logs, CSV exports, and accountant-share links right from the web. For now, you can export reports from the iOS app.</p>
       </div>
     </section>
 
@@ -450,33 +364,12 @@
     <section class="page" id="p-vehicles" data-screen-label="App 05 Vehicles">
       <div class="topbar">
         <div>
-          <div class="eyebrow">2 vehicles · 1 primary</div>
+          <div class="eyebrow"><span data-mmai="vehicles-count">0</span> vehicles</div>
           <div class="greeting">Your <em>fleet.</em></div>
         </div>
-        <div class="tools"><button class="btn">+ Add vehicle</button></div>
+        <div class="tools"><button class="btn" disabled title="Add vehicles from the iOS app">+ Add vehicle</button></div>
       </div>
-      <div class="veh-grid">
-        <div class="vcard">
-          <div class="vbadge">● PRIMARY</div>
-          <div class="vhead">2022 Toyota RAV4</div>
-          <div class="vsub">CA · 8JKL392 · HYBRID</div>
-          <div class="vstat"><div><div class="k">Odometer</div><div class="v">47,184 mi</div></div><div><div class="k">This month</div><div class="v" style="color:#1B5E3F">1,842 mi</div></div></div>
-          <div class="vstat"><div><div class="k">YTD business</div><div class="v">6,104 mi</div></div><div><div class="k">YTD deduction</div><div class="v" style="color:#DA0A7F">$4,425</div></div></div>
-          <div class="vfoot"><span>ADDED JAN 2024</span><span>EDIT ⋯</span></div>
-        </div>
-        <div class="vcard">
-          <div class="vhead">2019 Honda CR-V</div>
-          <div class="vsub">CA · 7FDE102 · GASOLINE</div>
-          <div class="vstat"><div><div class="k">Odometer</div><div class="v">84,210 mi</div></div><div><div class="k">This month</div><div class="v" style="color:#1B5E3F">342 mi</div></div></div>
-          <div class="vstat"><div><div class="k">YTD business</div><div class="v">1,204 mi</div></div><div><div class="k">YTD deduction</div><div class="v" style="color:#DA0A7F">$873</div></div></div>
-          <div class="vfoot"><span>ADDED MAR 2025</span><span>EDIT ⋯</span></div>
-        </div>
-        <div class="vcard add">
-          <div class="plus">+</div>
-          <div style="font-family:'Manrope','Inter',sans-serif;font-size:22px;color:#0B0F0E;margin-bottom:6px">Add another vehicle</div>
-          <div style="font-size:12px">Track multiple cars — each gets its own odometer and logs.</div>
-        </div>
-      </div>
+      <div class="veh-grid" data-mmai="vehicles-list"></div>
     </section>
 
     <!-- SETTINGS -->
@@ -502,47 +395,32 @@
           <!-- ACCOUNT -->
           <div class="set-panel sp on" id="sp-account">
             <h3>Account</h3>
-            <div class="sub">Profile, plan, and workspace preferences.</div>
+            <div class="sub">Profile and plan. Edits are managed from the iOS app.</div>
             <div style="display:flex;align-items:center;gap:16px;padding-bottom:24px;border-bottom:1px solid #E5E7EB">
-              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6);display:flex;align-items:center;justify-content:center;color:#FFF;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:20px">MT</div>
-              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:22px">Marcus Torres</div><div style="font-size:12px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px">PRO · RENEWS APR 2027 · $69.99/YR</div></div>
+              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6);display:flex;align-items:center;justify-content:center;color:#FFF;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:20px" data-mmai="set-avatar">A</div>
+              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:22px" data-mmai="set-name">—</div><div style="font-size:12px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px" data-mmai="set-plan-line">—</div></div>
               <button class="btn ghost" data-jump="billing">Manage plan</button>
             </div>
             <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Full name</div><div class="ds">Marcus Torres</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Email</div><div class="ds">marcus@torrescre.com</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Phone</div><div class="ds">+1 (415) 555 0148 · verified</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Time zone</div><div class="ds">Used for trip timestamps and report cutoffs.</div></div><span class="set-val">PT · LOS ANGELES</span></div>
-              <div class="set-row"><div><div class="nm">Language</div><div class="ds">UI language. Reports always export in English.</div></div><span class="set-val">ENGLISH (US)</span></div>
+              <div class="set-row"><div><div class="nm">Full name</div><div class="ds" data-mmai="set-fullname">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
+              <div class="set-row"><div><div class="nm">Email</div><div class="ds" data-mmai="set-email">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
+              <div class="set-row"><div><div class="nm">Phone</div><div class="ds" data-mmai="set-phone">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
+              <div class="set-row"><div><div class="nm">Time zone</div><div class="ds">Used for trip timestamps and report cutoffs.</div></div><span class="set-val" data-mmai="set-timezone">—</span></div>
+              <div class="set-row"><div><div class="nm">Language</div><div class="ds">UI language. Reports always export in English.</div></div><span class="set-val" data-mmai="set-language">—</span></div>
+              <div class="set-row"><div><div class="nm">Country</div><div class="ds">Used for tax-rate defaults.</div></div><span class="set-val" data-mmai="set-country">—</span></div>
             </div>
             <div class="set-group">
-              <div class="set-row"><div><div class="nm">Workspace</div><div class="ds">Torres Real Estate · solo workspace</div></div><span class="set-val edit-link">RENAME →</span></div>
-              <div class="set-row"><div><div class="nm">Default trip purpose</div><div class="ds">Pre-fills the purpose field on new business trips.</div></div><span class="set-val">CLIENT VISIT</span></div>
+              <div class="set-row"><div><div class="nm">Workspace</div><div class="ds" data-mmai="set-workspace">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">RENAME</span></div>
             </div>
           </div>
 
           <!-- AUTOMATION -->
           <div class="set-panel sp" id="sp-automation">
             <h3>Automation</h3>
-            <div class="sub">Tell the app what to log automatically and when.</div>
-            <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Auto-detect drives</div><div class="ds">Log trips automatically in the background via GPS + motion.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">AI auto-classify</div><div class="ds">Learn your recurring routes and classify them automatically.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Exclude daily commute</div><div class="ds">Home ⇄ Office is non-deductible under IRS rules.</div></div><div class="toggle off"></div></div>
-              <div class="set-row"><div><div class="nm">Work hours only</div><div class="ds">Only auto-classify as Business during work hours.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Detect parking events</div><div class="ds">End trips reliably when you stop for &gt; 90 seconds.</div></div><div class="toggle"></div></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Work hours</div><div class="ds">Mon–Fri, 7:00 AM – 7:00 PM</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Minimum trip distance</div><div class="ds">Discard auto-detected drives shorter than this.</div></div><span class="set-val">0.5 MI</span></div>
-              <div class="set-row"><div><div class="nm">Battery saver</div><div class="ds">Cut polling rate when phone battery is &lt; 20%.</div></div><div class="toggle"></div></div>
-            </div>
-            <div class="set-group">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Smart rules <span style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.06em;margin-left:8px">3 ACTIVE</span></div>
-              <div class="set-row"><div><div class="nm">Trips to <em style="font-style:normal;color:#DA0A7F">Whole Foods Lakeshore</em> → Personal</div><div class="ds">Auto-applied · 12 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Trips to <em style="font-style:normal;color:#DA0A7F">Properties tagged "showings"</em> → Business</div><div class="ds">Auto-applied · 47 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div><div class="nm">Drives between 9 PM – 6 AM → Personal</div><div class="ds">Auto-applied · 21 trips matched</div></div><span class="set-val edit-link">EDIT →</span></div>
-              <div class="set-row"><div></div><button class="btn ghost">+ New rule</button></div>
+            <div class="sub">Background trip detection and classification rules — managed in the iOS app.</div>
+            <div class="coming-soon" style="min-height:280px">
+              <div class="cs-eyebrow">AUTOMATION CONTROLS · COMING SOON</div>
+              <p>Auto-detect, AI auto-classify, smart rules, and work-hours scheduling are configured in the iOS app for now. Web controls land here next.</p>
             </div>
           </div>
 
@@ -551,16 +429,12 @@
             <h3>Tax preferences</h3>
             <div class="sub">Rates and assumptions used in deduction estimates.</div>
             <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">IRS mileage rate</div><div class="ds">Automatically kept current. Override only if instructed by your CPA.</div></div><span class="set-val">$0.725 / MI · 2026</span></div>
-              <div class="set-row"><div><div class="nm">Filing status</div><div class="ds">Single, married, head of household, etc.</div></div><span class="set-val edit-link">SINGLE →</span></div>
-              <div class="set-row"><div><div class="nm">Federal tax bracket</div><div class="ds">Used for "tax saved" estimates across the app.</div></div><span class="set-val edit-link">24% →</span></div>
-              <div class="set-row"><div><div class="nm">State</div><div class="ds">California · 9.3% bracket auto-applied.</div></div><span class="set-val edit-link">CA →</span></div>
-              <div class="set-row"><div><div class="nm">Self-employment tax</div><div class="ds">Adds 15.3% SE on top of income tax estimates.</div></div><div class="toggle"></div></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Deduction method</div><div class="ds">Standard mileage rate. Switch to actual-expense at year-end if it wins.</div></div><span class="set-val edit-link">STANDARD →</span></div>
+              <div class="set-row"><div><div class="nm">Mileage rate</div><div class="ds">Per-mile rate applied to business trips.</div></div><span class="set-val" data-mmai="quarter-rate">$0.725</span></div>
               <div class="set-row"><div><div class="nm">Tax year</div><div class="ds">Reports default to this period.</div></div><span class="set-val">2026</span></div>
-              <div class="set-row"><div><div class="nm">Quarterly estimate reminders</div><div class="ds">Push 14 days before each Q deadline.</div></div><div class="toggle"></div></div>
+            </div>
+            <div class="coming-soon" style="min-height:200px">
+              <div class="cs-eyebrow">TAX BRACKETS &amp; FILING · COMING SOON</div>
+              <p>Filing status, federal/state brackets, deduction-method switcher, and SE-tax toggles will arrive on web in a future release.</p>
             </div>
           </div>
 
@@ -568,73 +442,43 @@
           <div class="set-panel sp" id="sp-notif">
             <h3>Notifications</h3>
             <div class="sub">When to nudge you, and where.</div>
-            <div class="set-group" style="border-top:none;padding-top:0">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Push</div>
-              <div class="set-row"><div><div class="nm">Trip detected</div><div class="ds">When auto-detect logs a new drive.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Classify reminder</div><div class="ds">Once a day if there are unreviewed trips.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">AI suggestion ready</div><div class="ds">When AI has &gt; 5 trips queued for one-tap classify.</div></div><div class="toggle off"></div></div>
-            </div>
-            <div class="set-group">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Email</div>
-              <div class="set-row"><div><div class="nm">Weekly summary</div><div class="ds">Sundays at 7 PM · trips, miles, deductions found.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Monthly report ready</div><div class="ds">First of the month · download link inside.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Product updates</div><div class="ds">~1 / month. New features, IRS rate changes.</div></div><div class="toggle off"></div></div>
-              <div class="set-row"><div><div class="nm">Tips &amp; offers</div><div class="ds">Promotional. Off by default.</div></div><div class="toggle off"></div></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Quiet hours</div><div class="ds">No push between these times.</div></div><span class="set-val edit-link">10 PM – 7 AM →</span></div>
+            <div class="coming-soon" style="min-height:280px">
+              <div class="cs-eyebrow">NOTIFICATION CONTROLS · COMING SOON</div>
+              <p>Push and email notification preferences are configured in the iOS app today. Web controls coming soon.</p>
             </div>
           </div>
 
           <!-- DATA -->
           <div class="set-panel sp" id="sp-data">
             <h3>Data &amp; privacy</h3>
-            <div class="sub">Your trips and locations belong to you.</div>
-            <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Location data</div><div class="ds">Required for trip detection. Stored encrypted at rest.</div></div><span class="set-val">ENABLED · IN-USE ONLY</span></div>
-              <div class="set-row"><div><div class="nm">Anonymous analytics</div><div class="ds">Help us improve trip-detection accuracy.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Crash reports</div><div class="ds">Send stack traces to debug issues.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">AI training opt-in</div><div class="ds">Use my anonymized trip patterns to improve auto-classify.</div></div><div class="toggle off"></div></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Export all data</div><div class="ds">ZIP of every trip, vehicle, place, and report (CSV + PDF).</div></div><button class="btn ghost">Export ⬇</button></div>
-              <div class="set-row"><div><div class="nm">Backup to iCloud</div><div class="ds">End-to-end encrypted snapshot. Daily.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Connected services</div><div class="ds">QuickBooks · Apple Health · Google Maps</div></div><span class="set-val edit-link">3 LINKED →</span></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Clear all trip data</div><div class="ds">Wipe trips and places. Vehicles and account preserved.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Clear →</button></div>
-              <div class="set-row"><div><div class="nm">Delete account</div><div class="ds">Permanent. All logs, trips, and reports erased within 30 days.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Delete →</button></div>
+            <div class="sub">Account-level data controls — managed in the iOS app.</div>
+            <div class="coming-soon" style="min-height:280px">
+              <div class="cs-eyebrow">DATA CONTROLS · COMING SOON</div>
+              <p>Export all data, integrations, and account-deletion flows are handled in the iOS app today. Web equivalents coming soon.</p>
             </div>
           </div>
 
           <!-- BILLING -->
           <div class="set-panel sp" id="sp-billing">
             <h3>Billing</h3>
-            <div class="sub">Plan, payment method, and invoices.</div>
+            <div class="sub">Plan and payment method. Subscription changes are handled in the iOS app.</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px">
               <div style="border:1px solid #DA0A7F;border-radius:12px;padding:18px;background:linear-gradient(180deg,rgba(218,10,127,0.05),transparent)">
                 <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#DA0A7F">CURRENT PLAN</div>
-                <div style="font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:700;margin-top:6px">Pro</div>
-                <div style="font-size:12px;color:#6B6862;margin-top:4px">$69.99 / yr · renews Apr 14, 2027</div>
-                <div style="margin-top:14px;display:flex;gap:8px"><button class="btn ghost" style="font-size:11px;padding:6px 12px">Change plan</button><button class="btn ghost" style="font-size:11px;padding:6px 12px">Cancel</button></div>
+                <div style="font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:700;margin-top:6px" data-mmai="bill-plan">—</div>
+                <div style="font-size:12px;color:#6B6862;margin-top:4px" data-mmai="bill-renew-line">—</div>
+                <div style="margin-top:14px;display:flex;gap:8px"><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Manage in iOS app">Change plan</button><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Manage in iOS app">Cancel</button></div>
               </div>
               <div style="border:1px solid #E5E7EB;border-radius:12px;padding:18px">
                 <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#6B6862">PAYMENT METHOD</div>
-                <div style="font-family:'Manrope','Inter',sans-serif;font-size:18px;font-weight:600;margin-top:6px">Visa •••• 4419</div>
-                <div style="font-size:12px;color:#6B6862;margin-top:4px">Expires 09 / 2028 · Marcus Torres</div>
-                <div style="margin-top:14px"><button class="btn ghost" style="font-size:11px;padding:6px 12px">Update card</button></div>
+                <div style="font-family:'Manrope','Inter',sans-serif;font-size:18px;font-weight:600;margin-top:6px" data-mmai="bill-payment-method">—</div>
+                <div style="font-size:12px;color:#6B6862;margin-top:4px" data-mmai="bill-payment-detail">—</div>
+                <div style="margin-top:14px"><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Update card in iOS app">Update card</button></div>
               </div>
             </div>
-            <div class="set-group">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Invoices</div>
-              <div class="set-row"><div><div class="nm">Apr 2026 · Pro Annual</div><div class="ds">Paid · INV-20260414</div></div><span class="set-val edit-link">$69.99 ⬇</span></div>
-              <div class="set-row"><div><div class="nm">Apr 2025 · Pro Annual</div><div class="ds">Paid · INV-20250414</div></div><span class="set-val edit-link">$59.99 ⬇</span></div>
-              <div class="set-row"><div><div class="nm">Apr 2024 · Pro Annual</div><div class="ds">Paid · INV-20240414</div></div><span class="set-val edit-link">$59.99 ⬇</span></div>
-              <div class="set-row"><div><div class="nm">Apr 2023 · Pro Annual</div><div class="ds">Paid · INV-20230414</div></div><span class="set-val edit-link">$49.99 ⬇</span></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Billing email</div><div class="ds">Where invoices are sent.</div></div><span class="set-val edit-link">marcus@torrescre.com →</span></div>
-              <div class="set-row"><div><div class="nm">Tax ID / VAT</div><div class="ds">Added to invoices for business expense tracking.</div></div><span class="set-val edit-link">+ ADD</span></div>
+            <div class="coming-soon" style="min-height:200px">
+              <div class="cs-eyebrow">INVOICES &amp; BILLING EMAIL · COMING SOON</div>
+              <p>Invoice history, downloadable receipts, billing-email overrides, and Tax ID / VAT entry will live here in a future release.</p>
             </div>
           </div>
 
@@ -642,42 +486,23 @@
           <div class="set-panel sp" id="sp-accountant">
             <h3>Accountant</h3>
             <div class="sub">Invite your CPA to view reports and audit-ready logs.</div>
-            <div style="display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #E5E7EB;border-radius:12px;margin-top:8px;background:#FAFAF7">
-              <div style="width:48px;height:48px;border-radius:50%;background:#0B0F0E;color:#F8F9FB;display:flex;align-items:center;justify-content:center;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:16px">SK</div>
-              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:17px;font-weight:600">Sarah Kim, CPA</div><div style="font-size:12px;color:#6B6862;margin-top:2px">sarah@kimcpa.com · Read-only · Linked Mar 2025</div></div>
-              <button class="btn ghost" style="font-size:11px;padding:6px 12px">Revoke</button>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Auto-share monthly reports</div><div class="ds">PDF + CSV emailed on the 1st of each month.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Auto-share at year-end</div><div class="ds">Full prior-year package on Jan 5.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Allow CPA to flag trips</div><div class="ds">Comments visible to you, no edit access.</div></div><div class="toggle"></div></div>
-              <div class="set-row"><div><div class="nm">Notify on CPA login</div><div class="ds">Push when they access the dashboard.</div></div><div class="toggle off"></div></div>
-            </div>
-            <div class="set-group">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Invite another</div>
-              <div class="set-row"><div><div class="nm">Add a tax preparer or bookkeeper</div><div class="ds">Up to 3 collaborators on Pro.</div></div><button class="btn">+ Invite</button></div>
+            <div class="coming-soon" style="min-height:240px">
+              <div class="cs-eyebrow">CPA INVITES · COMING SOON</div>
+              <p>Read-only CPA access, auto-share schedules, and bookkeeper invites are on the roadmap.</p>
             </div>
           </div>
 
           <!-- SECURITY -->
           <div class="set-panel sp" id="sp-security">
             <h3>Security</h3>
-            <div class="sub">Two-factor, sessions, and recovery.</div>
+            <div class="sub">Sign out of this browser session.</div>
             <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Password</div><div class="ds">Last changed Feb 2026.</div></div><span class="set-val edit-link">CHANGE →</span></div>
-              <div class="set-row"><div><div class="nm">Two-factor authentication</div><div class="ds">Authenticator app · 1Password</div></div><span class="set-val" style="color:#1B5E3F">ENABLED ✓</span></div>
-              <div class="set-row"><div><div class="nm">Backup codes</div><div class="ds">10 generated · 8 unused.</div></div><span class="set-val edit-link">VIEW →</span></div>
-              <div class="set-row"><div><div class="nm">Biometric unlock</div><div class="ds">Face ID required to open the app.</div></div><div class="toggle"></div></div>
+              <div class="set-row"><div><div class="nm">Email</div><div class="ds" data-mmai="set-email">—</div></div><span class="set-val">SIGNED IN</span></div>
+              <div class="set-row"><div><div class="nm">Sign out of this browser</div><div class="ds">Returns you to the sign-in page on this device only.</div></div><a href="#" data-mmai="signout" class="btn ghost" style="text-decoration:none;color:#DA0A7F;border-color:#DA0A7F">Sign out →</a></div>
             </div>
-            <div class="set-group">
-              <div style="font-family:'Manrope','Inter',sans-serif;font-size:15px;font-weight:600;margin-bottom:8px">Active sessions <span style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.06em;margin-left:8px">3 DEVICES</span></div>
-              <div class="set-row"><div><div class="nm">iPhone 15 Pro · Oakland, CA</div><div class="ds">This device · last active just now</div></div><span class="set-val" style="color:#1B5E3F">CURRENT</span></div>
-              <div class="set-row"><div><div class="nm">MacBook Pro · Oakland, CA</div><div class="ds">Safari · last active 2 hrs ago</div></div><span class="set-val edit-link" style="color:#DA0A7F">SIGN OUT →</span></div>
-              <div class="set-row"><div><div class="nm">iPad Air · Oakland, CA</div><div class="ds">Last active 3 days ago</div></div><span class="set-val edit-link" style="color:#DA0A7F">SIGN OUT →</span></div>
-            </div>
-            <div class="set-group">
-              <div class="set-row"><div><div class="nm">Sign out everywhere</div><div class="ds">Forces a fresh login on all devices except this one.</div></div><button class="btn ghost" style="color:#DA0A7F;border-color:#DA0A7F">Sign out all →</button></div>
-              <div class="set-row"><div><div class="nm">Login history</div><div class="ds">Last 30 days of sign-ins.</div></div><span class="set-val edit-link">VIEW →</span></div>
+            <div class="coming-soon" style="min-height:200px">
+              <div class="cs-eyebrow">PASSWORD · 2FA · ACTIVE SESSIONS · COMING SOON</div>
+              <p>Password changes, two-factor settings, biometric unlock, and active-session management will land here in a future release.</p>
             </div>
           </div>
         </div>
