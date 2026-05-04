@@ -1,3 +1,11 @@
+/*
+ * MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+ * Confidential and proprietary. Unauthorized use prohibited.
+ * MyMilesAI is a trademark of Harijas LLC.
+ * MyMilesAI is a recordkeeping tool - not tax advice.
+ * See LICENSE for full terms. harijasllc@outlook.com
+ */
+
 /* App shell — Supabase auth guard + live KPIs.
    Expects window.__MMAI_CONFIG__ set inline on the page before this script loads,
    and the Supabase UMD bundle loaded via <script src="…@supabase/supabase-js@2"> */
