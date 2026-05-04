@@ -488,8 +488,9 @@
   }
 
   // ───────── Reports ─────────
-  // Client-side IRS Pub 463 mileage-log generator. No backend, no PDF
-  // library — uses browser's native print pipeline for PDF.
+  // Client-side IRS Pub 463 mileage-log generator. No backend.
+  // PDFs are produced directly via jsPDF + autoTable (vendored) so the
+  // user gets a one-tap download instead of a browser print dialog.
   const _reportState = {
     period: 'quarter',
     classification: 'biz',
@@ -771,7 +772,14 @@
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
 
-  function openPrintableReport(trips, profile, label) {
+  // Build a real PDF (Blob) using vendored jsPDF + autoTable. No print
+  // dialog, no new tab — caller passes the Blob to triggerDownload().
+  function genPDF(trips, profile, label) {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('PDF library failed to load. Please refresh the page and try again.');
+      return null;
+    }
+    const { jsPDF } = window.jspdf;
     const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
     const totalMi = trips.reduce((s, t) => s + (Number(t.miles) || 0), 0);
     const bizMi = trips.filter((t) => isBusiness(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
@@ -779,96 +787,142 @@
     const deduction = bizMi * rate;
     const drvName = profile.name || 'Driver';
 
-    const rowsHtml = trips.map((t) => {
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 36; // 0.5in
+
+    // Header
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(11, 15, 14);
+    doc.text('Mileage Log', margin, margin + 8);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(85, 85, 85);
+    doc.text(`${label} · Driver: ${drvName} · Generated ${new Date().toLocaleString()}`, margin, margin + 24);
+
+    // PUB 463 badge (top-right)
+    const badgeText = 'IRS PUB 463';
+    const badgeW = doc.getTextWidth(badgeText) + 14;
+    const badgeX = pageW - margin - badgeW;
+    const badgeY = margin;
+    doc.setFillColor(27, 94, 63);
+    doc.roundedRect(badgeX, badgeY, badgeW, 16, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
+    doc.text(badgeText, badgeX + 7, badgeY + 11);
+
+    // Underline
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(1.5);
+    doc.line(margin, margin + 32, pageW - margin, margin + 32);
+
+    // Trip rows
+    const body = trips.map((t) => {
       const tag = classTag(t.type);
       const ded = isBusiness(t.type) ? '$' + (Number(t.miles) * rate).toFixed(2) : '—';
       const fa = (t.from_addr || '').split(',')[0];
       const ta = (t.to_addr || '').split(',')[0];
-      const rowCls = tag.cls === 'biz' ? 'biz' : (tag.cls === 'pers' ? 'pers' : '');
-      return `<tr class="${rowCls}">
-        <td>${escapeHtml(t.trip_date)}</td>
-        <td>${escapeHtml(fa)} → ${escapeHtml(ta)}</td>
-        <td>${escapeHtml(t.purpose || (tag.cls === 'unreviewed' ? 'Unclassified' : ''))}</td>
-        <td class="num">${(Number(t.miles) || 0).toFixed(1)}</td>
-        <td>${tag.label}</td>
-        <td class="num">${ded}</td>
-      </tr>`;
-    }).join('');
+      return [
+        t.trip_date || '',
+        `${fa} → ${ta}`,
+        t.purpose || (tag.cls === 'unreviewed' ? 'Unclassified' : ''),
+        (Number(t.miles) || 0).toFixed(1),
+        tag.label,
+        ded,
+      ];
+    });
 
-    const html = `<!doctype html><html><head><meta charset="utf-8">
-<title>Mileage Log · ${escapeHtml(label)}</title>
-<style>
-@page { margin: 0.5in; size: letter; }
-* { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; color: #000; font-size: 9.5pt; line-height: 1.35; margin: 0; padding: 0; }
-.head { border-bottom: 2px solid #000; padding-bottom: 10pt; margin-bottom: 14pt; display: flex; justify-content: space-between; align-items: flex-start; }
-h1 { font-size: 18pt; margin: 0 0 4pt; letter-spacing: -0.01em; font-weight: 700; }
-.compliance { display: inline-block; padding: 3pt 7pt; background: #1B5E3F; color: #fff; font-size: 7.5pt; letter-spacing: 0.08em; border-radius: 3pt; font-weight: 600; }
-.meta { color: #555; font-size: 9pt; margin-top: 4pt; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 4.5pt 6pt; text-align: left; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
-th { background: #f5f5f5; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #333; border-bottom: 1.5px solid #999; }
-tr.biz td { background: rgba(27,94,63,0.05); }
-tr.pers td { background: rgba(218,10,127,0.03); }
-.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.footer { margin-top: 18pt; padding-top: 10pt; border-top: 2px solid #000; font-size: 10pt; }
-.footer .row { display: flex; justify-content: space-between; padding: 3pt 0; }
-.footer .total { font-size: 14pt; font-weight: 700; padding-top: 8pt; margin-top: 6pt; border-top: 1px solid #999; }
-.notice { font-size: 8pt; color: #666; margin-top: 22pt; line-height: 1.5; padding-top: 10pt; border-top: 1px solid #ddd; }
-@media print {
-  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .noprint { display: none; }
-}
-.noprint { padding: 12px 16px; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 6px; margin-bottom: 16px; font-size: 12px; line-height: 1.5; }
-.noprint button { margin-left: 12px; padding: 6px 12px; background: #0B0F0E; color: #fff; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; }
-</style></head><body>
-<div class="noprint">
-  <strong>Print preview ready.</strong> Use your browser's Print dialog and choose <strong>"Save as PDF"</strong> as the destination, then save.
-  <button onclick="window.print()">Open Print Dialog</button>
-</div>
-<div class="head">
-  <div>
-    <h1>Mileage Log</h1>
-    <div class="meta">${escapeHtml(label)} · Driver: <strong>${escapeHtml(drvName)}</strong> · Generated ${new Date().toLocaleString()}</div>
-  </div>
-  <span class="compliance">IRS PUB 463</span>
-</div>
-<table>
-  <thead><tr>
-    <th style="width:13%">Date</th>
-    <th style="width:33%">Route (Destination)</th>
-    <th style="width:24%">Business Purpose</th>
-    <th style="width:9%" class="num">Miles</th>
-    <th style="width:10%">Class</th>
-    <th style="width:11%" class="num">Deduction</th>
-  </tr></thead>
-  <tbody>
-    ${rowsHtml || '<tr><td colspan="6" style="text-align:center;padding:24pt;color:#666">No trips in this period match the filter.</td></tr>'}
-  </tbody>
-</table>
-<div class="footer">
-  <div class="row"><span>Total trips</span><span>${trips.length}</span></div>
-  <div class="row"><span>Total miles (all classes)</span><span>${totalMi.toFixed(1)} mi</span></div>
-  <div class="row"><span>Business miles</span><span>${bizMi.toFixed(1)} mi</span></div>
-  <div class="row"><span>Personal miles</span><span>${persMi.toFixed(1)} mi</span></div>
-  <div class="row"><span>Standard mileage rate</span><span>$${rate.toFixed(3)} / mi</span></div>
-  <div class="row total"><span>Total deduction (business × rate)</span><span>$${deduction.toFixed(2)}</span></div>
-</div>
-<div class="notice">
-  <strong>Method:</strong> Standard mileage rate (IRS Publication 463). This log records the four IRS-required elements for each business trip: <em>date, destination, business purpose, and miles driven</em>. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction.
-</div>
-</body></html>`;
+    doc.autoTable({
+      head: [['Date', 'Route (Destination)', 'Business Purpose', 'Miles', 'Class', 'Deduction']],
+      body: body.length ? body : [['—', 'No trips in this period match the filter.', '', '', '', '']],
+      startY: margin + 42,
+      margin: { left: margin, right: margin },
+      styles: { font: 'helvetica', fontSize: 8.5, cellPadding: 4, overflow: 'linebreak' },
+      headStyles: { fillColor: [245, 245, 245], textColor: [51, 51, 51], fontStyle: 'bold', fontSize: 7.5, lineWidth: { bottom: 1.5 }, lineColor: [153, 153, 153] },
+      columnStyles: {
+        0: { cellWidth: 60 },
+        1: { cellWidth: 'auto' },
+        2: { cellWidth: 110 },
+        3: { halign: 'right', cellWidth: 38 },
+        4: { cellWidth: 50 },
+        5: { halign: 'right', cellWidth: 55 },
+      },
+      didParseCell: (data) => {
+        if (data.section !== 'body' || !trips[data.row.index]) return;
+        const tag = classTag(trips[data.row.index].type);
+        if (tag.cls === 'biz') data.cell.styles.fillColor = [240, 247, 244];
+        else if (tag.cls === 'pers') data.cell.styles.fillColor = [253, 245, 249];
+      },
+    });
 
-    const w = window.open('', '_blank');
-    if (!w) {
-      alert('Pop-up blocked. Please allow pop-ups for this site to generate the PDF report — the print dialog opens in a new tab.');
-      return;
+    // Footer (totals + notice). May need a new page if too tall.
+    let y = (doc.lastAutoTable && doc.lastAutoTable.finalY) ? doc.lastAutoTable.finalY + 18 : margin + 200;
+    if (y > pageH - 160) { doc.addPage(); y = margin; }
+
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(1.2);
+    doc.line(margin, y, pageW - margin, y);
+    y += 14;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    const totals = [
+      ['Total trips', String(trips.length)],
+      ['Total miles (all classes)', `${totalMi.toFixed(1)} mi`],
+      ['Business miles', `${bizMi.toFixed(1)} mi`],
+      ['Personal miles', `${persMi.toFixed(1)} mi`],
+      ['Standard mileage rate', `$${rate.toFixed(3)} / mi`],
+    ];
+    for (const [k, v] of totals) {
+      doc.text(k, margin, y);
+      doc.text(v, pageW - margin, y, { align: 'right' });
+      y += 14;
     }
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    setTimeout(() => { try { w.print(); } catch (_e) {} }, 500);
+
+    // Total deduction (highlighted)
+    y += 4;
+    doc.setDrawColor(153, 153, 153);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, pageW - margin, y);
+    y += 16;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text('Total deduction (business × rate)', margin, y);
+    doc.text('$' + deduction.toFixed(2), pageW - margin, y, { align: 'right' });
+    y += 26;
+
+    // Notice
+    if (y > pageH - 80) { doc.addPage(); y = margin; }
+    doc.setDrawColor(221, 221, 221);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, pageW - margin, y);
+    y += 12;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(102, 102, 102);
+    const notice = 'Method: Standard mileage rate (IRS Publication 463). This log records the four IRS-required substantiation elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+    const lines = doc.splitTextToSize(notice, pageW - margin * 2);
+    doc.text(lines, margin, y);
+
+    return doc.output('blob');
+  }
+
+  function triggerDownload(blob, filename) {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
 
   function generateReport() {
@@ -879,13 +933,54 @@ tr.pers td { background: rgba(218,10,127,0.03); }
     const stamp = new Date().toISOString().slice(0, 10);
     switch (_reportState.format) {
       case 'pdf':
-        return openPrintableReport(trips, profile, label);
+        return triggerDownload(genPDF(trips, profile, label), `mileage-${slug}-${stamp}.pdf`);
       case 'csv':
         return downloadFile(`mileage-${slug}-${stamp}.csv`, 'text/csv', genCSV(trips, profile));
       case 'quickbooks':
         return downloadFile(`mileage-${slug}-${stamp}-quickbooks.csv`, 'text/csv', genQuickBooksCSV(trips, profile));
       case 'xero':
         return downloadFile(`mileage-${slug}-${stamp}-xero.csv`, 'text/csv', genXeroCSV(trips, profile));
+    }
+  }
+
+  // Quick PDF/CSV exports from the Dashboard "Export for your CPA" card —
+  // YTD, business-only PDF; YTD, all-trips CSV. No filter UI; one tap.
+  function quickPdfExport() {
+    if (!_allTrips || !_allTrips.length) {
+      alert('No trips to export yet. Log trips in the iOS app first.');
+      return;
+    }
+    const yr = new Date().getFullYear();
+    const trips = _allTrips.filter((t) => isBusiness(t.type) && new Date(t.trip_date).getFullYear() === yr);
+    const stamp = new Date().toISOString().slice(0, 10);
+    triggerDownload(genPDF(trips, _profileRef, `Year-to-date ${yr}`), `mileage-ytd-${yr}-${stamp}.pdf`);
+  }
+
+  function quickCsvExport() {
+    if (!_allTrips || !_allTrips.length) {
+      alert('No trips to export yet. Log trips in the iOS app first.');
+      return;
+    }
+    const yr = new Date().getFullYear();
+    const trips = _allTrips.filter((t) => new Date(t.trip_date).getFullYear() === yr);
+    const stamp = new Date().toISOString().slice(0, 10);
+    downloadFile(`mileage-ytd-${yr}-${stamp}.csv`, 'text/csv', genCSV(trips, _profileRef));
+  }
+
+  // Trips-tab exports: respect the active filter (All / Business / Personal /
+  // Needs review) so the download matches what the user is currently viewing.
+  function tripsTabExport(format) {
+    if (!_allTrips || !_allTrips.length) {
+      alert('No trips to export yet. Log trips in the iOS app first.');
+      return;
+    }
+    const trips = _allTrips.filter((t) => tripMatchesFilter(t, _tripsFilter));
+    const stamp = new Date().toISOString().slice(0, 10);
+    const filterLabel = _tripsFilter === 'all' ? 'all' : _tripsFilter;
+    if (format === 'pdf') {
+      triggerDownload(genPDF(trips, _profileRef, `Trips · ${filterLabel}`), `mileage-trips-${filterLabel}-${stamp}.pdf`);
+    } else {
+      downloadFile(`mileage-trips-${filterLabel}-${stamp}.csv`, 'text/csv', genCSV(trips, _profileRef));
     }
   }
 
@@ -914,6 +1009,18 @@ tr.pers td { background: rgba(218,10,127,0.03); }
     });
     const btn = $('[data-mmai="rep-generate"]');
     if (btn) btn.addEventListener('click', generateReport);
+
+    // Dashboard quick exports
+    const qpdf = $('[data-mmai="quick-pdf-export"]');
+    if (qpdf) qpdf.addEventListener('click', quickPdfExport);
+    const qcsv = $('[data-mmai="quick-csv-export"]');
+    if (qcsv) qcsv.addEventListener('click', quickCsvExport);
+
+    // Trips-tab exports
+    const tcsv = $('[data-mmai="trips-export-csv"]');
+    if (tcsv) tcsv.addEventListener('click', () => tripsTabExport('csv'));
+    const tpdf = $('[data-mmai="trips-export-pdf"]');
+    if (tpdf) tpdf.addEventListener('click', () => tripsTabExport('pdf'));
   }
 
   // ───────── Sign-out ─────────

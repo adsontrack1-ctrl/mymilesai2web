@@ -314,8 +314,9 @@
           </div>
           <div class="export">
             <h4>Export for your CPA</h4>
-            <p>PDF reports in IRS Pub. 463 format — coming soon to web. Generate from the iOS app today.</p>
-            <button class="btn accent" disabled title="Coming soon">PDF export · coming soon</button>
+            <p>PDF reports in IRS Pub. 463 format — date, route, purpose, miles for every business trip. One tap, direct download.</p>
+            <button class="btn accent" data-mmai="quick-pdf-export" style="width:100%">⬇ Export PDF (YTD · business)</button>
+            <button class="btn ghost" data-mmai="quick-csv-export" style="width:100%;margin-top:8px">⬇ Export CSV (YTD · all trips)</button>
           </div>
         </div>
       </div>
@@ -330,7 +331,8 @@
         </div>
         <div class="tools">
           <input class="search" placeholder="Search by address, purpose…" disabled title="Coming soon">
-          <button class="btn ghost" disabled title="Coming soon">⬇ Export CSV</button>
+          <button class="btn ghost" data-mmai="trips-export-csv" title="Download a CSV of every trip currently visible">⬇ Export CSV</button>
+          <button class="btn ghost" data-mmai="trips-export-pdf" title="Download a PDF of every trip currently visible — IRS Pub. 463 format">⬇ Export PDF</button>
           <button class="btn" disabled title="Log new trips from the iOS app">+ Log trip</button>
         </div>
       </div>
@@ -405,7 +407,7 @@
           </div>
           <div class="field">
             <div class="field-label">Notice</div>
-            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the IRS default if set). PDF exports open the browser print dialog — choose <strong style="font-weight:600">"Save as PDF"</strong> to download.</div>
+            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the IRS default if set). PDF and CSV exports download directly to your device — one tap, no print dialog.</div>
           </div>
         </div>
         <div class="rep-prev">
@@ -574,6 +576,8 @@
 </div>
 
 <script src="../assets/vendor/supabase.min.js?v=20260504c"></script>
+<script src="../assets/vendor/jspdf.umd.min.js?v=20260504c"></script>
+<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260504c"></script>
 <script src="../assets/js/app.js?v=20260504c"></script>
 <script>
 function go(name){

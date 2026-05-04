@@ -165,12 +165,151 @@ const MSPress = () => (
   </section>
 );
 
-/* HOW IT WORKS — 3 steps */
+/* HOW IT WORKS — 3 steps. Step 03 ships a working "Try a sample PDF"
+   download so visitors can see the IRS Pub. 463 format before signing up. */
+const MS_SAMPLE_TRIPS = [
+  {date:'2026-04-02', from:'Home Office', to:'Acme Corp HQ', purpose:'Q2 strategy meeting w/ J. Lopez', miles:18.4, type:'biz'},
+  {date:'2026-04-02', from:'Acme Corp HQ', to:'Beanline Coffee', purpose:'Lunch (personal)', miles:1.2, type:'pers'},
+  {date:'2026-04-05', from:'Home Office', to:'Vista Title Co.', purpose:'Closing — 412 Maple Ave', miles:7.8, type:'biz'},
+  {date:'2026-04-08', from:'Home Office', to:'1414 Oak St (listing)', purpose:'Showing — Walker family', miles:11.6, type:'biz'},
+  {date:'2026-04-08', from:'1414 Oak St', to:'88 Lakeshore (listing)', purpose:'Showing — Walker family', miles:6.3, type:'biz'},
+  {date:'2026-04-12', from:'Home Office', to:'Riverstone Office Supply', purpose:'Print marketing flyers', miles:4.4, type:'biz'},
+  {date:'2026-04-15', from:'Home Office', to:'Marriott Convention Ctr', purpose:'Industry CE conference', miles:24.1, type:'biz'},
+  {date:'2026-04-15', from:'Marriott Convention Ctr', to:'Home Office', purpose:'Return from CE conference', miles:24.1, type:'biz'},
+  {date:'2026-04-19', from:'Home Office', to:'Roosevelt Elementary', purpose:'School pickup', miles:3.2, type:'pers'},
+  {date:'2026-04-22', from:'Home Office', to:'1st Republic Bank', purpose:'Deposit closing check', miles:5.7, type:'biz'},
+];
+const MS_SAMPLE_RATE = 0.725;
+
+function msDownloadSamplePDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert('PDF library failed to load. Please refresh the page and try again.');
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const trips = MS_SAMPLE_TRIPS;
+  const rate = MS_SAMPLE_RATE;
+  const isBiz = (t) => t.type === 'biz';
+  const isPers = (t) => t.type === 'pers';
+  const totalMi = trips.reduce((s, t) => s + t.miles, 0);
+  const bizMi = trips.filter(isBiz).reduce((s, t) => s + t.miles, 0);
+  const persMi = trips.filter(isPers).reduce((s, t) => s + t.miles, 0);
+  const deduction = bizMi * rate;
+
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 36;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(11, 15, 14);
+  doc.text('Mileage Log — Sample', margin, margin + 8);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(85, 85, 85);
+  doc.text('April 2026 (sample data) · Driver: Demo · Generated ' + new Date().toLocaleString(), margin, margin + 24);
+
+  const badgeText = 'IRS PUB 463';
+  const badgeW = doc.getTextWidth(badgeText) + 14;
+  const badgeX = pageW - margin - badgeW;
+  doc.setFillColor(27, 94, 63);
+  doc.roundedRect(badgeX, margin, badgeW, 16, 3, 3, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(255, 255, 255);
+  doc.text(badgeText, badgeX + 7, margin + 11);
+
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(1.5);
+  doc.line(margin, margin + 32, pageW - margin, margin + 32);
+
+  const body = trips.map((t) => {
+    const ded = isBiz(t) ? '$' + (t.miles * rate).toFixed(2) : '—';
+    return [t.date, t.from + ' → ' + t.to, t.purpose, t.miles.toFixed(1), isBiz(t) ? 'Business' : (isPers(t) ? 'Personal' : '—'), ded];
+  });
+
+  doc.autoTable({
+    head: [['Date', 'Route (Destination)', 'Business Purpose', 'Miles', 'Class', 'Deduction']],
+    body,
+    startY: margin + 42,
+    margin: { left: margin, right: margin },
+    styles: { font: 'helvetica', fontSize: 8.5, cellPadding: 4, overflow: 'linebreak' },
+    headStyles: { fillColor: [245, 245, 245], textColor: [51, 51, 51], fontStyle: 'bold', fontSize: 7.5 },
+    columnStyles: {
+      0: { cellWidth: 60 },
+      1: { cellWidth: 'auto' },
+      2: { cellWidth: 130 },
+      3: { halign: 'right', cellWidth: 38 },
+      4: { cellWidth: 50 },
+      5: { halign: 'right', cellWidth: 55 },
+    },
+    didParseCell: (data) => {
+      if (data.section !== 'body' || !trips[data.row.index]) return;
+      if (isBiz(trips[data.row.index])) data.cell.styles.fillColor = [240, 247, 244];
+      else if (isPers(trips[data.row.index])) data.cell.styles.fillColor = [253, 245, 249];
+    },
+  });
+
+  let y = (doc.lastAutoTable && doc.lastAutoTable.finalY) ? doc.lastAutoTable.finalY + 18 : margin + 200;
+  if (y > pageH - 160) { doc.addPage(); y = margin; }
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(1.2);
+  doc.line(margin, y, pageW - margin, y);
+  y += 14;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(0, 0, 0);
+  for (const [k, v] of [
+    ['Total trips', String(trips.length)],
+    ['Total miles (all classes)', totalMi.toFixed(1) + ' mi'],
+    ['Business miles', bizMi.toFixed(1) + ' mi'],
+    ['Personal miles', persMi.toFixed(1) + ' mi'],
+    ['Standard mileage rate', '$' + rate.toFixed(3) + ' / mi'],
+  ]) {
+    doc.text(k, margin, y);
+    doc.text(v, pageW - margin, y, { align: 'right' });
+    y += 14;
+  }
+  y += 4;
+  doc.setDrawColor(153, 153, 153);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageW - margin, y);
+  y += 16;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.text('Total deduction (business × rate)', margin, y);
+  doc.text('$' + deduction.toFixed(2), pageW - margin, y, { align: 'right' });
+  y += 26;
+
+  if (y > pageH - 100) { doc.addPage(); y = margin; }
+  doc.setDrawColor(221, 221, 221);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageW - margin, y);
+  y += 12;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(102, 102, 102);
+  const notice = 'SAMPLE — illustrative trips only. Real reports are generated from your own MyMilesAI trip log. Method: Standard mileage rate (IRS Publication 463). This log records the four IRS-required substantiation elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+  doc.text(doc.splitTextToSize(notice, pageW - margin * 2), margin, y);
+
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mymilesai-sample-mileage-log.pdf';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
 const MSHow = () => {
   const steps = [
     {n:'01',title:'You drive.',body:'Start your car. MyMilesAI detects motion via GPS + accelerometer and logs the trip silently — even with the app closed.',meta:'Zero taps · Background mode'},
     {n:'02',title:'You classify.',body:'At the end of the day, swipe each trip left for Personal, right for Business. Our AI learns your patterns and auto-classifies repeat routes.',meta:'~12 seconds / day'},
-    {n:'03',title:'You deduct.',body:'Export a PDF in IRS Pub. 463 format — dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. Review with your tax professional before filing.',meta:'One tap export'},
+    {n:'03',title:'You deduct.',body:'Export a PDF in IRS Pub. 463 format — dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. Review with your tax professional before filing.',meta:'One tap export',cta:'Try a sample PDF →',ctaAction:msDownloadSamplePDF},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
@@ -185,6 +324,11 @@ const MSHow = () => {
             <h3 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:30,lineHeight:1.1,marginBottom:14,letterSpacing:'-0.01em'}}>{s.title}</h3>
             <p style={{fontSize:15,lineHeight:1.55,color:'#4A4843',marginBottom:20}}>{s.body}</p>
             <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:600,fontSize:11,letterSpacing:'0.14em',textTransform:'uppercase',color:'#6B6862'}}>{s.meta}</div>
+            {s.cta ? (
+              <button onClick={s.ctaAction} style={{marginTop:18,padding:'12px 18px',background:'#0B0F0E',color:'#F6F3EE',border:'none',borderRadius:6,fontFamily:"'Geist','Inter',sans-serif",fontWeight:600,fontSize:13,cursor:'pointer',letterSpacing:'0.01em'}}>
+                {s.cta}
+              </button>
+            ) : null}
           </div>
         ))}
       </div>
