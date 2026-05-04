@@ -247,7 +247,7 @@
     <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">847</span></div>
     <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count" data-mmai="places-count">0</span></div>
     <div class="nav-section">Business</div>
-    <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports<span class="cs-badge">SOON</span></div>
+    <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports</div>
     <div class="nav-item" id="nav-vehicles" onclick="go('vehicles')"><span class="ic">◱</span>Vehicles<span class="count" data-mmai="vehicles-count">0</span></div>
     <div class="nav-section">Account</div>
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
@@ -354,10 +354,73 @@
 
     <!-- REPORTS -->
     <section class="page" id="p-reports" data-screen-label="App 04 Reports">
-      <div class="coming-soon">
-        <div class="cs-eyebrow">REPORTS · COMING SOON</div>
-        <h2>IRS-compliant mileage reports on the way.</h2>
-        <p>Generate audit-ready PDF logs, CSV exports, and accountant-share links right from the web. For now, you can export reports from the iOS app.</p>
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">IRS Publication 463 compliant · Standard mileage method</div>
+          <div class="greeting">Build an <em>audit-ready</em> mileage log.</div>
+        </div>
+      </div>
+      <div class="rep-grid">
+        <div class="rep-builder">
+          <h3>Report <em>builder</em></h3>
+          <div class="sub">Choose period, vehicles, classification, and format. Preview updates live.</div>
+          <div class="field">
+            <div class="field-label">Period</div>
+            <div class="period-pills">
+              <span class="pill" data-rep-period="week">Last 7 days</span>
+              <span class="pill" data-rep-period="month">This month</span>
+              <span class="pill on" data-rep-period="quarter">This quarter</span>
+              <span class="pill" data-rep-period="ytd">YTD</span>
+              <span class="pill" data-rep-period="lastyear">Last year</span>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Vehicles</div>
+            <div class="vehicles-check" data-mmai="rep-vehicles-list"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Classification</div>
+            <div class="period-pills">
+              <span class="pill on" data-rep-class="biz">Business only</span>
+              <span class="pill" data-rep-class="bizpers">Business + Personal</span>
+              <span class="pill" data-rep-class="all">All trips</span>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Format</div>
+            <div class="period-pills">
+              <span class="pill on" data-rep-format="pdf">PDF · IRS Pub 463</span>
+              <span class="pill" data-rep-format="csv">CSV · generic</span>
+              <span class="pill" data-rep-format="quickbooks">QuickBooks CSV</span>
+              <span class="pill" data-rep-format="xero">Xero CSV</span>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Notice</div>
+            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the IRS default if set). PDF exports open the browser print dialog — choose <strong style="font-weight:600">"Save as PDF"</strong> to download.</div>
+          </div>
+        </div>
+        <div class="rep-prev">
+          <div class="pdfcard">
+            <div class="pdf-head">
+              <div>
+                <div style="color:#6B6862">MYMILESAI · MILEAGE LOG</div>
+                <div class="pdf-title" data-mmai="rep-period-title">—</div>
+              </div>
+              <div style="padding:4px 8px;background:#1B5E3F;color:#F8F9FB;border-radius:100px;font-size:8px;letter-spacing:0.01em;align-self:flex-start">PUB 463</div>
+            </div>
+            <div class="pdf-row" style="color:#6B6862"><div>Date</div><div>Route</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
+            <div data-mmai="rep-summary"></div>
+          </div>
+          <div class="rep-totals">
+            <div class="lbl">Total deduction</div>
+            <div class="big" data-mmai="rep-total-deduction">$0.00</div>
+            <div class="lb2" data-mmai="rep-totals-line">— trips · — miles · IRS rate $0.725</div>
+            <div class="rep-cta">
+              <button class="btn accent" data-mmai="rep-generate" style="width:100%">Generate report</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

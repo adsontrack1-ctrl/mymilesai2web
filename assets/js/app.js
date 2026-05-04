@@ -481,6 +481,378 @@
     }).join('');
   }
 
+  // ───────── Reports ─────────
+  // Client-side IRS Pub 463 mileage-log generator. No backend, no PDF
+  // library — uses browser's native print pipeline for PDF.
+  const _reportState = {
+    period: 'quarter',
+    classification: 'biz',
+    format: 'pdf',
+    vehicles: new Set(), // empty = all
+  };
+
+  function periodRange(key) {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth();
+    const d = now.getDate();
+    switch (key) {
+      case 'week': {
+        const start = new Date(y, m, d - 6);
+        const end = new Date(y, m, d + 1);
+        return [start, end];
+      }
+      case 'month':
+        return [new Date(y, m, 1), new Date(y, m + 1, 1)];
+      case 'quarter': {
+        const q = Math.floor(m / 3);
+        return [new Date(y, q * 3, 1), new Date(y, q * 3 + 3, 1)];
+      }
+      case 'ytd':
+        return [new Date(y, 0, 1), new Date(y, 11, 31, 23, 59, 59)];
+      case 'lastyear':
+        return [new Date(y - 1, 0, 1), new Date(y, 0, 1)];
+      default:
+        return [new Date(y, 0, 1), new Date(y, 11, 31, 23, 59, 59)];
+    }
+  }
+
+  function periodLabel(key) {
+    const now = new Date();
+    switch (key) {
+      case 'week': return 'Last 7 Days';
+      case 'month': return now.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+      case 'quarter': return `Q${Math.floor(now.getMonth() / 3) + 1} ${now.getFullYear()}`;
+      case 'ytd': return `${now.getFullYear()} YTD`;
+      case 'lastyear': return `${now.getFullYear() - 1} Annual`;
+      default: return '';
+    }
+  }
+
+  function tripsForReport() {
+    const [start, end] = periodRange(_reportState.period);
+    const cls = _reportState.classification;
+    const filterVehicles = _reportState.vehicles.size > 0;
+    return _allTrips.filter((t) => {
+      const d = new Date(t.trip_date + 'T00:00:00');
+      if (d < start || d >= end) return false;
+      if (cls === 'biz' && !isBusiness(t.type)) return false;
+      if (cls === 'bizpers' && !isBusiness(t.type) && !isPersonal(t.type)) return false;
+      if (filterVehicles && !_reportState.vehicles.has(t.vehicle_id)) return false;
+      return true;
+    });
+  }
+
+  function renderReportVehicleChecks(vehicles) {
+    const root = $('[data-mmai="rep-vehicles-list"]');
+    if (!root) return;
+    if (!vehicles.length) {
+      root.innerHTML = '<div class="empty" style="text-align:left;padding:16px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px">No vehicles. Add one in the iOS app to filter reports by vehicle.</div>';
+      return;
+    }
+    const allRow = `<div class="vcheck on" data-rep-vehicle="">
+      <div class="cb">✓</div>
+      <div><strong style="font-weight:500">All vehicles</strong> · ${vehicles.length}</div>
+    </div>`;
+    const veh = vehicles.map((v) => {
+      const sub = [v.year, v.make, v.model].filter(Boolean).join(' ');
+      return `<div class="vcheck" data-rep-vehicle="${escapeHtml(v.id)}">
+        <div class="cb"></div>
+        <div><strong style="font-weight:500">${escapeHtml(v.name || 'Vehicle')}</strong>${sub ? ' · ' + escapeHtml(sub) : ''}</div>
+      </div>`;
+    }).join('');
+    root.innerHTML = allRow + veh;
+
+    $$('.vcheck[data-rep-vehicle]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const vid = el.getAttribute('data-rep-vehicle');
+        const allEl = $('.vcheck[data-rep-vehicle=""]');
+        if (vid === '') {
+          _reportState.vehicles.clear();
+          $$('.vcheck[data-rep-vehicle]').forEach((x) => x.classList.remove('on'));
+          el.classList.add('on');
+        } else {
+          if (allEl) allEl.classList.remove('on');
+          if (_reportState.vehicles.has(vid)) {
+            _reportState.vehicles.delete(vid);
+            el.classList.remove('on');
+          } else {
+            _reportState.vehicles.add(vid);
+            el.classList.add('on');
+          }
+          if (_reportState.vehicles.size === 0 && allEl) allEl.classList.add('on');
+        }
+        renderReportPreview();
+      });
+    });
+  }
+
+  function renderReportPreview() {
+    const trips = tripsForReport();
+    const profile = _profileRef;
+    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const totalMi = trips.reduce((s, t) => s + (Number(t.miles) || 0), 0);
+    const bizMi = trips.filter((t) => isBusiness(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
+    const deduction = bizMi * rate;
+
+    setText('[data-mmai="rep-period-title"]', periodLabel(_reportState.period) + ' Mileage Log');
+    setText('[data-mmai="rep-total-deduction"]', formatDollars(deduction));
+    setText('[data-mmai="rep-totals-line"]',
+      `${trips.length} trip${trips.length === 1 ? '' : 's'} · ${totalMi.toFixed(0)} mi · IRS rate $${rate.toFixed(3)}`);
+
+    const summary = $('[data-mmai="rep-summary"]');
+    if (!summary) return;
+    if (!trips.length) {
+      summary.innerHTML = '<div style="padding:14px 0;color:#6B6862;font-size:11px">No trips in this period match the filter.</div>';
+      return;
+    }
+    const top = trips.slice(0, 6);
+    const more = trips.length > top.length ? `<div class="pdf-row" style="color:#6B6862;font-style:italic">… and ${trips.length - top.length} more</div>` : '';
+    summary.innerHTML = top.map((t) => {
+      const fa = (t.from_addr || '').split(',')[0];
+      const ta = (t.to_addr || '').split(',')[0];
+      const ded = isBusiness(t.type) ? '$' + (Number(t.miles) * rate).toFixed(2) : '—';
+      return `<div class="pdf-row">
+        <div>${escapeHtml(t.trip_date.slice(5))}</div>
+        <div style="color:#0B0F0E">${escapeHtml(fa.slice(0, 24))} → ${escapeHtml(ta.slice(0, 24))}</div>
+        <div style="text-align:right">${(Number(t.miles) || 0).toFixed(1)}</div>
+        <div style="text-align:right;color:${isBusiness(t.type) ? '#1B5E3F' : '#6B6862'}">${ded.replace('$', '')}</div>
+      </div>`;
+    }).join('') + more;
+  }
+
+  function csvLine(arr) {
+    return arr.map((s) => {
+      const v = String(s == null ? '' : s);
+      return /[,"\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+    }).join(',');
+  }
+
+  function genCSV(trips, profile) {
+    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const out = [csvLine(['Date', 'Time', 'From Address', 'To Address', 'Miles', 'Type', 'Purpose', 'Duration (min)', 'Vehicle ID', 'Deduction (USD)'])];
+    for (const t of trips) {
+      out.push(csvLine([
+        t.trip_date,
+        t.trip_time || '',
+        t.from_addr || '',
+        t.to_addr || '',
+        (Number(t.miles) || 0).toFixed(2),
+        t.type || '',
+        t.purpose || '',
+        t.duration_mins || '',
+        t.vehicle_id || '',
+        isBusiness(t.type) ? (Number(t.miles) * rate).toFixed(2) : '',
+      ]));
+    }
+    return out.join('\r\n');
+  }
+
+  function genQuickBooksCSV(trips, profile) {
+    // QuickBooks Online expense-import CSV: Date, Description, Vendor, Amount, Account, Class.
+    // Only business trips emit rows (mileage isn't a personal QB expense).
+    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const out = [csvLine(['Date', 'Description', 'Vendor', 'Amount', 'Account', 'Class'])];
+    for (const t of trips) {
+      if (!isBusiness(t.type)) continue;
+      const fa = (t.from_addr || '').split(',')[0];
+      const ta = (t.to_addr || '').split(',')[0];
+      const desc = `Business mileage: ${fa} → ${ta}${t.purpose ? ' · ' + t.purpose : ''} (${(Number(t.miles) || 0).toFixed(1)} mi)`;
+      out.push(csvLine([
+        t.trip_date,
+        desc,
+        'MyMilesAI Mileage',
+        (Number(t.miles) * rate).toFixed(2),
+        'Travel - Auto/Mileage',
+        '',
+      ]));
+    }
+    return out.join('\r\n');
+  }
+
+  function genXeroCSV(trips, profile) {
+    // Xero Bills CSV import format. Account code 461 is a common Travel-Domestic
+    // code; users may need to remap to their chart of accounts.
+    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const contact = profile.name || 'Driver';
+    const out = [csvLine(['*ContactName', '*InvoiceNumber', '*InvoiceDate', '*DueDate', '*Description', '*Quantity', '*UnitAmount', '*AccountCode'])];
+    let n = 1;
+    for (const t of trips) {
+      if (!isBusiness(t.type)) continue;
+      const fa = (t.from_addr || '').split(',')[0];
+      const ta = (t.to_addr || '').split(',')[0];
+      const desc = `Business mileage: ${fa} → ${ta}${t.purpose ? ' · ' + t.purpose : ''}`;
+      const invNo = `MILE-${t.trip_date.replace(/-/g, '')}-${String(n++).padStart(3, '0')}`;
+      out.push(csvLine([
+        contact,
+        invNo,
+        t.trip_date,
+        t.trip_date,
+        desc,
+        (Number(t.miles) || 0).toFixed(2),
+        rate.toFixed(3),
+        '461',
+      ]));
+    }
+    return out.join('\r\n');
+  }
+
+  function downloadFile(filename, mime, content) {
+    const blob = new Blob([content], { type: mime + ';charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  function openPrintableReport(trips, profile, label) {
+    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const totalMi = trips.reduce((s, t) => s + (Number(t.miles) || 0), 0);
+    const bizMi = trips.filter((t) => isBusiness(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
+    const persMi = trips.filter((t) => isPersonal(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
+    const deduction = bizMi * rate;
+    const drvName = profile.name || 'Driver';
+
+    const rowsHtml = trips.map((t) => {
+      const tag = classTag(t.type);
+      const ded = isBusiness(t.type) ? '$' + (Number(t.miles) * rate).toFixed(2) : '—';
+      const fa = (t.from_addr || '').split(',')[0];
+      const ta = (t.to_addr || '').split(',')[0];
+      const rowCls = tag.cls === 'biz' ? 'biz' : (tag.cls === 'pers' ? 'pers' : '');
+      return `<tr class="${rowCls}">
+        <td>${escapeHtml(t.trip_date)}</td>
+        <td>${escapeHtml(fa)} → ${escapeHtml(ta)}</td>
+        <td>${escapeHtml(t.purpose || (tag.cls === 'unreviewed' ? 'Unclassified' : ''))}</td>
+        <td class="num">${(Number(t.miles) || 0).toFixed(1)}</td>
+        <td>${tag.label}</td>
+        <td class="num">${ded}</td>
+      </tr>`;
+    }).join('');
+
+    const html = `<!doctype html><html><head><meta charset="utf-8">
+<title>Mileage Log · ${escapeHtml(label)}</title>
+<style>
+@page { margin: 0.5in; size: letter; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; color: #000; font-size: 9.5pt; line-height: 1.35; margin: 0; padding: 0; }
+.head { border-bottom: 2px solid #000; padding-bottom: 10pt; margin-bottom: 14pt; display: flex; justify-content: space-between; align-items: flex-start; }
+h1 { font-size: 18pt; margin: 0 0 4pt; letter-spacing: -0.01em; font-weight: 700; }
+.compliance { display: inline-block; padding: 3pt 7pt; background: #1B5E3F; color: #fff; font-size: 7.5pt; letter-spacing: 0.08em; border-radius: 3pt; font-weight: 600; }
+.meta { color: #555; font-size: 9pt; margin-top: 4pt; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 4.5pt 6pt; text-align: left; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+th { background: #f5f5f5; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #333; border-bottom: 1.5px solid #999; }
+tr.biz td { background: rgba(27,94,63,0.05); }
+tr.pers td { background: rgba(218,10,127,0.03); }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.footer { margin-top: 18pt; padding-top: 10pt; border-top: 2px solid #000; font-size: 10pt; }
+.footer .row { display: flex; justify-content: space-between; padding: 3pt 0; }
+.footer .total { font-size: 14pt; font-weight: 700; padding-top: 8pt; margin-top: 6pt; border-top: 1px solid #999; }
+.notice { font-size: 8pt; color: #666; margin-top: 22pt; line-height: 1.5; padding-top: 10pt; border-top: 1px solid #ddd; }
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .noprint { display: none; }
+}
+.noprint { padding: 12px 16px; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 6px; margin-bottom: 16px; font-size: 12px; line-height: 1.5; }
+.noprint button { margin-left: 12px; padding: 6px 12px; background: #0B0F0E; color: #fff; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; }
+</style></head><body>
+<div class="noprint">
+  <strong>Print preview ready.</strong> Use your browser's Print dialog and choose <strong>"Save as PDF"</strong> as the destination, then save.
+  <button onclick="window.print()">Open Print Dialog</button>
+</div>
+<div class="head">
+  <div>
+    <h1>Mileage Log</h1>
+    <div class="meta">${escapeHtml(label)} · Driver: <strong>${escapeHtml(drvName)}</strong> · Generated ${new Date().toLocaleString()}</div>
+  </div>
+  <span class="compliance">IRS PUB 463</span>
+</div>
+<table>
+  <thead><tr>
+    <th style="width:13%">Date</th>
+    <th style="width:33%">Route (Destination)</th>
+    <th style="width:24%">Business Purpose</th>
+    <th style="width:9%" class="num">Miles</th>
+    <th style="width:10%">Class</th>
+    <th style="width:11%" class="num">Deduction</th>
+  </tr></thead>
+  <tbody>
+    ${rowsHtml || '<tr><td colspan="6" style="text-align:center;padding:24pt;color:#666">No trips in this period match the filter.</td></tr>'}
+  </tbody>
+</table>
+<div class="footer">
+  <div class="row"><span>Total trips</span><span>${trips.length}</span></div>
+  <div class="row"><span>Total miles (all classes)</span><span>${totalMi.toFixed(1)} mi</span></div>
+  <div class="row"><span>Business miles</span><span>${bizMi.toFixed(1)} mi</span></div>
+  <div class="row"><span>Personal miles</span><span>${persMi.toFixed(1)} mi</span></div>
+  <div class="row"><span>Standard mileage rate</span><span>$${rate.toFixed(3)} / mi</span></div>
+  <div class="row total"><span>Total deduction (business × rate)</span><span>$${deduction.toFixed(2)}</span></div>
+</div>
+<div class="notice">
+  <strong>Method:</strong> Standard mileage rate (IRS Publication 463). This log records the four IRS-required elements for each business trip: <em>date, destination, business purpose, and miles driven</em>. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction.
+</div>
+</body></html>`;
+
+    const w = window.open('', '_blank');
+    if (!w) {
+      alert('Pop-up blocked. Please allow pop-ups for this site to generate the PDF report — the print dialog opens in a new tab.');
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(() => { try { w.print(); } catch (_e) {} }, 500);
+  }
+
+  function generateReport() {
+    const trips = tripsForReport();
+    const profile = _profileRef;
+    const label = periodLabel(_reportState.period);
+    const slug = _reportState.period;
+    const stamp = new Date().toISOString().slice(0, 10);
+    switch (_reportState.format) {
+      case 'pdf':
+        return openPrintableReport(trips, profile, label);
+      case 'csv':
+        return downloadFile(`mileage-${slug}-${stamp}.csv`, 'text/csv', genCSV(trips, profile));
+      case 'quickbooks':
+        return downloadFile(`mileage-${slug}-${stamp}-quickbooks.csv`, 'text/csv', genQuickBooksCSV(trips, profile));
+      case 'xero':
+        return downloadFile(`mileage-${slug}-${stamp}-xero.csv`, 'text/csv', genXeroCSV(trips, profile));
+    }
+  }
+
+  function wireReports() {
+    $$('.pill[data-rep-period]').forEach((p) => {
+      p.addEventListener('click', () => {
+        _reportState.period = p.getAttribute('data-rep-period');
+        $$('.pill[data-rep-period]').forEach((x) => x.classList.toggle('on', x === p));
+        renderReportPreview();
+      });
+    });
+    $$('.pill[data-rep-class]').forEach((p) => {
+      p.addEventListener('click', () => {
+        _reportState.classification = p.getAttribute('data-rep-class');
+        $$('.pill[data-rep-class]').forEach((x) => x.classList.toggle('on', x === p));
+        renderReportPreview();
+      });
+    });
+    $$('.pill[data-rep-format]').forEach((p) => {
+      p.addEventListener('click', () => {
+        _reportState.format = p.getAttribute('data-rep-format');
+        $$('.pill[data-rep-format]').forEach((x) => x.classList.toggle('on', x === p));
+      });
+    });
+    const btn = $('[data-mmai="rep-generate"]');
+    if (btn) btn.addEventListener('click', generateReport);
+  }
+
   // ───────── Sign-out ─────────
   function wireSignOut() {
     $$('[data-mmai="signout"]').forEach((btn) => {
@@ -497,6 +869,7 @@
     wirePageSwitcher();
     wireSignOut();
     wireTripsFilters();
+    wireReports();
 
     const session = await guard();
     if (!session) return;
@@ -521,6 +894,8 @@
     renderBilling(profile);
     renderVehicles(vehicles);
     renderPlaces(profile);
+    renderReportVehicleChecks(vehicles);
+    renderReportPreview();
 
     document.body.classList.add('mmai-ready');
   }
