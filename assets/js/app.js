@@ -488,7 +488,7 @@
     period: 'quarter',
     classification: 'biz',
     format: 'pdf',
-    vehicles: new Set(), // empty = all
+    vehicle: '', // '' = all vehicles, otherwise a vehicle UUID (radio, single-select)
   };
 
   function periodRange(key) {
@@ -532,19 +532,19 @@
   function tripsForReport() {
     const [start, end] = periodRange(_reportState.period);
     const cls = _reportState.classification;
-    const filterVehicles = _reportState.vehicles.size > 0;
+    const wantVid = _reportState.vehicle; // '' = all
     const defaultVid = _profileRef.default_vehicle_id || null;
     return _allTrips.filter((t) => {
       const d = new Date(t.trip_date + 'T00:00:00');
       if (d < start || d >= end) return false;
       if (cls === 'biz' && !isBusiness(t.type)) return false;
       if (cls === 'bizpers' && !isBusiness(t.type) && !isPersonal(t.type)) return false;
-      if (filterVehicles) {
+      if (wantVid) {
         if (t.vehicle_id) {
-          if (!_reportState.vehicles.has(t.vehicle_id)) return false;
+          if (t.vehicle_id !== wantVid) return false;
         } else if (defaultVid) {
           // Trip has no vehicle assigned: attribute to the user's default.
-          if (!_reportState.vehicles.has(defaultVid)) return false;
+          if (defaultVid !== wantVid) return false;
         } else {
           // No default vehicle set and trip is unassigned — exclude from
           // per-vehicle filter. The notice below tells the user why.
@@ -563,7 +563,7 @@
       return;
     }
     const allRow = `<div class="vcheck on" data-rep-vehicle="">
-      <div class="cb">✓</div>
+      <div class="cb"></div>
       <div><strong style="font-weight:500">All vehicles</strong> · ${vehicles.length}</div>
     </div>`;
     const veh = vehicles.map((v) => {
@@ -589,22 +589,8 @@
     $$('.vcheck[data-rep-vehicle]').forEach((el) => {
       el.addEventListener('click', () => {
         const vid = el.getAttribute('data-rep-vehicle');
-        const allEl = $('.vcheck[data-rep-vehicle=""]');
-        if (vid === '') {
-          _reportState.vehicles.clear();
-          $$('.vcheck[data-rep-vehicle]').forEach((x) => x.classList.remove('on'));
-          el.classList.add('on');
-        } else {
-          if (allEl) allEl.classList.remove('on');
-          if (_reportState.vehicles.has(vid)) {
-            _reportState.vehicles.delete(vid);
-            el.classList.remove('on');
-          } else {
-            _reportState.vehicles.add(vid);
-            el.classList.add('on');
-          }
-          if (_reportState.vehicles.size === 0 && allEl) allEl.classList.add('on');
-        }
+        _reportState.vehicle = vid; // '' for "All", else vehicle UUID
+        $$('.vcheck[data-rep-vehicle]').forEach((x) => x.classList.toggle('on', x === el));
         renderReportPreview();
       });
     });
