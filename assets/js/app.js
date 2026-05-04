@@ -533,12 +533,24 @@
     const [start, end] = periodRange(_reportState.period);
     const cls = _reportState.classification;
     const filterVehicles = _reportState.vehicles.size > 0;
+    const defaultVid = _profileRef.default_vehicle_id || null;
     return _allTrips.filter((t) => {
       const d = new Date(t.trip_date + 'T00:00:00');
       if (d < start || d >= end) return false;
       if (cls === 'biz' && !isBusiness(t.type)) return false;
       if (cls === 'bizpers' && !isBusiness(t.type) && !isPersonal(t.type)) return false;
-      if (filterVehicles && !_reportState.vehicles.has(t.vehicle_id)) return false;
+      if (filterVehicles) {
+        if (t.vehicle_id) {
+          if (!_reportState.vehicles.has(t.vehicle_id)) return false;
+        } else if (defaultVid) {
+          // Trip has no vehicle assigned: attribute to the user's default.
+          if (!_reportState.vehicles.has(defaultVid)) return false;
+        } else {
+          // No default vehicle set and trip is unassigned — exclude from
+          // per-vehicle filter. The notice below tells the user why.
+          return false;
+        }
+      }
       return true;
     });
   }
@@ -556,12 +568,23 @@
     </div>`;
     const veh = vehicles.map((v) => {
       const sub = [v.year, v.make, v.model].filter(Boolean).join(' ');
+      const isDefault = _profileRef.default_vehicle_id === v.id;
       return `<div class="vcheck" data-rep-vehicle="${escapeHtml(v.id)}">
         <div class="cb"></div>
-        <div><strong style="font-weight:500">${escapeHtml(v.name || 'Vehicle')}</strong>${sub ? ' · ' + escapeHtml(sub) : ''}</div>
+        <div><strong style="font-weight:500">${escapeHtml(v.name || 'Vehicle')}</strong>${sub ? ' · ' + escapeHtml(sub) : ''}${isDefault ? ' · DEFAULT' : ''}</div>
       </div>`;
     }).join('');
-    root.innerHTML = allRow + veh;
+
+    // If any YTD trips have null vehicle_id and there's no default vehicle,
+    // per-vehicle filtering will exclude those trips. Tell the user why.
+    const unassignedCount = _allTrips.filter((t) => !t.vehicle_id).length;
+    let notice = '';
+    if (unassignedCount > 0 && !_profileRef.default_vehicle_id) {
+      notice = `<div class="vehicle-notice"><strong>Note:</strong> ${unassignedCount} of your trips don't have a vehicle assigned. Per-vehicle filters will exclude those trips. Set a default vehicle in the iOS app to attribute past unassigned trips.</div>`;
+    } else if (unassignedCount > 0) {
+      notice = `<div class="vehicle-notice">${unassignedCount} unassigned trip${unassignedCount === 1 ? '' : 's'} are attributed to your default vehicle.</div>`;
+    }
+    root.innerHTML = allRow + veh + notice;
 
     $$('.vcheck[data-rep-vehicle]').forEach((el) => {
       el.addEventListener('click', () => {
