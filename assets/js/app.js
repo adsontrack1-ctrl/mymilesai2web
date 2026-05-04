@@ -20,6 +20,11 @@
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
   });
 
+  // Closure state for the trips page filter pills.
+  let _allTrips = [];
+  let _profileRef = {};
+  let _tripsFilter = 'all';
+
   // ───────── Auth guard ─────────
   async function guard() {
     const { data } = await _sb.auth.getSession();
@@ -283,11 +288,18 @@
     }).join('');
   }
 
-  function renderTripsTable(trips, profile) {
+  function tripMatchesFilter(t, filter) {
+    if (filter === 'biz') return isBusiness(t.type);
+    if (filter === 'pers') return isPersonal(t.type);
+    if (filter === 'unc') return !isBusiness(t.type) && !isPersonal(t.type);
+    return true; // 'all'
+  }
+
+  function renderTripRows(trips, profile) {
     const root = $('[data-mmai="trips-table-body"]');
     if (!root) return;
     if (!trips.length) {
-      root.innerHTML = '<div class="empty">No trips yet.</div>';
+      root.innerHTML = '<div class="empty">No trips match this filter.</div>';
       return;
     }
     const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
@@ -312,8 +324,30 @@
         <div class="more">⋯</div>
       </div>`;
     }).join('');
+  }
 
-    // Filter row counts
+  function applyTripsFilter(filter) {
+    _tripsFilter = filter;
+    $$('.pill[data-trips-filter]').forEach((p) => {
+      p.classList.toggle('on', p.getAttribute('data-trips-filter') === filter);
+    });
+    const filtered = _allTrips.filter((t) => tripMatchesFilter(t, filter));
+    renderTripRows(filtered, _profileRef);
+  }
+
+  function wireTripsFilters() {
+    $$('.pill[data-trips-filter]').forEach((p) => {
+      p.addEventListener('click', () => {
+        applyTripsFilter(p.getAttribute('data-trips-filter'));
+      });
+    });
+  }
+
+  function renderTripsTable(trips, profile) {
+    const root = $('[data-mmai="trips-table-body"]');
+    if (!root) return;
+
+    // Always recompute counts from the full list — counts don't change with filter.
     let bizCount = 0, persCount = 0, uncCount = 0;
     for (const t of trips) {
       if (isBusiness(t.type)) bizCount++;
@@ -324,6 +358,12 @@
     setText('[data-mmai="trips-filter-pers"]', persCount);
     setText('[data-mmai="trips-filter-unc"]', uncCount);
     setText('[data-mmai="trips-eyebrow-review"]', `${trips.length} trips · ${uncCount} need review`);
+
+    if (!trips.length) {
+      root.innerHTML = '<div class="empty">No trips this year yet.</div>';
+      return;
+    }
+    renderTripRows(trips.filter((t) => tripMatchesFilter(t, _tripsFilter)), profile);
   }
 
   function renderQuarter(trips, kpis, profile) {
@@ -456,6 +496,7 @@
   async function boot() {
     wirePageSwitcher();
     wireSignOut();
+    wireTripsFilters();
 
     const session = await guard();
     if (!session) return;
@@ -465,6 +506,9 @@
       loadTripsYtd(session.user.id),
       loadVehicles(session.user.id),
     ]);
+
+    _allTrips = trips;
+    _profileRef = profile;
 
     const kpis = computeKpis(trips, profile);
 

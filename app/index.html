@@ -210,6 +210,8 @@
   button[disabled], .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
   .edit-link.disabled { opacity: 0.4; pointer-events: none; }
   .toggle.disabled { opacity: 0.4; pointer-events: none; }
+  .pill[data-trips-filter] { cursor: pointer; user-select: none; }
+  .pill[data-trips-filter]:hover { filter: brightness(0.97); }
 </style>
 <link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
 <script>
@@ -326,10 +328,10 @@
         </div>
       </div>
       <div class="filter-row">
-        <span class="pill on">All<span class="ct" data-mmai="trips-count">0</span></span>
-        <span class="pill">Business<span class="ct" data-mmai="trips-filter-biz">0</span></span>
-        <span class="pill">Personal<span class="ct" data-mmai="trips-filter-pers">0</span></span>
-        <span class="pill" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct" data-mmai="trips-filter-unc">0</span></span>
+        <span class="pill on" data-trips-filter="all">All<span class="ct" data-mmai="trips-count">0</span></span>
+        <span class="pill" data-trips-filter="biz">Business<span class="ct" data-mmai="trips-filter-biz">0</span></span>
+        <span class="pill" data-trips-filter="pers">Personal<span class="ct" data-mmai="trips-filter-pers">0</span></span>
+        <span class="pill" data-trips-filter="unc" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct" data-mmai="trips-filter-unc">0</span></span>
       </div>
       <div class="trips-table">
         <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
