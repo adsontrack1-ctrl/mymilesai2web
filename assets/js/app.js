@@ -405,7 +405,7 @@
     setText('[data-mmai="set-fullname"]', profile.name || '—');
     setText('[data-mmai="set-email"]', session.user.email || '—');
     setText('[data-mmai="set-phone"]', profile.phone || '—');
-    setText('[data-mmai="set-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
+    setText('[data-mmai="edit-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
     setText('[data-mmai="set-language"]', profile.locale ? profile.locale.toUpperCase() : '—');
     setText('[data-mmai="set-workspace"]', profile.company_name || `${(name.split(' ')[0] || 'Personal')} workspace`);
     setText('[data-mmai="set-country"]', profile.country || '—');
@@ -1458,6 +1458,47 @@
     });
   }
 
+  // ───────── Time zone helpers ─────────
+  function detectDeviceTimezone() {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return tz || null;
+    } catch (_e) {
+      return null;
+    }
+  }
+  function listTimeZones() {
+    try {
+      if (typeof Intl.supportedValuesOf === 'function') {
+        return Intl.supportedValuesOf('timeZone');
+      }
+    } catch (_e) {}
+    // Curated fallback for browsers without Intl.supportedValuesOf.
+    return [
+      'UTC',
+      'America/New_York', 'America/Chicago', 'America/Denver', 'America/Phoenix',
+      'America/Los_Angeles', 'America/Anchorage', 'Pacific/Honolulu',
+      'America/Toronto', 'America/Vancouver', 'America/Mexico_City',
+      'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'Europe/Madrid',
+      'Asia/Dubai', 'Asia/Kolkata', 'Asia/Singapore', 'Asia/Tokyo',
+      'Australia/Sydney', 'Pacific/Auckland',
+    ];
+  }
+  // First-install auto-set: if profile.timezone is empty, write the device's
+  // resolved IANA zone so trip timestamps and report cutoffs are correct from
+  // day one. Idempotent — only fires when the column is null/empty.
+  async function ensureProfileTimezone(session) {
+    if (_profileRef.timezone) return;
+    const tz = detectDeviceTimezone();
+    if (!tz) return;
+    const { error } = await _sb.from('profiles').update({ timezone: tz }).eq('id', session.user.id);
+    if (error) {
+      console.warn('[mmai] auto-set timezone:', error.message);
+      return;
+    }
+    _profileRef.timezone = tz;
+  }
+
   // ───────── Settings · editable fields ─────────
   function openProfileEditModal(session, opts) {
     const bodyHtml = `<div class="mmai-field"><label for="pe-val">${escapeHtml(opts.label)}</label>${opts.input || ''}</div>${opts.help ? `<div class="mmai-field-help">${escapeHtml(opts.help)}</div>` : ''}`;
@@ -1499,6 +1540,18 @@
     link('[data-mmai="edit-workspace"]', {
       title: 'Rename workspace', label: 'Workspace name', column: 'company_name',
       input: `<input id="pe-val" type="text" value="${escapeHtml(_profileRef.company_name || '')}" placeholder="Acme LLC">`,
+    });
+    link('[data-mmai="edit-timezone"]', {
+      title: 'Set time zone',
+      label: 'Time zone',
+      column: 'timezone',
+      input: (() => {
+        const cur = _profileRef.timezone || detectDeviceTimezone() || 'UTC';
+        const zones = listTimeZones();
+        const opts = zones.map((z) => `<option value="${escapeHtml(z)}"${z === cur ? ' selected' : ''}>${escapeHtml(z.replace(/_/g, ' '))}</option>`).join('');
+        return `<select id="pe-val">${opts}</select>`;
+      })(),
+      help: 'Pick from your device’s available time zones. Used for trip timestamps and report cutoffs.',
     });
     link('[data-mmai="edit-rate"]', {
       title: 'Edit mileage rate',
@@ -1579,6 +1632,10 @@
     _allTrips = trips;
     _profileRef = profile;
     _vehiclesList = vehicles;
+
+    // First-install auto-set time zone so trip timestamps and report cutoffs
+    // line up with the user's actual location from day one.
+    await ensureProfileTimezone(session);
 
     const kpis = computeKpis(trips, profile);
 
