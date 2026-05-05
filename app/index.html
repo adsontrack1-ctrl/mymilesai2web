@@ -539,9 +539,22 @@
           <div class="set-panel sp" id="sp-notif">
             <h3>Notifications</h3>
             <div class="sub">When to nudge you, and where.</div>
-            <div class="coming-soon" style="min-height:280px">
-              <div class="cs-eyebrow">NOTIFICATION CONTROLS · COMING SOON</div>
-              <p>Push and email notification preferences are configured in the iOS app today. Web controls coming soon.</p>
+            <div class="set-group" style="border-top:none;padding-top:0">
+              <div class="set-row">
+                <div>
+                  <div class="nm">Push notifications</div>
+                  <div class="ds">Master switch for trip and report alerts. When on, you'll be notified for the events listed below — delivered through the iOS app, your one signed-in browser session.</div>
+                </div>
+                <div class="toggle off" data-mmai-toggle="push_notifications_enabled" role="switch" aria-checked="false" tabindex="0"></div>
+              </div>
+            </div>
+            <div class="set-group">
+              <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.06em;color:#6B6862;margin-bottom:14px">EVENTS YOU'LL BE NOTIFIED ABOUT</div>
+              <div class="set-row"><div><div class="nm">Trip auto-detected</div><div class="ds">A new drive starts and ends — fired the moment the trip is logged.</div></div><span class="set-val" style="color:#1B5E3F">ON · IOS</span></div>
+              <div class="set-row"><div><div class="nm">Trip needs classification</div><div class="ds">An auto-detected trip is unclassified and waiting for you to mark it business or personal.</div></div><span class="set-val" style="color:#1B5E3F">ON · IOS</span></div>
+              <div class="set-row"><div><div class="nm">Weekly summary</div><div class="ds">Sunday-night recap — total miles, business %, top routes, and trips needing review.</div></div><span class="set-val" style="color:#1B5E3F">ON · IOS</span></div>
+              <div class="set-row"><div><div class="nm">Quarterly tax estimate</div><div class="ds">End-of-quarter snapshot of your business deduction so far, with a CTA to export the IRS Pub. 463 log.</div></div><span class="set-val" style="color:#1B5E3F">ON · IOS</span></div>
+              <div class="set-row" style="border:none"><div><div class="nm">End-of-year report ready</div><div class="ds">Your annual mileage log is generated and ready to download for your CPA.</div></div><span class="set-val" style="color:#1B5E3F">ON · IOS</span></div>
             </div>
           </div>
 
@@ -614,10 +627,10 @@
   </div>
 </div>
 
-<script src="../assets/vendor/supabase.min.js?v=20260505e"></script>
-<script src="../assets/vendor/jspdf.umd.min.js?v=20260505e"></script>
-<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260505e"></script>
-<script src="../assets/js/app.js?v=20260505e"></script>
+<script src="../assets/vendor/supabase.min.js?v=20260505f"></script>
+<script src="../assets/vendor/jspdf.umd.min.js?v=20260505f"></script>
+<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260505f"></script>
+<script src="../assets/js/app.js?v=20260505f"></script>
 <script>
 function go(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
@@ -657,10 +670,8 @@ document.querySelectorAll('[data-jump]').forEach(b => {
     if (nav) nav.click();
   });
 });
-// Toggles flip on/off.
-document.querySelectorAll('#p-settings .toggle').forEach(t => {
-  t.addEventListener('click', () => t.classList.toggle('off'));
-});
+// Toggle wiring is in app.js (renderNotifications + wireNotificationToggles)
+// — that path persists to Supabase. Don't re-bind here or clicks fire twice.
 // Edit-links flash to confirm the click registers.
 document.querySelectorAll('.edit-link').forEach(el => {
   el.addEventListener('click', () => {
