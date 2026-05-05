@@ -407,7 +407,7 @@
     setText('[data-mmai="set-phone"]', profile.phone || '—');
     setText('[data-mmai="edit-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
     setText('[data-mmai="set-language"]', profile.locale ? profile.locale.toUpperCase() : '—');
-    setText('[data-mmai="set-workspace"]', profile.company_name || `${(name.split(' ')[0] || 'Personal')} workspace`);
+    setText('[data-mmai="set-workspace"]', profile.company_name || '—');
     setText('[data-mmai="edit-country"]', profile.country || '—');
   }
 
@@ -1600,7 +1600,7 @@
       input: `<input id="pe-val" type="tel" value="${escapeHtml(_profileRef.phone || '')}" placeholder="+1 555 123 4567">`,
     });
     link('[data-mmai="edit-workspace"]', {
-      title: 'Rename workspace', label: 'Workspace name', column: 'company_name',
+      title: 'Edit company name', label: 'Company name', column: 'company_name',
       input: `<input id="pe-val" type="text" value="${escapeHtml(_profileRef.company_name || '')}" placeholder="Acme LLC">`,
     });
     link('[data-mmai="edit-timezone"]', {
