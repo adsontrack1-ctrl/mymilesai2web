@@ -480,8 +480,30 @@
     }).join('');
   }
 
+  // Normalise an address for de-dup comparison: trim, lowercase, collapse
+  // whitespace. Two entries with the same normalised address collapse into
+  // one card; their visits sum.
+  function normAddr(a) {
+    return String(a || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+  function dedupePlaces(raw) {
+    const byKey = new Map();
+    for (const p of raw) {
+      if (!p || typeof p !== 'object') continue;
+      const key = normAddr(p.address) || ('id:' + p.id);
+      const existing = byKey.get(key);
+      if (!existing) {
+        byKey.set(key, { ...p, visits: Number(p.visits) || 0 });
+      } else {
+        // Same address — keep the first label/id, sum visits across copies.
+        existing.visits += Number(p.visits) || 0;
+      }
+    }
+    return Array.from(byKey.values());
+  }
   function renderPlaces(profile) {
-    const places = Array.isArray(profile.named_locations) ? profile.named_locations : [];
+    const raw = Array.isArray(profile.named_locations) ? profile.named_locations : [];
+    const places = dedupePlaces(raw);
     setAll('[data-mmai="places-count"]', places.length);
     const root = $('[data-mmai="places-list"]');
     if (!root) return;
@@ -1456,15 +1478,32 @@
         if (!label) return modalShowError('Label is required.');
         if (!address) return modalShowError('Address is required.');
         const existing = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
-        const entry = {
-          id: 'loc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
-          label,
-          address,
-          lat: Number.isFinite(lat) ? lat : 0,
-          lng: Number.isFinite(lng) ? lng : 0,
-          visits: 0,
-        };
-        const next = existing.concat([entry]);
+        const key = normAddr(address);
+        const dupIdx = existing.findIndex((e) => normAddr(e && e.address) === key);
+        let next;
+        if (dupIdx >= 0) {
+          // Same address already saved — update label / coords on the existing
+          // entry instead of appending a duplicate row.
+          const prev = existing[dupIdx];
+          existing[dupIdx] = {
+            ...prev,
+            label,
+            address,
+            lat: Number.isFinite(lat) ? lat : (prev.lat || 0),
+            lng: Number.isFinite(lng) ? lng : (prev.lng || 0),
+          };
+          next = existing;
+        } else {
+          const entry = {
+            id: 'loc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+            label,
+            address,
+            lat: Number.isFinite(lat) ? lat : 0,
+            lng: Number.isFinite(lng) ? lng : 0,
+            visits: 0,
+          };
+          next = existing.concat([entry]);
+        }
         const { error } = await _sb.from('profiles')
           .update({ named_locations: next })
           .eq('id', session.user.id);
