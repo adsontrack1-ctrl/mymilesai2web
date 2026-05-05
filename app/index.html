@@ -220,6 +220,36 @@
   .vcheck[data-rep-vehicle] .cb::after { content: ''; }
   .vcheck[data-rep-vehicle].on .cb::after { content: '✓'; }
   .vehicle-notice { font-size: 11px; color: #6B6862; padding: 8px 12px; background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; margin-top: 8px; line-height: 1.45; }
+  /* ─── MODAL ─── */
+  #mmai-overlay { position: fixed; inset: 0; background: rgba(11,15,14,0.55); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 24px; }
+  #mmai-overlay[hidden] { display: none !important; }
+  .mmai-modal { background: #FFFFFF; border-radius: 18px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 80px -20px rgba(11,15,30,0.45); }
+  .mmai-modal-head { padding: 22px 26px 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .mmai-modal-title { font-family: 'Manrope','Inter',sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .mmai-modal-sub { font-size: 12px; color: #6B6862; padding: 0 26px 14px; }
+  .mmai-modal-close { background: transparent; border: none; font-size: 22px; line-height: 1; cursor: pointer; color: #6B6862; padding: 0 4px; }
+  .mmai-modal-close:hover { color: #0B0F0E; }
+  .mmai-modal-body { padding: 4px 26px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .mmai-modal-foot { padding: 14px 26px 22px; display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid #EFF1F5; background: #FAFAFB; border-radius: 0 0 18px 18px; }
+  .mmai-field { display: flex; flex-direction: column; gap: 6px; }
+  .mmai-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mmai-field label { font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 9.5px; letter-spacing: 0.04em; color: #6B6862; text-transform: uppercase; }
+  .mmai-field input, .mmai-field select, .mmai-field textarea { font-family: 'Manrope','Inter',sans-serif; font-size: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; color: #0B0F0E; }
+  .mmai-field input:focus, .mmai-field select:focus, .mmai-field textarea:focus { outline: 2px solid rgba(218,10,127,0.35); border-color: #DA0A7F; }
+  .mmai-field-help { font-size: 11px; color: #6B6862; }
+  .mmai-class-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mmai-class-pills .pill { cursor: pointer; user-select: none; }
+  .mmai-error { color: #B91C1C; font-size: 12px; padding: 8px 12px; background: rgba(185, 28, 28, 0.06); border: 1px solid rgba(185, 28, 28, 0.25); border-radius: 8px; }
+  /* ─── TRIP ROW MENU ─── */
+  .mmai-rowmenu { position: absolute; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; box-shadow: 0 18px 40px -14px rgba(11,15,30,0.25); padding: 6px; min-width: 180px; z-index: 60; }
+  .mmai-rowmenu-item { padding: 9px 14px; font-size: 13px; border-radius: 8px; cursor: pointer; color: #0B0F0E; font-family: inherit; display: flex; align-items: center; gap: 10px; }
+  .mmai-rowmenu-item:hover { background: #F1F3F8; }
+  .mmai-rowmenu-item.danger { color: #B91C1C; }
+  .mmai-rowmenu-sep { height: 1px; background: #EFF1F5; margin: 4px 6px; }
+  .tt-row .more { background: transparent; border: none; }
+  .tt-row .more:hover { color: #DA0A7F; }
+  .set-val.edit-link:not(.disabled) { cursor: pointer; }
+  .set-val.edit-link:not(.disabled):hover { color: #DA0A7F; }
 </style>
 <link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
 <script>
@@ -259,7 +289,7 @@
     <div class="nav-item" id="nav-vehicles" onclick="go('vehicles')"><span class="ic">◱</span>Vehicles<span class="count" data-mmai="vehicles-count">0</span></div>
     <div class="nav-section">Account</div>
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
-    <div class="nav-item"><span class="ic">?</span>Help</div>
+    <div class="nav-item" id="nav-help" data-mmai="open-help" style="cursor:pointer"><span class="ic">?</span>Help</div>
     <div class="profile">
       <div class="avatar" data-mmai="profile-initial"></div>
       <div><div class="nm" data-mmai="profile-name">Marcus T.</div><div class="em" data-mmai="profile-plan">Pro · 2026</div></div>
@@ -279,8 +309,8 @@
           </div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search trips, places, reports…" disabled title="Coming soon">
-          <button class="btn" disabled title="Log new trips from the iOS app">+ Log trip</button>
+          <input class="search" placeholder="Search trips, places…" data-mmai="dash-search">
+          <button class="btn" data-mmai="open-log-trip">+ Log trip</button>
         </div>
       </div>
       <div class="kpi-row">
@@ -301,11 +331,9 @@
         </div>
         <div>
           <div class="ded">
-            <div class="l" data-mmai="quarter-label">Q deduction progress</div>
+            <div class="l" data-mmai="quarter-label">Q deduction</div>
             <div class="v" data-mmai="quarter-deduction">$0.00</div>
             <div class="s">Computed from classified business trips this quarter.</div>
-            <div class="bar"><div data-mmai="quarter-progress-bar" style="width:0%"></div></div>
-            <div class="bar-label"><span data-mmai="quarter-progress-pct">NO GOAL SET</span><span data-mmai="quarter-goal">—</span></div>
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(246,243,238,0.15)">
               <div class="row"><span>Business miles</span><span data-mmai="quarter-business-miles">0</span></div>
               <div class="row"><span>Mileage rate</span><span data-mmai="quarter-rate">$0.725</span></div>
@@ -330,10 +358,10 @@
           <div class="greeting">All <em>trips</em></div>
         </div>
         <div class="tools">
-          <input class="search" placeholder="Search by address, purpose…" disabled title="Coming soon">
+          <input class="search" placeholder="Search by address, purpose…" data-mmai="trips-search">
           <button class="btn ghost" data-mmai="trips-export-csv" title="Download a CSV of every trip currently visible">⬇ Export CSV</button>
           <button class="btn ghost" data-mmai="trips-export-pdf" title="Download a PDF of every trip currently visible — IRS Pub. 463 format">⬇ Export PDF</button>
-          <button class="btn" disabled title="Log new trips from the iOS app">+ Log trip</button>
+          <button class="btn" data-mmai="open-log-trip">+ Log trip</button>
         </div>
       </div>
       <div class="filter-row">
@@ -356,7 +384,7 @@
           <div class="greeting">Your <em>frequent places.</em></div>
         </div>
         <div class="tools">
-          <button class="btn" disabled title="Add places from the iOS app">+ Add place</button>
+          <button class="btn" data-mmai="open-add-place">+ Add place</button>
         </div>
       </div>
       <div class="place-list" data-mmai="places-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px"></div>
@@ -441,7 +469,7 @@
           <div class="eyebrow"><span data-mmai="vehicles-count">0</span> vehicles</div>
           <div class="greeting">Your <em>fleet.</em></div>
         </div>
-        <div class="tools"><button class="btn" disabled title="Add vehicles from the iOS app">+ Add vehicle</button></div>
+        <div class="tools"><button class="btn" data-mmai="open-add-vehicle">+ Add vehicle</button></div>
       </div>
       <div class="veh-grid" data-mmai="vehicles-list"></div>
     </section>
@@ -475,15 +503,15 @@
               <button class="btn ghost" data-jump="billing">Manage plan</button>
             </div>
             <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Full name</div><div class="ds" data-mmai="set-fullname">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
-              <div class="set-row"><div><div class="nm">Email</div><div class="ds" data-mmai="set-email">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
-              <div class="set-row"><div><div class="nm">Phone</div><div class="ds" data-mmai="set-phone">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">EDIT IN APP</span></div>
+              <div class="set-row"><div><div class="nm">Full name</div><div class="ds" data-mmai="set-fullname">—</div></div><span class="set-val edit-link" data-mmai="edit-name">EDIT</span></div>
+              <div class="set-row"><div><div class="nm">Email</div><div class="ds" data-mmai="set-email">—</div></div><span class="set-val edit-link disabled" title="Email is set during sign-in">SIGNED IN</span></div>
+              <div class="set-row"><div><div class="nm">Phone</div><div class="ds" data-mmai="set-phone">—</div></div><span class="set-val edit-link" data-mmai="edit-phone">EDIT</span></div>
               <div class="set-row"><div><div class="nm">Time zone</div><div class="ds">Used for trip timestamps and report cutoffs.</div></div><span class="set-val" data-mmai="set-timezone">—</span></div>
               <div class="set-row"><div><div class="nm">Language</div><div class="ds">UI language. Reports always export in English.</div></div><span class="set-val" data-mmai="set-language">—</span></div>
               <div class="set-row"><div><div class="nm">Country</div><div class="ds">Used for tax-rate defaults.</div></div><span class="set-val" data-mmai="set-country">—</span></div>
             </div>
             <div class="set-group">
-              <div class="set-row"><div><div class="nm">Workspace</div><div class="ds" data-mmai="set-workspace">—</div></div><span class="set-val edit-link disabled" title="Edit in iOS app">RENAME</span></div>
+              <div class="set-row"><div><div class="nm">Workspace</div><div class="ds" data-mmai="set-workspace">—</div></div><span class="set-val edit-link" data-mmai="edit-workspace">RENAME</span></div>
             </div>
           </div>
 
@@ -502,7 +530,7 @@
             <h3>Tax preferences</h3>
             <div class="sub">Rates and assumptions used in deduction estimates.</div>
             <div class="set-group" style="border-top:none;padding-top:0">
-              <div class="set-row"><div><div class="nm">Mileage rate</div><div class="ds">Per-mile rate applied to business trips.</div></div><span class="set-val" data-mmai="quarter-rate">$0.725</span></div>
+              <div class="set-row"><div><div class="nm">Mileage rate</div><div class="ds">Per-mile rate applied to business trips. Overrides the IRS default ($0.725 / 2026).</div></div><span class="set-val edit-link" data-mmai="edit-rate">$0.725</span></div>
               <div class="set-row"><div><div class="nm">Tax year</div><div class="ds">Reports default to this period.</div></div><span class="set-val">2026</span></div>
             </div>
             <div class="coming-soon" style="min-height:200px">
@@ -575,10 +603,25 @@
   </main>
 </div>
 
-<script src="../assets/vendor/supabase.min.js?v=20260504c"></script>
-<script src="../assets/vendor/jspdf.umd.min.js?v=20260504c"></script>
-<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260504c"></script>
-<script src="../assets/js/app.js?v=20260504c"></script>
+<div id="mmai-overlay" hidden>
+  <div class="mmai-modal" role="dialog" aria-modal="true" aria-labelledby="mmai-modal-title">
+    <div class="mmai-modal-head">
+      <div class="mmai-modal-title" id="mmai-modal-title">—</div>
+      <button id="mmai-modal-close" class="mmai-modal-close" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="mmai-modal-sub" id="mmai-modal-sub" hidden></div>
+    <div class="mmai-modal-body" id="mmai-modal-body"></div>
+    <div class="mmai-modal-foot">
+      <button class="btn ghost" type="button" id="mmai-modal-cancel">Cancel</button>
+      <button class="btn" type="button" id="mmai-modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/vendor/supabase.min.js?v=20260504e"></script>
+<script src="../assets/vendor/jspdf.umd.min.js?v=20260504e"></script>
+<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260504e"></script>
+<script src="../assets/js/app.js?v=20260504e"></script>
 <script>
 function go(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));

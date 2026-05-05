@@ -100,7 +100,7 @@
       'subscription_started_at', 'subscription_expires_at', 'subscription_canceled_at',
       'trial_ends_at', 'billing_interval', 'has_payment_method', 'mileage_rate',
       'timezone', 'locale', 'country', 'unit', 'unit_preference', 'currency',
-      'goal_amount', 'company_name', 'home_address', 'work_address',
+      'company_name', 'home_address', 'work_address',
       'default_vehicle_id', 'total_trips', 'total_miles', 'named_locations',
       'onboarding_completed', 'account_status', 'auto_detect',
     ].join(',');
@@ -275,7 +275,7 @@
     const root = $('[data-mmai="recent-trips"]');
     if (!root) return;
     if (!trips.length) {
-      root.innerHTML = '<div class="empty">No trips this year yet. Open the iOS app to start auto-tracking.</div>';
+      root.innerHTML = '<div class="empty">No trips this year yet. Tap "+ Log trip" to add one, or open the iOS app to auto-track.</div>';
       return;
     }
     const recent = trips.slice(0, 5);
@@ -372,21 +372,13 @@
     renderTripRows(trips.filter((t) => tripMatchesFilter(t, _tripsFilter)), profile);
   }
 
-  function renderQuarter(trips, kpis, profile) {
+  function renderQuarter(trips, kpis) {
     const q = computeQuarter(trips, kpis);
-    setText('[data-mmai="quarter-label"]', `${q.qLabel} deduction progress`);
+    setText('[data-mmai="quarter-label"]', `${q.qLabel} deduction`);
     setText('[data-mmai="quarter-deduction"]', formatDollars(q.qDeduction));
     setText('[data-mmai="quarter-business-miles"]', Math.round(q.qBusiness).toLocaleString());
     setText('[data-mmai="quarter-rate"]', '$' + kpis.rate.toFixed(3));
     setText('[data-mmai="quarter-tax-saved"]', formatDollars(q.qDeduction * 0.24));
-
-    const annualGoal = Number(profile.goal_amount) || 0;
-    const quarterGoal = annualGoal > 0 ? annualGoal / 4 : 0;
-    const pct = quarterGoal > 0 ? Math.min(100, Math.round((q.qDeduction / quarterGoal) * 100)) : 0;
-    setText('[data-mmai="quarter-goal"]', quarterGoal > 0 ? formatDollars(quarterGoal) : '—');
-    setText('[data-mmai="quarter-progress-pct"]', annualGoal > 0 ? `${pct}% OF ${q.qLabel} GOAL` : 'NO GOAL SET');
-    const bar = $('[data-mmai="quarter-progress-bar"]');
-    if (bar) bar.style.width = `${pct}%`;
   }
 
   function renderSettings(profile, session) {
@@ -448,7 +440,7 @@
     const root = $('[data-mmai="vehicles-list"]');
     if (!root) return;
     if (!vehicles.length) {
-      root.innerHTML = '<div class="empty">No vehicles yet. Add one in the iOS app to start tracking trips by car.</div>';
+      root.innerHTML = '<div class="empty">No vehicles yet. Tap "+ Add vehicle" above to start tracking trips by car.</div>';
       return;
     }
     root.innerHTML = vehicles.map((v) => {
@@ -473,7 +465,7 @@
     const root = $('[data-mmai="places-list"]');
     if (!root) return;
     if (!places.length) {
-      root.innerHTML = '<div class="empty">No saved places yet. Tag locations in the iOS app to see them here.</div>';
+      root.innerHTML = '<div class="empty">No saved places yet. Tap "+ Add place" above to save a frequent destination.</div>';
       return;
     }
     root.innerHTML = places.map((p) => {
@@ -586,7 +578,7 @@
     const root = $('[data-mmai="rep-vehicles-list"]');
     if (!root) return;
     if (!_vehiclesList.length) {
-      root.innerHTML = '<div class="empty" style="text-align:left;padding:16px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px">No vehicles. Add one in the iOS app to filter reports by vehicle.</div>';
+      root.innerHTML = '<div class="empty" style="text-align:left;padding:16px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px">No vehicles yet. Open the Vehicles tab and tap "+ Add vehicle" to filter reports by vehicle.</div>';
       return;
     }
 
@@ -1023,6 +1015,537 @@
     if (tpdf) tpdf.addEventListener('click', () => tripsTabExport('pdf'));
   }
 
+  // ───────── Modal helper ─────────
+  // Single shared overlay (#mmai-overlay) re-used for every form. Caller
+  // describes title/body/onSave; helper renders, focuses first field,
+  // wires Esc/cancel/save, and closes.
+  let _modalOnSave = null;
+  function openModal(opts) {
+    const overlay = document.getElementById('mmai-overlay');
+    if (!overlay) return;
+    document.getElementById('mmai-modal-title').textContent = opts.title || '';
+    const sub = document.getElementById('mmai-modal-sub');
+    if (opts.sub) { sub.textContent = opts.sub; sub.hidden = false; } else { sub.hidden = true; }
+    const body = document.getElementById('mmai-modal-body');
+    body.innerHTML = opts.bodyHtml || '';
+    const saveBtn = document.getElementById('mmai-modal-save');
+    saveBtn.textContent = opts.saveLabel || 'Save';
+    saveBtn.disabled = false;
+    _modalOnSave = opts.onSave || null;
+    overlay.hidden = false;
+    if (opts.afterOpen) opts.afterOpen(body);
+    const first = body.querySelector('input, select, textarea, button');
+    if (first) first.focus();
+  }
+  function closeModal() {
+    const overlay = document.getElementById('mmai-overlay');
+    if (overlay) overlay.hidden = true;
+    _modalOnSave = null;
+  }
+  function modalShowError(msg) {
+    const body = document.getElementById('mmai-modal-body');
+    if (!body) return;
+    let er = body.querySelector('.mmai-error');
+    if (!er) {
+      er = document.createElement('div');
+      er.className = 'mmai-error';
+      body.appendChild(er);
+    }
+    er.textContent = msg;
+  }
+  function wireModal() {
+    const overlay = document.getElementById('mmai-overlay');
+    if (!overlay) return;
+    document.getElementById('mmai-modal-close').addEventListener('click', closeModal);
+    document.getElementById('mmai-modal-cancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) closeModal(); });
+    document.getElementById('mmai-modal-save').addEventListener('click', async () => {
+      if (!_modalOnSave) return closeModal();
+      const saveBtn = document.getElementById('mmai-modal-save');
+      saveBtn.disabled = true;
+      try {
+        await _modalOnSave();
+      } catch (err) {
+        console.error('[mmai] modal save:', err);
+        modalShowError(err && err.message ? err.message : 'Save failed. Please try again.');
+        saveBtn.disabled = false;
+      }
+    });
+  }
+
+  // ───────── Search ─────────
+  // Live filter on Trips page (address, purpose, notes, dates as text).
+  // Dashboard search filters the Recent-trips panel only — it is not full-text.
+  let _tripsSearch = '';
+  let _dashSearch = '';
+  function tripMatchesSearch(t, q) {
+    if (!q) return true;
+    const hay = [t.from_addr, t.to_addr, t.purpose, t.trip_purpose, t.trip_date, t.type]
+      .filter(Boolean).join(' ').toLowerCase();
+    return hay.includes(q);
+  }
+  function reapplyTripsView() {
+    const filtered = _allTrips
+      .filter((t) => tripMatchesFilter(t, _tripsFilter))
+      .filter((t) => tripMatchesSearch(t, _tripsSearch));
+    renderTripRows(filtered, _profileRef);
+  }
+  function reapplyDashboardRecent() {
+    const filtered = _dashSearch
+      ? _allTrips.filter((t) => tripMatchesSearch(t, _dashSearch))
+      : _allTrips;
+    renderRecentTrips(filtered);
+  }
+  function wireSearch() {
+    const ts = document.querySelector('[data-mmai="trips-search"]');
+    if (ts) {
+      ts.addEventListener('input', () => {
+        _tripsSearch = ts.value.trim().toLowerCase();
+        reapplyTripsView();
+      });
+    }
+    const ds = document.querySelector('[data-mmai="dash-search"]');
+    if (ds) {
+      ds.addEventListener('input', () => {
+        _dashSearch = ds.value.trim().toLowerCase();
+        reapplyDashboardRecent();
+      });
+    }
+  }
+
+  // Make applyTripsFilter use the search filter too.
+  applyTripsFilter = function (filter) {
+    _tripsFilter = filter;
+    $$('.pill[data-trips-filter]').forEach((p) => {
+      p.classList.toggle('on', p.getAttribute('data-trips-filter') === filter);
+    });
+    reapplyTripsView();
+  };
+
+  // ───────── Re-render after data change ─────────
+  async function refreshAfterMutation(session) {
+    const [profile, trips, vehicles] = await Promise.all([
+      loadProfile(session.user.id),
+      loadTripsYtd(session.user.id),
+      loadVehicles(session.user.id),
+    ]);
+    _allTrips = trips;
+    _profileRef = profile;
+    _vehiclesList = vehicles;
+    const kpis = computeKpis(trips, profile);
+    renderHeader(session, profile, kpis);
+    renderKpis(kpis);
+    reapplyDashboardRecent();
+    renderTripsTable(trips, profile);
+    reapplyTripsView();
+    renderQuarter(trips, kpis);
+    renderSettings(profile, session);
+    renderBilling(profile);
+    renderVehicles(vehicles);
+    renderPlaces(profile);
+    renderReportVehicleChecks();
+    renderReportPreview();
+    renderTaxPanel();
+  }
+
+  // ───────── + Log trip ─────────
+  function genTripUid() {
+    if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+    return 'web-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+  }
+  function todayIso() { return new Date().toISOString().slice(0, 10); }
+  function nowHm() {
+    const d = new Date();
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function openLogTripModal(session) {
+    const vehOpts = _vehiclesList.map((v) => {
+      const sel = _profileRef.default_vehicle_id === v.id ? ' selected' : '';
+      const label = [v.year, v.make, v.model].filter(Boolean).join(' ') || v.name || 'Vehicle';
+      return `<option value="${escapeHtml(v.id)}"${sel}>${escapeHtml(v.name || 'Vehicle')} · ${escapeHtml(label)}</option>`;
+    }).join('');
+    const bodyHtml = `
+      <div class="mmai-field-row">
+        <div class="mmai-field"><label for="lt-date">Date</label><input id="lt-date" type="date" value="${todayIso()}"></div>
+        <div class="mmai-field"><label for="lt-time">Time</label><input id="lt-time" type="time" value="${nowHm()}"></div>
+      </div>
+      <div class="mmai-field"><label for="lt-from">From address</label><input id="lt-from" type="text" placeholder="123 Main St, Houston, TX" autocomplete="off"></div>
+      <div class="mmai-field"><label for="lt-to">To address</label><input id="lt-to" type="text" placeholder="456 Market St, Houston, TX" autocomplete="off"></div>
+      <div class="mmai-field-row">
+        <div class="mmai-field"><label for="lt-miles">Miles</label><input id="lt-miles" type="number" min="0" step="0.1" placeholder="12.5"></div>
+        <div class="mmai-field"><label for="lt-duration">Duration (min)</label><input id="lt-duration" type="number" min="0" step="1" placeholder="22"></div>
+      </div>
+      <div class="mmai-field">
+        <label>Classification</label>
+        <div class="mmai-class-pills">
+          <span class="pill on" data-lt-type="biz">Business</span>
+          <span class="pill" data-lt-type="pers">Personal</span>
+          <span class="pill" data-lt-type="uncl">Needs review</span>
+        </div>
+      </div>
+      <div class="mmai-field"><label for="lt-purpose">Purpose</label><input id="lt-purpose" type="text" placeholder="Client meeting, supply run, etc."></div>
+      ${_vehiclesList.length ? `<div class="mmai-field"><label for="lt-vehicle">Vehicle</label><select id="lt-vehicle"><option value="">— No vehicle —</option>${vehOpts}</select></div>` : ''}
+      <div class="mmai-field"><label for="lt-notes">Notes (optional)</label><textarea id="lt-notes" rows="2" placeholder="Anything to remember about this trip"></textarea></div>
+    `;
+    let chosenType = 'biz';
+    openModal({
+      title: '+ Log trip',
+      sub: 'Manual trips you log here appear instantly across the dashboard, trips, and reports.',
+      bodyHtml,
+      saveLabel: 'Log trip',
+      afterOpen: (body) => {
+        body.querySelectorAll('[data-lt-type]').forEach((p) => {
+          p.addEventListener('click', () => {
+            chosenType = p.getAttribute('data-lt-type');
+            body.querySelectorAll('[data-lt-type]').forEach((x) => x.classList.toggle('on', x === p));
+          });
+        });
+      },
+      onSave: async () => {
+        const date = document.getElementById('lt-date').value;
+        const time = document.getElementById('lt-time').value;
+        const from = document.getElementById('lt-from').value.trim();
+        const to = document.getElementById('lt-to').value.trim();
+        const miles = parseFloat(document.getElementById('lt-miles').value);
+        const dur = parseInt(document.getElementById('lt-duration').value, 10);
+        const purpose = document.getElementById('lt-purpose').value.trim();
+        const notes = document.getElementById('lt-notes').value.trim();
+        const vehSel = document.getElementById('lt-vehicle');
+        const vehicleId = vehSel ? vehSel.value : '';
+        if (!date) return modalShowError('Date is required.');
+        if (!from || !to) return modalShowError('From and To addresses are required.');
+        if (!Number.isFinite(miles) || miles <= 0) return modalShowError('Miles must be a positive number.');
+        const row = {
+          trip_uid: genTripUid(),
+          user_id: session.user.id,
+          trip_date: date,
+          trip_time: time ? time + ':00' : '00:00:00',
+          miles,
+          duration_mins: Number.isFinite(dur) ? dur : 0,
+          type: chosenType,
+          from_addr: from,
+          to_addr: to,
+          purpose: purpose || null,
+          notes: notes || null,
+          source: 'web',
+        };
+        if (vehicleId) row.vehicle_id = vehicleId;
+        const { error } = await _sb.from('trips').insert(row);
+        if (error) throw new Error(error.message);
+        closeModal();
+        await refreshAfterMutation(session);
+      },
+    });
+  }
+
+  function wireLogTripButtons(session) {
+    $$('[data-mmai="open-log-trip"]').forEach((b) => {
+      b.addEventListener('click', () => openLogTripModal(session));
+    });
+  }
+
+  // ───────── Trip row context menu ─────────
+  let _openMenu = null;
+  function closeRowMenu() {
+    if (_openMenu) { _openMenu.remove(); _openMenu = null; }
+  }
+  function openTripRowMenu(anchor, trip, session) {
+    closeRowMenu();
+    const menu = document.createElement('div');
+    menu.className = 'mmai-rowmenu';
+    const tag = classTag(trip.type);
+    const items = [
+      { label: '✓ Mark business', type: 'biz', hide: tag.cls === 'biz' },
+      { label: '○ Mark personal', type: 'pers', hide: tag.cls === 'pers' },
+      { label: '? Mark needs review', type: 'uncl', hide: tag.cls === 'unreviewed' },
+    ].filter((i) => !i.hide);
+    items.forEach((i) => {
+      const el = document.createElement('div');
+      el.className = 'mmai-rowmenu-item';
+      el.textContent = i.label;
+      el.addEventListener('click', async () => {
+        try {
+          const upd = { type: i.type };
+          // Recompute deductible client-side: business → miles × rate, else null.
+          const rate = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725;
+          upd.deductible = i.type === 'biz' ? Math.round(Number(trip.miles) * rate * 100) / 100 : null;
+          const { error } = await _sb.from('trips').update(upd).eq('id', trip.id);
+          if (error) throw new Error(error.message);
+          closeRowMenu();
+          await refreshAfterMutation(session);
+        } catch (err) {
+          console.error('[mmai] classify:', err);
+          alert('Could not update trip: ' + (err.message || err));
+        }
+      });
+      menu.appendChild(el);
+    });
+    const sep = document.createElement('div');
+    sep.className = 'mmai-rowmenu-sep';
+    menu.appendChild(sep);
+    const del = document.createElement('div');
+    del.className = 'mmai-rowmenu-item danger';
+    del.textContent = '🗑  Delete trip';
+    del.addEventListener('click', async () => {
+      if (!confirm('Delete this trip? It will be hidden from reports and KPIs.')) return;
+      try {
+        const { error } = await _sb.from('trips')
+          .update({ deleted_at: new Date().toISOString() })
+          .eq('id', trip.id);
+        if (error) throw new Error(error.message);
+        closeRowMenu();
+        await refreshAfterMutation(session);
+      } catch (err) {
+        console.error('[mmai] delete:', err);
+        alert('Could not delete trip: ' + (err.message || err));
+      }
+    });
+    menu.appendChild(del);
+
+    document.body.appendChild(menu);
+    const r = anchor.getBoundingClientRect();
+    const mw = menu.offsetWidth || 200;
+    let left = r.right + window.scrollX - mw;
+    let top = r.bottom + window.scrollY + 4;
+    if (left < 8) left = 8;
+    if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
+    menu.style.left = left + 'px';
+    menu.style.top = top + 'px';
+    _openMenu = menu;
+    setTimeout(() => {
+      const onDoc = (e) => {
+        if (_openMenu && !_openMenu.contains(e.target)) {
+          closeRowMenu();
+          document.removeEventListener('click', onDoc, true);
+        }
+      };
+      document.addEventListener('click', onDoc, true);
+    }, 0);
+  }
+
+  function wireTripRowMenu(session) {
+    const root = $('[data-mmai="trips-table-body"]');
+    if (!root) return;
+    root.addEventListener('click', (e) => {
+      const more = e.target.closest('.more');
+      if (!more) return;
+      const row = more.closest('.tt-row');
+      if (!row) return;
+      // Find the trip by row index against the currently-rendered list.
+      const all = $$('.tt-row');
+      let idx = -1;
+      all.forEach((r, i) => { if (r === row) idx = i; });
+      if (idx < 0) return;
+      const visible = _allTrips
+        .filter((t) => tripMatchesFilter(t, _tripsFilter))
+        .filter((t) => tripMatchesSearch(t, _tripsSearch));
+      const trip = visible[idx];
+      if (!trip) return;
+      openTripRowMenu(more, trip, session);
+    });
+  }
+
+  // ───────── + Add vehicle ─────────
+  function openAddVehicleModal(session) {
+    const bodyHtml = `
+      <div class="mmai-field"><label for="av-name">Nickname</label><input id="av-name" type="text" placeholder="Daily driver"></div>
+      <div class="mmai-field-row">
+        <div class="mmai-field"><label for="av-year">Year</label><input id="av-year" type="number" min="1900" max="2100" placeholder="${new Date().getFullYear()}"></div>
+        <div class="mmai-field"><label for="av-make">Make</label><input id="av-make" type="text" placeholder="Toyota"></div>
+      </div>
+      <div class="mmai-field-row">
+        <div class="mmai-field"><label for="av-model">Model</label><input id="av-model" type="text" placeholder="RAV4"></div>
+        <div class="mmai-field"><label for="av-plate">License plate</label><input id="av-plate" type="text" placeholder="ABC-1234"></div>
+      </div>
+      <div class="mmai-field"><label for="av-odo">Starting odometer (mi)</label><input id="av-odo" type="number" min="0" step="1" placeholder="0"></div>
+      <div class="mmai-field" style="flex-direction:row;align-items:center;gap:10px"><input id="av-default" type="checkbox" style="width:auto"><label for="av-default" style="margin:0;text-transform:none;letter-spacing:0;font-family:inherit;font-size:13px;font-weight:500;color:#0B0F0E">Set as default vehicle</label></div>
+    `;
+    openModal({
+      title: '+ Add vehicle',
+      sub: 'Used to attribute trips and filter reports.',
+      bodyHtml,
+      saveLabel: 'Add vehicle',
+      onSave: async () => {
+        const name = document.getElementById('av-name').value.trim();
+        const year = parseInt(document.getElementById('av-year').value, 10);
+        const make = document.getElementById('av-make').value.trim();
+        const model = document.getElementById('av-model').value.trim();
+        const plate = document.getElementById('av-plate').value.trim();
+        const odo = parseFloat(document.getElementById('av-odo').value);
+        const isDefault = document.getElementById('av-default').checked;
+        if (!name) return modalShowError('Nickname is required.');
+        // Demote previous default if user is setting a new one.
+        if (isDefault) {
+          const prev = _vehiclesList.find((v) => v.is_default);
+          if (prev) {
+            await _sb.from('vehicles').update({ is_default: false }).eq('id', prev.id);
+          }
+        }
+        const row = {
+          user_id: session.user.id,
+          name,
+          make: make || null,
+          model: model || null,
+          year: Number.isFinite(year) ? year : null,
+          license_plate: plate || null,
+          odometer_start: Number.isFinite(odo) ? odo : null,
+          is_default: !!isDefault,
+        };
+        const { data, error } = await _sb.from('vehicles').insert(row).select().single();
+        if (error) throw new Error(error.message);
+        // If marked default, also write profile.default_vehicle_id.
+        if (isDefault && data) {
+          await _sb.from('profiles').update({ default_vehicle_id: data.id }).eq('id', session.user.id);
+        }
+        closeModal();
+        await refreshAfterMutation(session);
+      },
+    });
+  }
+  function wireAddVehicleButton(session) {
+    $$('[data-mmai="open-add-vehicle"]').forEach((b) => {
+      b.addEventListener('click', () => openAddVehicleModal(session));
+    });
+  }
+
+  // ───────── + Add place ─────────
+  function openAddPlaceModal(session) {
+    const bodyHtml = `
+      <div class="mmai-field"><label for="ap-label">Label</label><input id="ap-label" type="text" placeholder="Home, Office, Client A"></div>
+      <div class="mmai-field"><label for="ap-address">Address</label><input id="ap-address" type="text" placeholder="123 Main St, Houston, TX"></div>
+      <div class="mmai-field-row">
+        <div class="mmai-field"><label for="ap-lat">Latitude (optional)</label><input id="ap-lat" type="number" step="any" placeholder="29.7604"></div>
+        <div class="mmai-field"><label for="ap-lng">Longitude (optional)</label><input id="ap-lng" type="number" step="any" placeholder="-95.3698"></div>
+      </div>
+      <div class="mmai-field-help">Coordinates let MyMilesAI snap trip endpoints to this place automatically. You can leave them blank — they're filled in automatically when you tag the location from the iOS app.</div>
+    `;
+    openModal({
+      title: '+ Add place',
+      sub: 'Saved places appear in the Places tab and help auto-classify recurring routes.',
+      bodyHtml,
+      saveLabel: 'Add place',
+      onSave: async () => {
+        const label = document.getElementById('ap-label').value.trim();
+        const address = document.getElementById('ap-address').value.trim();
+        const lat = parseFloat(document.getElementById('ap-lat').value);
+        const lng = parseFloat(document.getElementById('ap-lng').value);
+        if (!label) return modalShowError('Label is required.');
+        if (!address) return modalShowError('Address is required.');
+        const existing = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
+        const entry = {
+          id: 'loc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+          label,
+          address,
+          lat: Number.isFinite(lat) ? lat : 0,
+          lng: Number.isFinite(lng) ? lng : 0,
+          visits: 0,
+        };
+        const next = existing.concat([entry]);
+        const { error } = await _sb.from('profiles')
+          .update({ named_locations: next })
+          .eq('id', session.user.id);
+        if (error) throw new Error(error.message);
+        closeModal();
+        await refreshAfterMutation(session);
+      },
+    });
+  }
+  function wireAddPlaceButton(session) {
+    $$('[data-mmai="open-add-place"]').forEach((b) => {
+      b.addEventListener('click', () => openAddPlaceModal(session));
+    });
+  }
+
+  // ───────── Settings · editable fields ─────────
+  function openProfileEditModal(session, opts) {
+    const bodyHtml = `<div class="mmai-field"><label for="pe-val">${escapeHtml(opts.label)}</label>${opts.input || ''}</div>${opts.help ? `<div class="mmai-field-help">${escapeHtml(opts.help)}</div>` : ''}`;
+    openModal({
+      title: opts.title,
+      bodyHtml,
+      saveLabel: 'Save',
+      onSave: async () => {
+        const input = document.getElementById('pe-val');
+        const raw = input ? input.value : '';
+        const value = opts.parse ? opts.parse(raw) : raw.trim();
+        if (opts.validate) {
+          const err = opts.validate(value);
+          if (err) return modalShowError(err);
+        }
+        const update = { [opts.column]: value === '' ? null : value };
+        const { error } = await _sb.from('profiles').update(update).eq('id', session.user.id);
+        if (error) throw new Error(error.message);
+        closeModal();
+        await refreshAfterMutation(session);
+      },
+    });
+  }
+  function wireSettingsEdits(session) {
+    const link = (sel, opts) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      el.addEventListener('click', () => openProfileEditModal(session, opts));
+    };
+    link('[data-mmai="edit-name"]', {
+      title: 'Edit full name', label: 'Full name', column: 'name',
+      input: `<input id="pe-val" type="text" value="${escapeHtml(_profileRef.name || '')}" placeholder="Your name">`,
+      validate: (v) => v.length === 0 ? 'Name cannot be empty.' : null,
+    });
+    link('[data-mmai="edit-phone"]', {
+      title: 'Edit phone', label: 'Phone', column: 'phone',
+      input: `<input id="pe-val" type="tel" value="${escapeHtml(_profileRef.phone || '')}" placeholder="+1 555 123 4567">`,
+    });
+    link('[data-mmai="edit-workspace"]', {
+      title: 'Rename workspace', label: 'Workspace name', column: 'company_name',
+      input: `<input id="pe-val" type="text" value="${escapeHtml(_profileRef.company_name || '')}" placeholder="Acme LLC">`,
+    });
+    link('[data-mmai="edit-rate"]', {
+      title: 'Edit mileage rate',
+      label: 'Per-mile rate ($)',
+      column: 'mileage_rate',
+      input: `<input id="pe-val" type="number" step="0.001" min="0" max="2" value="${Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725}" placeholder="0.725">`,
+      help: 'IRS standard mileage rate for 2026 is $0.725/mi. Override only if you use a different rate.',
+      parse: (v) => {
+        const n = parseFloat(v);
+        return Number.isFinite(n) ? n : null;
+      },
+      validate: (v) => (v == null || v < 0 || v > 2) ? 'Enter a rate between $0.000 and $2.000.' : null,
+    });
+  }
+
+  // Render the editable display value for the rate field after data load.
+  function renderTaxPanel() {
+    const rate = $('[data-mmai="edit-rate"]');
+    if (rate) {
+      const r = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725;
+      rate.textContent = '$' + r.toFixed(3);
+    }
+  }
+
+  // ───────── Help ─────────
+  function wireHelp() {
+    $$('[data-mmai="open-help"]').forEach((el) => {
+      el.addEventListener('click', () => {
+        openModal({
+          title: 'Help & support',
+          sub: 'A few quick pointers — and how to reach us.',
+          bodyHtml: `
+            <div class="mmai-field-help" style="font-size:13px;line-height:1.55;color:#0B0F0E">
+              <p style="margin-bottom:10px"><strong>+ Log trip</strong> — manually record a trip from any tab. Saves to your account instantly.</p>
+              <p style="margin-bottom:10px"><strong>Trip ⋯ menu</strong> — click the ⋯ on any row to mark a trip business / personal / needs-review, or delete it.</p>
+              <p style="margin-bottom:10px"><strong>Reports</strong> — pick a period, classification, vehicle, and format, then tap <em>Generate report</em> for a one-tap PDF or CSV.</p>
+              <p style="margin-bottom:10px"><strong>Search</strong> — the search box on Dashboard and Trips filters by address, purpose, or date instantly.</p>
+              <p style="margin-bottom:10px">Need a hand? Email <a href="mailto:support@mymilesai.com" style="color:#DA0A7F">support@mymilesai.com</a>.</p>
+            </div>
+          `,
+          saveLabel: 'Got it',
+          onSave: async () => { closeModal(); },
+        });
+      });
+    });
+  }
+
   // ───────── Sign-out ─────────
   function wireSignOut() {
     $$('[data-mmai="signout"]').forEach((btn) => {
@@ -1040,6 +1563,9 @@
     wireSignOut();
     wireTripsFilters();
     wireReports();
+    wireModal();
+    wireSearch();
+    wireHelp();
 
     const session = await guard();
     if (!session) return;
@@ -1060,13 +1586,21 @@
     renderKpis(kpis);
     renderRecentTrips(trips);
     renderTripsTable(trips, profile);
-    renderQuarter(trips, kpis, profile);
+    renderQuarter(trips, kpis);
     renderSettings(profile, session);
     renderBilling(profile);
     renderVehicles(vehicles);
     renderPlaces(profile);
     renderReportVehicleChecks();
     renderReportPreview();
+    renderTaxPanel();
+
+    // Mutation wiring needs the session — wire after it's available.
+    wireLogTripButtons(session);
+    wireTripRowMenu(session);
+    wireAddVehicleButton(session);
+    wireAddPlaceButton(session);
+    wireSettingsEdits(session);
 
     document.body.classList.add('mmai-ready');
   }
