@@ -1702,9 +1702,6 @@
     setText('[data-mmai="tax-year"]', preset.taxYear);
     setText('[data-mmai="tax-year-description"]',
       `Reports default to this period. ${preset.authority} fiscal calendar.`);
-    setText('[data-mmai="tax-authority"]', `${preset.authority} · ${preset.refDoc}`);
-    setText('[data-mmai="tax-authority-description"]',
-      `Method: ${preset.method}. Reports and exports follow this format.`);
   }
 
   // ───────── Help ─────────
