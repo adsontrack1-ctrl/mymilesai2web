@@ -116,7 +116,6 @@
       'subscription_started_at', 'subscription_expires_at', 'subscription_canceled_at',
       'trial_ends_at', 'billing_interval', 'has_payment_method', 'mileage_rate',
       'timezone', 'locale', 'country', 'unit', 'unit_preference', 'currency',
-      'push_notifications_enabled',
       'company_name', 'home_address', 'work_address',
       'default_vehicle_id', 'total_trips', 'total_miles', 'named_locations',
       'onboarding_completed', 'account_status', 'auto_detect',
@@ -1170,7 +1169,6 @@
     renderReportVehicleChecks();
     renderReportPreview();
     renderTaxPanel();
-    renderNotifications();
   }
 
   // ───────── + Log trip ─────────
@@ -1706,45 +1704,6 @@
       `Reports default to this period. ${preset.authority} fiscal calendar.`);
   }
 
-  // ───────── Notifications ─────────
-  // The only persisted setting today is profiles.push_notifications_enabled
-  // (a single boolean that the iOS app reads to decide whether to send any
-  // alerts). The per-event rows on the page are descriptive — they tell the
-  // user which events the master switch governs. Wired with optimistic UI
-  // and rollback on error.
-  function renderNotifications() {
-    $$('[data-mmai-toggle]').forEach((t) => {
-      const col = t.getAttribute('data-mmai-toggle');
-      const on = !!_profileRef[col];
-      t.classList.toggle('off', !on);
-      t.setAttribute('aria-checked', on ? 'true' : 'false');
-    });
-  }
-  function wireNotificationToggles(session) {
-    $$('[data-mmai-toggle]').forEach((t) => {
-      const flip = async () => {
-        const col = t.getAttribute('data-mmai-toggle');
-        const wasOn = !t.classList.contains('off');
-        const next = !wasOn;
-        t.classList.toggle('off', !next);
-        t.setAttribute('aria-checked', next ? 'true' : 'false');
-        const { error } = await _sb.from('profiles').update({ [col]: next }).eq('id', session.user.id);
-        if (error) {
-          console.error('[mmai] toggle update:', error);
-          t.classList.toggle('off', !wasOn);
-          t.setAttribute('aria-checked', wasOn ? 'true' : 'false');
-          alert('Could not update setting: ' + error.message);
-          return;
-        }
-        _profileRef[col] = next;
-      };
-      t.addEventListener('click', flip);
-      t.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flip(); }
-      });
-    });
-  }
-
   // ───────── Help ─────────
   function wireHelp() {
     $$('[data-mmai="open-help"]').forEach((el) => {
@@ -1822,7 +1781,6 @@
     renderReportVehicleChecks();
     renderReportPreview();
     renderTaxPanel();
-    renderNotifications();
 
     // Mutation wiring needs the session — wire after it's available.
     wireLogTripButtons(session);
@@ -1830,7 +1788,6 @@
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
     wireSettingsEdits(session);
-    wireNotificationToggles(session);
 
     document.body.classList.add('mmai-ready');
   }
