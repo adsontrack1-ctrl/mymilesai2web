@@ -1699,9 +1699,6 @@
     setText('[data-mmai="edit-rate"]', preset.symbol + r.toFixed(3) + ' / ' + preset.unit);
     setText('[data-mmai="rate-description"]',
       `${rateLabel} rate applied to business trips. ${preset.noteLine}`);
-    setText('[data-mmai="tax-year"]', preset.taxYear);
-    setText('[data-mmai="tax-year-description"]',
-      `Reports default to this period. ${preset.authority} fiscal calendar.`);
   }
 
   // ───────── Help ─────────
