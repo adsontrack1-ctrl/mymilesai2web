@@ -408,7 +408,7 @@
     setText('[data-mmai="edit-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
     setText('[data-mmai="set-language"]', profile.locale ? profile.locale.toUpperCase() : '—');
     setText('[data-mmai="set-workspace"]', profile.company_name || `${(name.split(' ')[0] || 'Personal')} workspace`);
-    setText('[data-mmai="set-country"]', profile.country || '—');
+    setText('[data-mmai="edit-country"]', profile.country || '—');
   }
 
   function renderBilling(profile) {
@@ -1499,6 +1499,68 @@
     _profileRef.timezone = tz;
   }
 
+  // ───────── Country helpers ─────────
+  function detectDeviceCountry() {
+    try {
+      const lang = navigator.language || 'en-US';
+      const loc = new Intl.Locale(lang).maximize();
+      return loc.region || null; // 'US', 'GB', 'IN', ...
+    } catch (_e) {
+      return null;
+    }
+  }
+  function listCountries() {
+    // ISO 3166-1 alpha-2 codes. `Intl.supportedValuesOf` doesn't expose
+    // regions, so we hard-code the canonical list (stable since 2013).
+    // Display names are localized by Intl.DisplayNames at render time.
+    const codes = [
+      'AD','AE','AF','AG','AI','AL','AM','AO','AQ','AR','AS','AT','AU','AW','AX','AZ',
+      'BA','BB','BD','BE','BF','BG','BH','BI','BJ','BL','BM','BN','BO','BQ','BR','BS','BT','BV','BW','BY','BZ',
+      'CA','CC','CD','CF','CG','CH','CI','CK','CL','CM','CN','CO','CR','CU','CV','CW','CX','CY','CZ',
+      'DE','DJ','DK','DM','DO','DZ',
+      'EC','EE','EG','EH','ER','ES','ET',
+      'FI','FJ','FK','FM','FO','FR',
+      'GA','GB','GD','GE','GF','GG','GH','GI','GL','GM','GN','GP','GQ','GR','GS','GT','GU','GW','GY',
+      'HK','HM','HN','HR','HT','HU',
+      'ID','IE','IL','IM','IN','IO','IQ','IR','IS','IT',
+      'JE','JM','JO','JP',
+      'KE','KG','KH','KI','KM','KN','KP','KR','KW','KY','KZ',
+      'LA','LB','LC','LI','LK','LR','LS','LT','LU','LV','LY',
+      'MA','MC','MD','ME','MF','MG','MH','MK','ML','MM','MN','MO','MP','MQ','MR','MS','MT','MU','MV','MW','MX','MY','MZ',
+      'NA','NC','NE','NF','NG','NI','NL','NO','NP','NR','NU','NZ',
+      'OM',
+      'PA','PE','PF','PG','PH','PK','PL','PM','PN','PR','PS','PT','PW','PY',
+      'QA',
+      'RE','RO','RS','RU','RW',
+      'SA','SB','SC','SD','SE','SG','SH','SI','SJ','SK','SL','SM','SN','SO','SR','SS','ST','SV','SX','SY','SZ',
+      'TC','TD','TF','TG','TH','TJ','TK','TL','TM','TN','TO','TR','TT','TV','TW','TZ',
+      'UA','UG','UM','US','UY','UZ',
+      'VA','VC','VE','VG','VI','VN','VU',
+      'WF','WS',
+      'XK',
+      'YE','YT',
+      'ZA','ZM','ZW',
+    ];
+    let dn = null;
+    try { dn = new Intl.DisplayNames(['en'], { type: 'region' }); } catch (_e) {}
+    return codes
+      .map((c) => ({ code: c, name: (dn && dn.of(c)) || c }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+  // First-install auto-set country from the browser's resolved locale.
+  // Idempotent — only writes if profiles.country is null/empty.
+  async function ensureProfileCountry(session) {
+    if (_profileRef.country) return;
+    const cc = detectDeviceCountry();
+    if (!cc) return;
+    const { error } = await _sb.from('profiles').update({ country: cc }).eq('id', session.user.id);
+    if (error) {
+      console.warn('[mmai] auto-set country:', error.message);
+      return;
+    }
+    _profileRef.country = cc;
+  }
+
   // ───────── Settings · editable fields ─────────
   function openProfileEditModal(session, opts) {
     const bodyHtml = `<div class="mmai-field"><label for="pe-val">${escapeHtml(opts.label)}</label>${opts.input || ''}</div>${opts.help ? `<div class="mmai-field-help">${escapeHtml(opts.help)}</div>` : ''}`;
@@ -1552,6 +1614,17 @@
         return `<select id="pe-val">${opts}</select>`;
       })(),
       help: 'Pick from your device’s available time zones. Used for trip timestamps and report cutoffs.',
+    });
+    link('[data-mmai="edit-country"]', {
+      title: 'Set country',
+      label: 'Country',
+      column: 'country',
+      input: (() => {
+        const cur = _profileRef.country || detectDeviceCountry() || 'US';
+        const opts = listCountries().map((c) => `<option value="${escapeHtml(c.code)}"${c.code === cur ? ' selected' : ''}>${escapeHtml(c.name)} · ${escapeHtml(c.code)}</option>`).join('');
+        return `<select id="pe-val">${opts}</select>`;
+      })(),
+      help: 'Sets tax-rate defaults and report locale conventions.',
     });
     link('[data-mmai="edit-rate"]', {
       title: 'Edit mileage rate',
@@ -1633,9 +1706,11 @@
     _profileRef = profile;
     _vehiclesList = vehicles;
 
-    // First-install auto-set time zone so trip timestamps and report cutoffs
-    // line up with the user's actual location from day one.
+    // First-install auto-set time zone + country so timestamps, cutoffs, and
+    // tax-rate defaults match the user's device from day one. Both are
+    // idempotent — only write when the column is null/empty.
     await ensureProfileTimezone(session);
+    await ensureProfileCountry(session);
 
     const kpis = computeKpis(trips, profile);
 
