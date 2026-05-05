@@ -15,6 +15,22 @@
   // profile.mileage_rate overrides this when set.
   const IRS_RATE_2026 = 0.725;
 
+  // Effective per-mile / per-km rate for a given profile. Order:
+  //   1. user override (profile.mileage_rate, when > 0)
+  //   2. country preset (TAX_PRESETS — declared later but in-scope when
+  //      effectiveRate is called from boot/render code)
+  //   3. IRS 2026 fallback ($0.725 / mi)
+  function effectiveRate(profile) {
+    const u = Number(profile && profile.mileage_rate);
+    if (Number.isFinite(u) && u > 0) return u;
+    try {
+      const cc = String((profile && profile.country) || 'US').toUpperCase();
+      const p = TAX_PRESETS[cc];
+      if (p && Number.isFinite(p.rate) && p.rate > 0) return p.rate;
+    } catch (_e) { /* TAX_PRESETS not yet in scope — fall through */ }
+    return IRS_RATE_2026;
+  }
+
   const { createClient } = window.supabase;
   const _sb = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -163,7 +179,7 @@
     }
     const totalMiles = businessMiles + personalMiles;
     const businessPct = totalMiles > 0 ? Math.round((businessMiles / totalMiles) * 100) : 0;
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const ytdDeduction = businessMiles * rate;
     return { tripCount, businessMiles, personalMiles, totalMiles, businessPct, needsReview, ytdDeduction, rate };
   }
@@ -195,7 +211,11 @@
   }
 
   function formatDollars(n) {
-    return '$' + (Math.round(n * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let sym = '$';
+    try {
+      if (_profileRef && _profileRef.country) sym = taxPresetForCountry(_profileRef.country).symbol;
+    } catch (_e) { /* TAX_PRESETS not yet in scope — fall back to $ */ }
+    return sym + (Math.round(n * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function formatDateLong(date = new Date()) {
@@ -308,7 +328,7 @@
       root.innerHTML = '<div class="empty">No trips match this filter.</div>';
       return;
     }
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     root.innerHTML = trips.map((t) => {
       const tag = classTag(t.type);
       const value = isBusiness(t.type) ? '$' + (Number(t.miles) * rate).toFixed(2) : '—';
@@ -374,10 +394,11 @@
 
   function renderQuarter(trips, kpis) {
     const q = computeQuarter(trips, kpis);
+    const preset = taxPresetForCountry(_profileRef.country);
     setText('[data-mmai="quarter-label"]', `${q.qLabel} deduction`);
     setText('[data-mmai="quarter-deduction"]', formatDollars(q.qDeduction));
     setText('[data-mmai="quarter-business-miles"]', Math.round(q.qBusiness).toLocaleString());
-    setText('[data-mmai="quarter-rate"]', '$' + kpis.rate.toFixed(3));
+    setText('[data-mmai="quarter-rate"]', preset.symbol + kpis.rate.toFixed(3) + ' / ' + preset.unit);
     setText('[data-mmai="quarter-tax-saved"]', formatDollars(q.qDeduction * 0.24));
   }
 
@@ -633,15 +654,16 @@
   function renderReportPreview() {
     const trips = tripsForReport();
     const profile = _profileRef;
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const totalMi = trips.reduce((s, t) => s + (Number(t.miles) || 0), 0);
     const bizMi = trips.filter((t) => isBusiness(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
     const deduction = bizMi * rate;
 
     setText('[data-mmai="rep-period-title"]', periodLabel(_reportState.period) + ' Mileage Log');
     setText('[data-mmai="rep-total-deduction"]', formatDollars(deduction));
+    const preset = taxPresetForCountry(_profileRef.country);
     setText('[data-mmai="rep-totals-line"]',
-      `${trips.length} trip${trips.length === 1 ? '' : 's'} · ${totalMi.toFixed(0)} mi · IRS rate $${rate.toFixed(3)}`);
+      `${trips.length} trip${trips.length === 1 ? '' : 's'} · ${totalMi.toFixed(0)} ${preset.unit} · ${preset.authority} rate ${preset.symbol}${rate.toFixed(3)}`);
 
     const summary = $('[data-mmai="rep-summary"]');
     if (!summary) return;
@@ -683,7 +705,7 @@
   }
 
   function genCSV(trips, profile) {
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const out = [csvLine(['Date', 'Time', 'From Address', 'To Address', 'Miles', 'Type', 'Purpose', 'Duration (min)', 'Vehicle ID', 'Deduction (USD)'])];
     for (const t of trips) {
       out.push(csvLine([
@@ -705,7 +727,7 @@
   function genQuickBooksCSV(trips, profile) {
     // QuickBooks Online expense-import CSV: Date, Description, Vendor, Amount, Account, Class.
     // Only business trips emit rows (mileage isn't a personal QB expense).
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const out = [csvLine(['Date', 'Description', 'Vendor', 'Amount', 'Account', 'Class'])];
     for (const t of trips) {
       if (!isBusiness(t.type)) continue;
@@ -727,7 +749,7 @@
   function genXeroCSV(trips, profile) {
     // Xero Bills CSV import format. Account code 461 is a common Travel-Domestic
     // code; users may need to remap to their chart of accounts.
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const contact = profile.name || 'Driver';
     const out = [csvLine(['*ContactName', '*InvoiceNumber', '*InvoiceDate', '*DueDate', '*Description', '*Quantity', '*UnitAmount', '*AccountCode'])];
     let n = 1;
@@ -772,7 +794,7 @@
       return null;
     }
     const { jsPDF } = window.jspdf;
-    const rate = Number(profile.mileage_rate) > 0 ? Number(profile.mileage_rate) : IRS_RATE_2026;
+    const rate = effectiveRate(profile);
     const totalMi = trips.reduce((s, t) => s + (Number(t.miles) || 0), 0);
     const bizMi = trips.filter((t) => isBusiness(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
     const persMi = trips.filter((t) => isPersonal(t.type)).reduce((s, t) => s + (Number(t.miles) || 0), 0);
@@ -1499,6 +1521,27 @@
     _profileRef.timezone = tz;
   }
 
+  // ───────── Country-specific tax presets ─────────
+  // Per-country defaults for the Tax preferences panel and rate editor.
+  // The user's profile.mileage_rate (when set) always wins — these only
+  // populate the suggested default and the displayed unit/symbol/authority.
+  // Falls back to US for any country not in this map.
+  const TAX_PRESETS = {
+    US: { rate: 0.725, symbol: '$',  unit: 'mi', authority: 'IRS',                       method: 'Standard mileage rate',          refDoc: 'Pub. 463',          taxYear: '2026',     noteLine: 'Overrides the IRS default ($0.725 / 2026 for business use).' },
+    GB: { rate: 0.45,  symbol: '£',  unit: 'mi', authority: 'HMRC',                      method: 'Approved Mileage Allowance',     refDoc: 'AMAP rates',        taxYear: '2025/26',  noteLine: 'Overrides the HMRC default (£0.45/mi first 10,000 mi/year, £0.25/mi after).' },
+    CA: { rate: 0.72,  symbol: 'CA$',unit: 'km', authority: 'CRA',                       method: 'Reasonable per-km allowance',    refDoc: 'Reasonable rates',  taxYear: '2025',     noteLine: 'Overrides the CRA reasonable rate (CA$0.72/km first 5,000 km, CA$0.66/km after).' },
+    AU: { rate: 0.88,  symbol: 'A$', unit: 'km', authority: 'ATO',                       method: 'Cents per kilometre',            refDoc: 'Cents-per-km',      taxYear: '2024-25',  noteLine: 'Overrides the ATO default (A$0.88/km, capped at 5,000 km/year).' },
+    DE: { rate: 0.30,  symbol: '€',  unit: 'km', authority: 'Bundesfinanzministerium',   method: 'Entfernungspauschale',           refDoc: 'EStG § 9',          taxYear: '2026',     noteLine: 'Overrides the Pendlerpauschale default (€0.30/km up to 20 km, €0.38/km thereafter).' },
+    FR: { rate: 0.529, symbol: '€',  unit: 'km', authority: 'DGFiP',                     method: 'Barème kilométrique',            refDoc: 'Barème BIC-BNC',    taxYear: '2025',     noteLine: 'Overrides the DGFiP barème (varies by engine fiscal horsepower and distance).' },
+    IE: { rate: 0.41,  symbol: '€',  unit: 'km', authority: 'Revenue',                   method: 'Civil service kilometric rates', refDoc: 'Civil service',     taxYear: '2025',     noteLine: 'Overrides the Revenue civil service rate (€0.41/km first 1,500 km).' },
+    NL: { rate: 0.23,  symbol: '€',  unit: 'km', authority: 'Belastingdienst',           method: 'Onbelaste km-vergoeding',        refDoc: 'Belastingdienst',   taxYear: '2025',     noteLine: 'Overrides the Belastingdienst tax-free allowance (€0.23/km).' },
+    IN: { rate: 0,     symbol: '₹',  unit: 'km', authority: 'Income Tax India',          method: 'Conveyance allowance',           refDoc: 'Employer policy',   taxYear: '2025-26',  noteLine: 'India has no statutory per-km tax rate — set per your employer’s policy.' },
+  };
+  function taxPresetForCountry(country) {
+    if (!country) return TAX_PRESETS.US;
+    return TAX_PRESETS[String(country).toUpperCase()] || TAX_PRESETS.US;
+  }
+
   // ───────── Country helpers ─────────
   function detectDeviceCountry() {
     try {
@@ -1626,27 +1669,42 @@
       })(),
       help: 'Sets tax-rate defaults and report locale conventions.',
     });
-    link('[data-mmai="edit-rate"]', {
-      title: 'Edit mileage rate',
-      label: 'Per-mile rate ($)',
-      column: 'mileage_rate',
-      input: `<input id="pe-val" type="number" step="0.001" min="0" max="2" value="${Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725}" placeholder="0.725">`,
-      help: 'IRS standard mileage rate for 2026 is $0.725/mi. Override only if you use a different rate.',
-      parse: (v) => {
-        const n = parseFloat(v);
-        return Number.isFinite(n) ? n : null;
-      },
-      validate: (v) => (v == null || v < 0 || v > 2) ? 'Enter a rate between $0.000 and $2.000.' : null,
-    });
+    link('[data-mmai="edit-rate"]', (() => {
+      const preset = taxPresetForCountry(_profileRef.country);
+      const cur = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : preset.rate;
+      const unitWord = preset.unit === 'mi' ? 'mile' : 'kilometre';
+      return {
+        title: 'Edit mileage rate',
+        label: `Per-${unitWord} rate (${preset.symbol})`,
+        column: 'mileage_rate',
+        input: `<input id="pe-val" type="number" step="0.001" min="0" max="5" value="${cur}" placeholder="${preset.rate}">`,
+        help: `${preset.authority} default: ${preset.symbol}${preset.rate.toFixed(3)} / ${preset.unit} (${preset.method}). Override only if you use a different rate.`,
+        parse: (v) => {
+          const n = parseFloat(v);
+          return Number.isFinite(n) ? n : null;
+        },
+        validate: (v) => (v == null || v < 0 || v > 5) ? `Enter a rate between ${preset.symbol}0.000 and ${preset.symbol}5.000.` : null,
+      };
+    })());
   }
 
-  // Render the editable display value for the rate field after data load.
+  // Render the Tax preferences panel — labels, units, currency, and authority
+  // are pulled from TAX_PRESETS by profile.country. The user's mileage_rate
+  // override (when set) takes precedence over the preset's default rate.
   function renderTaxPanel() {
-    const rate = $('[data-mmai="edit-rate"]');
-    if (rate) {
-      const r = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725;
-      rate.textContent = '$' + r.toFixed(3);
-    }
+    const preset = taxPresetForCountry(_profileRef.country);
+    const r = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : preset.rate;
+    const rateLabel = preset.unit === 'mi' ? 'Per-mile' : 'Per-kilometre';
+
+    setText('[data-mmai="edit-rate"]', preset.symbol + r.toFixed(3) + ' / ' + preset.unit);
+    setText('[data-mmai="rate-description"]',
+      `${rateLabel} rate applied to business trips. ${preset.noteLine}`);
+    setText('[data-mmai="tax-year"]', preset.taxYear);
+    setText('[data-mmai="tax-year-description"]',
+      `Reports default to this period. ${preset.authority} fiscal calendar.`);
+    setText('[data-mmai="tax-authority"]', `${preset.authority} · ${preset.refDoc}`);
+    setText('[data-mmai="tax-authority-description"]',
+      `Method: ${preset.method}. Reports and exports follow this format.`);
   }
 
   // ───────── Help ─────────
