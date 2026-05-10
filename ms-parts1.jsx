@@ -1,3 +1,11 @@
+/*
+ * MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+ * Confidential and proprietary. Unauthorized use prohibited.
+ * MyMilesAI is a trademark of Harijas LLC.
+ * MyMilesAI is a recordkeeping tool - not tax advice.
+ * See LICENSE for full terms. harijasllc@outlook.com
+ */
+
 /* Marketing site components — split for manageability */
 
 /* Canonical "The Route" lockup (matches brand-logo.css) */
