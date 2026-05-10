@@ -138,7 +138,7 @@
 
   async function loadTripsYtd(userId) {
     const year = new Date().getFullYear();
-    const cols = 'id,from_addr,to_addr,miles,type,purpose,trip_purpose,trip_date,trip_time,duration_mins,deductible,vehicle_id';
+    const cols = 'id,from_addr,to_addr,miles,type,purpose,trip_purpose,client,notes,trip_date,trip_time,duration_mins,deductible,vehicle_id';
     const { data, error } = await _sb
       .from('trips')
       .select(cols)
@@ -763,7 +763,7 @@
       if (!isBusiness(t.type)) continue;
       const fa = (t.from_addr || '').split(',')[0];
       const ta = (t.to_addr || '').split(',')[0];
-      const desc = `Business mileage: ${fa} → ${ta}${t.purpose ? ' · ' + t.purpose : ''} (${(Number(t.miles) || 0).toFixed(1)} mi)`;
+      const desc = `Business mileage: ${fa} → ${ta}${t.purpose ? ' · ' + t.purpose : ''}${t.client ? ' · ' + t.client : ''} (${(Number(t.miles) || 0).toFixed(1)} mi)`;
       out.push(csvLine([
         t.trip_date,
         desc,
