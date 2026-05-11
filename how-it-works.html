@@ -27,6 +27,58 @@
   .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
+<style>
+  /* ── Step 2-column layout ── */
+  .step-content-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  @media(max-width:768px){.step-content-grid{grid-template-columns:1fr}}
+
+  /* ── Step 01 phone: static defaults (reduced-motion / no-JS fallback shows Ready screen) ── */
+  .s01-screen1{opacity:0}
+  .s01-dl-icon{opacity:1}
+  .s01-dl-check{opacity:0}
+  .s01-screen2{opacity:0}
+  .s01-screen3{opacity:0}
+  .s01-screen4{opacity:1}
+
+  /* ── Step 01 animations ── */
+  @media(prefers-reduced-motion:no-preference){
+    @keyframes s01-phone-in{
+      0%{opacity:0;transform:translateY(22px)}
+      10%{opacity:1;transform:translateY(0)}
+      90%{opacity:1;transform:translateY(0)}
+      100%{opacity:0;transform:translateY(22px)}
+    }
+    @keyframes s01-screen1{
+      0%{opacity:1}26%{opacity:1}32%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s01-dl-icon{
+      0%{opacity:1}12%{opacity:1}18%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s01-dl-check{
+      0%,12%{opacity:0}20%{opacity:1}26%{opacity:1}32%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s01-screen2{
+      0%,28%{opacity:0}34%{opacity:1}52%{opacity:1}58%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s01-screen3{
+      0%,54%{opacity:0}60%{opacity:1}68%{opacity:1}74%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s01-screen4{
+      0%,70%{opacity:0}76%{opacity:1}97%{opacity:1}100%{opacity:0}
+    }
+    @keyframes s01-pulse-btn{
+      0%,59%{transform:scale(1)}63%{transform:scale(1.06)}67%{transform:scale(1)}100%{transform:scale(1)}
+    }
+    .s01-phone{animation:s01-phone-in 8s ease-in-out infinite}
+    .s01-screen1{animation:s01-screen1 8s ease-in-out infinite}
+    .s01-dl-icon{animation:s01-dl-icon 8s ease-in-out infinite}
+    .s01-dl-check{animation:s01-dl-check 8s ease-in-out infinite}
+    .s01-screen2{animation:s01-screen2 8s ease-in-out infinite}
+    .s01-screen3{animation:s01-screen3 8s ease-in-out infinite}
+    .s01-screen4{animation:s01-screen4 8s ease-in-out infinite}
+    .s01-pulse-btn{animation:s01-pulse-btn 8s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+  }
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -91,6 +143,70 @@ const HIWDetail = () => {
       color:'#1B4DDB',
     },
   ];
+  const Phone01 = () => (
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+        <g className="s01-phone">
+          {/* Phone frame */}
+          <rect width="240" height="440" rx="30" fill="#0F1729"/>
+          {/* Screen background */}
+          <rect x="10" y="14" width="220" height="412" rx="22" fill="#FFFFFF"/>
+          {/* Notch */}
+          <rect x="76" y="14" width="88" height="22" rx="11" fill="#0F1729"/>
+          {/* ── Screen 1: Download ── */}
+          <g className="s01-screen1">
+            <rect x="76" y="76" width="88" height="88" rx="20" fill="#E8EEFF"/>
+            <g className="s01-dl-icon">
+              <line x1="120" y1="96" x2="120" y2="134" stroke="#1B4DDB" strokeWidth="5" strokeLinecap="round"/>
+              <polyline points="107,123 120,137 133,123" fill="none" stroke="#1B4DDB" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+            </g>
+            <g className="s01-dl-check">
+              <circle cx="120" cy="120" r="24" fill="#22C55E"/>
+              <polyline points="109,120 116,129 133,109" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </g>
+            <rect x="66" y="178" width="108" height="10" rx="5" fill="#E8EEFF"/>
+            <rect x="80" y="193" width="80" height="8" rx="4" fill="#E6E1D8"/>
+            <rect x="36" y="346" width="168" height="6" rx="3" fill="#E8EEFF"/>
+            <rect x="36" y="346" width="108" height="6" rx="3" fill="#1B4DDB"/>
+          </g>
+          {/* ── Screen 2: Sign-in ── */}
+          <g className="s01-screen2">
+            <rect x="58" y="70" width="124" height="12" rx="6" fill="#0F1729" fillOpacity="0.12"/>
+            <rect x="78" y="87" width="84" height="8" rx="4" fill="#0F1729" fillOpacity="0.07"/>
+            <rect x="28" y="124" width="184" height="46" rx="10" fill="#1B4DDB" fillOpacity="0.08"/>
+            <rect x="28" y="124" width="184" height="46" rx="10" fill="none" stroke="#1B4DDB" strokeWidth="2"/>
+            <rect x="50" y="143" width="10" height="12" rx="3" fill="#1B4DDB" fillOpacity="0.6"/>
+            <rect x="68" y="143" width="90" height="8" rx="4" fill="#1B4DDB" fillOpacity="0.45"/>
+            <rect x="28" y="178" width="184" height="46" rx="10" fill="#F6F3EE"/>
+            <rect x="68" y="197" width="90" height="8" rx="4" fill="#0F1729" fillOpacity="0.15"/>
+            <rect x="28" y="232" width="184" height="46" rx="10" fill="#F6F3EE"/>
+            <rect x="68" y="251" width="90" height="8" rx="4" fill="#0F1729" fillOpacity="0.12"/>
+          </g>
+          {/* ── Screen 3: Location ── */}
+          <g className="s01-screen3">
+            <circle cx="120" cy="114" r="38" fill="#E8EEFF"/>
+            <path d="M120 82C102 82 90 95 90 112C90 132 120 158 120 158C120 158 150 132 150 112C150 95 138 82 120 82Z" fill="#1B4DDB"/>
+            <circle cx="120" cy="110" r="10" fill="white"/>
+            <rect x="42" y="170" width="156" height="12" rx="6" fill="#E8EEFF"/>
+            <rect x="56" y="187" width="128" height="10" rx="5" fill="#E8EEFF" fillOpacity="0.65"/>
+            <g className="s01-pulse-btn">
+              <rect x="48" y="226" width="144" height="44" rx="22" fill="#1B4DDB"/>
+              <rect x="72" y="244" width="96" height="8" rx="4" fill="white" fillOpacity="0.85"/>
+            </g>
+            <rect x="78" y="284" width="84" height="8" rx="4" fill="#0F1729" fillOpacity="0.14"/>
+          </g>
+          {/* ── Screen 4: Ready! ── */}
+          <g className="s01-screen4">
+            <circle cx="120" cy="178" r="72" fill="#DCFCE7"/>
+            <circle cx="120" cy="178" r="54" fill="#22C55E"/>
+            <polyline points="95,178 110,195 148,155" fill="none" stroke="white" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
+            <rect x="68" y="272" width="104" height="14" rx="7" fill="#0F1729" fillOpacity="0.13"/>
+            <rect x="82" y="292" width="76" height="10" rx="5" fill="#0F1729" fillOpacity="0.07"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
   return (
     <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
       <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Step by step</div>
@@ -98,12 +214,8 @@ const HIWDetail = () => {
         Exactly what happens from download to deduction.
       </h2>
       <div style={{display:'flex',flexDirection:'column',gap:0}}>
-        {steps.map((s,i)=>(
-          <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?64:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
-            {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E6E1D8'}}/>}
-            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
-              <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
-            </div>
+        {steps.map((s,i)=>{
+          const textContent = (
             <div style={{paddingTop:10}}>
               <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6,letterSpacing:'-0.02em'}}>{s.title}</h3>
               <div style={{fontSize:13,color:'#6B6862',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:20}}>{s.sub}</div>
@@ -119,8 +231,22 @@ const HIWDetail = () => {
                 {s.note}
               </div>
             </div>
-          </div>
-        ))}
+          );
+          return (
+            <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?64:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
+              {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E6E1D8'}}/>}
+              <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
+                <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
+              </div>
+              {i<3 ? (
+                <div className="step-content-grid">
+                  {textContent}
+                  {i===0 ? <Phone01/> : <div className="step-visual" id={`step-0${i+1}-visual`}/>}
+                </div>
+              ) : textContent}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
