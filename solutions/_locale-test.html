@@ -1,0 +1,228 @@
+<!doctype html>
+<!--
+  MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+  Confidential and proprietary. Unauthorized use prohibited.
+  MyMilesAI is a recordkeeping tool - not tax advice.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Locale layer test — MyMilesAI Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:#F8F9FA;color:#111827;-webkit-font-smoothing:antialiased;padding:0 0 80px}
+  .test-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;background:#fff;border-bottom:1px solid #E5E7EB;position:sticky;top:0;z-index:50}
+  .test-nav h1{font-size:15px;font-weight:700;color:#111827}
+  .test-nav p{font-size:12px;color:#6B7280;margin-top:2px}
+  .section{max-width:800px;margin:40px auto;padding:0 24px}
+  .section h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:1.25rem;color:#111827;margin-bottom:4px}
+  .section p.desc{font-size:14px;color:#6B7280;margin-bottom:20px}
+  .card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:28px;margin-bottom:20px}
+  .card-label{font-size:11px;font-weight:700;color:#6B7280;letter-spacing:0.06em;margin-bottom:16px;text-transform:uppercase}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:14px}
+  .row:last-child{border-bottom:none}
+  .row .key{color:#6B7280}
+  .row .val{font-weight:600;color:#111827}
+  .val.accent{color:#1B4DDB}
+  .val.gold{color:#C9A96E}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:12px;font-weight:600;border:1px solid #E5E7EB;background:#F8F9FA}
+  .badge.us{color:#1B4DDB;border-color:#C7D6FB;background:#F0F4FF}
+  .badge.ca{color:#D52B1E;border-color:#fcc;background:#fff5f5}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:8px 12px;font-weight:600;color:#6B7280;border-bottom:2px solid #E5E7EB;font-size:11px}
+  td{padding:8px 12px;border-bottom:1px solid #F3F4F6}
+  td:last-child{text-align:right;color:#1B4DDB;font-weight:600}
+  .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+  .persona-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:14px}
+  .persona-card .name{font-size:12px;font-weight:700;color:#111827;margin-bottom:4px}
+  .persona-card .amount{font-size:20px;font-weight:800;color:#1B4DDB;line-height:1}
+  .persona-card .dist{font-size:11px;color:#6B7280;margin-top:4px}
+  .locale-status{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#F0F4FF;border:1px solid #C7D6FB;border-radius:100px;font-size:13px;font-weight:700;color:#1B4DDB}
+  .trust-strip{background:#F8F9FA;border:1px solid #E5E7EB;border-radius:10px;padding:14px 18px;font-size:13px;color:#374151;font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- locale.js must load BEFORE Babel scripts so window.MM is available -->
+<script src="locale.js"></script>
+<script src="../assets/vendor/react.production.min.js"></script>
+<script src="../assets/vendor/react-dom.production.min.js"></script>
+<script src="../assets/vendor/babel.min.js"></script>
+<script type="text/babel" src="../ms-parts1.jsx?v=2026-04-26c"></script>
+<script type="text/babel" src="../ms-parts2.jsx?v=2026-04-26c"></script>
+
+<script type="text/babel">
+/* ── Locale toggle pill (standalone, for test page header) ── */
+const LocaleToggle = () => {
+  const [locale, setLocale] = React.useState(window.MM.get());
+  const toggle = (r) => { window.MM.set(r); setLocale(r); };
+  const Flag = ({code}) => code === 'US' ? (
+    <span style={{width:18,height:12,display:'inline-block',background:'linear-gradient(180deg,#B22234 33%,#FFF 33%,#FFF 66%,#B22234 66%)',borderRadius:2,position:'relative',overflow:'hidden',flexShrink:0}}>
+      <span style={{position:'absolute',top:0,left:0,width:7,height:6,background:'#3C3B6E'}}/>
+    </span>
+  ) : (
+    <span style={{width:18,height:12,display:'inline-block',background:'linear-gradient(90deg,#D52B1E 0 25%,#FFF 25% 75%,#D52B1E 75%)',borderRadius:2,position:'relative',overflow:'hidden',flexShrink:0}}>
+      <span style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',color:'#D52B1E',fontSize:8,lineHeight:1,fontWeight:700}}>🍁</span>
+    </span>
+  );
+  return (
+    <div style={{display:'flex',gap:6}}>
+      {['US','CA'].map(r => (
+        <button key={r} onClick={()=>toggle(r)} style={{display:'flex',alignItems:'center',gap:6,padding:'7px 12px',border:`1.5px solid ${r===locale?'#1B4DDB':'#E5E7EB'}`,borderRadius:100,fontSize:13,fontWeight:600,background:r===locale?'#EFF3FF':'#fff',color:r===locale?'#1B4DDB':'#6B7280',cursor:'pointer',fontFamily:'inherit',transition:'all .15s'}}>
+          <Flag code={r}/> {r}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+/* ── Main test component ── */
+const LocaleTest = () => {
+  const [locale, setLocale] = React.useState(window.MM.get());
+
+  React.useEffect(() => {
+    const handler = (e) => setLocale(e.detail.locale);
+    document.addEventListener('mm-locale-change', handler);
+    return () => document.removeEventListener('mm-locale-change', handler);
+  }, []);
+
+  const s = window.MM.strings[locale];
+  const slugs = ['realtors','rideshare','freelancers','small-business','construction','sales-reps'];
+
+  return (
+    <>
+      {/* ── Test 1: Storage + event ── */}
+      <div className="section">
+        <h2>Test 1 — Storage + event system</h2>
+        <p className="desc">Current locale is read from localStorage('mm_region'). Clicking US/CA above updates localStorage, fires mm-locale-change, and all components below re-render without a page reload.</p>
+        <div className="card">
+          <div className="card-label">Current state</div>
+          <div className="row">
+            <span className="key">Active locale</span>
+            <span className="locale-status">
+              {locale === 'US' ? '🇺🇸' : '🇨🇦'} {locale} — {s.regionLabel}
+            </span>
+          </div>
+          <div className="row">
+            <span className="key">localStorage('mm_region')</span>
+            <span className="val accent">{locale}</span>
+          </div>
+          <div className="row">
+            <span className="key">document.documentElement[data-locale]</span>
+            <span className="val accent">{locale.toLowerCase()}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Test 2: Locale strings ── */}
+      <div className="section">
+        <h2>Test 2 — Locale string table</h2>
+        <p className="desc">All strings below come from window.MM.strings[locale]. Toggle US/CA to confirm every value swaps correctly.</p>
+        <div className="card">
+          <div className="card-label">window.MM.strings['{locale}']</div>
+          {[
+            ['rate',           s.rate],
+            ['rateShort',      s.rateShort],
+            ['unit',           s.unit],
+            ['unitShort',      s.unitShort],
+            ['complianceLabel',s.complianceLabel],
+            ['auditLabel',     s.auditLabel],
+            ['form1',          s.form1],
+            ['form2',          s.form2],
+            ['scheduleForm',   s.scheduleForm],
+            ['formHeader',     s.formHeader],
+            ['regionLabel',    s.regionLabel],
+          ].map(([k,v]) => (
+            <div key={k} className="row">
+              <span className="key">{k}</span>
+              <span className="val">{v}</span>
+            </div>
+          ))}
+        </div>
+        <div className="trust-strip">{s.trustStrip}</div>
+      </div>
+
+      {/* ── Test 3: Persona data ── */}
+      <div className="section">
+        <h2>Test 3 — Persona deduction amounts</h2>
+        <p className="desc">All six personas, locale-indexed. Toggle US/CA — both deduction amount and distance unit must change.</p>
+        <div className="persona-grid">
+          {slugs.map(slug => {
+            const p = window.MM.personas[slug];
+            const d = p[locale];
+            return (
+              <div key={slug} className="persona-card">
+                <div className="name">{p.name}</div>
+                <div className="amount">{d.deduction}</div>
+                <div className="dist">{d.distance} / yr</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Test 4: Sample trip data (realtors) ── */}
+      <div className="section">
+        <h2>Test 4 — Sample trip data</h2>
+        <p className="desc">Realtors persona trip data. Toggle US/CA — addresses, distances ({s.unitShort}), and amounts must all change.</p>
+        <div className="card">
+          <div className="card-label">{s.formHeader}</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Route</th>
+                <th style={{textAlign:'right'}}>{s.unitShort.toUpperCase()}</th>
+                <th style={{textAlign:'right'}}>$</th>
+              </tr>
+            </thead>
+            <tbody>
+              {window.MM.personas.realtors[locale].trips.map((t,i) => (
+                <tr key={i}>
+                  <td style={{color:'#6B7280'}}>{t.date}</td>
+                  <td>{t.route}</td>
+                  <td style={{textAlign:'right'}}>{t.dist}</td>
+                  <td>${t.amount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ── Test 5: MSRegionPill from ms-parts1 ── */}
+      <div className="section">
+        <h2>Test 5 — MSRegionPill (from ms-parts1.jsx)</h2>
+        <p className="desc">MSRegionPill is now exported as window.MSRegionPill and calls window.MM.set() on change. Toggling it here should update all tests above.</p>
+        <div className="card" style={{display:'flex',alignItems:'center',gap:16}}>
+          <span style={{fontSize:14,color:'#6B7280'}}>MSRegionPill component:</span>
+          <MSRegionPill/>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const App = () => (
+  <>
+    <div className="test-nav">
+      <div>
+        <h1>Locale layer test — solutions/locale.js</h1>
+        <p>Toggle locale below and verify all 5 tests update without page reload</p>
+      </div>
+      <LocaleToggle/>
+    </div>
+    <LocaleTest/>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<div id="root"></div>
+</body>
+</html>

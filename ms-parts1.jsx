@@ -30,7 +30,7 @@ const MSRegionPill = () => {
   const [open, setOpen] = React.useState(false);
   const choose = (r) => {
     setRegion(r);
-    try { localStorage.setItem('mm_region', r); } catch(e) {}
+    if (window.MM) { window.MM.set(r); } else { try { localStorage.setItem('mm_region', r); } catch(e) {} try { document.dispatchEvent(new CustomEvent('mm-locale-change',{detail:{locale:r}})); } catch(e) {} }
     setOpen(false);
   };
   const opts = {
@@ -561,4 +561,4 @@ const HeroPhone = () => (
 );
 
 window.HeroPhone=HeroPhone;
-window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSHow=MSHow; window.MSFeatures=MSFeatures;
+window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSHow=MSHow; window.MSFeatures=MSFeatures; window.MSRegionPill=MSRegionPill;
