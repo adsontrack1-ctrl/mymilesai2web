@@ -20,12 +20,18 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
+  .page-hero{padding:64px 56px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
   .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
+</style>
+<style>
+  .feat-hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  @media(max-width:768px){.feat-hero-inner{grid-template-columns:1fr}}
+  .feat-card{transition:transform 0.2s ease,box-shadow 0.2s ease}
+  .feat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,77,219,0.12)}
 </style>
 </head>
 <body>
@@ -39,32 +45,32 @@
 const FeatAdditional = () => {
   const items = [
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13.5 6.5H19L14.5 9.5L16 14L12 11L8 14L9.5 9.5L5 6.5H10.5Z"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13.5 6.5H19L14.5 9.5L16 14L12 11L8 14L9.5 9.5L5 6.5H10.5Z"/></svg>,
       title:'Real-Time Deduction Counter',
       desc:'Watch your tax savings grow with every mile. The app shows you a live counter of your estimated deduction at $0.725/mile (or $0.73/km for Canada). At the end of the year, you\'ll know exactly what you\'re claiming before you sit down with your accountant.',
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13 3V10L17 8L18 9L13 12V22H11V12L6 9L7 8L11 10V3L12 2Z"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13 3V10L17 8L18 9L13 12V22H11V12L6 9L7 8L11 10V3L12 2Z"/></svg>,
       title:'Works Offline',
       desc:'No signal? No problem. MyMilesAI logs trips even without an internet connection. Trips sync automatically when you\'re back online. Great for rural routes, tunnels, and areas with spotty coverage.',
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
       title:'Privacy-First',
       desc:'Your location data stays on your device. We use on-device processing — your trips are never sold to third parties, never used for advertising, never shared with data brokers. We make money from subscriptions, not from your location history.',
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2M9 21a2 2 0 100-4 2 2 0 000 4M20 21a2 2 0 100-4 2 2 0 000 4"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2M9 21a2 2 0 100-4 2 2 0 000 4M20 21a2 2 0 100-4 2 2 0 000 4"/></svg>,
       title:'Multi-Vehicle Support',
       desc:'Company car Monday, personal car Friday? Track across multiple vehicles and MyMilesAI keeps the records separate. Perfect for people who drive different vehicles throughout the week.',
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>,
       title:'Client & Purpose Tagging',
       desc:'Tag trips by client, project, or purpose. When your accountant asks "what were all your trips to Acme Corp?" you can pull that report in two taps. Organized records make tax time actually bearable.',
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
+      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
       title:'US + Canada with Locale Auto-Detect',
       desc:'Live in Canada? The app auto-detects your region and applies CRA 2026 rates ($0.73/km for the first 5,000 km, $0.67/km after). Reports export in kilometers. Switch any time from the settings.',
     },
@@ -77,8 +83,8 @@ const FeatAdditional = () => {
       </h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:28}}>
         {items.map((item,i)=>(
-          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:14,padding:'24px 22px'}}>
-            <div style={{width:40,height:40,background:'#EEF2FF',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:14}}>
+          <div key={i} className="feat-card" style={{background:'linear-gradient(135deg, #F8FAFF 0%, #F0F4FF 100%)',border:'1px solid #E0E7FF',borderLeft:'3px solid #1B4DDB',borderRadius:14,padding:'24px 22px'}}>
+            <div style={{width:48,height:48,background:'#EEF2FF',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}}>
               {item.icon}
             </div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:16,marginBottom:10,letterSpacing:'-0.01em'}}>{item.title}</h3>
@@ -90,68 +96,72 @@ const FeatAdditional = () => {
   );
 };
 
-const FeatComparison = () => {
-  const rows = [
-    {feature:'Price',us:'$6.99/mo or $69.99/yr',them:'$5.99/mo (limited free tier)'},
-    {feature:'Automatic GPS tracking',us:true,them:true},
-    {feature:'AI trip classification',us:true,them:false,themNote:'Manual swipe only'},
-    {feature:'Privacy (on-device processing)',us:true,them:false,themNote:'Cloud-based tracking'},
-    {feature:'Canada / CRA rate support',us:true,them:false,themNote:'US only'},
-    {feature:'Offline mode',us:true,them:false,themNote:'Requires connection'},
-    {feature:'IRS Pub. 463 PDF export',us:true,them:false,themNote:'Generic CSV only'},
-    {feature:'Client & purpose tagging',us:true,them:false},
-    {feature:'No credit card for free trial',us:true,them:false},
-  ];
-  const Check = ({ok,note}) => ok ? (
-    <span style={{display:'inline-flex',alignItems:'center',gap:6,color:'#16A34A',fontWeight:600,fontSize:13}}>
-      <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-      Yes
-    </span>
-  ) : (
-    <span style={{display:'inline-flex',alignItems:'center',gap:6,color:'#9A958D',fontSize:13}}>
-      <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M4 4L12 12M12 4L4 12" stroke="#9A958D" strokeWidth="1.8" strokeLinecap="round"/></svg>
-      {note || 'No'}
-    </span>
-  );
-  return (
-    <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
-      <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Comparison</div>
-      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:16,maxWidth:640}}>
-        How we stack up against MileIQ.
-      </h2>
-      <p style={{fontSize:14,color:'#6B6862',marginBottom:48,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace"}}>Comparison based on publicly available information as of May 2026.</p>
-      <div style={{border:'1px solid #E6E1D8',borderRadius:14,overflow:'hidden',maxWidth:840}}>
-        <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr 1fr',background:'#F6F3EE',padding:'14px 24px',borderBottom:'1px solid #E6E1D8',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'#6B6862'}}>
-          <span>Feature</span>
-          <span style={{color:'#1B4DDB',fontWeight:700}}>MyMilesAI</span>
-          <span>MileIQ</span>
-        </div>
-        {rows.map((r,i)=>(
-          <div key={i} style={{display:'grid',gridTemplateColumns:'1.5fr 1fr 1fr',padding:'14px 24px',borderBottom:i<rows.length-1?'1px solid #F0ECE2':'none',background:i%2===0?'#FFFFFF':'#FAFAF9',alignItems:'center',gap:12}}>
-            <span style={{fontSize:14,color:'#0B0F0E'}}>{r.feature}</span>
-            <span>{typeof r.us === 'boolean' ? <Check ok={r.us}/> : <span style={{fontSize:14,fontWeight:600,color:'#1B4DDB'}}>{r.us}</span>}</span>
-            <span>{typeof r.them === 'boolean' ? <Check ok={r.them} note={r.themNote}/> : <span style={{fontSize:14,color:'#6B6862'}}>{r.them}</span>}</span>
-          </div>
-        ))}
-      </div>
-      <p style={{fontSize:13,color:'#9A958D',marginTop:20}}>Switching from MileIQ? We support CSV import so you don't lose your history.</p>
-    </section>
-  );
-};
+
+const HeroPhone = () => (
+  <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+    <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'280px',display:'block'}} aria-hidden="true">
+      <rect width="240" height="440" rx="30" fill="#0F1729"/>
+      <rect x="10" y="14" width="220" height="412" rx="22" fill="#0B1B3D"/>
+      <rect x="76" y="14" width="88" height="22" rx="11" fill="#0F1729"/>
+      <circle cx="28" cy="52" r="4" fill="#22C55E"/>
+      <text x="38" y="56" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="9" letterSpacing="0.15em" fill="#22C55E">GPS ACTIVE</text>
+      <text x="212" y="56" textAnchor="end" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="9" fill="rgba(255,255,255,0.35)">09:41</text>
+      <path d="M 50 195 A 70 70 0 0 0 190 195" fill="none" stroke="#1E3060" strokeWidth="10" strokeLinecap="round"/>
+      <path d="M 50 195 A 70 70 0 0 0 126 125" fill="none" stroke="#1B4DDB" strokeWidth="10" strokeLinecap="round"/>
+      <line x1="120" y1="195" x2="125" y2="135" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round"/>
+      <circle cx="120" cy="195" r="5" fill="#C9A96E"/>
+      <text x="120" y="178" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="38" fill="#FFFFFF">42</text>
+      <text x="120" y="197" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="10" letterSpacing="0.2em" fill="rgba(255,255,255,0.45)">MPH</text>
+      <rect x="14" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
+      <text x="46" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="15" fill="#FFFFFF">68.1</text>
+      <text x="46" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">BUSINESS</text>
+      <text x="46" y="263" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">MI</text>
+      <rect x="88" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
+      <text x="120" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="15" fill="#FFFFFF">23.1</text>
+      <text x="120" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">PERSONAL</text>
+      <text x="120" y="263" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">MI</text>
+      <rect x="162" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
+      <text x="194" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="13" fill="#C9A96E">$49.39</text>
+      <text x="194" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">DEDUCTION</text>
+    </svg>
+  </div>
+);
+
+const FeatCTA = () => (
+  <section style={{padding:'64px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F6F3EE',textAlign:'center',position:'relative',overflow:'hidden'}}>
+    <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:32}}>— Start today</div>
+    <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,5vw,64px)',lineHeight:1.05,letterSpacing:'-0.03em',maxWidth:900,margin:'0 auto 32px'}}>
+      The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
+    </h2>
+    <p style={{fontSize:17,color:'rgba(246,243,238,0.65)',maxWidth:520,margin:'0 auto 40px'}}>
+      Your first 10 days are free. No credit card. Cancel anytime from the app.
+    </p>
+    <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
+      <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'20px 36px',borderRadius:100,fontSize:16,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 32px -8px rgba(27,77,219,0.5)'}}>
+        Start Free Trial
+        <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+);
 
 const Site = () => (
   <>
     <MSNav/>
 
     <section className="page-hero">
-      <div className="eyebrow">— Features</div>
-      <h1>Everything you need to claim every mile.</h1>
-      <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
+      <div className="feat-hero-inner">
+        <div>
+          <div className="eyebrow">— Features</div>
+          <h1>Everything you need to claim every mile.</h1>
+          <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
+        </div>
+        <HeroPhone/>
+      </div>
     </section>
     <MSFeatures/>
     <FeatAdditional/>
-    <FeatComparison/>
-    <MSCTA/>
+    <FeatCTA/>
     <MSFooter/>
   </>
 );
