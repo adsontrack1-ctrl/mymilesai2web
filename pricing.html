@@ -11,10 +11,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pricing — MyMilesAI</title>
+<title>Pricing — MyMilesAI: $6.99/month, 10-Day Free Trial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -22,7 +22,7 @@
   ::selection{background:#1B4DDB;color:#FFFFFF}
   .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
   .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
-  .page-hero h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:56px;line-height:1.05;letter-spacing:-0.02em;margin:0;max-width:900px}
+  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
@@ -36,17 +36,93 @@
 <script type="text/babel" src="ms-parts1.jsx?v=2026-04-26c"></script>
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
+const PricingROI = () => (
+  <section style={{padding:'64px 56px',background:'#F6F3EE',borderTop:'1px solid #E6E1D8',borderBottom:'1px solid #E6E1D8'}}>
+    <div style={{maxWidth:800,margin:'0 auto',textAlign:'center'}}>
+      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(22px,2.8vw,34px)',lineHeight:1.15,letterSpacing:'-0.025em',marginBottom:16}}>
+        At $0.725/mile, it takes fewer than 10 business miles to pay for a month of MyMilesAI.
+      </h2>
+      <p style={{fontSize:15,color:'#4A4843',maxWidth:560,margin:'0 auto 40px',lineHeight:1.6}}>
+        The average self-employed driver who uses a mileage tracker deducts over $6,500 per year. MyMilesAI Pro costs $69.99/year. Do the math.
+      </p>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
+        {[
+          {n:'97 mi',label:'Break-even point at annual price',sub:'At $0.725/mi, 97 miles of business driving pays for a full year of MyMilesAI Pro'},
+          {n:'$6,500',label:'Avg annual deduction for tracked drivers',sub:'Drivers who actually log miles claim significantly more than those who don\'t'},
+          {n:'10 days',label:'Free trial — no credit card needed',sub:'Try it during your normal week. If it doesn\'t log every trip, cancel and pay nothing'},
+        ].map((s,i)=>(
+          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:12,padding:'24px 20px'}}>
+            <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:28,color:'#1B4DDB',lineHeight:1,marginBottom:8}}>{s.n}</div>
+            <div style={{fontSize:13,fontWeight:700,marginBottom:8,color:'#0B0F0E'}}>{s.label}</div>
+            <div style={{fontSize:13,color:'#6B6862',lineHeight:1.5}}>{s.sub}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const PricingFAQ = () => {
+  const [open, setOpen] = React.useState(null);
+  const faqs = [
+    {q:'Is there a free plan?',a:'No free plan, but we offer a 10-day free trial — no credit card required. You can use every feature during the trial and see exactly how much you would have deducted. If it\'s not useful, cancel before day 10 and you pay nothing.'},
+    {q:'Can I cancel anytime?',a:'Yes. Cancel from within the app at any time. No questions asked, no cancellation fees, no phone calls to sit through. If you cancel mid-period, you keep access until the end of your billing cycle.'},
+    {q:'Does it work in Canada?',a:'Yes. MyMilesAI supports Canada with CRA 2026 rates built in: $0.73/km for the first 5,000 km of business driving per year, and $0.67/km after that. The app detects your region and switches units automatically. Reports export in kilometers.'},
+    {q:'Will it drain my battery?',a:'No. We use a low-power GPS mode optimized for background operation. MyMilesAI typically uses about 1% of your daily battery — less than most social media apps. On most phones you won\'t notice it in your battery stats.'},
+    {q:'Can I switch from MileIQ?',a:'Yes. We support CSV import so you don\'t lose your mileage history. Export your data from MileIQ, import it into MyMilesAI, and your records are intact. You get the new features without starting from scratch.'},
+    {q:'Is my location data safe?',a:'Yes. MyMilesAI uses on-device processing — your GPS data is processed and stored on your phone, not on our servers. We never sell your location data or driving history to third parties. We make money from subscriptions, not from your data.'},
+    {q:'What happens to my data if I cancel?',a:'Your trip logs remain accessible during your active subscription period. We recommend exporting your data before canceling. After cancellation, your account data is retained for 90 days in case you resubscribe, then deleted.'},
+    {q:'Does it work for 1099 contractors?',a:'Yes — it\'s designed specifically for 1099 workers, freelancers, rideshare drivers, and anyone who drives for work and files self-employment taxes. The exports are formatted for Schedule C and support IRS Pub. 463 requirements.'},
+  ];
+  return (
+    <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
+      <div style={{maxWidth:720,margin:'0 auto'}}>
+        <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— FAQ</div>
+        <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:48}}>
+          Questions we get every week.
+        </h2>
+        <div style={{display:'flex',flexDirection:'column',gap:0,border:'1px solid #E6E1D8',borderRadius:14,overflow:'hidden'}}>
+          {faqs.map((f,i)=>(
+            <div key={i} style={{borderBottom:i<faqs.length-1?'1px solid #E6E1D8':'none'}}>
+              <button
+                onClick={()=>setOpen(open===i?null:i)}
+                style={{width:'100%',padding:'20px 24px',background:'none',border:'none',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',gap:16,textAlign:'left',fontFamily:"'DM Sans',system-ui,sans-serif"}}
+              >
+                <span style={{fontWeight:600,fontSize:15,color:'#0B0F0E',lineHeight:1.4}}>{f.q}</span>
+                <svg viewBox="0 0 16 16" width={16} height={16} fill="none" style={{flexShrink:0,transform:open===i?'rotate(180deg)':'none',transition:'transform 0.2s'}}><path d="M4 6L8 10L12 6" stroke="#6B6862" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+              {open===i && (
+                <div style={{padding:'0 24px 20px',fontSize:14,color:'#4A4843',lineHeight:1.7}}>
+                  {f.a}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div style={{marginTop:40,padding:'24px',background:'#F6F3EE',border:'1px solid #E6E1D8',borderRadius:12,textAlign:'center'}}>
+          <div style={{fontWeight:600,fontSize:15,marginBottom:8}}>Still not sure?</div>
+          <div style={{fontSize:14,color:'#4A4843',marginBottom:16}}>Try it free — you'll know in 10 days. No credit card, no commitment.</div>
+          <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'14px 28px',borderRadius:100,fontSize:14,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:6}}>
+            Start Free Trial →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Site = () => (
   <>
     <MSNav/>
-    
+
     <section className="page-hero">
       <div className="eyebrow">— Pricing</div>
-      <h1>Free to start. <em>Pays for itself in week one.</em></h1>
-      <p>Pro is $69.99/yr — even a few hundred business miles deducted pays for itself before tax day.</p>
+      <h1>One plan. Everything included.</h1>
+      <p>MyMilesAI Pro is $6.99/month or $69.99/year. 10-day free trial, no credit card required. At $0.725/mile, it takes fewer than 10 business trips to pay for a year.</p>
     </section>
     <MSPricing/>
-    <MSTestimonials/>
+    <PricingROI/>
+    <PricingFAQ/>
     <MSCTA/>
     <MSFooter/>
   </>

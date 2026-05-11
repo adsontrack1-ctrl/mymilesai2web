@@ -18,7 +18,7 @@ const MSLogo = ({size=22, onDark=false}) => (
       <circle cx="52" cy="14" r="2" fill="#F6F3EE"/>
     </svg>
     <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:size,letterSpacing:'-0.035em',color:onDark?'#F6F3EE':'#0B0F0E'}}>
-      MyMiles<span style={{fontFamily:"'Instrument Serif',serif",fontStyle:'italic',fontWeight:400,color:'#C9A96E',letterSpacing:'-0.02em',paddingLeft:'0.03em'}}>AI</span>
+      MyMiles<span style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,color:'#C9A96E',letterSpacing:'-0.02em',paddingLeft:'0.03em'}}>AI</span>
     </span>
   </div>
 );
@@ -108,50 +108,56 @@ const MSNav = ({mobile}) => {
   );
 };
 
-/* HERO — new landing (matches www.mymilesai.com layout, our brand) */
+/* HERO — homepage hero */
 const MSHero = () => {
   return (
     <section style={{padding:'72px 56px 110px',display:'grid',gridTemplateColumns:'1.1fr 1fr',gap:56,alignItems:'center',position:'relative',overflow:'hidden',minHeight:720}}>
-      {/* soft ambient glow */}
-      <div style={{position:'absolute',top:'-10%',right:'-8%',width:720,height:720,background:'radial-gradient(circle at center, rgba(124,58,237,0.10), rgba(236,72,153,0.06) 40%, transparent 70%)',pointerEvents:'none',filter:'blur(20px)'}}/>
+      <div style={{position:'absolute',top:'-10%',right:'-8%',width:720,height:720,background:'radial-gradient(circle at center, rgba(27,77,219,0.08), rgba(55,138,221,0.04) 40%, transparent 70%)',pointerEvents:'none',filter:'blur(20px)'}}/>
       <div style={{position:'relative',zIndex:2}}>
-        <h1 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:'clamp(40px,4.4vw,64px)',lineHeight:1.04,letterSpacing:'-0.025em',marginBottom:28}}>
-          <span style={{display:'block',whiteSpace:'nowrap'}}>Track every mile.</span>
-          <span style={{display:'block',whiteSpace:'nowrap'}}>Claim every <em style={{fontStyle:'italic',color:'#C9A96E'}}>dollar.</em></span>
-        </h1>
-        <p style={{fontSize:17,lineHeight:1.55,color:'#4A4843',maxWidth:520,marginBottom:40}}>
-          MyMilesAI automatically logs your trips with GPS, classifies them with AI, and calculates your IRS tax deductions — all hands-free.
-        </p>
-        <div style={{display:'flex',gap:14,alignItems:'center',marginBottom:28,flexWrap:'wrap'}}>
-          <button style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'17px 32px',borderRadius:100,fontSize:15,fontWeight:600,cursor:'pointer',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',display:'inline-flex',alignItems:'center',gap:8}}>
-            Start Free Trial <span style={{fontSize:16}}>→</span>
-          </button>
-          <button style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'16px 30px',borderRadius:100,fontSize:15,fontWeight:600,cursor:'pointer'}}>
-            Calculate My Savings
-          </button>
+        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'6px 14px',background:'#F0F4FF',border:'1px solid #C7D6FB',borderRadius:100,fontSize:12,fontWeight:600,color:'#1B4DDB',marginBottom:28,letterSpacing:'0.01em'}}>
+          <svg viewBox="0 0 16 16" width={11} height={11} fill="none"><path d="M8 1L9.5 6.5H15L10.5 10L12 15.5L8 12L4 15.5L5.5 10L1 6.5H6.5Z" fill="#1B4DDB" opacity="0.8"/></svg>
+          IRS 2026 rate: $0.725/mile — are you capturing it?
         </div>
-        <div style={{display:'flex',gap:28,fontSize:13,color:'#4A4843',flexWrap:'wrap',alignItems:'center'}}>
-          <span style={{display:'inline-flex',alignItems:'center',gap:7}}>
-            <svg viewBox="0 0 16 16" width={14} height={14}><path d="M8 1 L13 3 V8 Q13 12 8 15 Q3 12 3 8 V3 Z" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinejoin="round"/><path d="M5.5 8 L7.3 9.8 L10.7 6" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Privacy-first
+        <h1 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(38px,4.2vw,62px)',lineHeight:1.06,letterSpacing:'-0.03em',marginBottom:26}}>
+          <span style={{display:'block'}}>Stop losing</span>
+          <span style={{display:'block',color:'#1B4DDB'}}>tax deductions.</span>
+        </h1>
+        <p style={{fontSize:17,lineHeight:1.6,color:'#4A4843',maxWidth:510,marginBottom:36}}>
+          You drove 47 miles to that client meeting. Did you log it? Didn't think so. MyMilesAI tracks every mile automatically — no buttons, no manual entries, no forgotten deductions.
+        </p>
+        <div style={{padding:'14px 20px',background:'#F6FBF7',border:'1px solid #BBF0CB',borderRadius:10,marginBottom:28,display:'inline-flex',alignItems:'center',gap:10,fontSize:13}}>
+          <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M8 1L13 3V8Q13 12 8 15Q3 12 3 8V3Z" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinejoin="round"/><path d="M5.5 8L7.3 9.8L10.7 6" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <span style={{color:'#15803D',fontWeight:600}}>Trusted by 1,000+ self-employed professionals across the US and Canada</span>
+        </div>
+        <div style={{display:'flex',gap:14,alignItems:'center',marginBottom:24,flexWrap:'wrap'}}>
+          <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'17px 32px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none'}}>
+            Start Free Trial
+            <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
+          <a href="how-it-works.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'16px 28px',borderRadius:100,fontSize:15,fontWeight:600,cursor:'pointer',textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8}}>
+            See How It Works
+          </a>
+        </div>
+        <div style={{display:'flex',gap:24,fontSize:12.5,color:'#6B6862',flexWrap:'wrap',alignItems:'center'}}>
+          <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M8 4v4l3 2" stroke="#6B6862" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            10-day free trial
           </span>
-          <span style={{display:'inline-flex',alignItems:'center',gap:7}}>
-            <svg viewBox="0 0 16 16" width={14} height={14}><circle cx="8" cy="8" r="6.5" fill="none" stroke="#4A4843" strokeWidth="1.4"/><path d="M2 8 H14 M8 2 Q11 5 11 8 Q11 11 8 14 Q5 11 5 8 Q5 5 8 2" fill="none" stroke="#4A4843" strokeWidth="1.2"/></svg>
+          <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M5 4V3a3 3 0 0 1 6 0v1" stroke="#6B6862" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            No credit card required
+          </span>
+          <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M2 8H14M8 2Q11 5 11 8Q11 11 8 14Q5 11 5 8Q5 5 8 2" stroke="#6B6862" strokeWidth="1.2" fill="none"/></svg>
             US + Canada
-          </span>
-          <span style={{display:'inline-flex',alignItems:'center',gap:7}}>
-            <svg viewBox="0 0 16 16" width={14} height={14}><path d="M8 1 L9.5 6.5 L15 6.5 L10.5 10 L12 15.5 L8 12 L4 15.5 L5.5 10 L1 6.5 L6.5 6.5 Z" fill="#C9A96E" opacity="0.9"/></svg>
-            30-sec setup
           </span>
         </div>
       </div>
-      {/* Right: phone mockup */}
       <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680}}>
         <HeroPhone/>
-        {/* Floating chips */}
         <div style={{position:'absolute',top:'50%',left:-40,background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:14,padding:'11px 16px',boxShadow:'0 14px 36px -14px rgba(11,15,14,0.18)',display:'flex',alignItems:'center',gap:9,fontSize:13,fontWeight:500,animation:'float2 7s ease-in-out infinite'}}>
           <span style={{width:24,height:24,borderRadius:'50%',background:'#F0FDF4',display:'inline-flex',alignItems:'center',justifyContent:'center',color:'#16A34A',fontSize:13,fontWeight:700}}>$</span>
-          <span style={{color:'#16A34A',fontWeight:600}}>+$5.88 deduction</span>
+          <span style={{color:'#16A34A',fontWeight:600}}>+$8.77 deduction logged</span>
         </div>
       </div>
       <style>{`
@@ -305,23 +311,23 @@ function msDownloadSamplePDF() {
 
 const MSHow = () => {
   const steps = [
-    {n:'01',title:'You drive.',body:'Start your car. MyMilesAI detects motion via GPS + accelerometer and logs the trip silently — even with the app closed.',meta:'Zero taps · Background mode'},
-    {n:'02',title:'You classify.',body:'At the end of the day, swipe each trip left for Personal, right for Business. Our AI learns your patterns and auto-classifies repeat routes.',meta:'~12 seconds / day'},
-    {n:'03',title:'You deduct.',body:'Export a PDF in IRS Pub. 463 format — dates, routes, odometer, purpose, and rates. Send to your CPA. Keep for audits. Review with your tax professional before filing.',meta:'One tap export',cta:'Try a sample PDF →',ctaAction:msDownloadSamplePDF},
+    {n:'01',title:'Install and go.',body:'Download from the App Store. Sign in with Google, Apple, or email. That\'s the entire setup. No hardware. No OBD plug. No Bluetooth beacon. Just your phone.',meta:'Zero taps · Background mode'},
+    {n:'02',title:'Drive normally.',body:'MyMilesAI runs in the background. It detects when you\'re driving and logs your start point, end point, route, distance, and time — silently, even when your phone is locked. You drove 12.3 miles to a client meeting. We logged it. You didn\'t have to think about it.',meta:'~0 taps per trip'},
+    {n:'03',title:'Swipe and export.',body:'At end of day, open the app. Swipe right for Business, left for Personal — it takes about 12 seconds. Hit export. Get a PDF in IRS Pub. 463 format. That 12.3-mile trip is now an $8.92 deduction. Send it to your accountant or upload to TurboTax.',meta:'One tap export',cta:'Try a sample PDF →',ctaAction:msDownloadSamplePDF},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
       <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— How it works</div>
-      <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:48,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:56,maxWidth:780}}>
-        Three steps between you and thousands in recovered deductions.
+      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,3.8vw,48px)',lineHeight:1.08,letterSpacing:'-0.025em',marginBottom:56,maxWidth:780}}>
+        Three steps. Thousands in recovered deductions.
       </h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32}}>
         {steps.map(s=>(
           <div key={s.n} style={{borderTop:'1px solid #0B0F0E',paddingTop:24}}>
-            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,color:'#0B0F0E',marginBottom:20}}>{s.n}</div>
-            <h3 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:30,lineHeight:1.1,marginBottom:14,letterSpacing:'-0.01em'}}>{s.title}</h3>
-            <p style={{fontSize:15,lineHeight:1.55,color:'#4A4843',marginBottom:20}}>{s.body}</p>
-            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,fontSize:11,letterSpacing:'0.14em',textTransform:'uppercase',color:'#6B6862'}}>{s.meta}</div>
+            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,color:'#1B4DDB',marginBottom:20}}>{s.n}</div>
+            <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:26,lineHeight:1.15,marginBottom:14,letterSpacing:'-0.02em'}}>{s.title}</h3>
+            <p style={{fontSize:15,lineHeight:1.6,color:'#4A4843',marginBottom:20}}>{s.body}</p>
+            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontWeight:600,fontSize:11,letterSpacing:'0.14em',textTransform:'uppercase',color:'#6B6862'}}>{s.meta}</div>
             {s.cta ? (
               <button onClick={s.ctaAction} style={{marginTop:18,padding:'12px 18px',background:'#0B0F0E',color:'#F6F3EE',border:'none',borderRadius:6,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,fontSize:13,cursor:'pointer',letterSpacing:'0.01em'}}>
                 {s.cta}
@@ -337,9 +343,9 @@ const MSHow = () => {
 /* FEATURE SHOWCASE — split visual + copy */
 const MSFeatures = () => {
   const feats = [
-    {k:'AUTO-DETECT',h:'The trip tracker that never forgets.',p:'Our motion engine runs at 1% battery cost and captures every drive — not just the ones you remember. Every captured mile is a deductible mile you would have missed.',stat:'99.4%',label:'of drives detected'},
-    {k:'AI CLASSIFY',h:'Teaches itself your routes.',p:'After a week, 80% of your trips classify themselves. Recurring client visits, regular suppliers, the drive to your rental — all learned, all automated.',stat:'~12s',label:'daily review time'},
-    {k:'AUDIT-READY',h:'Records that hold up to an IRS audit.',p:'Every log includes GPS traces, timestamps, odometer readings, purpose, and the IRS rate at the time of drive — the four substantiation elements required by IRS Pub. 463.',stat:'4 / 4',label:'IRS Pub. 463 elements captured'},
+    {k:'AUTO GPS TRACKING',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
+    {k:'AI TRIP CLASSIFICATION',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'~12s',label:'daily review time after first week'},
+    {k:'IRS & CRA COMPLIANT EXPORTS',h:'Your accountant will actually thank you.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
@@ -348,14 +354,13 @@ const MSFeatures = () => {
           <div key={f.k} style={{display:'grid',gridTemplateColumns:i%2===0?'1fr 1.1fr':'1.1fr 1fr',gap:80,alignItems:'center'}}>
             <div style={{order:i%2===0?1:2}}>
               <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.18em',color:'#6B6862',marginBottom:20}}>— {f.k}</div>
-              <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:44,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:20}}>{f.h}</h2>
-              <p style={{fontSize:16,lineHeight:1.55,color:'#4A4843',maxWidth:480,marginBottom:28}}>{f.p}</p>
-              <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E6E1D8',maxWidth:280}}>
-                <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:38,color:'#1B4DDB',lineHeight:1}}>{f.stat}</div>
-                <div style={{fontSize:13,color:'#6B6862'}}>{f.label}</div>
+              <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(28px,3.2vw,42px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:20}}>{f.h}</h2>
+              <p style={{fontSize:16,lineHeight:1.6,color:'#4A4843',maxWidth:480,marginBottom:28}}>{f.p}</p>
+              <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E6E1D8',maxWidth:320}}>
+                <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:38,color:'#1B4DDB',lineHeight:1}}>{f.stat}</div>
+                <div style={{fontSize:13,color:'#6B6862',lineHeight:1.4}}>{f.label}</div>
               </div>
             </div>
-            {/* Visual mock */}
             <div style={{order:i%2===0?2:1,aspectRatio:'4/3',background:i===0?'#0B0F0E':i===1?'#FAFAF9':'#FFFFFF',border:i===1?'1px solid #EEEBE5':'none',borderRadius:20,padding:32,position:'relative',overflow:'hidden',color:i===0?'#F6F3EE':'#0B0F0E'}}>
               {i===0 && <FeatVisAutoDetect/>}
               {i===1 && <FeatVisClassify/>}
@@ -469,7 +474,7 @@ const HeroPhone = () => (
             <span style={{width:5,height:5,borderRadius:'50%',background:'#C9A96E'}}/>
             GPS ACTIVE
           </span>
-          <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontStyle:'normal',fontSize:11,opacity:0.55}}>MyMilesAI</span>
+          <span style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:11,opacity:0.55}}>MyMilesAI</span>
         </div>
         {/* Gauge */}
         <div style={{display:'flex',justifyContent:'center',padding:'4px 0 8px',position:'relative'}}>
@@ -483,7 +488,7 @@ const HeroPhone = () => (
             </defs>
             <path d="M 20 90 A 60 60 0 0 1 140 90" stroke="rgba(246,243,238,0.1)" strokeWidth="10" fill="none" strokeLinecap="round"/>
             <path d="M 20 90 A 60 60 0 0 1 118 36" stroke="url(#hgauge)" strokeWidth="10" fill="none" strokeLinecap="round"/>
-            <text x="80" y="80" textAnchor="middle" fontFamily="'Instrument Serif',Georgia,serif" fontSize="44" fill="#1B4DDB" fontStyle="normal">42</text>
+            <text x="80" y="80" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="40" fill="#1B4DDB">42</text>
             <text x="80" y="98" textAnchor="middle" fontFamily='ui-monospace,SF Mono,Menlo,monospace' fontSize="8" fill="rgba(246,243,238,0.55)" letterSpacing="0.15em">MPH</text>
           </svg>
         </div>
@@ -491,7 +496,7 @@ const HeroPhone = () => (
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6}}>
           {[['68.1','BUSINESS MI','#1B4DDB'],['23.1','PERSONAL MI','#378ADD'],['$49.39','DEDUCTION','#C9A96E']].map(([v,k,c])=>(
             <div key={k} style={{background:'rgba(11,6,25,0.5)',border:'1px solid rgba(27,77,219,0.15)',borderRadius:10,padding:'8px 6px',textAlign:'center'}}>
-              <div style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:17,color:c,lineHeight:1,fontStyle:'italic'}}>{v}</div>
+              <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:16,color:c,lineHeight:1}}>{v}</div>
               <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:7,color:'rgba(246,243,238,0.55)',letterSpacing:'0.1em',marginTop:3}}>{k}</div>
             </div>
           ))}

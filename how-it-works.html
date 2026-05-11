@@ -11,10 +11,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>How It Works — MyMilesAI</title>
+<title>How It Works — MyMilesAI: 3 Steps to IRS-Ready Mileage Logs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -22,7 +22,7 @@
   ::selection{background:#1B4DDB;color:#FFFFFF}
   .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
   .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
-  .page-hero h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:56px;line-height:1.05;letter-spacing:-0.02em;margin:0;max-width:900px}
+  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
@@ -36,17 +36,156 @@
 <script type="text/babel" src="ms-parts1.jsx?v=2026-04-26c"></script>
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
+const HIWDetail = () => {
+  const steps = [
+    {
+      n:'01',
+      title:'Install and forget about setup.',
+      sub:'Takes 90 seconds. Then never again.',
+      bullets:[
+        'Download from the App Store',
+        'Sign in with Google, Apple, or email',
+        'Grant location permission (background mode)',
+        'That\'s it — there is no step 4',
+      ],
+      note:'No hardware. No OBD plug. No Bluetooth beacon. Just your phone and 90 seconds of your time.',
+      color:'#1B4DDB',
+    },
+    {
+      n:'02',
+      title:'Drive normally. We track everything.',
+      sub:'Zero taps per trip.',
+      bullets:[
+        'App detects driving motion automatically',
+        'Logs start point, end point, route, and distance',
+        'Records timestamps and duration',
+        'Runs silently even when your phone is locked',
+      ],
+      note:'"You drove 12.3 miles from your office to a client meeting. We logged it. You didn\'t have to think about it." Every logged mile = $0.725 in potential deductions.',
+      color:'#16A34A',
+    },
+    {
+      n:'03',
+      title:'Classify at the end of the day.',
+      sub:'~12 seconds. Seriously.',
+      bullets:[
+        'Open the app — your trips are waiting',
+        'Swipe right for Business, left for Personal',
+        'Bulk classify recurring routes with one tap',
+        'AI learns your patterns after the first week',
+      ],
+      note:'After a week, 80% of your trips classify themselves. You just review the AI\'s work.',
+      color:'#C9A96E',
+    },
+    {
+      n:'04',
+      title:'Export and file.',
+      sub:'One tap. Audit-proof.',
+      bullets:[
+        'Tap Export → choose PDF or CSV',
+        'PDF matches IRS Pub. 463 format exactly',
+        'CSV imports directly into QuickBooks, Xero, FreshBooks',
+        'Send to your accountant or upload to TurboTax',
+      ],
+      note:'That 12.3-mile trip to your client meeting? It\'s now an $8.92 deduction. Multiplied by every work trip you took this year.',
+      color:'#1B4DDB',
+    },
+  ];
+  return (
+    <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
+      <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Step by step</div>
+      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:64,maxWidth:640}}>
+        Exactly what happens from download to deduction.
+      </h2>
+      <div style={{display:'flex',flexDirection:'column',gap:0}}>
+        {steps.map((s,i)=>(
+          <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?64:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
+            {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E6E1D8'}}/>}
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
+              <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
+            </div>
+            <div style={{paddingTop:10}}>
+              <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6,letterSpacing:'-0.02em'}}>{s.title}</h3>
+              <div style={{fontSize:13,color:'#6B6862',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:20}}>{s.sub}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:20}}>
+                {s.bullets.map((b,bi)=>(
+                  <div key={bi} style={{display:'flex',gap:10,alignItems:'flex-start',fontSize:15,color:'#1F1D1A'}}>
+                    <svg viewBox="0 0 16 16" width={14} height={14} style={{flexShrink:0,marginTop:3}} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke={s.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {b}
+                  </div>
+                ))}
+              </div>
+              <div style={{background:'#F6F3EE',border:`1px solid ${s.color}33`,borderLeft:`3px solid ${s.color}`,borderRadius:8,padding:'12px 16px',fontSize:14,color:'#4A4843',lineHeight:1.6,fontStyle:'normal',maxWidth:580}}>
+                {s.note}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const HIWCalculator = () => {
+  const [miles, setMiles] = React.useState(100);
+  const rate = 0.725;
+  const annual = Math.round(miles * 52 * rate);
+  const weekly = (miles * rate).toFixed(2);
+  return (
+    <section style={{padding:'80px 56px',background:'#0F1729',color:'#F6F3EE'}}>
+      <div style={{maxWidth:680,margin:'0 auto',textAlign:'center'}}>
+        <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:20}}>— Quick calculator</div>
+        <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(24px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:16}}>
+          How much are you leaving on the table?
+        </h2>
+        <p style={{fontSize:15,color:'rgba(246,243,238,0.65)',marginBottom:48}}>Enter your typical business miles per week and see your estimated annual deduction at the 2026 IRS rate.</p>
+        <div style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:16,padding:'40px 40px',marginBottom:32}}>
+          <div style={{marginBottom:32}}>
+            <label style={{display:'block',fontSize:14,color:'rgba(246,243,238,0.7)',marginBottom:12,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Business miles per week</label>
+            <div style={{display:'flex',alignItems:'center',gap:16}}>
+              <input
+                type="range" min={10} max={500} step={10} value={miles}
+                onChange={e=>setMiles(Number(e.target.value))}
+                style={{flex:1,accentColor:'#1B4DDB',height:6,cursor:'pointer'}}
+              />
+              <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:28,color:'#FFFFFF',minWidth:64,textAlign:'right'}}>{miles}</div>
+            </div>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+            <div style={{background:'rgba(27,77,219,0.2)',border:'1px solid rgba(27,77,219,0.3)',borderRadius:10,padding:'20px 16px',textAlign:'center'}}>
+              <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:32,color:'#378ADD',lineHeight:1,marginBottom:6}}>${weekly}</div>
+              <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Weekly deduction</div>
+            </div>
+            <div style={{background:'rgba(201,169,110,0.15)',border:'1px solid rgba(201,169,110,0.3)',borderRadius:10,padding:'20px 16px',textAlign:'center'}}>
+              <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:32,color:'#C9A96E',lineHeight:1,marginBottom:6}}>${annual.toLocaleString()}</div>
+              <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Annual deduction</div>
+            </div>
+          </div>
+          <div style={{marginTop:20,fontSize:12,color:'rgba(246,243,238,0.4)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace"}}>
+            At $0.725/mi IRS 2026 rate · {miles} mi/wk × 52 weeks · Not tax advice — consult a CPA
+          </div>
+        </div>
+        <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'18px 36px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 32px -8px rgba(27,77,219,0.5)'}}>
+          Start tracking — free for 10 days
+          <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+  );
+};
+
 const Site = () => (
   <>
     <MSNav/>
-    
+
     <section className="page-hero">
       <div className="eyebrow">— How it works</div>
-      <h1>Three steps. <em>Then nothing.</em></h1>
-      <p>Install once, drive normally, and let the app do the work. We log in the background, classify with AI, and roll your year up into a report your accountant will actually thank you for.</p>
+      <h1>Three steps. Thousands in deductions.</h1>
+      <p>Install once. Drive normally. At end of day, swipe to classify. Export a PDF your accountant will actually thank you for. That's the whole thing.</p>
     </section>
     <MSHow/>
-    <MSAudience/>
+    <HIWDetail/>
+    <HIWCalculator/>
     <MSCTA/>
     <MSFooter/>
   </>

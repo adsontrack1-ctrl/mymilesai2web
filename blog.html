@@ -14,7 +14,7 @@
 <title>Blog — MyMilesAI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -22,7 +22,7 @@
   ::selection{background:#1B4DDB;color:#FFFFFF}
   .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
   .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
-  .page-hero h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:56px;line-height:1.05;letter-spacing:-0.02em;margin:0;max-width:900px}
+  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
@@ -36,16 +36,96 @@
 <script type="text/babel" src="ms-parts1.jsx?v=2026-04-26c"></script>
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
+const BlogFeatured = () => {
+  const posts = [
+    {
+      cat:'IRS Tax Guide',
+      title:'The 2026 IRS mileage rate, explained in plain English',
+      excerpt:'$0.725 per mile for business driving in 2026. Here\'s what that means for your taxes, who qualifies, and how to calculate your exact deduction — no CPA jargon.',
+      read:'6 min',d:'Apr 2026',
+      href:'blog/irs-mileage-rate-2026.html',
+    },
+    {
+      cat:'For Rideshare Drivers',
+      title:'Uber drivers: what your 1099-K doesn\'t tell you about deductions',
+      excerpt:'Your 1099-K shows gross earnings. It doesn\'t show your deductible miles. Here\'s the full picture of what rideshare drivers can claim — and what most miss.',
+      read:'9 min',d:'Apr 2026',
+      href:'blog/uber-driver-deductions-2026.html',
+    },
+    {
+      cat:'Audit Prep',
+      title:'What an IRS mileage audit actually looks like (and how to survive one)',
+      excerpt:'The IRS audits mileage claims more than almost anything else on a self-employment return. Here\'s exactly what they want to see — and how a good mileage log protects you.',
+      read:'12 min',d:'Mar 2026',
+      href:'blog/irs-mileage-audit-guide.html',
+    },
+    {
+      cat:'For Real Estate Agents',
+      title:'Every showing, every open house: the realtor deduction map',
+      excerpt:'Real estate agents drive more than almost any other self-employed profession. Here\'s a complete breakdown of every deductible trip — and the ones agents most often forget.',
+      read:'7 min',d:'Mar 2026',
+      href:'blog/realtor-mileage-deductions.html',
+    },
+    {
+      cat:'CRA Tax Guide',
+      title:'CRA mileage rates for 2026: what Canadian self-employed workers need to know',
+      excerpt:'$0.73/km for the first 5,000 km, $0.67/km after. Here\'s the full CRA 2026 guide for contractors, agents, and self-employed workers in Canada.',
+      read:'5 min',d:'Feb 2026',
+      href:'blog/cra-mileage-rates-2026.html',
+    },
+    {
+      cat:'For Freelancers',
+      title:'The freelancer\'s complete guide to vehicle deductions in 2026',
+      excerpt:'Standard mileage vs. actual expenses — which method saves you more? We ran the numbers for common freelancer scenarios. The answer might surprise you.',
+      read:'8 min',d:'Feb 2026',
+      href:'blog/freelancer-vehicle-deductions-2026.html',
+    },
+    {
+      cat:'Product Update',
+      title:'New in MyMilesAI: bulk classification, CRA support, and CSV exports',
+      excerpt:'Three features you\'ve been asking for: classify a whole week of trips at once, full CRA 2026 rate support for Canadian users, and CSV exports for QuickBooks and Xero.',
+      read:'3 min',d:'Jan 2026',
+      href:'blog/new-features-bulk-classify-cra-csv.html',
+    },
+  ];
+  const colors = ['#E8F0FE','#FEF3C7','#FCE7F3','#ECFDF5','#FFF7ED','#EEF2FF','#F0FDF4'];
+  return (
+    <section style={{padding:'64px 56px 100px',background:'#FFFFFF'}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
+        {posts.map((p,i)=>(
+          <a key={i} href={p.href} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:14,textDecoration:'none',color:'inherit',transition:'box-shadow 0.15s'}}
+            onMouseOver={e=>e.currentTarget.style.boxShadow='0 8px 24px -8px rgba(11,15,14,0.12)'}
+            onMouseOut={e=>e.currentTarget.style.boxShadow='none'}
+          >
+            <div style={{aspectRatio:'16/9',background:colors[i%colors.length],borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <svg viewBox="0 0 48 48" width={40} height={40} fill="none" stroke="#1B4DDB" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" opacity={0.4}>
+                <path d="M8 40V20L24 8L40 20V40H30V28H18V40H8Z"/>
+              </svg>
+            </div>
+            <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#1B4DDB'}}>{p.cat}</div>
+            <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:17,lineHeight:1.35,letterSpacing:'-0.01em',flex:1,color:'#0B0F0E'}}>{p.title}</h3>
+            <p style={{fontSize:13,color:'#6B6862',lineHeight:1.5}}>{p.excerpt}</p>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#9A958D',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.05em',paddingTop:8,borderTop:'1px solid #F0ECE2'}}>
+              <span>{p.d}</span>
+              <span>{p.read} read</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+};
+
 const Site = () => (
   <>
     <MSNav/>
-    
+
     <section className="page-hero">
-      <div className="eyebrow">— The Route — Field notes</div>
-      <h1>Tax tips, mileage rules, <em>and the occasional rant.</em></h1>
-      <p>Plain-English guides for self-employed drivers. Written by our in-house CPAs and reviewed by working tax pros.</p>
+      <div className="eyebrow">— The MyMilesAI Blog</div>
+      <h1>Tax tips, mileage guides, and product updates.</h1>
+      <p>Plain-English guides for self-employed drivers. No jargon, no filler — just the information you need to stop leaving deductions on the table.</p>
     </section>
-    <MSBlog/>
+    <BlogFeatured/>
     <MSCTA/>
     <MSFooter/>
   </>
