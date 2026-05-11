@@ -22,14 +22,12 @@
   ::selection{background:#1B4DDB;color:#FFFFFF}
   .page-hero{padding:64px 56px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
   .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
-  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
+  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:640px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 <style>
-  .feat-hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-  @media(max-width:768px){.feat-hero-inner{grid-template-columns:1fr}}
   .feat-card{transition:transform 0.2s ease,box-shadow 0.2s ease}
   .feat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,77,219,0.12)}
 </style>
@@ -97,35 +95,6 @@ const FeatAdditional = () => {
 };
 
 
-const HeroPhone = () => (
-  <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-    <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'280px',display:'block'}} aria-hidden="true">
-      <rect width="240" height="440" rx="30" fill="#0F1729"/>
-      <rect x="10" y="14" width="220" height="412" rx="22" fill="#0B1B3D"/>
-      <rect x="76" y="14" width="88" height="22" rx="11" fill="#0F1729"/>
-      <circle cx="28" cy="52" r="4" fill="#22C55E"/>
-      <text x="38" y="56" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="9" letterSpacing="0.15em" fill="#22C55E">GPS ACTIVE</text>
-      <text x="212" y="56" textAnchor="end" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="9" fill="rgba(255,255,255,0.35)">09:41</text>
-      <path d="M 50 195 A 70 70 0 0 0 190 195" fill="none" stroke="#1E3060" strokeWidth="10" strokeLinecap="round"/>
-      <path d="M 50 195 A 70 70 0 0 0 126 125" fill="none" stroke="#1B4DDB" strokeWidth="10" strokeLinecap="round"/>
-      <line x1="120" y1="195" x2="125" y2="135" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="120" cy="195" r="5" fill="#C9A96E"/>
-      <text x="120" y="178" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="38" fill="#FFFFFF">42</text>
-      <text x="120" y="197" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="10" letterSpacing="0.2em" fill="rgba(255,255,255,0.45)">MPH</text>
-      <rect x="14" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
-      <text x="46" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="15" fill="#FFFFFF">68.1</text>
-      <text x="46" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">BUSINESS</text>
-      <text x="46" y="263" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">MI</text>
-      <rect x="88" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
-      <text x="120" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="15" fill="#FFFFFF">23.1</text>
-      <text x="120" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">PERSONAL</text>
-      <text x="120" y="263" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">MI</text>
-      <rect x="162" y="212" width="64" height="62" rx="8" fill="#0F2251"/>
-      <text x="194" y="233" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="13" fill="#C9A96E">$49.39</text>
-      <text x="194" y="249" textAnchor="middle" fontFamily="ui-monospace,'SF Mono',Menlo,monospace" fontSize="7.5" letterSpacing="0.08em" fill="#94A3B8">DEDUCTION</text>
-    </svg>
-  </div>
-);
 
 const FeatCTA = () => (
   <section style={{padding:'64px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F8F9FA',textAlign:'center',position:'relative',overflow:'hidden'}}>
@@ -150,14 +119,9 @@ const Site = () => (
     <MSNav/>
 
     <section className="page-hero">
-      <div className="feat-hero-inner">
-        <div>
-          <div className="eyebrow">— Features</div>
-          <h1>Everything you need to claim every mile.</h1>
-          <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
-        </div>
-        <HeroPhone/>
-      </div>
+      <div className="eyebrow">— Features</div>
+      <h1>Everything you need to claim every mile.</h1>
+      <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
     </section>
     <MSFeatures/>
     <FeatAdditional/>
