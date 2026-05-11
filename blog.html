@@ -37,6 +37,201 @@
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
 const BlogFeatured = () => {
+  const svgs = [
+    <svg key="s0" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#0F1729"/>
+      <rect width="400" height="112" fill="#0d1627"/>
+      <ellipse cx="200" cy="112" rx="200" ry="22" fill="#1B4DDB" fillOpacity="0.2"/>
+      <polygon points="80,220 320,220 238,116 162,116" fill="#141f35"/>
+      <polygon points="80,220 98,220 162,116 144,116" fill="#1c2c48"/>
+      <polygon points="320,220 302,220 238,116 256,116" fill="#1c2c48"/>
+      <line x1="200" y1="210" x2="200" y2="196" stroke="#C9A96E" strokeWidth="3" strokeLinecap="round"/>
+      <line x1="200" y1="183" x2="200" y2="169" stroke="#C9A96E" strokeWidth="3" strokeLinecap="round"/>
+      <line x1="200" y1="156" x2="200" y2="142" stroke="#C9A96E" strokeWidth="3" strokeLinecap="round"/>
+      <line x1="200" y1="130" x2="200" y2="120" stroke="#C9A96E" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.4"/>
+      <text x="58" y="185" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="100" fill="#C9A96E" fillOpacity="0.9">$</text>
+      <rect x="250" y="46" width="132" height="56" rx="10" fill="#1B4DDB" fillOpacity="0.35"/>
+      <rect x="250" y="46" width="132" height="56" rx="10" fill="none" stroke="#1B4DDB" strokeWidth="1.5"/>
+      <text x="316" y="70" fontFamily="system-ui,sans-serif" fontWeight="600" fontSize="11" fill="#E8EEFF" textAnchor="middle" letterSpacing="1.5">2026 IRS RATE</text>
+      <text x="316" y="94" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="22" fill="#C9A96E" textAnchor="middle">$0.725/mi</text>
+      <circle cx="32" cy="32" r="1.5" fill="#E8EEFF" fillOpacity="0.5"/>
+      <circle cx="90" cy="18" r="1" fill="#E8EEFF" fillOpacity="0.35"/>
+      <circle cx="155" cy="30" r="1.5" fill="#E8EEFF" fillOpacity="0.4"/>
+      <circle cx="355" cy="22" r="1" fill="#C9A96E" fillOpacity="0.5"/>
+      <circle cx="385" cy="55" r="1.5" fill="#E8EEFF" fillOpacity="0.3"/>
+    </svg>,
+    <svg key="s1" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#E8EEFF"/>
+      <rect y="152" width="400" height="68" fill="#cdd7f5"/>
+      <rect y="158" width="400" height="26" fill="#bfcbee"/>
+      <rect x="30" y="167" width="28" height="6" rx="3" fill="#fff" fillOpacity="0.65"/>
+      <rect x="110" y="167" width="28" height="6" rx="3" fill="#fff" fillOpacity="0.65"/>
+      <rect x="190" y="167" width="28" height="6" rx="3" fill="#fff" fillOpacity="0.65"/>
+      <rect x="270" y="167" width="28" height="6" rx="3" fill="#fff" fillOpacity="0.65"/>
+      <rect x="350" y="167" width="28" height="6" rx="3" fill="#fff" fillOpacity="0.65"/>
+      <rect x="82" y="116" width="185" height="44" rx="8" fill="#1B4DDB"/>
+      <path d="M108 116 Q118 86 148 82 L202 82 Q228 82 242 116 Z" fill="#1B4DDB"/>
+      <path d="M114 114 Q122 90 150 87 L200 87 Q224 87 236 114 Z" fill="#E8EEFF" fillOpacity="0.2"/>
+      <circle cx="118" cy="162" r="18" fill="#0a0f1e"/>
+      <circle cx="118" cy="162" r="9" fill="#7a8aaa"/>
+      <circle cx="232" cy="162" r="18" fill="#0a0f1e"/>
+      <circle cx="232" cy="162" r="9" fill="#7a8aaa"/>
+      <line x1="60" y1="122" x2="80" y2="122" stroke="#1B4DDB" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.4"/>
+      <line x1="45" y1="132" x2="80" y2="132" stroke="#1B4DDB" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.25"/>
+      <line x1="55" y1="142" x2="80" y2="142" stroke="#1B4DDB" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.15"/>
+      <rect x="285" y="55" width="62" height="108" rx="11" fill="#0F1729"/>
+      <rect x="285" y="55" width="62" height="108" rx="11" fill="none" stroke="#1B4DDB" strokeWidth="1.5"/>
+      <rect x="289" y="65" width="54" height="88" rx="7" fill="#1B4DDB" fillOpacity="0.75"/>
+      <rect x="303" y="58" width="26" height="6" rx="3" fill="#0F1729"/>
+      <circle cx="316" cy="87" r="11" fill="#C9A96E" fillOpacity="0.3"/>
+      <circle cx="316" cy="87" r="5" fill="#C9A96E"/>
+      <rect x="297" y="104" width="38" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.45"/>
+      <rect x="303" y="113" width="26" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.25"/>
+      <text x="316" y="142" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="20" fill="#C9A96E" textAnchor="middle">$</text>
+    </svg>,
+    <svg key="s2" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#0F1729"/>
+      <rect x="52" y="28" width="188" height="168" rx="8" fill="#141f35"/>
+      <rect x="52" y="28" width="188" height="168" rx="8" fill="none" stroke="#1B4DDB" strokeWidth="1.5" strokeOpacity="0.5"/>
+      <rect x="104" y="19" width="84" height="22" rx="7" fill="#1B4DDB" fillOpacity="0.45"/>
+      <rect x="128" y="15" width="36" height="14" rx="5" fill="#0F1729"/>
+      <rect x="128" y="15" width="36" height="14" rx="5" fill="none" stroke="#1B4DDB" strokeWidth="1.5"/>
+      <path d="M75 64 L80 70 L92 56" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <rect x="98" y="62" width="124" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.14"/>
+      <rect x="98" y="70" width="96" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.1"/>
+      <path d="M75 89 L80 95 L92 81" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <rect x="98" y="87" width="112" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.14"/>
+      <rect x="98" y="95" width="78" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.1"/>
+      <path d="M75 114 L80 120 L92 106" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <rect x="98" y="112" width="120" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.14"/>
+      <rect x="98" y="120" width="88" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.1"/>
+      <rect x="74" y="132" width="14" height="14" rx="3" fill="#C9A96E" fillOpacity="0.28"/>
+      <text x="81" y="143" fontFamily="system-ui" fontWeight="700" fontSize="9" fill="#C9A96E" textAnchor="middle">?</text>
+      <rect x="98" y="134" width="100" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.14"/>
+      <rect x="74" y="157" width="14" height="14" rx="3" fill="#C9A96E" fillOpacity="0.28"/>
+      <text x="81" y="168" fontFamily="system-ui" fontWeight="700" fontSize="9" fill="#C9A96E" textAnchor="middle">!</text>
+      <rect x="98" y="159" width="86" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.14"/>
+      <circle cx="290" cy="120" r="52" fill="#1B4DDB" fillOpacity="0.07"/>
+      <circle cx="282" cy="112" r="50" fill="#141f35" stroke="#1B4DDB" strokeWidth="3"/>
+      <circle cx="282" cy="112" r="40" fill="#0d1627"/>
+      <rect x="263" y="96" width="38" height="3.5" rx="1.75" fill="#E8EEFF" fillOpacity="0.22"/>
+      <rect x="263" y="106" width="30" height="3.5" rx="1.75" fill="#E8EEFF" fillOpacity="0.22"/>
+      <rect x="263" y="116" width="38" height="3.5" rx="1.75" fill="#E8EEFF" fillOpacity="0.22"/>
+      <rect x="263" y="126" width="24" height="3.5" rx="1.75" fill="#C9A96E" fillOpacity="0.55"/>
+      <line x1="318" y1="148" x2="345" y2="175" stroke="#1B4DDB" strokeWidth="7" strokeLinecap="round"/>
+    </svg>,
+    <svg key="s3" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#E8EEFF"/>
+      <rect width="400" height="112" fill="#d8e4fb"/>
+      <rect y="155" width="400" height="65" fill="#c8d4f0"/>
+      <rect y="160" width="400" height="28" fill="#bcc9e8"/>
+      <rect x="40" y="170" width="26" height="6" rx="3" fill="#fff" fillOpacity="0.6"/>
+      <rect x="118" y="170" width="26" height="6" rx="3" fill="#fff" fillOpacity="0.6"/>
+      <rect x="196" y="170" width="26" height="6" rx="3" fill="#fff" fillOpacity="0.6"/>
+      <rect x="274" y="170" width="26" height="6" rx="3" fill="#fff" fillOpacity="0.6"/>
+      <rect x="352" y="170" width="26" height="6" rx="3" fill="#fff" fillOpacity="0.6"/>
+      <rect x="38" y="106" width="90" height="58" rx="4" fill="#1B4DDB"/>
+      <polygon points="25,110 83,62 141,110" fill="#1432a8"/>
+      <rect x="71" y="130" width="26" height="34" rx="3" fill="#0F1729"/>
+      <circle cx="93" cy="148" r="3" fill="#C9A96E"/>
+      <rect x="44" y="115" width="24" height="20" rx="2" fill="#E8EEFF" fillOpacity="0.4"/>
+      <line x1="56" y1="115" x2="56" y2="135" stroke="#1B4DDB" strokeWidth="1" strokeOpacity="0.4"/>
+      <line x1="44" y1="125" x2="68" y2="125" stroke="#1B4DDB" strokeWidth="1" strokeOpacity="0.4"/>
+      <path d="M 145 162 Q 200 108 270 160" stroke="#C9A96E" strokeWidth="3" strokeDasharray="9,7" fill="none" strokeLinecap="round"/>
+      <circle cx="295" cy="142" r="16" fill="#C9A96E"/>
+      <circle cx="295" cy="139" r="7" fill="#fff"/>
+      <line x1="295" y1="155" x2="295" y2="172" stroke="#C9A96E" strokeWidth="4" strokeLinecap="round"/>
+      <rect x="192" y="118" width="42" height="17" rx="5" fill="#0F1729"/>
+      <path d="M199 118 Q204 107 213 105 L220 105 Q230 105 234 118 Z" fill="#0F1729"/>
+      <rect x="198" y="108" width="28" height="10" rx="2" fill="#E8EEFF" fillOpacity="0.15"/>
+      <circle cx="199" cy="135" r="8" fill="#1a2030"/>
+      <circle cx="199" cy="135" r="4" fill="#8899bb"/>
+      <circle cx="229" cy="135" r="8" fill="#1a2030"/>
+      <circle cx="229" cy="135" r="4" fill="#8899bb"/>
+    </svg>,
+    <svg key="s4" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#0F1729"/>
+      <path d="M200 22 L212 42 L235 34 L230 57 L254 60 L236 77 L245 100 L225 91 L218 118 L200 100 L182 118 L175 91 L155 100 L164 77 L146 60 L170 57 L165 34 L188 42 Z" fill="#1B4DDB" fillOpacity="0.2"/>
+      <path d="M200 22 L212 42 L235 34 L230 57 L254 60 L236 77 L245 100 L225 91 L218 118 L200 100 L182 118 L175 91 L155 100 L164 77 L146 60 L170 57 L165 34 L188 42 Z" fill="none" stroke="#1B4DDB" strokeWidth="1.5" strokeOpacity="0.6"/>
+      <rect x="196" y="118" width="8" height="24" rx="4" fill="#1B4DDB" fillOpacity="0.35"/>
+      <text x="200" y="180" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="54" fill="#C9A96E" textAnchor="middle">$0.73</text>
+      <text x="200" y="202" fontFamily="system-ui,sans-serif" fontWeight="600" fontSize="12" fill="#E8EEFF" textAnchor="middle" letterSpacing="2">PER KM · CRA 2026</text>
+      <line x1="60" y1="155" x2="340" y2="155" stroke="#1B4DDB" strokeWidth="1" strokeOpacity="0.25"/>
+      <circle cx="28" cy="28" r="2" fill="#C9A96E" fillOpacity="0.4"/>
+      <circle cx="372" cy="28" r="2" fill="#C9A96E" fillOpacity="0.4"/>
+      <circle cx="372" cy="192" r="2" fill="#C9A96E" fillOpacity="0.3"/>
+      <circle cx="28" cy="192" r="2" fill="#C9A96E" fillOpacity="0.3"/>
+    </svg>,
+    <svg key="s5" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#E8EEFF"/>
+      <rect x="78" y="115" width="192" height="14" rx="4" fill="#1B4DDB" fillOpacity="0.25"/>
+      <rect x="88" y="60" width="172" height="58" rx="8" fill="#0F1729"/>
+      <rect x="94" y="66" width="160" height="46" rx="4" fill="#1B4DDB" fillOpacity="0.8"/>
+      <rect x="101" y="72" width="58" height="4" rx="2" fill="#C9A96E" fillOpacity="0.8"/>
+      <rect x="101" y="80" width="80" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.3"/>
+      <rect x="101" y="87" width="52" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.3"/>
+      <rect x="101" y="94" width="68" height="3" rx="1.5" fill="#C9A96E" fillOpacity="0.5"/>
+      <rect x="101" y="101" width="42" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.3"/>
+      <rect x="280" y="48" width="76" height="118" rx="6" fill="#fff"/>
+      <rect x="280" y="48" width="76" height="118" rx="6" fill="none" stroke="#d0d8f0" strokeWidth="1.5"/>
+      <rect x="288" y="58" width="60" height="5" rx="2.5" fill="#0F1729" fillOpacity="0.25"/>
+      <rect x="294" y="67" width="48" height="4" rx="2" fill="#1B4DDB" fillOpacity="0.5"/>
+      <rect x="288" y="78" width="60" height="3" rx="1.5" fill="#0F1729" fillOpacity="0.1"/>
+      <rect x="288" y="85" width="44" height="3" rx="1.5" fill="#0F1729" fillOpacity="0.1"/>
+      <rect x="288" y="92" width="52" height="3" rx="1.5" fill="#0F1729" fillOpacity="0.1"/>
+      <rect x="288" y="99" width="38" height="3" rx="1.5" fill="#0F1729" fillOpacity="0.1"/>
+      <rect x="288" y="106" width="48" height="3" rx="1.5" fill="#0F1729" fillOpacity="0.1"/>
+      <line x1="288" y1="118" x2="348" y2="118" stroke="#0F1729" strokeWidth="1" strokeOpacity="0.12"/>
+      <text x="318" y="135" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="15" fill="#C9A96E" textAnchor="middle">$8,700</text>
+      <text x="318" y="148" fontFamily="system-ui" fontSize="8" fill="#0F1729" fillOpacity="0.4" textAnchor="middle" letterSpacing="1">DEDUCTION</text>
+      <rect x="108" y="142" width="100" height="36" rx="8" fill="#1B4DDB"/>
+      <path d="M124 142 Q132 126 148 123 L168 123 Q186 124 194 142 Z" fill="#1B4DDB"/>
+      <rect x="132" y="125" width="60" height="18" rx="3" fill="#E8EEFF" fillOpacity="0.18"/>
+      <circle cx="124" cy="180" r="12" fill="#1a2030"/>
+      <circle cx="124" cy="180" r="6" fill="#8899bb"/>
+      <circle cx="192" cy="180" r="12" fill="#1a2030"/>
+      <circle cx="192" cy="180" r="6" fill="#8899bb"/>
+    </svg>,
+    <svg key="s6" viewBox="0 0 400 220" fill="none" style={{display:'block',width:'100%'}}>
+      <rect width="400" height="220" fill="#0F1729"/>
+      <rect x="148" y="18" width="104" height="184" rx="16" fill="#141f35"/>
+      <rect x="148" y="18" width="104" height="184" rx="16" fill="none" stroke="#1B4DDB" strokeWidth="2"/>
+      <rect x="154" y="32" width="92" height="156" rx="10" fill="#1B4DDB" fillOpacity="0.65"/>
+      <rect x="174" y="22" width="52" height="10" rx="5" fill="#141f35"/>
+      <rect x="162" y="42" width="44" height="6" rx="3" fill="#C9A96E" fillOpacity="0.8"/>
+      <rect x="162" y="58" width="76" height="24" rx="6" fill="#E8EEFF" fillOpacity="0.08"/>
+      <circle cx="172" cy="70" r="7" fill="#C9A96E" fillOpacity="0.35"/>
+      <rect x="183" y="63" width="42" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.4"/>
+      <rect x="183" y="71" width="30" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.2"/>
+      <rect x="162" y="87" width="76" height="24" rx="6" fill="#E8EEFF" fillOpacity="0.08"/>
+      <circle cx="172" cy="99" r="7" fill="#C9A96E" fillOpacity="0.35"/>
+      <rect x="183" y="92" width="42" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.4"/>
+      <rect x="183" y="100" width="30" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.2"/>
+      <rect x="162" y="116" width="76" height="24" rx="6" fill="#E8EEFF" fillOpacity="0.08"/>
+      <circle cx="172" cy="128" r="7" fill="#C9A96E" fillOpacity="0.35"/>
+      <rect x="183" y="121" width="42" height="4" rx="2" fill="#E8EEFF" fillOpacity="0.4"/>
+      <rect x="183" y="129" width="30" height="3" rx="1.5" fill="#E8EEFF" fillOpacity="0.2"/>
+      <rect x="162" y="148" width="76" height="34" rx="7" fill="#C9A96E" fillOpacity="0.2"/>
+      <text x="200" y="168" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="800" fontSize="14" fill="#C9A96E" textAnchor="middle">$6,500</text>
+      <text x="200" y="178" fontFamily="system-ui" fontSize="8" fill="#E8EEFF" fillOpacity="0.45" textAnchor="middle" letterSpacing="1">SAVED THIS YEAR</text>
+      <path d="M72 46 L75 38 L78 46 L86 49 L78 52 L75 60 L72 52 L64 49 Z" fill="#C9A96E"/>
+      <path d="M320 34 L322 28 L324 34 L330 36 L324 38 L322 44 L320 38 L314 36 Z" fill="#E8EEFF" fillOpacity="0.55"/>
+      <path d="M78 162 L80 156 L82 162 L88 164 L82 166 L80 172 L78 166 L72 164 Z" fill="#1B4DDB" fillOpacity="0.7"/>
+      <path d="M316 152 L319 144 L322 152 L330 155 L322 158 L319 166 L316 158 L308 155 Z" fill="#C9A96E" fillOpacity="0.65"/>
+      <rect x="36" y="76" width="98" height="26" rx="13" fill="#1B4DDB" fillOpacity="0.28"/>
+      <rect x="36" y="76" width="98" height="26" rx="13" fill="none" stroke="#1B4DDB" strokeWidth="1"/>
+      <text x="85" y="93" fontFamily="system-ui" fontWeight="600" fontSize="10" fill="#E8EEFF" fillOpacity="0.85" textAnchor="middle">Bulk Classify</text>
+      <rect x="266" y="76" width="98" height="26" rx="13" fill="#1B4DDB" fillOpacity="0.28"/>
+      <rect x="266" y="76" width="98" height="26" rx="13" fill="none" stroke="#1B4DDB" strokeWidth="1"/>
+      <text x="315" y="93" fontFamily="system-ui" fontWeight="600" fontSize="10" fill="#E8EEFF" fillOpacity="0.85" textAnchor="middle">CRA Export</text>
+      <rect x="36" y="118" width="98" height="26" rx="13" fill="#C9A96E" fillOpacity="0.18"/>
+      <rect x="36" y="118" width="98" height="26" rx="13" fill="none" stroke="#C9A96E" strokeWidth="1"/>
+      <text x="85" y="135" fontFamily="system-ui" fontWeight="600" fontSize="10" fill="#C9A96E" textAnchor="middle">AI Classify</text>
+      <rect x="266" y="118" width="98" height="26" rx="13" fill="#C9A96E" fillOpacity="0.18"/>
+      <rect x="266" y="118" width="98" height="26" rx="13" fill="none" stroke="#C9A96E" strokeWidth="1"/>
+      <text x="315" y="135" fontFamily="system-ui" fontWeight="600" fontSize="10" fill="#C9A96E" textAnchor="middle">CSV Export</text>
+    </svg>,
+  ];
   const posts = [
     {
       cat:'IRS Tax Guide',
@@ -88,19 +283,16 @@ const BlogFeatured = () => {
       href:'blog/new-features-bulk-classify-cra-csv.html',
     },
   ];
-  const colors = ['#E8F0FE','#FEF3C7','#FCE7F3','#ECFDF5','#FFF7ED','#EEF2FF','#F0FDF4'];
   return (
     <section style={{padding:'64px 56px 100px',background:'#FFFFFF'}}>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
         {posts.map((p,i)=>(
-          <a key={i} href={p.href} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:14,textDecoration:'none',color:'inherit',transition:'box-shadow 0.15s'}}
-            onMouseOver={e=>e.currentTarget.style.boxShadow='0 8px 24px -8px rgba(11,15,14,0.12)'}
-            onMouseOut={e=>e.currentTarget.style.boxShadow='none'}
+          <a key={i} href={p.href} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:14,textDecoration:'none',color:'inherit',transition:'box-shadow 0.2s ease, transform 0.2s ease'}}
+            onMouseOver={e=>{e.currentTarget.style.boxShadow='0 16px 40px -8px rgba(27,77,219,0.14)';e.currentTarget.style.transform='scale(1.02)';}}
+            onMouseOut={e=>{e.currentTarget.style.boxShadow='none';e.currentTarget.style.transform='scale(1)';}}
           >
-            <div style={{aspectRatio:'16/9',background:colors[i%colors.length],borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center'}}>
-              <svg viewBox="0 0 48 48" width={40} height={40} fill="none" stroke="#1B4DDB" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" opacity={0.4}>
-                <path d="M8 40V20L24 8L40 20V40H30V28H18V40H8Z"/>
-              </svg>
+            <div style={{borderRadius:8,overflow:'hidden'}}>
+              {svgs[i]}
             </div>
             <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#1B4DDB'}}>{p.cat}</div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:17,lineHeight:1.35,letterSpacing:'-0.01em',flex:1,color:'#0B0F0E'}}>{p.title}</h3>
