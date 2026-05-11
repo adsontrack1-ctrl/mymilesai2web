@@ -163,16 +163,6 @@ const MSHero = () => {
   );
 };
 
-/* PRESS STRIP */
-const MSPress = () => (
-  <section style={{padding:'40px 56px',borderTop:'1px solid #E6E1D8',borderBottom:'1px solid #E6E1D8',display:'flex',alignItems:'center',gap:48}}>
-    <div style={{fontFamily:'Geist Mono',fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',whiteSpace:'nowrap'}}>As seen in —</div>
-    <div style={{display:'flex',gap:56,alignItems:'center',opacity:0.6,flex:1,justifyContent:'space-around'}}>
-      {['FORBES','TECHCRUNCH','WSJ','THE VERGE','WIRED','Inc.'].map(p=><span key={p} style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:22,letterSpacing:'0.04em'}}>{p}</span>)}
-    </div>
-  </section>
-);
-
 /* HOW IT WORKS — 3 steps. Step 03 ships a working "Try a sample PDF"
    download so visitors can see the IRS Pub. 463 format before signing up. */
 const MS_SAMPLE_TRIPS = [
@@ -566,4 +556,4 @@ const HeroPhone = () => (
 );
 
 window.HeroPhone=HeroPhone;
-window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSPress=MSPress; window.MSHow=MSHow; window.MSFeatures=MSFeatures;
+window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSHow=MSHow; window.MSFeatures=MSFeatures;
