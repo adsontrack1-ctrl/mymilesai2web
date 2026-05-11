@@ -186,6 +186,49 @@
     .s03-pdf{animation:s03-pdf-anim 12s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
     .s03-check3{animation:s03-check3-anim 12s ease-in-out infinite}
   }
+
+  /* ── Step 04 phone defaults (static: show completed PDF export) ── */
+  .s04-log{opacity:0}
+  .s04-btn{opacity:0}
+  .s04-pills{opacity:0}
+  .s04-pdfdoc{opacity:1}
+  .s04-check4{opacity:1}
+  .s04-apps{opacity:1}
+
+  @media(prefers-reduced-motion:no-preference){
+    @keyframes s04-phone-in{
+      0%{opacity:0;transform:translateY(22px)}8%{opacity:1;transform:translateY(0)}90%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(22px)}
+    }
+    @keyframes s04-log-anim{
+      0%,6%{opacity:0}8%,22%{opacity:1}26%,100%{opacity:0}
+    }
+    @keyframes s04-btn-anim{
+      0%,8%{opacity:0}10%,24%{opacity:1}26%,100%{opacity:0}
+    }
+    @keyframes s04-btn-pulse{
+      0%,9%{transform:scale(1)}13%{transform:scale(1.05)}16%{transform:scale(1)}20%{transform:scale(0.94)}22%,100%{transform:scale(1)}
+    }
+    @keyframes s04-pills-anim{
+      0%,25%{opacity:0}27%,38%{opacity:1}40%,100%{opacity:0}
+    }
+    @keyframes s04-pdfdoc-anim{
+      0%,39%{opacity:0;transform:translateY(100px)}46%,90%{opacity:1;transform:translateY(0)}95%,100%{opacity:0;transform:translateY(0)}
+    }
+    @keyframes s04-check4-anim{
+      0%,53%{opacity:0;transform:scale(0)}58%{opacity:1;transform:scale(1.2)}62%,90%{opacity:1;transform:scale(1)}95%,100%{opacity:0;transform:scale(1)}
+    }
+    @keyframes s04-apps-anim{
+      0%,69%{opacity:0}74%,90%{opacity:1}95%,100%{opacity:0}
+    }
+    .s04-phone{animation:s04-phone-in 10s ease-in-out infinite}
+    .s04-log{animation:s04-log-anim 10s ease-in-out infinite}
+    .s04-btn{animation:s04-btn-anim 10s ease-in-out infinite}
+    .s04-btn-inner{animation:s04-btn-pulse 10s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .s04-pills{animation:s04-pills-anim 10s ease-in-out infinite}
+    .s04-pdfdoc{animation:s04-pdfdoc-anim 10s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .s04-check4{animation:s04-check4-anim 10s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .s04-apps{animation:s04-apps-anim 10s ease-in-out infinite}
+  }
 </style>
 </head>
 <body>
@@ -454,6 +497,90 @@ const HIWDetail = () => {
       </svg>
     </div>
   );
+  const Phone04 = () => (
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+        <defs>
+          <clipPath id="scr04">
+            <rect x="10" y="14" width="220" height="412" rx="22"/>
+          </clipPath>
+        </defs>
+        <g className="s04-phone">
+          <rect width="240" height="440" rx="30" fill="#0F1729"/>
+          <rect x="10" y="14" width="220" height="412" rx="22" fill="#FFFFFF"/>
+          <rect x="76" y="14" width="88" height="22" rx="11" fill="#0F1729"/>
+          <g clipPath="url(#scr04)">
+            {/* ── Mileage log screen ── */}
+            <g className="s04-log">
+              <rect x="10" y="36" width="220" height="390" fill="#F6F3EE"/>
+              <rect x="10" y="36" width="220" height="46" fill="#FFFFFF"/>
+              <line x1="10" y1="82" x2="230" y2="82" stroke="#E5E7EB" strokeWidth="1"/>
+              <text x="120" y="64" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="15" fill="#0F1729">Your Mileage Log</text>
+              <rect x="20" y="90" width="200" height="34" rx="8" fill="#FFFFFF"/>
+              <rect x="30" y="101" width="34" height="12" rx="6" fill="#E8EEFF"/>
+              <rect x="74" y="101" width="76" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="168" y="101" width="40" height="8" rx="4" fill="#E8EEFF"/>
+              <rect x="20" y="130" width="200" height="34" rx="8" fill="#FFFFFF"/>
+              <rect x="30" y="141" width="34" height="12" rx="6" fill="#E8EEFF"/>
+              <rect x="74" y="141" width="60" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="168" y="141" width="40" height="8" rx="4" fill="#E8EEFF"/>
+              <rect x="20" y="170" width="200" height="34" rx="8" fill="#FFFFFF"/>
+              <rect x="30" y="181" width="34" height="12" rx="6" fill="#E8EEFF"/>
+              <rect x="74" y="181" width="70" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="168" y="181" width="40" height="8" rx="4" fill="#E8EEFF"/>
+              <rect x="20" y="210" width="200" height="34" rx="8" fill="#FFFFFF"/>
+              <rect x="30" y="221" width="34" height="12" rx="6" fill="#E8EEFF"/>
+              <rect x="74" y="221" width="52" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="168" y="221" width="40" height="8" rx="4" fill="#E8EEFF"/>
+            </g>
+            {/* ── Export button (overlaid on log) ── */}
+            <g className="s04-btn">
+              <g className="s04-btn-inner">
+                <rect x="48" y="352" width="144" height="44" rx="22" fill="#1B4DDB"/>
+                <text x="120" y="379" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="14" fill="#FFFFFF">Export</text>
+              </g>
+            </g>
+            {/* ── Format pills ── */}
+            <g className="s04-pills">
+              <rect x="10" y="36" width="220" height="390" fill="#FFFFFF"/>
+              <text x="120" y="80" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="14" fill="#0F1729">Choose format</text>
+              <rect x="46" y="104" width="68" height="36" rx="18" fill="#1B4DDB"/>
+              <text x="80" y="127" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="13" fill="#FFFFFF">PDF</text>
+              <rect x="126" y="104" width="68" height="36" rx="18" fill="none" stroke="#E5E7EB" strokeWidth="2"/>
+              <text x="160" y="127" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="13" fill="#94A3B8">CSV</text>
+            </g>
+            {/* ── PDF document (slides up from button) ── */}
+            <g className="s04-pdfdoc">
+              <rect x="62" y="110" width="116" height="150" rx="6" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1.5"/>
+              <polygon points="156,110 178,110 178,132" fill="#EF4444"/>
+              <text x="120" y="142" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="11" fill="#0F1729">MyMilesAI</text>
+              <line x1="72" y1="152" x2="168" y2="152" stroke="#E5E7EB" strokeWidth="1"/>
+              <text x="120" y="170" textAnchor="middle" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="10" fill="#6B6862">IRS Pub. 463</text>
+              <rect x="72" y="180" width="96" height="5" rx="2.5" fill="#E5E7EB"/>
+              <rect x="72" y="192" width="80" height="5" rx="2.5" fill="#E5E7EB"/>
+              <rect x="72" y="204" width="88" height="5" rx="2.5" fill="#E5E7EB"/>
+              <rect x="72" y="216" width="64" height="5" rx="2.5" fill="#E5E7EB"/>
+              <rect x="72" y="228" width="96" height="5" rx="2.5" fill="#E5E7EB"/>
+            </g>
+            {/* ── Success checkmark (bounces in after PDF) ── */}
+            <g className="s04-check4">
+              <circle cx="150" cy="122" r="16" fill="#22C55E"/>
+              <polyline points="143,122 148,128 158,112" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </g>
+            {/* ── App compatibility icons ── */}
+            <g className="s04-apps">
+              <circle cx="72" cy="316" r="18" fill="#22C55E"/>
+              <text x="72" y="322" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="14" fill="white">Q</text>
+              <circle cx="120" cy="316" r="18" fill="#1B4DDB"/>
+              <text x="120" y="322" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="14" fill="white">X</text>
+              <circle cx="168" cy="316" r="18" fill="#EF4444"/>
+              <text x="168" y="322" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="14" fill="white">T</text>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
   return (
     <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
       <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Step by step</div>
@@ -485,12 +612,10 @@ const HIWDetail = () => {
               <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
                 <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
               </div>
-              {i<3 ? (
-                <div className="step-content-grid">
-                  {textContent}
-                  {i===0 ? <Phone01/> : i===1 ? <Phone02/> : <Phone03/>}
-                </div>
-              ) : textContent}
+              <div className="step-content-grid">
+                {textContent}
+                {i===0 ? <Phone01/> : i===1 ? <Phone02/> : i===2 ? <Phone03/> : <Phone04/>}
+              </div>
             </div>
           );
         })}
