@@ -101,31 +101,8 @@ const MSAudience = () => {
 };
 
 const MSTestimonials = () => {
-  const q = [
-    {q:'"I found $4,200 in deductions I\'d have missed. Paid for itself 60 times over in year one."',who:'Tina B.',role:'Business Owner · Tracy, CA',stars:5},
-    {q:'"Finally — a mileage log that doesn\'t make my clients cry during tax season."',who:'Janet R., CPA',role:'Oak & Co. Accounting',stars:5},
-    {q:'"I left DoorDash\'s built-in tracker. This one never misses a drive."',who:'Priya M.',role:'DoorDash · NYC',stars:5},
-    {q:'"My agents save 8 hours a month. Adoption across the brokerage hit 94%."',who:'David K.',role:'Broker-owner · Keller Williams',stars:5},
-  ];
-  return (
-    <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:18,maxWidth:1100,margin:'0 auto'}}>
-        {q.map((t,i)=>(
-          <div key={i} style={{background:'#FAFAF9',border:'1px solid #EEEBE5',borderRadius:16,padding:28}}>
-            <div style={{color:'#F59E0B',fontSize:14,letterSpacing:3,marginBottom:14}}>{'★'.repeat(t.stars)}</div>
-            <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:20,lineHeight:1.35,marginBottom:18,letterSpacing:'-0.01em'}}>{t.q}</div>
-            <div style={{display:'flex',alignItems:'center',gap:12,fontSize:13}}>
-              <div style={{width:38,height:38,borderRadius:'50%',background:`hsl(${25+i*55},45%,65%)`}}/>
-              <div>
-                <div style={{fontWeight:600}}>{t.who}</div>
-                <div style={{color:'#6B6862',fontSize:12}}>{t.role}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+  // testimonials: removed pending real customer quotes — do not re-add without consent on file
+  return null;
 };
 
 const MSPricing = () => {
@@ -200,18 +177,7 @@ const MSBlog = () => {
 };
 
 const MSAbout = () => {
-  const stats = [
-    {n:'$487M+',l:'Deductions found for drivers in 2025'},
-    {n:'2.1M',l:'Trips logged daily across the network'},
-    {n:'4.9★',l:'Average rating · 38,400+ reviews'},
-    {n:'< 0.6%',l:'Audit rate among Pro users'},
-  ];
-  const team = [
-    {n:'Anya Reyes',r:'Co-founder, CEO',bg:'linear-gradient(135deg,#7C3AED,#DA0A7F)',i:'AR'},
-    {n:'Daniel Park',r:'Co-founder, CTO',bg:'linear-gradient(135deg,#0EA5E9,#7C3AED)',i:'DP'},
-    {n:'Priya Shah',r:'Head of Tax & Compliance',bg:'linear-gradient(135deg,#DA0A7F,#F59E0B)',i:'PS'},
-    {n:'Marcus Liu',r:'Head of Product',bg:'linear-gradient(135deg,#DA0A7F,#0EA5E9)',i:'ML'},
-  ];
+  // stats + team arrays removed pending real numbers/people — do not re-add without substantiation
   return (
     <section style={{padding:'140px 56px',background:'#F6F3EE',color:'#0B0F0E'}}>
       <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— About MyMilesAI</div>
@@ -253,7 +219,7 @@ const MSFooter = () => (
         {h:'Product',l:['Features','Pricing','For Accountants','Integrations','Changelog']},
         {h:'Resources',l:['Blog','IRS Rate Tracker','Audit Guide','Deduction Calculator','Help Center']},
         {h:'Company',l:['About','Careers','Press','Contact']},
-        {h:'Legal',l:['Privacy','Terms','Security','SOC 2','IRS Compliance']},
+        {h:'Legal',l:['Privacy','Terms','IRS Compliance']},
       ].map(c=>(
         <div key={c.h}>
           <div style={{fontFamily:'Geist Mono',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.45)',marginBottom:20}}>{c.h}</div>
@@ -262,8 +228,8 @@ const MSFooter = () => (
       ))}
     </div>
     <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.05em'}}>
-      <span>© 2026 MyMiles, Inc. · Austin, TX</span>
-      <span>SOC 2 · GDPR · IRS PUB. 463 FORMAT</span>
+      <span>© 2026 Harijas LLC · Manteca, CA</span>
+      <span>IRS PUB. 463 FORMAT</span>
     </div>
     <div style={{paddingTop:24,fontSize:11,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
       <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available IRS and CRA guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee IRS or tax-authority acceptance of your records or your tax return.
