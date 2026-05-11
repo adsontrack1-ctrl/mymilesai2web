@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>IRS Mileage Audit Guide: How to Survive a Vehicle Deduction Audit | MyMilesAI</title>
+  <meta name="description" content="Learn what triggers an IRS mileage audit, the 4 records required by Publication 463, and how to build an airtight mileage log that holds up under scrutiny."/>
+  <link rel="canonical" href="https://mymilesai.com/blog/irs-mileage-audit-guide.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; color: #1a1a2e; background: #fff; line-height: 1.7; }
+    a { color: #1B4DDB; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; border-bottom: 1px solid #e8eaf2; background: #fff; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 6px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 20px; color: #0F1729; text-decoration: none; }
+    .nav-logo .ai { color: #C9A96E; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: #444; }
+    .nav-cta { background: #1B4DDB; color: #fff !important; padding: 8px 18px; border-radius: 8px; font-weight: 600 !important; font-size: 14px !important; }
+
+    /* POST HEADER */
+    .post-header { max-width: 720px; margin: 0 auto; padding: 48px 24px 32px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #666; margin-bottom: 24px; }
+    .post-category { display: inline-block; background: #fff3e0; color: #C9A96E; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; }
+    .post-header h1 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -0.02em; color: #0F1729; margin-bottom: 16px; }
+    .post-meta { font-size: 14px; color: #888; }
+
+    /* POST BODY */
+    .post-body { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
+    .post-body h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 24px; color: #0F1729; margin: 40px 0 14px; letter-spacing: -0.01em; }
+    .post-body h3 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 18px; color: #0F1729; margin: 28px 0 10px; }
+    .post-body p { margin-bottom: 18px; font-size: 16.5px; color: #333; }
+    .post-body ul, .post-body ol { padding-left: 22px; margin-bottom: 18px; }
+    .post-body li { margin-bottom: 8px; font-size: 16.5px; color: #333; }
+
+    .callout { background: #f0f4ff; border-left: 4px solid #1B4DDB; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+    .callout.warning { background: #fff8e1; border-left-color: #C9A96E; }
+    .callout p { margin: 0; font-size: 15px; color: #333; }
+    .callout strong { color: #0F1729; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    .data-table th { background: #0F1729; color: #fff; font-weight: 700; padding: 12px 16px; text-align: left; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid #e8eaf2; color: #333; }
+    .data-table tr:nth-child(even) td { background: #f8f9ff; }
+    .data-table .bad { color: #c0392b; font-weight: 700; }
+    .data-table .good { color: #27ae60; font-weight: 700; }
+
+    .four-elements { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 28px 0; }
+    .element-card { border: 2px solid #e8eaf2; border-radius: 12px; padding: 20px; }
+    .element-card .num { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 32px; color: #1B4DDB; margin-bottom: 8px; }
+    .element-card h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 16px; color: #0F1729; margin-bottom: 6px; }
+    .element-card p { font-size: 14px; color: #555; margin: 0; }
+
+    /* CTA */
+    .post-cta { background: #1B4DDB; color: #fff; text-align: center; padding: 56px 24px; }
+    .post-cta h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 28px; margin-bottom: 12px; }
+    .post-cta p { font-size: 16px; opacity: 0.88; margin-bottom: 28px; }
+    .post-cta a { display: inline-block; background: #C9A96E; color: #0F1729; font-weight: 700; font-size: 16px; padding: 14px 32px; border-radius: 10px; text-decoration: none; }
+
+    /* FOOTER */
+    .footer { background: #0F1729; color: #aab; padding: 48px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; margin-bottom: 36px; }
+    .footer-brand p { font-size: 14px; line-height: 1.6; margin-top: 10px; max-width: 240px; }
+    .footer h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: 8px; }
+    .footer ul a { font-size: 14px; color: #aab; }
+    .footer-bottom { border-top: 1px solid #ffffff18; padding-top: 20px; font-size: 13px; color: #667; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .four-elements { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">MyMiles<span class="ai">AI</span></a>
+  <ul class="nav-links">
+    <li><a href="../features.html">Features</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../pricing.html">Pricing</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+  </ul>
+  <a href="../signup/" class="nav-cta">Start free trial</a>
+</nav>
+
+<header class="post-header">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+  <div class="post-category">Tax Strategy</div>
+  <h1>IRS Mileage Audit Guide: How to Survive a Vehicle Deduction Audit</h1>
+  <div class="post-meta">May 2026 &nbsp;·&nbsp; 9 min read</div>
+</header>
+
+<article class="post-body">
+
+  <p>The IRS audits roughly 0.4% of individual returns each year — but returns with Schedule C vehicle deductions face a substantially higher examination rate. Mileage deductions are one of the most frequently disallowed items in small business audits, not because taxpayers are dishonest, but because their records don't meet the specific documentation standard outlined in IRS Publication 463.</p>
+
+  <p>If you deducted vehicle expenses last year and received a CP2000 notice or a formal audit letter, this guide walks you through exactly what the IRS expects to see, what triggers vehicle-related scrutiny, and how to protect your deductions going forward.</p>
+
+  <h2>What Triggers an IRS Vehicle Deduction Audit?</h2>
+
+  <p>The IRS uses a statistical model called the Discriminant Inventory Function (DIF) to score returns for audit potential. High Schedule C vehicle deductions relative to your reported income are a known trigger. Several other patterns increase risk:</p>
+
+  <ul>
+    <li><strong>100% business use claimed</strong> — The IRS is skeptical of any taxpayer who claims their vehicle is used exclusively for business with zero personal miles. If you own one car, this claim is difficult to defend.</li>
+    <li><strong>Round numbers</strong> — Claiming exactly 10,000 or 15,000 business miles suggests estimation rather than contemporaneous tracking. Real logs have irregular numbers like 9,847 or 11,203.</li>
+    <li><strong>Deduction exceeds plausible use</strong> — If you claimed 30,000 business miles but your total odometer for the year was 22,000, the math doesn't work.</li>
+    <li><strong>High ratio to income</strong> — A $1,200 freelance income with a $4,800 vehicle deduction draws scrutiny.</li>
+    <li><strong>Prior year disallowance</strong> — If the IRS disallowed vehicle expenses in a previous audit, your current-year return may be flagged automatically.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>Note:</strong> Receiving a CP2000 notice is not the same as a formal audit. A CP2000 is an automated mismatch notice (often triggered by 1099s). A full vehicle audit typically comes as a CP75, Letter 566, or Letter 2205. The documentation requirements are the same in either case.</p>
+  </div>
+
+  <h2>The 4 Elements Required by Publication 463</h2>
+
+  <p>IRS Publication 463 specifies exactly what a contemporaneous mileage record must contain for each business trip. Miss any one of these four elements and your deduction can be partially or fully disallowed.</p>
+
+  <div class="four-elements">
+    <div class="element-card">
+      <div class="num">1</div>
+      <h4>Amount</h4>
+      <p>The number of miles driven for business on that specific trip. A weekly total or monthly estimate does not satisfy this requirement.</p>
+    </div>
+    <div class="element-card">
+      <div class="num">2</div>
+      <h4>Time</h4>
+      <p>The date of the trip. "Multiple trips in March" is not sufficient. Each trip needs its own date entry.</p>
+    </div>
+    <div class="element-card">
+      <div class="num">3</div>
+      <h4>Place</h4>
+      <p>The destination — at minimum the city or general area, or the name of the customer or location visited.</p>
+    </div>
+    <div class="element-card">
+      <div class="num">4</div>
+      <h4>Business Purpose</h4>
+      <p>A brief description of the business reason for the trip. "Client meeting" or "site inspection at 123 Oak St." qualifies. Blank or "business" alone does not.</p>
+    </div>
+  </div>
+
+  <p>The word "contemporaneous" is critical. Publication 463 states records should be recorded "at or near the time of the expenditure or use." The IRS has rejected reconstructed logs created during an audit, even when the taxpayer had supporting evidence like calendar entries and receipts.</p>
+
+  <h2>What "Contemporaneous" Actually Means in Practice</h2>
+
+  <p>The IRS doesn't require a paper logbook. Any method that captures the four elements at or near the time of each trip qualifies:</p>
+
+  <ul>
+    <li>A mobile app that timestamps each trip automatically (like MyMilesAI)</li>
+    <li>A paper mileage logbook kept in the glove compartment</li>
+    <li>A spreadsheet updated daily or weekly</li>
+    <li>Calendar entries with trip details noted at the time of the appointment</li>
+  </ul>
+
+  <p>What doesn't qualify: reconstructing your mileage from bank statements, Google Maps history, or memory during an audit. The Tax Court has upheld IRS disallowances in cases where taxpayers attempted to recreate mileage logs retroactively, even with substantial corroborating evidence.</p>
+
+  <div class="callout warning">
+    <p><strong>Tax Court precedent:</strong> In <em>Gattuso v. Commissioner</em> and similar cases, the Tax Court has consistently disallowed mileage deductions when logs were reconstructed after the fact, even when the taxpayer's business activity was genuine and well-documented in other ways.</p>
+  </div>
+
+  <h2>What to Do If You Receive an Audit Notice</h2>
+
+  <p>If you receive a letter requesting substantiation of your vehicle deductions, do not panic. Follow these steps:</p>
+
+  <ol>
+    <li><strong>Identify the tax year(s) under review.</strong> The IRS can generally audit returns up to 3 years back (6 years if substantial underreporting is suspected). Know which year's records you need.</li>
+    <li><strong>Gather your mileage log.</strong> Locate whatever record you maintained — app export, paper log, spreadsheet, or calendar. Export it in a format you can submit: PDF, CSV, or printed summary.</li>
+    <li><strong>Compile corroborating evidence.</strong> Your mileage log is the primary record, but supporting documents strengthen your case: appointment calendars showing client meetings, client invoices, Google Maps screenshots of routes, gas receipts near claimed business dates.</li>
+    <li><strong>Calculate your total odometer reading.</strong> The IRS may ask for your odometer at the start and end of the year, plus any repair records that document mileage. Check your maintenance records.</li>
+    <li><strong>Consider professional representation.</strong> For audits involving more than $5,000 in disputed deductions, an enrolled agent (EA) or CPA can represent you before the IRS and often negotiate a better outcome than self-representation.</li>
+  </ol>
+
+  <h2>Audit Outcome Scenarios: What Happens If Your Records Are Incomplete</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Record Quality</th>
+        <th>Likely IRS Response</th>
+        <th>Typical Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Complete contemporaneous log (all 4 elements)</td>
+        <td>Accept as filed</td>
+        <td class="good">No change</td>
+      </tr>
+      <tr>
+        <td>Partial log + strong corroboration (calendar, invoices)</td>
+        <td>Negotiate partial allowance</td>
+        <td>Some deductions allowed</td>
+      </tr>
+      <tr>
+        <td>Reconstructed log created after notice</td>
+        <td>Heavy skepticism; may reject</td>
+        <td class="bad">Likely disallowed</td>
+      </tr>
+      <tr>
+        <td>No records at all</td>
+        <td>Full disallowance proposed</td>
+        <td class="bad">Full deduction lost + interest</td>
+      </tr>
+      <tr>
+        <td>Cohan rule argument (no records)</td>
+        <td>Discretionary partial estimate</td>
+        <td>Uncertain; often unfavorable</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Note on the Cohan rule: Established in <em>Cohan v. Commissioner</em> (1930), this doctrine allows courts to estimate deductions when records are incomplete. However, Congress specifically overrode the Cohan rule for vehicle, travel, meals, and entertainment expenses in IRC Section 274(d), meaning estimates are not accepted for these categories. You need substantiation.</p>
+
+  <h2>Odometer and Vehicle Records</h2>
+
+  <p>Beyond the per-trip log, the IRS may request:</p>
+
+  <ul>
+    <li><strong>Beginning and ending odometer readings</strong> for the tax year. Your annual oil change receipts often have these.</li>
+    <li><strong>Total miles driven</strong> (business + personal + commuting). The business percentage is calculated as business miles ÷ total miles.</li>
+    <li><strong>Vehicle ownership or lease documentation</strong> — title, registration, or lease agreement.</li>
+    <li><strong>Date the vehicle was placed in service</strong> for business use, which affects depreciation if you're using the actual expense method.</li>
+  </ul>
+
+  <h2>Commuting Miles Are Never Deductible</h2>
+
+  <p>One of the most common audit adjustments is the disallowance of commuting miles. Travel between your home and a regular place of business — even if you consider your business "mobile" — is commuting, not business driving. This applies even if you take business calls in the car or carry work materials.</p>
+
+  <p>The exception: if you have a qualifying home office under IRC Section 280A, your home is treated as your principal place of business. In that case, travel from home to a client site or temporary work location can be deductible. The home office deduction must itself be properly claimed and defensible.</p>
+
+  <h2>Building an Audit-Proof Record Going Forward</h2>
+
+  <p>The best defense against an audit is a mileage log that never needs reconstructing. Automatic tracking apps solve the core problem: they record each trip with a GPS-verified timestamp, route, and distance the moment you start driving. You review and categorize trips as business or personal, add a purpose note, and your log writes itself.</p>
+
+  <p>At year-end, export a summary that shows date, start/end address, miles, and business purpose for every trip. That PDF is your Publication 463-compliant record. If the IRS asks, you hand it over. Audit closed.</p>
+
+  <div class="callout">
+    <p><strong>MyMilesAI</strong> generates IRS-ready PDF and CSV exports that include all four Publication 463 required fields for every tracked trip. Exports are available any time — not just at year-end.</p>
+  </div>
+
+  <h2>The Bottom Line</h2>
+
+  <p>Vehicle deduction audits are winnable when you have contemporaneous records. They're expensive and stressful when you don't. The IRS isn't trying to catch you — they're verifying that your deduction is real and properly supported. Give them the documentation they've specified in Publication 463 and your deductions stand.</p>
+
+  <p>If you're reading this after receiving an audit notice, start gathering every piece of corroborating evidence you have. If you're reading this before any audit, start keeping records today — every trip logged now is one you'll never have to argue about later.</p>
+
+</article>
+
+<section class="post-cta">
+  <h2>Every trip logged is a deduction protected.</h2>
+  <p>MyMilesAI creates IRS-ready records automatically — no paper logbook, no guesswork.</p>
+  <a href="../signup/">Start tracking free for 10 days</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;">MyMiles<span style="color:#C9A96E;">AI</span></span>
+      <p>Automatic mileage tracking for freelancers, realtors, and rideshare drivers in the US and Canada.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="../features.html">Features</a></li>
+        <li><a href="../how-it-works.html">How it works</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Harijas LLC · MyMilesAI · All rights reserved</div>
+</footer>
+
+</body>
+</html>

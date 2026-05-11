@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Freelancer Vehicle Deductions 2026: Standard Mileage vs. Actual Expenses | MyMilesAI</title>
+  <meta name="description" content="Complete guide to vehicle deductions for freelancers in 2026. Compare the $0.725/mile standard rate vs. actual expenses, learn which trips qualify, and avoid the most common mistakes."/>
+  <link rel="canonical" href="https://mymilesai.com/blog/freelancer-vehicle-deductions-2026.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; color: #1a1a2e; background: #fff; line-height: 1.7; }
+    a { color: #1B4DDB; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; border-bottom: 1px solid #e8eaf2; background: #fff; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 6px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 20px; color: #0F1729; text-decoration: none; }
+    .nav-logo .ai { color: #C9A96E; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: #444; }
+    .nav-cta { background: #1B4DDB; color: #fff !important; padding: 8px 18px; border-radius: 8px; font-weight: 600 !important; font-size: 14px !important; }
+
+    .post-header { max-width: 720px; margin: 0 auto; padding: 48px 24px 32px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #666; margin-bottom: 24px; }
+    .post-category { display: inline-block; background: #fdf0ff; color: #8e44ad; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; }
+    .post-header h1 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -0.02em; color: #0F1729; margin-bottom: 16px; }
+    .post-meta { font-size: 14px; color: #888; }
+
+    .post-body { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
+    .post-body h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 24px; color: #0F1729; margin: 40px 0 14px; letter-spacing: -0.01em; }
+    .post-body h3 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 18px; color: #0F1729; margin: 28px 0 10px; }
+    .post-body p { margin-bottom: 18px; font-size: 16.5px; color: #333; }
+    .post-body ul, .post-body ol { padding-left: 22px; margin-bottom: 18px; }
+    .post-body li { margin-bottom: 8px; font-size: 16.5px; color: #333; }
+
+    .method-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .method-card { border-radius: 12px; padding: 24px; }
+    .method-card.standard { background: #f0f4ff; border: 2px solid #1B4DDB; }
+    .method-card.actual { background: #fff8e1; border: 2px solid #C9A96E; }
+    .method-card h3 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 17px; margin-bottom: 12px; color: #0F1729; }
+    .method-card ul { padding-left: 18px; }
+    .method-card li { font-size: 14px; color: #444; margin-bottom: 6px; }
+    .method-card .verdict { font-size: 13px; font-weight: 700; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.1); }
+    .method-card.standard .verdict { color: #1B4DDB; }
+    .method-card.actual .verdict { color: #C9A96E; }
+
+    .callout { background: #f0f4ff; border-left: 4px solid #1B4DDB; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+    .callout.warning { background: #fff8e1; border-left-color: #C9A96E; }
+    .callout p { margin: 0; font-size: 15px; color: #333; }
+    .callout strong { color: #0F1729; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    .data-table th { background: #0F1729; color: #fff; font-weight: 700; padding: 12px 16px; text-align: left; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid #e8eaf2; color: #333; }
+    .data-table tr:nth-child(even) td { background: #f8f9ff; }
+    .data-table .win { color: #27ae60; font-weight: 700; }
+
+    .example-box { background: #0F1729; color: #e8eaf2; border-radius: 12px; padding: 24px 28px; margin: 28px 0; }
+    .example-box h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; color: #C9A96E; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+    .example-box p { margin-bottom: 8px; font-size: 15px; color: #ccd; }
+    .example-box .total { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 22px; color: #fff; margin-top: 12px; }
+
+    .post-cta { background: #1B4DDB; color: #fff; text-align: center; padding: 56px 24px; }
+    .post-cta h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 28px; margin-bottom: 12px; }
+    .post-cta p { font-size: 16px; opacity: 0.88; margin-bottom: 28px; }
+    .post-cta a { display: inline-block; background: #C9A96E; color: #0F1729; font-weight: 700; font-size: 16px; padding: 14px 32px; border-radius: 10px; text-decoration: none; }
+
+    .footer { background: #0F1729; color: #aab; padding: 48px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; margin-bottom: 36px; }
+    .footer-brand p { font-size: 14px; line-height: 1.6; margin-top: 10px; max-width: 240px; }
+    .footer h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: 8px; }
+    .footer ul a { font-size: 14px; color: #aab; }
+    .footer-bottom { border-top: 1px solid #ffffff18; padding-top: 20px; font-size: 13px; color: #667; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .method-compare { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">MyMiles<span class="ai">AI</span></a>
+  <ul class="nav-links">
+    <li><a href="../features.html">Features</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../pricing.html">Pricing</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+  </ul>
+  <a href="../signup/" class="nav-cta">Start free trial</a>
+</nav>
+
+<header class="post-header">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+  <div class="post-category">Freelancers</div>
+  <h1>Freelancer Vehicle Deductions 2026: Standard Mileage vs. Actual Expenses</h1>
+  <div class="post-meta">May 2026 &nbsp;·&nbsp; 9 min read</div>
+</header>
+
+<article class="post-body">
+
+  <p>If you're self-employed and use your car for work, you have a choice to make each year: take the standard mileage rate ($0.725 per mile in 2026) or deduct your actual vehicle expenses multiplied by your business-use percentage. Both methods require a mileage log. The best one depends on your vehicle, your driving volume, and how much of your annual mileage is business.</p>
+
+  <p>This guide explains both methods in plain language, compares them with a real example, and covers which freelance trips actually qualify for the deduction.</p>
+
+  <h2>The Two Methods at a Glance</h2>
+
+  <div class="method-compare">
+    <div class="method-card standard">
+      <h3>Standard Mileage Rate</h3>
+      <ul>
+        <li>$0.725/mile for 2026</li>
+        <li>Multiply rate × business miles</li>
+        <li>No need to track gas, oil, insurance separately</li>
+        <li>Still need a mileage log</li>
+        <li>Includes depreciation component (28¢/mile in 2026)</li>
+      </ul>
+      <div class="verdict">Best for: fuel-efficient vehicles, moderate mileage, simplicity</div>
+    </div>
+    <div class="method-card actual">
+      <h3>Actual Expense Method</h3>
+      <ul>
+        <li>Deduct gas, insurance, maintenance, repairs, registration</li>
+        <li>Plus depreciation (MACRS or Section 179)</li>
+        <li>Multiply total × business-use %</li>
+        <li>Still need a mileage log for business %</li>
+        <li>More receipts, more math, potentially higher deduction</li>
+      </ul>
+      <div class="verdict">Best for: expensive vehicles, high insurance costs, first-year depreciation bonus</div>
+    </div>
+  </div>
+
+  <h2>Which Trips Qualify?</h2>
+
+  <p>Not every trip in your car is a business mile. Here's the breakdown for common freelance scenarios:</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Trip</th>
+        <th>Deductible?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Driving to a client's office or job site</td><td class="win">Yes</td></tr>
+      <tr><td>Picking up supplies or equipment for a project</td><td class="win">Yes</td></tr>
+      <tr><td>Meeting a new client for coffee to discuss a project</td><td class="win">Yes</td></tr>
+      <tr><td>Driving to a coworking space you rent and use regularly</td><td class="win">Yes (if no home office)</td></tr>
+      <tr><td>Attending an industry conference or workshop</td><td class="win">Yes</td></tr>
+      <tr><td>Dropping off work product, invoice, or signed contract</td><td class="win">Yes</td></tr>
+      <tr><td>Commuting from home to a fixed office where you work regularly</td><td style="color:#c0392b;font-weight:700;">No — commuting</td></tr>
+      <tr><td>Personal errands on the same day as business trips</td><td style="color:#c0392b;font-weight:700;">No — personal segment only</td></tr>
+      <tr><td>Driving to the post office to mail a package to a client</td><td class="win">Yes</td></tr>
+      <tr><td>Banking related to your business accounts</td><td class="win">Yes</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>The home office exception:</strong> If your home qualifies as your principal place of business under IRC Section 280A, you have no commuting problem. Every trip from home to a client or business location is a fully deductible business trip. Freelancers who work primarily from a dedicated home office typically have the best mileage deduction profile because nearly all of their driving is business driving.</p>
+  </div>
+
+  <h2>Running the Numbers: Standard vs. Actual</h2>
+
+  <p>Consider a freelance consultant who drove 12,000 business miles in 2026 on a vehicle with the following annual costs:</p>
+
+  <div class="example-box">
+    <h4>Actual Vehicle Costs (example)</h4>
+    <p>Gas: $2,400</p>
+    <p>Insurance: $1,800</p>
+    <p>Maintenance + repairs: $900</p>
+    <p>Registration: $200</p>
+    <p>Depreciation (MACRS, year 3 of ownership): $2,800</p>
+    <p>Total actual costs: $8,100</p>
+    <p>Total miles driven (business + personal): 18,000</p>
+    <p>Business-use %: 12,000 ÷ 18,000 = 66.7%</p>
+    <p>Actual method deduction: $8,100 × 66.7% = <strong>$5,403</strong></p>
+    <div class="total">Standard method: 12,000 mi × $0.725 = $8,700</div>
+  </div>
+
+  <p>In this case, the standard mileage rate produces a $3,297 larger deduction. This is typical for moderate-mileage drivers with standard-cost vehicles — the $0.725/mile rate often overstates your actual cost per mile.</p>
+
+  <p>The actual expense method tends to win in the first year of ownership for an expensive new vehicle with a large Section 179 or bonus depreciation deduction. A $45,000 vehicle placed in service in 2026, used 80% for business, with $18,000 in first-year depreciation (after bonus depreciation limits), could yield a deduction well above the standard rate equivalent. A CPA can model both scenarios with your specific numbers.</p>
+
+  <h2>The Critical Election Rule</h2>
+
+  <p>This is the single most important constraint in the vehicle deduction rules:</p>
+
+  <div class="callout warning">
+    <p><strong>If you use the standard mileage rate in the first year you place a vehicle in service for business, you can switch to actual expenses in a later year. If you start with actual expenses in the first year, you cannot switch back to standard mileage for that vehicle.</strong> This asymmetry makes the standard rate the safer default for new vehicles when you're uncertain which method is better long-term.</p>
+  </div>
+
+  <h2>What You Actually Need to Track</h2>
+
+  <p>Both methods require a contemporaneous mileage log. Here's exactly what each trip entry needs under IRS Publication 463:</p>
+
+  <ol>
+    <li><strong>Date</strong> of the trip</li>
+    <li><strong>Miles driven</strong> (not a range — the actual mileage)</li>
+    <li><strong>Destination</strong> — at minimum the city and general area, ideally the specific address or business name</li>
+    <li><strong>Business purpose</strong> — a brief description of the reason for the trip</li>
+  </ol>
+
+  <p>For the actual expense method, you additionally need receipts for all vehicle expenses (gas, insurance, maintenance) and documentation for depreciation calculations (vehicle purchase price, placed-in-service date, title).</p>
+
+  <p>For the standard rate method, the log is the only required document beyond your normal tax records.</p>
+
+  <h2>Common Freelancer Mistakes</h2>
+
+  <h3>1. Forgetting to log trips between clients</h3>
+  <p>If you visit Client A in the morning and Client B in the afternoon, the drive between them is business mileage — not just the first trip of the day. Every segment matters.</p>
+
+  <h3>2. Claiming personal errands as business</h3>
+  <p>If you swing by the grocery store between client visits, the grocery errand is personal. You can log the business segments of the trip but not the personal detour. If the detour adds 4 miles, subtract those 4 miles from your log entry.</p>
+
+  <h3>3. Conflating business purpose with destination</h3>
+  <p>Writing "Starbucks" as the purpose doesn't tell an auditor anything. "Coffee meeting with client Sarah Chen re: Q3 project scope" is a complete entry.</p>
+
+  <h3>4. Forgetting the home office foundation</h3>
+  <p>Without a home office, your first trip of the day is commuting if you're going to a regular work location. Many freelancers who work from coffee shops or coworking spaces have an ambiguous "regular place of business" situation. A tax professional can help you establish the right characterization.</p>
+
+  <h3>5. Waiting until tax time to reconstruct records</h3>
+  <p>The IRS has specifically excluded vehicle expenses from the Cohan rule (IRC Section 274(d)), which means estimates and reconstructed records are not allowed — you need contemporaneous documentation. A mileage tracking app that captures trips automatically removes the burden of remembering to log every drive.</p>
+
+  <h2>Self-Employment Tax Multiplier Effect</h2>
+
+  <p>For freelancers, a $1,000 vehicle deduction does double duty. It reduces your net self-employment income, which reduces both your income tax and your self-employment tax (15.3% on the first $176,100 of net SE income in 2026). A $5,000 vehicle deduction for a freelancer in the 22% federal income tax bracket saves roughly:</p>
+
+  <ul>
+    <li>$1,100 in federal income tax (22%)</li>
+    <li>$706 in self-employment tax (14.13% — half of 15.3%, since you can deduct half of SE tax)</li>
+    <li><strong>~$1,800 total tax savings</strong> on a $5,000 deduction — an effective 36% return</li>
+  </ul>
+
+  <p>State income taxes add more savings on top. This is why tracking every business mile matters: at $0.725/mile, you need to drive just 1,380 miles to generate a $1,000 deduction — that's one month of moderate business driving for most freelancers.</p>
+
+  <div class="callout">
+    <p><strong>MyMilesAI</strong> tracks every business mile automatically in the background and lets you classify trips with one tap. Year-end IRS export includes all four Publication 463 required fields per trip, so your deduction is audit-ready from day one.</p>
+  </div>
+
+</article>
+
+<section class="post-cta">
+  <h2>Stop leaving deductions on the road.</h2>
+  <p>MyMilesAI logs every business mile automatically. No paper logbooks, no guessing at year-end.</p>
+  <a href="../signup/">Start tracking free for 10 days</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;">MyMiles<span style="color:#C9A96E;">AI</span></span>
+      <p>Automatic mileage tracking for freelancers, realtors, and rideshare drivers in the US and Canada.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="../features.html">Features</a></li>
+        <li><a href="../how-it-works.html">How it works</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Harijas LLC · MyMilesAI · All rights reserved</div>
+</footer>
+
+</body>
+</html>

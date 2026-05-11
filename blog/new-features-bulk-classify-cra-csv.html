@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>New Features: Bulk Trip Classification, CRA Support, and CSV Export | MyMilesAI</title>
+  <meta name="description" content="MyMilesAI now supports bulk trip classification, CRA-formatted CSV export for Canadian users, and improved AI trip categorization. Here's what's new and how to use it."/>
+  <link rel="canonical" href="https://mymilesai.com/blog/new-features-bulk-classify-cra-csv.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; color: #1a1a2e; background: #fff; line-height: 1.7; }
+    a { color: #1B4DDB; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 64px; border-bottom: 1px solid #e8eaf2; background: #fff; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 6px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 20px; color: #0F1729; text-decoration: none; }
+    .nav-logo .ai { color: #C9A96E; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: #444; }
+    .nav-cta { background: #1B4DDB; color: #fff !important; padding: 8px 18px; border-radius: 8px; font-weight: 600 !important; font-size: 14px !important; }
+
+    .post-header { max-width: 720px; margin: 0 auto; padding: 48px 24px 32px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #666; margin-bottom: 24px; }
+    .post-category { display: inline-block; background: #f0fdf4; color: #27ae60; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; }
+    .post-header h1 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; letter-spacing: -0.02em; color: #0F1729; margin-bottom: 16px; }
+    .post-meta { font-size: 14px; color: #888; }
+
+    .post-body { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
+    .post-body h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 24px; color: #0F1729; margin: 40px 0 14px; letter-spacing: -0.01em; }
+    .post-body h3 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 18px; color: #0F1729; margin: 28px 0 10px; }
+    .post-body p { margin-bottom: 18px; font-size: 16.5px; color: #333; }
+    .post-body ul, .post-body ol { padding-left: 22px; margin-bottom: 18px; }
+    .post-body li { margin-bottom: 8px; font-size: 16.5px; color: #333; }
+
+    .feature-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 28px 0; }
+    .feature-card { background: #f8f9ff; border: 1px solid #e8eaf2; border-radius: 12px; padding: 20px; }
+    .feature-card .icon { font-size: 28px; margin-bottom: 10px; }
+    .feature-card h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 15px; color: #0F1729; margin-bottom: 6px; }
+    .feature-card p { font-size: 14px; color: #555; margin: 0; }
+
+    .changelog-item { border-left: 3px solid #1B4DDB; padding: 16px 20px; margin: 0 0 16px; background: #f8f9ff; border-radius: 0 8px 8px 0; }
+    .changelog-item .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+    .tag-new { background: #d4edda; color: #27ae60; }
+    .tag-improved { background: #cce5ff; color: #1B4DDB; }
+    .tag-fix { background: #fff3cd; color: #856404; }
+    .changelog-item h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 16px; color: #0F1729; margin-bottom: 6px; }
+    .changelog-item p { font-size: 15px; color: #444; margin: 0; }
+
+    .callout { background: #f0f4ff; border-left: 4px solid #1B4DDB; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 28px 0; }
+    .callout p { margin: 0; font-size: 15px; color: #333; }
+    .callout strong { color: #0F1729; }
+
+    .csv-columns { background: #0F1729; border-radius: 12px; padding: 24px 28px; margin: 28px 0; font-family: 'DM Mono', 'Courier New', monospace; }
+    .csv-columns .label { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; color: #C9A96E; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+    .csv-columns .row { display: grid; grid-template-columns: 200px 1fr; gap: 16px; margin-bottom: 8px; }
+    .csv-columns .col-name { color: #C9A96E; font-size: 13px; font-weight: 700; }
+    .csv-columns .col-desc { color: #aab; font-size: 13px; }
+
+    .post-cta { background: #1B4DDB; color: #fff; text-align: center; padding: 56px 24px; }
+    .post-cta h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 28px; margin-bottom: 12px; }
+    .post-cta p { font-size: 16px; opacity: 0.88; margin-bottom: 28px; }
+    .post-cta a { display: inline-block; background: #C9A96E; color: #0F1729; font-weight: 700; font-size: 16px; padding: 14px 32px; border-radius: 10px; text-decoration: none; }
+
+    .footer { background: #0F1729; color: #aab; padding: 48px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; margin-bottom: 36px; }
+    .footer-brand p { font-size: 14px; line-height: 1.6; margin-top: 10px; max-width: 240px; }
+    .footer h4 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: 8px; }
+    .footer ul a { font-size: 14px; color: #aab; }
+    .footer-bottom { border-top: 1px solid #ffffff18; padding-top: 20px; font-size: 13px; color: #667; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .csv-columns .row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">MyMiles<span class="ai">AI</span></a>
+  <ul class="nav-links">
+    <li><a href="../features.html">Features</a></li>
+    <li><a href="../how-it-works.html">How it works</a></li>
+    <li><a href="../pricing.html">Pricing</a></li>
+    <li><a href="../blog.html">Blog</a></li>
+  </ul>
+  <a href="../signup/" class="nav-cta">Start free trial</a>
+</nav>
+
+<header class="post-header">
+  <a href="../blog.html" class="back-link">← Back to Blog</a>
+  <div class="post-category">Product Update</div>
+  <h1>New Features: Bulk Trip Classification, CRA Support, and CSV Export</h1>
+  <div class="post-meta">May 2026 &nbsp;·&nbsp; 5 min read</div>
+</header>
+
+<article class="post-body">
+
+  <p>This release focuses on three things our users have been asking for since launch: a way to classify a week's worth of trips at once, proper support for Canadian users filing under CRA rules, and a CSV export format that works directly with accounting software like QuickBooks, Wave, and FreshBooks.</p>
+
+  <p>Here's everything that changed and how to use it.</p>
+
+  <div class="feature-cards">
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h4>Bulk Classify</h4>
+      <p>Select multiple trips and mark them all as Business, Personal, or Medical in one tap.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🍁</div>
+      <h4>CRA CSV Export</h4>
+      <p>Canadian users can now export a logbook formatted for T2125 and T777 filing with per-km totals.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🤖</div>
+      <h4>Smarter AI</h4>
+      <p>Improved classification accuracy for repeat destinations — the AI now recognizes your regular client locations.</p>
+    </div>
+  </div>
+
+  <h2>Bulk Trip Classification</h2>
+
+  <p>Previously, every trip had to be reviewed and classified individually. For users who drive frequently for work — realtors doing 8–10 showings a day, rideshare drivers, delivery contractors — this meant a long review queue at the end of the week.</p>
+
+  <p>Bulk classify works like this:</p>
+
+  <ol>
+    <li>Open the Trips tab and tap <strong>Select</strong> in the top right corner.</li>
+    <li>Tap trips to select them. You can also tap the date header to select all trips on that day.</li>
+    <li>With multiple trips selected, choose <strong>Business</strong>, <strong>Personal</strong>, or <strong>Medical</strong> from the action bar at the bottom of the screen.</li>
+    <li>Done. All selected trips are classified instantly.</li>
+  </ol>
+
+  <p>Bulk classify is available on iOS and Android. The web app dashboard supports the same workflow on desktop — useful for year-end cleanup or reviewing a long trip history when you first set up the app.</p>
+
+  <h3>A Note on AI Pre-Classification</h3>
+
+  <p>We've also updated our AI classification engine. It now looks at your last 60 days of classification behavior to identify patterns — for example, if you always mark trips to a specific address as "Business — Client Visit," the AI will automatically suggest the same classification for future trips to that address.</p>
+
+  <p>This doesn't replace the bulk tool — it's a complement to it. Destinations you visit regularly will be pre-classified by the AI. One-off or ambiguous trips can be handled with bulk selection. Together, most users can stay fully caught up with under two minutes of weekly review.</p>
+
+  <h2>CRA-Formatted CSV Export</h2>
+
+  <p>Canadian users have had access to IRS-formatted PDF exports since launch, but our CSV export previously used mile-based calculations and IRS field names — not useful for Canadian tax filing, which requires kilometres and CRA-specific terminology.</p>
+
+  <p>The new CRA CSV export mode activates automatically when you set your locale to Canada in app settings. It generates a spreadsheet with the following columns:</p>
+
+  <div class="csv-columns">
+    <div class="label">CRA CSV — Column Reference</div>
+    <div class="row"><span class="col-name">Date</span><span class="col-desc">Trip date (YYYY-MM-DD)</span></div>
+    <div class="row"><span class="col-name">Start Address</span><span class="col-desc">Origin address or "Home" if location is your registered home</span></div>
+    <div class="row"><span class="col-name">End Address</span><span class="col-desc">Destination address or business name</span></div>
+    <div class="row"><span class="col-name">Kilometres</span><span class="col-desc">Distance in km (converted from GPS data)</span></div>
+    <div class="row"><span class="col-name">Purpose</span><span class="col-desc">Business purpose (from your trip note or AI suggestion)</span></div>
+    <div class="row"><span class="col-name">Category</span><span class="col-desc">Business / Personal / Medical</span></div>
+    <div class="row"><span class="col-name">Allowance ($)</span><span class="col-desc">CRA prescribed rate calculation: $0.73/km (first 5,000) or $0.67/km (after)</span></div>
+    <div class="row"><span class="col-name">Running KM Total</span><span class="col-desc">Cumulative business km for the year (to track the 5,000 km threshold)</span></div>
+  </div>
+
+  <p>The Allowance column calculates the dollar value of each trip at the current CRA prescribed rates and automatically switches from $0.73/km to $0.67/km once your annual business kilometres exceed 5,000. You don't need to track this threshold manually.</p>
+
+  <p>At year-end, your total from the Allowance column is the figure you enter as your motor vehicle expense on Form T2125 (self-employed) or T777 (employees). Export, open in Excel or Numbers, and your logbook is complete.</p>
+
+  <div class="callout">
+    <p><strong>Note for employees (T777 filers):</strong> The CRA export satisfies the logbook requirement if your employer signs a T2200 and you are not reimbursed at the prescribed rate. The export also works if you're claiming actual expenses — use it to calculate your business-use percentage rather than the per-kilometre allowance column.</p>
+  </div>
+
+  <h2>Full Changelog — May 2026</h2>
+
+  <div class="changelog-item">
+    <span class="tag tag-new">New</span>
+    <h4>Bulk trip classification</h4>
+    <p>Select multiple trips and classify all at once. Available on iOS, Android, and web dashboard.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-new">New</span>
+    <h4>CRA CSV export with per-km calculations</h4>
+    <p>Canadian locale users get a logbook export formatted for T2125 and T777 filing. Includes running KM total and prescribed rate calculations with automatic 5,000 km threshold switching.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-improved">Improved</span>
+    <h4>AI repeat-destination recognition</h4>
+    <p>The classification AI now learns from your last 60 days of behavior to auto-suggest categories for recurring destinations. Accuracy on repeat trips improved significantly.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-improved">Improved</span>
+    <h4>IRS PDF export — added odometer summary</h4>
+    <p>Year-end IRS PDF exports now include a summary page with estimated annual odometer readings (derived from GPS data), business-use percentage, and total deduction calculation at the current year's rate.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-improved">Improved</span>
+    <h4>Trip detail editor — faster purpose entry</h4>
+    <p>The trip detail screen now shows your 5 most recent business purposes as quick-select options. Tap once to apply a previously used purpose note rather than typing it again.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-fix">Fix</span>
+    <h4>Dashboard YTD total sometimes excluded recent trips</h4>
+    <p>Fixed a sync issue where trips completed within the last hour occasionally didn't appear in the year-to-date deduction total until the next app refresh.</p>
+  </div>
+
+  <div class="changelog-item">
+    <span class="tag tag-fix">Fix</span>
+    <h4>Background tracking occasionally paused on Android 15</h4>
+    <p>Resolved a compatibility issue with Android 15's updated background process restrictions that caused tracking to pause on some devices after extended screen-off periods.</p>
+  </div>
+
+  <h2>What's Coming Next</h2>
+
+  <p>We're actively working on two features based on user feedback:</p>
+
+  <ul>
+    <li><strong>Multiple vehicles</strong> — track more than one vehicle on the same account with separate mileage logs and deduction totals per vehicle. Currently in testing.</li>
+    <li><strong>Client tagging</strong> — tag trips with a client name so you can report mileage per client at year-end. Useful for service businesses that track costs by client or project.</li>
+  </ul>
+
+  <p>If you have feedback on any of the features in this release, or feature requests for the roadmap, reach out to us at <a href="mailto:support@mymilesai.com">support@mymilesai.com</a>. We read every message.</p>
+
+</article>
+
+<section class="post-cta">
+  <h2>Start tracking your miles — free for 10 days.</h2>
+  <p>Automatic tracking, AI classification, IRS and CRA-ready exports. No credit card required to start.</p>
+  <a href="../signup/">Try MyMilesAI free</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:18px;color:#fff;">MyMiles<span style="color:#C9A96E;">AI</span></span>
+      <p>Automatic mileage tracking for freelancers, realtors, and rideshare drivers in the US and Canada.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="../features.html">Features</a></li>
+        <li><a href="../how-it-works.html">How it works</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy</a></li>
+        <li><a href="../terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Harijas LLC · MyMilesAI · All rights reserved</div>
+</footer>
+
+</body>
+</html>
