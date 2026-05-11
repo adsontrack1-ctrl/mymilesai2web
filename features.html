@@ -23,7 +23,7 @@
 
   /* ── Hero ── */
   .f-hero{background:linear-gradient(180deg,#F0F4FF 0%,#FFFFFF 100%);padding:5rem 1.5rem 4rem;text-align:center;border-bottom:1px solid #E5E7EB}
-  .f-hero .eyebrow{display:inline-block;font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1.5rem}
+  .f-hero .eyebrow{display:inline-block;font-family:'DM Sans',system-ui,sans-serif;font-size:1rem;font-weight:700;color:#1B4DDB;margin-bottom:1.5rem}
   .f-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(2.25rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.03em;color:#111827;max-width:780px;margin:0 auto 1.5rem}
   .f-hero p{font-size:1.25rem;line-height:1.65;color:#4B5563;max-width:560px;margin:0 auto}
 
@@ -31,7 +31,7 @@
   .f-section{padding:5rem 56px}
   .f-section+.f-section{border-top:1px solid #E5E7EB}
   .f-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-  .f-copy-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1rem}
+  .f-copy-label{font-family:'DM Sans',system-ui,sans-serif;font-size:1rem;font-weight:700;color:#1B4DDB;margin-bottom:1rem}
   .f-copy h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(1.75rem,2.5vw,2.25rem);line-height:1.15;letter-spacing:-.025em;color:#111827;margin:0 0 1rem}
   .f-copy p{font-size:1.0625rem;line-height:1.7;color:#374151;max-width:480px;margin:0 0 2rem}
   .f-stat{display:flex;align-items:baseline;gap:1rem;padding-top:1.5rem;border-top:1px solid #E5E7EB;max-width:320px}
@@ -42,7 +42,7 @@
   /* ── More features grid ── */
   .f-more{background:#F8F9FA;border-top:1px solid #E5E7EB;padding:5rem 56px}
   .f-more-inner{max-width:1200px;margin:0 auto}
-  .f-more-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1rem}
+  .f-more-label{font-family:'DM Sans',system-ui,sans-serif;font-size:1rem;font-weight:700;color:#1B4DDB;margin-bottom:1rem}
   .f-more h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(1.75rem,3vw,2.25rem);line-height:1.1;letter-spacing:-.025em;color:#111827;max-width:600px;margin:0 0 3rem}
   .f-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
   .f-card{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:16px;padding:2rem;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
@@ -54,7 +54,7 @@
   /* ── Bottom CTA ── */
   .f-cta{background:#0F1729;padding:5rem 56px;text-align:center}
   .f-cta-inner{max-width:800px;margin:0 auto}
-  .f-cta-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:rgba(248,249,250,.55);margin-bottom:1.5rem}
+  .f-cta-label{font-family:'DM Sans',system-ui,sans-serif;font-size:1rem;font-weight:700;color:rgba(248,249,250,.55);margin-bottom:1.5rem}
   .f-cta h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(2rem,4vw,2.5rem);line-height:1.1;letter-spacing:-.03em;color:#FFFFFF;margin:0 0 1.25rem}
   .f-cta p{font-size:1.0625rem;color:#94A3B8;max-width:480px;margin:0 auto 2.5rem;line-height:1.65}
   .f-cta-btn{display:inline-flex;align-items:center;gap:.5rem;background:#1B4DDB;color:#FFFFFF;padding:1rem 2.5rem;border-radius:12px;font-size:1.125rem;font-weight:600;text-decoration:none;transition:background .2s ease}
@@ -85,7 +85,7 @@
 const FeatVisAutoDetect = () => (
   <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11}}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-      <span style={{letterSpacing:'0.15em',color:'rgba(248,249,250,0.6)'}}>● BACKGROUND · TRACKING</span>
+      <span style={{letterSpacing:'0.15em',color:'rgba(248,249,250,0.6)'}}>● Background tracking</span>
       <span style={{color:'rgba(248,249,250,0.4)'}}>09:41:08</span>
     </div>
     <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -96,7 +96,7 @@ const FeatVisAutoDetect = () => (
       </svg>
     </div>
     <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16,paddingTop:16,borderTop:'1px solid rgba(248,249,250,0.15)'}}>
-      {[['DISTANCE','4.2 mi'],['DURATION','11 min'],['STATUS','AUTO-LOGGED']].map(([k,v])=>(
+      {[['Distance','4.2 mi'],['Duration','11 min'],['Status','Auto-logged']].map(([k,v])=>(
         <div key={k}>
           <div style={{color:'rgba(248,249,250,0.5)',marginBottom:4,fontSize:9,letterSpacing:'0.1em'}}>{k}</div>
           <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,color:'#F8F9FA'}}>{v}</div>
@@ -132,13 +132,13 @@ const FeatVisAudit = () => (
   <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,overflow:'hidden'}}>
     <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
-        <div style={{color:'#6B7280',marginBottom:4}}>IRS FORM 2106 — 2026</div>
+        <div style={{color:'#6B7280',marginBottom:4}}>IRS Form 2106 — 2026</div>
         <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18}}>Mileage Log · Q1 Summary</div>
       </div>
-      <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#FFFFFF',borderRadius:100,fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
+      <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#FFFFFF',borderRadius:100,fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ Verified</div>
     </div>
     <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B7280',marginBottom:10}}>
-      <div>DATE</div><div>ROUTE</div><div style={{textAlign:'right'}}>MILES</div><div style={{textAlign:'right'}}>$</div>
+      <div>Date</div><div>Route</div><div style={{textAlign:'right'}}>Miles</div><div style={{textAlign:'right'}}>$</div>
     </div>
     {[
       ['01/04','Home → Client A · Sales call','24.1','17.47'],
@@ -154,7 +154,7 @@ const FeatVisAudit = () => (
       </div>
     ))}
     <div style={{marginTop:16,paddingTop:12,borderTop:'1px solid #111827',display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
-      <span style={{color:'#6B7280'}}>Q1 TOTAL · 247 TRIPS</span>
+      <span style={{color:'#6B7280'}}>Q1 total · 247 trips</span>
       <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:24,color:'#1B4DDB'}}>$2,183.14</span>
     </div>
   </div>
