@@ -12,12 +12,12 @@
 const MSLogo = ({size=22, onDark=false}) => (
   <div style={{display:'flex',alignItems:'center',gap:10,lineHeight:1}}>
     <svg viewBox="0 0 64 64" fill="none" style={{width:size*1.3,height:size*1.3,flexShrink:0}} aria-hidden="true">
-      <circle cx="12" cy="50" r="4" fill={onDark?'#F6F3EE':'#0B0F0E'}/>
+      <circle cx="12" cy="50" r="4" fill={onDark?'#F8F9FA':'#0B0F0E'}/>
       <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#1B4DDB" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
       <circle cx="52" cy="14" r="5" fill="#1B4DDB"/>
-      <circle cx="52" cy="14" r="2" fill="#F6F3EE"/>
+      <circle cx="52" cy="14" r="2" fill="#F8F9FA"/>
     </svg>
-    <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:size,letterSpacing:'-0.035em',color:onDark?'#F6F3EE':'#0B0F0E'}}>
+    <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:size,letterSpacing:'-0.035em',color:onDark?'#F8F9FA':'#0B0F0E'}}>
       MyMiles<span style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,color:'#C9A96E',letterSpacing:'-0.02em',paddingLeft:'0.03em'}}>AI</span>
     </span>
   </div>
@@ -54,19 +54,19 @@ const MSRegionPill = () => {
   }, [open]);
   return (
     <div style={{position:'relative'}} onClick={e=>e.stopPropagation()}>
-      <button onClick={()=>setOpen(o=>!o)} style={{display:'flex',alignItems:'center',gap:6,padding:'7px 10px 7px 12px',border:'1px solid #E6E1D8',borderRadius:100,fontSize:13,background:'#FFFFFF',cursor:'pointer',fontFamily:'inherit'}}>
+      <button onClick={()=>setOpen(o=>!o)} style={{display:'flex',alignItems:'center',gap:6,padding:'7px 10px 7px 12px',border:'1px solid #E5E7EB',borderRadius:100,fontSize:13,background:'#FFFFFF',cursor:'pointer',fontFamily:'inherit'}}>
         <Flag code={region}/>
         <span style={{fontWeight:600,letterSpacing:'0.02em'}}>{opts[region].label}</span>
         <span style={{fontSize:9,opacity:0.5,marginLeft:1}}>▾</span>
       </button>
       {open && (
-        <div style={{position:'absolute',top:'calc(100% + 6px)',right:0,background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:12,padding:6,boxShadow:'0 14px 36px -10px rgba(11,15,14,0.18)',minWidth:200,zIndex:60}}>
+        <div style={{position:'absolute',top:'calc(100% + 6px)',right:0,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12,padding:6,boxShadow:'0 14px 36px -10px rgba(11,15,14,0.18)',minWidth:200,zIndex:60}}>
           {['US','CA'].map(r=>(
-            <button key={r} onClick={()=>choose(r)} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',width:'100%',background:r===region?'#F6F3EE':'transparent',border:'none',borderRadius:8,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
+            <button key={r} onClick={()=>choose(r)} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',width:'100%',background:r===region?'#F8F9FA':'transparent',border:'none',borderRadius:8,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
               <Flag code={r}/>
               <div style={{flex:1}}>
                 <div style={{fontSize:13,fontWeight:600}}>{opts[r].sub}</div>
-                <div style={{fontSize:11,color:'#6B6862'}}>Distance in {opts[r].label === 'MI' ? 'miles' : 'kilometers'}</div>
+                <div style={{fontSize:11,color:'#6B7280'}}>Distance in {opts[r].label === 'MI' ? 'miles' : 'kilometers'}</div>
               </div>
               {r===region && <span style={{color:'#1B4DDB',fontSize:13}}>✓</span>}
             </button>
@@ -87,13 +87,13 @@ const MSNav = ({mobile}) => {
   ];
   const here = (typeof window!=='undefined' ? window.location.pathname.split('/').pop() : '') || 'marketing-site.html';
   if(mobile) return (
-    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #E6E1D8'}}>
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #E5E7EB'}}>
       <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
       <a href="signin/" style={{background:'transparent',color:'#0B0F0E',border:'1px solid #0B0F0E',padding:'8px 16px',borderRadius:100,fontSize:12,fontWeight:500,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Sign In</a>
     </div>
   );
   return (
-    <div className="nav-links" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'22px 56px',position:'sticky',top:0,background:'rgba(246,243,238,0.88)',backdropFilter:'blur(14px)',zIndex:50,borderBottom:'1px solid rgba(11,15,14,0.05)'}}>
+    <div className="nav-links" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'22px 56px',position:'sticky',top:0,background:'rgba(255,255,255,0.92)',backdropFilter:'blur(14px)',zIndex:50,borderBottom:'1px solid rgba(11,15,14,0.05)'}}>
       <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
       <div style={{display:'flex',gap:40,fontSize:14,color:'#1F1D1A'}}>
         {links.map(l=>{
@@ -102,7 +102,7 @@ const MSNav = ({mobile}) => {
         })}
       </div>
       <div className="nav-signin" style={{display:'flex',alignItems:'center',gap:14}}>
-        <a href="signin/" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s',textDecoration:'none',display:'inline-flex',alignItems:'center'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E6E1D8'}}>Sign In</a>
+        <a href="signin/" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s',textDecoration:'none',display:'inline-flex',alignItems:'center'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E5E7EB'}}>Sign In</a>
       </div>
     </div>
   );
@@ -122,7 +122,7 @@ const MSHero = () => {
           <span style={{display:'block'}}>Stop losing</span>
           <span style={{display:'block',color:'#1B4DDB'}}>tax deductions.</span>
         </h1>
-        <p style={{fontSize:17,lineHeight:1.6,color:'#4A4843',maxWidth:510,marginBottom:36}}>
+        <p style={{fontSize:17,lineHeight:1.6,color:'#374151',maxWidth:510,marginBottom:36}}>
           You drove 47 miles to that client meeting. Did you log it? Didn't think so. MyMilesAI tracks every mile automatically — no buttons, no manual entries, no forgotten deductions.
         </p>
         <div style={{padding:'14px 20px',background:'#F6FBF7',border:'1px solid #BBF0CB',borderRadius:10,marginBottom:28,display:'inline-flex',alignItems:'center',gap:10,fontSize:13}}>
@@ -134,28 +134,28 @@ const MSHero = () => {
             Start Free Trial
             <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
-          <a href="how-it-works.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',padding:'16px 28px',borderRadius:100,fontSize:15,fontWeight:600,cursor:'pointer',textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8}}>
+          <a href="how-it-works.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'16px 28px',borderRadius:100,fontSize:15,fontWeight:600,cursor:'pointer',textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8}}>
             See How It Works
           </a>
         </div>
-        <div style={{display:'flex',gap:24,fontSize:12.5,color:'#6B6862',flexWrap:'wrap',alignItems:'center'}}>
+        <div style={{display:'flex',gap:24,fontSize:12.5,color:'#6B7280',flexWrap:'wrap',alignItems:'center'}}>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
-            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M8 4v4l3 2" stroke="#6B6862" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M8 4v4l3 2" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round"/></svg>
             10-day free trial
           </span>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
-            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M5 4V3a3 3 0 0 1 6 0v1" stroke="#6B6862" strokeWidth="1.4" strokeLinecap="round"/></svg>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M5 4V3a3 3 0 0 1 6 0v1" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round"/></svg>
             No credit card required
           </span>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
-            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B6862" strokeWidth="1.4"/><path d="M2 8H14M8 2Q11 5 11 8Q11 11 8 14Q5 11 5 8Q5 5 8 2" stroke="#6B6862" strokeWidth="1.2" fill="none"/></svg>
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M2 8H14M8 2Q11 5 11 8Q11 11 8 14Q5 11 5 8Q5 5 8 2" stroke="#6B7280" strokeWidth="1.2" fill="none"/></svg>
             US + Canada
           </span>
         </div>
       </div>
       <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680}}>
         <HeroPhone/>
-        <div style={{position:'absolute',top:'50%',left:-40,background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:14,padding:'11px 16px',boxShadow:'0 14px 36px -14px rgba(11,15,14,0.18)',display:'flex',alignItems:'center',gap:9,fontSize:13,fontWeight:500,animation:'float2 7s ease-in-out infinite'}}>
+        <div style={{position:'absolute',top:'50%',left:-40,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:'11px 16px',boxShadow:'0 14px 36px -14px rgba(11,15,14,0.18)',display:'flex',alignItems:'center',gap:9,fontSize:13,fontWeight:500,animation:'float2 7s ease-in-out infinite'}}>
           <span style={{width:24,height:24,borderRadius:'50%',background:'#F0FDF4',display:'inline-flex',alignItems:'center',justifyContent:'center',color:'#16A34A',fontSize:13,fontWeight:700}}>$</span>
           <span style={{color:'#16A34A',fontWeight:600}}>+$8.77 deduction logged</span>
         </div>
@@ -317,7 +317,7 @@ const MSHow = () => {
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
-      <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— How it works</div>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— How it works</div>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,3.8vw,48px)',lineHeight:1.08,letterSpacing:'-0.025em',marginBottom:56,maxWidth:780}}>
         Three steps. Thousands in recovered deductions.
       </h2>
@@ -326,10 +326,10 @@ const MSHow = () => {
           <div key={s.n} style={{borderTop:'1px solid #0B0F0E',paddingTop:24}}>
             <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,color:'#1B4DDB',marginBottom:20}}>{s.n}</div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:26,lineHeight:1.15,marginBottom:14,letterSpacing:'-0.02em'}}>{s.title}</h3>
-            <p style={{fontSize:15,lineHeight:1.6,color:'#4A4843',marginBottom:20}}>{s.body}</p>
-            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontWeight:600,fontSize:11,letterSpacing:'0.14em',textTransform:'uppercase',color:'#6B6862'}}>{s.meta}</div>
+            <p style={{fontSize:15,lineHeight:1.6,color:'#374151',marginBottom:20}}>{s.body}</p>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,fontSize:13,color:'#6B7280'}}>{s.meta}</div>
             {s.cta ? (
-              <button onClick={s.ctaAction} style={{marginTop:18,padding:'12px 18px',background:'#0B0F0E',color:'#F6F3EE',border:'none',borderRadius:6,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,fontSize:13,cursor:'pointer',letterSpacing:'0.01em'}}>
+              <button onClick={s.ctaAction} style={{marginTop:18,padding:'12px 18px',background:'#0B0F0E',color:'#F8F9FA',border:'none',borderRadius:6,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,fontSize:13,cursor:'pointer',letterSpacing:'0.01em'}}>
                 {s.cta}
               </button>
             ) : null}
@@ -343,9 +343,9 @@ const MSHow = () => {
 /* FEATURE SHOWCASE — split visual + copy */
 const MSFeatures = () => {
   const feats = [
-    {k:'AUTO GPS TRACKING',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
-    {k:'AI TRIP CLASSIFICATION',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'~12s',label:'daily review time after first week'},
-    {k:'IRS & CRA COMPLIANT EXPORTS',h:'Your accountant will actually thank you.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
+    {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
+    {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'~12s',label:'daily review time after first week'},
+    {k:'IRS & CRA compliant exports',h:'Your accountant will actually thank you.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
@@ -353,15 +353,15 @@ const MSFeatures = () => {
         {feats.map((f,i)=>(
           <div key={f.k} style={{display:'grid',gridTemplateColumns:i%2===0?'1fr 1.1fr':'1.1fr 1fr',gap:80,alignItems:'center'}}>
             <div style={{order:i%2===0?1:2}}>
-              <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.18em',color:'#6B6862',marginBottom:20}}>— {f.k}</div>
+              <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:20}}>— {f.k}</div>
               <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(28px,3.2vw,42px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:20}}>{f.h}</h2>
-              <p style={{fontSize:16,lineHeight:1.6,color:'#4A4843',maxWidth:480,marginBottom:28}}>{f.p}</p>
-              <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E6E1D8',maxWidth:320}}>
+              <p style={{fontSize:16,lineHeight:1.6,color:'#374151',maxWidth:480,marginBottom:28}}>{f.p}</p>
+              <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E5E7EB',maxWidth:320}}>
                 <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:38,color:'#1B4DDB',lineHeight:1}}>{f.stat}</div>
-                <div style={{fontSize:13,color:'#6B6862',lineHeight:1.4}}>{f.label}</div>
+                <div style={{fontSize:13,color:'#6B7280',lineHeight:1.4}}>{f.label}</div>
               </div>
             </div>
-            <div style={{order:i%2===0?2:1,aspectRatio:'4/3',background:i===0?'#0B0F0E':i===1?'#FAFAF9':'#FFFFFF',border:i===1?'1px solid #EEEBE5':'none',borderRadius:20,padding:32,position:'relative',overflow:'hidden',color:i===0?'#F6F3EE':'#0B0F0E'}}>
+            <div style={{order:i%2===0?2:1,aspectRatio:'4/3',background:i===0?'#0B0F0E':i===1?'#FAFAFA':'#FFFFFF',border:i===1?'1px solid #E8EAED':'none',borderRadius:20,padding:32,position:'relative',overflow:'hidden',color:i===0?'#F8F9FA':'#0B0F0E'}}>
               {i===0 && <FeatVisAutoDetect/>}
               {i===1 && <FeatVisClassify/>}
               {i===2 && <FeatVisAudit/>}
@@ -383,13 +383,13 @@ const FeatVisAutoDetect = () => (
       {/* Fake route line */}
       <svg viewBox="0 0 400 220" style={{width:'100%',maxWidth:500}}>
         <path d="M 30 180 Q 100 50, 180 120 T 370 60" fill="none" stroke="#1B4DDB" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round"/>
-        <circle cx="30" cy="180" r="8" fill="#F6F3EE"/>
+        <circle cx="30" cy="180" r="8" fill="#F8F9FA"/>
         <circle cx="370" cy="60" r="10" fill="#1B4DDB"/>
       </svg>
     </div>
     <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16,paddingTop:16,borderTop:'1px solid rgba(246,243,238,0.15)'}}>
       {[['DISTANCE','4.2 mi'],['DURATION','11 min'],['STATUS','AUTO-LOGGED']].map(([k,v])=>(
-        <div key={k}><div style={{color:'rgba(246,243,238,0.5)',marginBottom:4}}>{k}</div><div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,color:'#F6F3EE'}}>{v}</div></div>
+        <div key={k}><div style={{color:'rgba(246,243,238,0.5)',marginBottom:4}}>{k}</div><div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,color:'#F8F9FA'}}>{v}</div></div>
       ))}
     </div>
   </div>
@@ -403,14 +403,14 @@ const FeatVisClassify = () => (
       {f:'Acme Corp',t:'Starbucks',m:'0.8',cls:'pers',auto:false},
       {f:'Starbucks',t:'Office',m:'1.1',cls:'biz',auto:true},
     ].map((t,i)=>(
-      <div key={i} style={{display:'flex',alignItems:'center',gap:16,padding:14,background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:12}}>
+      <div key={i} style={{display:'flex',alignItems:'center',gap:16,padding:14,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12}}>
         <div style={{flex:1,fontSize:12}}>
-          <div style={{color:'#6B6862',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,letterSpacing:'0.1em',textTransform:'uppercase'}}>{t.f} → {t.t}</div>
+          <div style={{color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:11}}>{t.f} → {t.t}</div>
           <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,marginTop:2}}>{t.m} mi</div>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
           {t.auto && <span style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:9,letterSpacing:'0.12em',color:'#1B4DDB'}}>AI</span>}
-          <span style={{padding:'6px 12px',borderRadius:100,background:t.cls==='biz'?'#1B4DDB':'#E6E1D8',color:t.cls==='biz'?'#F6F3EE':'#0B0F0E',fontSize:11,fontWeight:500}}>{t.cls==='biz'?'Business':'Personal'}</span>
+          <span style={{padding:'6px 12px',borderRadius:100,background:t.cls==='biz'?'#1B4DDB':'#E5E7EB',color:t.cls==='biz'?'#F8F9FA':'#0B0F0E',fontSize:11,fontWeight:500}}>{t.cls==='biz'?'Business':'Personal'}</span>
         </div>
       </div>
     ))}
@@ -418,24 +418,24 @@ const FeatVisClassify = () => (
 );
 
 const FeatVisAudit = () => (
-  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:14,padding:24,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,position:'relative',overflow:'hidden'}}>
-    <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E6E1D8'}}>
+  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,position:'relative',overflow:'hidden'}}>
+    <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
-        <div style={{color:'#6B6862',marginBottom:4}}>IRS FORM 2106 — 2026</div>
+        <div style={{color:'#6B7280',marginBottom:4}}>IRS FORM 2106 — 2026</div>
         <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,fontStyle:'normal'}}>Mileage Log · Q1 Summary</div>
       </div>
-      <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#F6F3EE',borderRadius:100,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
+      <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#F8F9FA',borderRadius:100,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
     </div>
-    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B6862',marginBottom:10}}>
+    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B7280',marginBottom:10}}>
       <div>DATE</div><div>ROUTE</div><div style={{textAlign:'right'}}>MILES</div><div style={{textAlign:'right'}}>$</div>
     </div>
     {[['01/04','Home → Client A · Sales call','24.1','17.47'],['01/04','Client A → Client B · Consultation','12.8','9.28'],['01/05','Home → Warehouse · Supplies','8.4','6.09'],['01/06','Office → Airport · Conference travel','31.2','22.62']].map((r,i)=>(
-      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F6F3EE',fontSize:11}}>
+      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F8F9FA',fontSize:11}}>
         <div>{r[0]}</div><div style={{color:'#0B0F0E'}}>{r[1]}</div><div style={{textAlign:'right'}}>{r[2]}</div><div style={{textAlign:'right',color:'#1B4DDB'}}>${r[3]}</div>
       </div>
     ))}
     <div style={{marginTop:16,paddingTop:12,borderTop:'1px solid #0B0F0E',display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
-      <span style={{color:'#6B6862'}}>Q1 TOTAL · 247 TRIPS</span>
+      <span style={{color:'#6B7280'}}>Q1 TOTAL · 247 TRIPS</span>
       <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:24,color:'#1B4DDB'}}>$2,183.14</span>
     </div>
   </div>
@@ -445,7 +445,7 @@ const FeatVisAudit = () => (
 const HeroPhone = () => (
   <div style={{width:340,height:680,background:'#0B0F0E',borderRadius:48,padding:10,boxShadow:'0 50px 120px -30px rgba(11,15,14,0.35), 0 20px 40px -20px rgba(11,15,14,0.2)',position:'relative'}}>
     {/* Screen */}
-    <div style={{width:'100%',height:'100%',background:'#F6F3EE',borderRadius:40,overflow:'hidden',position:'relative',display:'flex',flexDirection:'column'}}>
+    <div style={{width:'100%',height:'100%',background:'#F8F9FA',borderRadius:40,overflow:'hidden',position:'relative',display:'flex',flexDirection:'column'}}>
       {/* Dynamic island */}
       <div style={{position:'absolute',top:10,left:'50%',transform:'translateX(-50%)',width:110,height:32,background:'#0B0F0E',borderRadius:100,zIndex:10}}/>
       {/* Status bar */}
@@ -457,18 +457,18 @@ const HeroPhone = () => (
         </span>
       </div>
       {/* Trip completed notification */}
-      <div style={{margin:'42px 14px 0',background:'rgba(255,255,255,0.95)',backdropFilter:'blur(8px)',border:'1px solid #E6E1D8',borderRadius:16,padding:'10px 14px',display:'flex',alignItems:'center',gap:10,boxShadow:'0 8px 20px -8px rgba(11,15,14,0.08)'}}>
+      <div style={{margin:'42px 14px 0',background:'rgba(255,255,255,0.95)',backdropFilter:'blur(8px)',border:'1px solid #E5E7EB',borderRadius:16,padding:'10px 14px',display:'flex',alignItems:'center',gap:10,boxShadow:'0 8px 20px -8px rgba(11,15,14,0.08)'}}>
         <div style={{width:28,height:28,borderRadius:8,background:'#1B4DDB',display:'flex',alignItems:'center',justifyContent:'center'}}>
           <svg viewBox="0 0 16 16" width={14} height={14}><path d="M3 8 L7 12 L13 4" fill="none" stroke="#FFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
         <div style={{flex:1,minWidth:0}}>
           <div style={{fontSize:11.5,fontWeight:600,color:'#0B0F0E',lineHeight:1.2}}>Trip completed · 12.1 mi</div>
-          <div style={{fontSize:10,color:'#6B6862',lineHeight:1.3,marginTop:1}}>Property Showing · +$8.77 deduction</div>
+          <div style={{fontSize:10,color:'#6B7280',lineHeight:1.3,marginTop:1}}>Property Showing · +$8.77 deduction</div>
         </div>
-        <span style={{fontSize:9,color:'#9A958D',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>now</span>
+        <span style={{fontSize:9,color:'#9CA3AF',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>now</span>
       </div>
       {/* Dashboard card (purple/pink gauge) */}
-      <div style={{margin:'12px 14px 0',background:'linear-gradient(165deg,#1B1036 0%,#2A1248 60%,#3D1A5A 100%)',borderRadius:18,padding:'16px 16px 14px',color:'#F6F3EE',position:'relative',overflow:'hidden'}}>
+      <div style={{margin:'12px 14px 0',background:'linear-gradient(165deg,#1B1036 0%,#2A1248 60%,#3D1A5A 100%)',borderRadius:18,padding:'16px 16px 14px',color:'#F8F9FA',position:'relative',overflow:'hidden'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
           <span style={{display:'inline-flex',alignItems:'center',gap:5,padding:'3px 9px',borderRadius:100,background:'rgba(201,169,110,0.15)',fontSize:9,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',color:'#C9A96E',letterSpacing:'0.1em'}}>
             <span style={{width:5,height:5,borderRadius:'50%',background:'#C9A96E'}}/>
@@ -504,12 +504,12 @@ const HeroPhone = () => (
       </div>
       {/* Mode toggles */}
       <div style={{display:'flex',gap:6,padding:'12px 14px 6px'}}>
-        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#0B0F0E',color:'#F6F3EE',border:'none',fontSize:10.5,fontWeight:600,display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4}}>
-          <svg viewBox="0 0 16 16" width={10} height={10}><circle cx="5" cy="8" r="3" fill="none" stroke="#F6F3EE" strokeWidth="1.4"/><path d="M8 8 L12 5 L14 7" stroke="#F6F3EE" strokeWidth="1.4" fill="none" strokeLinecap="round"/></svg>
+        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#0B0F0E',color:'#F8F9FA',border:'none',fontSize:10.5,fontWeight:600,display:'inline-flex',alignItems:'center',justifyContent:'center',gap:4}}>
+          <svg viewBox="0 0 16 16" width={10} height={10}><circle cx="5" cy="8" r="3" fill="none" stroke="#F8F9FA" strokeWidth="1.4"/><path d="M8 8 L12 5 L14 7" stroke="#F8F9FA" strokeWidth="1.4" fill="none" strokeLinecap="round"/></svg>
           Auto On
         </button>
-        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',fontSize:10.5,fontWeight:500}}>+ Add Manual</button>
-        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E6E1D8',fontSize:10.5,fontWeight:500}}>Map</button>
+        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',fontSize:10.5,fontWeight:500}}>+ Add Manual</button>
+        <button style={{flex:1,padding:'7px 0',borderRadius:100,background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',fontSize:10.5,fontWeight:500}}>Map</button>
       </div>
       {/* Recent Trips header */}
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',padding:'6px 18px 8px'}}>
@@ -520,24 +520,24 @@ const HeroPhone = () => (
       <div style={{padding:'0 14px',display:'flex',flexDirection:'column',gap:6,flex:1,overflow:'hidden'}}>
         {[
           {time:'2:10 PM',dur:'18 min',tag:'BUSINESS',tagColor:'#1B4DDB',tagBg:'rgba(27,77,219,0.08)',from:'123 Main St, Downtown',to:'456 Oak Ave, Westside',ded:'8.4',stop:'Client Meeting',sub:'+$8.10'},
-          {time:'11:15 AM',dur:'9 min',tag:'PERSONAL',tagColor:'#6B6862',tagBg:'#F6F3EE',from:'Home, Maple Drive',to:'Costco, Regent Ave',ded:'3.2',money:'$47.63',hint:'missed deduction so far'}
+          {time:'11:15 AM',dur:'9 min',tag:'PERSONAL',tagColor:'#6B7280',tagBg:'#F8F9FA',from:'Home, Maple Drive',to:'Costco, Regent Ave',ded:'3.2',money:'$47.63',hint:'missed deduction so far'}
         ].map((t,i)=>(
-          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:12,padding:'9px 12px',position:'relative'}}>
+          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12,padding:'9px 12px',position:'relative'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}}>
-              <span style={{fontSize:9,color:'#6B6862',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>{t.time} · {t.dur}</span>
+              <span style={{fontSize:9,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>{t.time} · {t.dur}</span>
               <span style={{fontSize:8,padding:'2px 7px',borderRadius:100,background:t.tagBg,color:t.tagColor,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.1em',fontWeight:600}}>{t.tag}</span>
             </div>
             <div style={{display:'flex',alignItems:'flex-start',gap:8}}>
               <div style={{display:'flex',flexDirection:'column',alignItems:'center',paddingTop:3}}>
                 <span style={{width:6,height:6,borderRadius:'50%',background:'#0B0F0E'}}/>
-                <span style={{width:1,height:14,background:'#E6E1D8',margin:'2px 0'}}/>
+                <span style={{width:1,height:14,background:'#E5E7EB',margin:'2px 0'}}/>
                 <span style={{width:6,height:6,borderRadius:'50%',background:t.tagColor}}/>
               </div>
               <div style={{flex:1,minWidth:0,fontSize:10,lineHeight:1.35}}>
                 <div style={{color:'#0B0F0E'}}>{t.from}</div>
                 <div style={{color:'#0B0F0E',marginTop:2}}>{t.to}</div>
-                {t.stop && <div style={{marginTop:4,fontSize:8.5,color:'#6B6862',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>{t.stop} <span style={{color:'#16A34A'}}>{t.sub}</span></div>}
-                {t.hint && <div style={{marginTop:4,fontSize:8,color:'#9A958D',fontStyle:'normal'}}>{t.hint}</div>}
+                {t.stop && <div style={{marginTop:4,fontSize:8.5,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>{t.stop} <span style={{color:'#16A34A'}}>{t.sub}</span></div>}
+                {t.hint && <div style={{marginTop:4,fontSize:8,color:'#9CA3AF',fontStyle:'normal'}}>{t.hint}</div>}
               </div>
               <div style={{textAlign:'right'}}>
                 <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:15,fontStyle:'normal',color:t.tagColor,lineHeight:1}}>{t.money||t.ded}</div>
@@ -547,13 +547,13 @@ const HeroPhone = () => (
         ))}
       </div>
       {/* Tab bar */}
-      <div style={{margin:'8px 14px 16px',padding:'8px',background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:100,display:'flex',gap:4,alignItems:'center',justifyContent:'space-around'}}>
+      <div style={{margin:'8px 14px 16px',padding:'8px',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:100,display:'flex',gap:4,alignItems:'center',justifyContent:'space-around'}}>
         <button style={{padding:'7px 14px',borderRadius:100,background:'#1B4DDB',color:'#FFF',border:'none',fontSize:11,fontWeight:600,display:'inline-flex',alignItems:'center',gap:5}}>
           <svg viewBox="0 0 16 16" width={11} height={11}><path d="M3 11 L5 6 L11 6 L13 11 M4 11 L12 11 M5.5 13 L5.5 13.5 M10.5 13 L10.5 13.5" stroke="#FFF" strokeWidth="1.5" fill="none" strokeLinecap="round"/><rect x="4" y="11" width="8" height="2.5" rx="0.5" fill="#FFF"/></svg>
           Drive
         </button>
         {['Trips','Stats','Alerts'].map((t,i)=>(
-          <button key={t} style={{padding:'7px 10px',borderRadius:100,background:'transparent',color:'#6B6862',border:'none',fontSize:11,fontWeight:500}}>{t}</button>
+          <button key={t} style={{padding:'7px 10px',borderRadius:100,background:'transparent',color:'#6B7280',border:'none',fontSize:11,fontWeight:500}}>{t}</button>
         ))}
       </div>
     </div>

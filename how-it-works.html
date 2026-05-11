@@ -20,11 +20,11 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
-  .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
+  .page-hero{padding:96px 56px 64px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
+  .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 <style>
@@ -316,7 +316,7 @@ const HIWDetail = () => {
               <polyline points="109,120 116,129 133,109" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
             </g>
             <rect x="66" y="178" width="108" height="10" rx="5" fill="#E8EEFF"/>
-            <rect x="80" y="193" width="80" height="8" rx="4" fill="#E6E1D8"/>
+            <rect x="80" y="193" width="80" height="8" rx="4" fill="#E5E7EB"/>
             <rect x="36" y="346" width="168" height="6" rx="3" fill="#E8EEFF"/>
             <rect x="36" y="346" width="108" height="6" rx="3" fill="#1B4DDB"/>
           </g>
@@ -328,9 +328,9 @@ const HIWDetail = () => {
             <rect x="28" y="124" width="184" height="46" rx="10" fill="none" stroke="#1B4DDB" strokeWidth="2"/>
             <rect x="50" y="143" width="10" height="12" rx="3" fill="#1B4DDB" fillOpacity="0.6"/>
             <rect x="68" y="143" width="90" height="8" rx="4" fill="#1B4DDB" fillOpacity="0.45"/>
-            <rect x="28" y="178" width="184" height="46" rx="10" fill="#F6F3EE"/>
+            <rect x="28" y="178" width="184" height="46" rx="10" fill="#F8F9FA"/>
             <rect x="68" y="197" width="90" height="8" rx="4" fill="#0F1729" fillOpacity="0.15"/>
-            <rect x="28" y="232" width="184" height="46" rx="10" fill="#F6F3EE"/>
+            <rect x="28" y="232" width="184" height="46" rx="10" fill="#F8F9FA"/>
             <rect x="68" y="251" width="90" height="8" rx="4" fill="#0F1729" fillOpacity="0.12"/>
           </g>
           {/* ── Screen 3: Location ── */}
@@ -400,7 +400,7 @@ const HIWDetail = () => {
             </g>
             {/* Bottom info bar */}
             <rect x="10" y="326" width="220" height="98" fill="#FFFFFF"/>
-            <line x1="10" y1="326" x2="230" y2="326" stroke="#E6E1D8" strokeWidth="1"/>
+            <line x1="10" y1="326" x2="230" y2="326" stroke="#E5E7EB" strokeWidth="1"/>
             <rect x="20" y="336" width="72" height="8" rx="4" fill="#E8EEFF"/>
             {/* Mile counter — stacked, opacity-sequenced */}
             <text className="s02-cnt0" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">0.0 mi</text>
@@ -413,7 +413,7 @@ const HIWDetail = () => {
               <rect x="128" y="352" width="88" height="28" rx="14" fill="#0F1729"/>
               <text x="172" y="371" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="13" fill="#C9A96E">+$8.92</text>
             </g>
-            <rect x="20" y="384" width="56" height="7" rx="3.5" fill="#E6E1D8"/>
+            <rect x="20" y="384" width="56" height="7" rx="3.5" fill="#E5E7EB"/>
           </g>
         </g>
       </svg>
@@ -434,7 +434,7 @@ const HIWDetail = () => {
           <g clipPath="url(#scr03)">
             {/* Trip list state */}
             <g className="s03-trips">
-              <rect x="10" y="36" width="220" height="390" fill="#F6F3EE"/>
+              <rect x="10" y="36" width="220" height="390" fill="#F8F9FA"/>
               <rect x="10" y="36" width="220" height="48" fill="#FFFFFF"/>
               <line x1="10" y1="84" x2="230" y2="84" stroke="#E5E7EB" strokeWidth="1"/>
               <text x="120" y="66" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="15" fill="#0F1729">Today's Trips</text>
@@ -442,7 +442,7 @@ const HIWDetail = () => {
               <g className="s03-card1">
                 <rect x="20" y="100" width="200" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1.5"/>
                 <text x="36" y="127" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="17" fill="#0F1729">12.3 mi</text>
-                <text x="36" y="147" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B6862">Office → Client Meeting</text>
+                <text x="36" y="147" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B7280">Office → Client Meeting</text>
                 <circle cx="36" cy="165" r="6" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
                 <line x1="36" y1="165" x2="36" y2="160" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round"/>
                 <line x1="36" y1="165" x2="40" y2="165" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round"/>
@@ -457,7 +457,7 @@ const HIWDetail = () => {
               <g className="s03-card2">
                 <rect x="20" y="100" width="200" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1.5"/>
                 <text x="36" y="127" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="17" fill="#0F1729">3.1 mi</text>
-                <text x="36" y="147" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B6862">Home → Grocery Store</text>
+                <text x="36" y="147" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B7280">Home → Grocery Store</text>
                 <circle cx="36" cy="165" r="6" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
                 <line x1="36" y1="165" x2="36" y2="160" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round"/>
                 <line x1="36" y1="165" x2="40" y2="165" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round"/>
@@ -473,7 +473,7 @@ const HIWDetail = () => {
             <g className="s03-export">
               <rect x="10" y="36" width="220" height="390" fill="#FFFFFF"/>
               <text x="120" y="96" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="15" fill="#0F1729">Export Report</text>
-              <text x="120" y="116" textAnchor="middle" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B6862">2026 · 847 trips</text>
+              <text x="120" y="116" textAnchor="middle" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="12" fill="#6B7280">2026 · 847 trips</text>
               {/* PDF icon — slides up from button on animation */}
               <g className="s03-pdf">
                 <rect x="88" y="140" width="52" height="64" rx="4" fill="#FFFFFF" stroke="#E5E7EB" strokeWidth="1.5"/>
@@ -512,25 +512,25 @@ const HIWDetail = () => {
           <g clipPath="url(#scr04)">
             {/* ── Mileage log screen ── */}
             <g className="s04-log">
-              <rect x="10" y="36" width="220" height="390" fill="#F6F3EE"/>
+              <rect x="10" y="36" width="220" height="390" fill="#F8F9FA"/>
               <rect x="10" y="36" width="220" height="46" fill="#FFFFFF"/>
               <line x1="10" y1="82" x2="230" y2="82" stroke="#E5E7EB" strokeWidth="1"/>
               <text x="120" y="64" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="15" fill="#0F1729">Your Mileage Log</text>
               <rect x="20" y="90" width="200" height="34" rx="8" fill="#FFFFFF"/>
               <rect x="30" y="101" width="34" height="12" rx="6" fill="#E8EEFF"/>
-              <rect x="74" y="101" width="76" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="74" y="101" width="76" height="8" rx="4" fill="#E5E7EB"/>
               <rect x="168" y="101" width="40" height="8" rx="4" fill="#E8EEFF"/>
               <rect x="20" y="130" width="200" height="34" rx="8" fill="#FFFFFF"/>
               <rect x="30" y="141" width="34" height="12" rx="6" fill="#E8EEFF"/>
-              <rect x="74" y="141" width="60" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="74" y="141" width="60" height="8" rx="4" fill="#E5E7EB"/>
               <rect x="168" y="141" width="40" height="8" rx="4" fill="#E8EEFF"/>
               <rect x="20" y="170" width="200" height="34" rx="8" fill="#FFFFFF"/>
               <rect x="30" y="181" width="34" height="12" rx="6" fill="#E8EEFF"/>
-              <rect x="74" y="181" width="70" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="74" y="181" width="70" height="8" rx="4" fill="#E5E7EB"/>
               <rect x="168" y="181" width="40" height="8" rx="4" fill="#E8EEFF"/>
               <rect x="20" y="210" width="200" height="34" rx="8" fill="#FFFFFF"/>
               <rect x="30" y="221" width="34" height="12" rx="6" fill="#E8EEFF"/>
-              <rect x="74" y="221" width="52" height="8" rx="4" fill="#E6E1D8"/>
+              <rect x="74" y="221" width="52" height="8" rx="4" fill="#E5E7EB"/>
               <rect x="168" y="221" width="40" height="8" rx="4" fill="#E8EEFF"/>
             </g>
             {/* ── Export button (overlaid on log) ── */}
@@ -555,7 +555,7 @@ const HIWDetail = () => {
               <polygon points="156,110 178,110 178,132" fill="#EF4444"/>
               <text x="120" y="142" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="11" fill="#0F1729">MyMilesAI</text>
               <line x1="72" y1="152" x2="168" y2="152" stroke="#E5E7EB" strokeWidth="1"/>
-              <text x="120" y="170" textAnchor="middle" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="10" fill="#6B6862">IRS Pub. 463</text>
+              <text x="120" y="170" textAnchor="middle" fontFamily="'DM Sans',system-ui,sans-serif" fontSize="10" fill="#6B7280">IRS Pub. 463</text>
               <rect x="72" y="180" width="96" height="5" rx="2.5" fill="#E5E7EB"/>
               <rect x="72" y="192" width="80" height="5" rx="2.5" fill="#E5E7EB"/>
               <rect x="72" y="204" width="88" height="5" rx="2.5" fill="#E5E7EB"/>
@@ -583,7 +583,7 @@ const HIWDetail = () => {
   );
   return (
     <section style={{padding:'64px 56px',background:'#FFFFFF'}}>
-      <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Step by step</div>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— Step by step</div>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:64,maxWidth:640}}>
         Exactly what happens from download to deduction.
       </h2>
@@ -592,7 +592,7 @@ const HIWDetail = () => {
           const textContent = (
             <div style={{paddingTop:10}}>
               <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6,letterSpacing:'-0.02em'}}>{s.title}</h3>
-              <div style={{fontSize:13,color:'#6B6862',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:20}}>{s.sub}</div>
+              <div style={{fontSize:13,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,marginBottom:20}}>{s.sub}</div>
               <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:20}}>
                 {s.bullets.map((b,bi)=>(
                   <div key={bi} style={{display:'flex',gap:10,alignItems:'flex-start',fontSize:15,color:'#1F1D1A'}}>
@@ -601,14 +601,14 @@ const HIWDetail = () => {
                   </div>
                 ))}
               </div>
-              <div style={{background:'#F6F3EE',border:`1px solid ${s.color}33`,borderLeft:`3px solid ${s.color}`,borderRadius:8,padding:'12px 16px',fontSize:14,color:'#4A4843',lineHeight:1.6,fontStyle:'normal',maxWidth:580}}>
+              <div style={{background:'#F8F9FA',border:`1px solid ${s.color}33`,borderLeft:`3px solid ${s.color}`,borderRadius:8,padding:'12px 16px',fontSize:14,color:'#374151',lineHeight:1.6,fontStyle:'normal',maxWidth:580}}>
                 {s.note}
               </div>
             </div>
           );
           return (
             <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?64:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
-              {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E6E1D8'}}/>}
+              {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E5E7EB'}}/>}
               <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
                 <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
               </div>
@@ -630,16 +630,16 @@ const HIWCalculator = () => {
   const annual = Math.round(miles * 52 * rate);
   const weekly = (miles * rate).toFixed(2);
   return (
-    <section style={{padding:'80px 56px',background:'#0F1729',color:'#F6F3EE'}}>
+    <section style={{padding:'80px 56px',background:'#0F1729',color:'#F8F9FA'}}>
       <div style={{maxWidth:680,margin:'0 auto',textAlign:'center'}}>
-        <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:20}}>— Quick calculator</div>
+        <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:20}}>— Quick calculator</div>
         <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(24px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:16}}>
           How much are you leaving on the table?
         </h2>
         <p style={{fontSize:15,color:'rgba(246,243,238,0.65)',marginBottom:48}}>Enter your typical business miles per week and see your estimated annual deduction at the 2026 IRS rate.</p>
         <div style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:16,padding:'40px 40px',marginBottom:32}}>
           <div style={{marginBottom:32}}>
-            <label style={{display:'block',fontSize:14,color:'rgba(246,243,238,0.7)',marginBottom:12,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Business miles per week</label>
+            <label style={{display:'block',fontSize:14,color:'rgba(248,249,250,0.7)',marginBottom:12,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500}}>Business miles per week</label>
             <div style={{display:'flex',alignItems:'center',gap:16}}>
               <input
                 type="range" min={10} max={500} step={10} value={miles}
@@ -652,14 +652,14 @@ const HIWCalculator = () => {
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
             <div style={{background:'rgba(27,77,219,0.2)',border:'1px solid rgba(27,77,219,0.3)',borderRadius:10,padding:'20px 16px',textAlign:'center'}}>
               <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:32,color:'#378ADD',lineHeight:1,marginBottom:6}}>${weekly}</div>
-              <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Weekly deduction</div>
+              <div style={{fontSize:12,color:'rgba(248,249,250,0.55)',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500}}>Weekly deduction</div>
             </div>
             <div style={{background:'rgba(201,169,110,0.15)',border:'1px solid rgba(201,169,110,0.3)',borderRadius:10,padding:'20px 16px',textAlign:'center'}}>
               <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:32,color:'#C9A96E',lineHeight:1,marginBottom:6}}>${annual.toLocaleString()}</div>
-              <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.08em',textTransform:'uppercase'}}>Annual deduction</div>
+              <div style={{fontSize:12,color:'rgba(248,249,250,0.55)',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500}}>Annual deduction</div>
             </div>
           </div>
-          <div style={{marginTop:20,fontSize:12,color:'rgba(246,243,238,0.4)',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace"}}>
+          <div style={{marginTop:20,fontSize:12,color:'rgba(248,249,250,0.4)',fontFamily:"'DM Sans',system-ui,sans-serif"}}>
             At $0.725/mi IRS 2026 rate · {miles} mi/wk × 52 weeks · Not tax advice — consult a CPA
           </div>
         </div>

@@ -63,7 +63,7 @@ const MSAudience = () => {
             <div key={i} style={{flex:'0 0 300px',background:'rgba(246,243,238,0.04)',border:'1px solid rgba(246,243,238,0.08)',borderRadius:14,padding:'20px 22px',display:'flex',gap:14,alignItems:'center'}}>
               <Icon d={ic[a.i]} c={a.c}/>
               <div style={{minWidth:0}}>
-                <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:15,letterSpacing:'-0.005em',color:'#F6F3EE',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.t}</div>
+                <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:15,letterSpacing:'-0.005em',color:'#F8F9FA',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.t}</div>
                 <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.s}</div>
               </div>
             </div>
@@ -73,7 +73,7 @@ const MSAudience = () => {
     );
   };
   return (
-    <section style={{padding:'96px 0 110px',background:'#0B0F0E',color:'#F6F3EE',overflow:'hidden',position:'relative'}}>
+    <section style={{padding:'96px 0 110px',background:'#0B0F0E',color:'#F8F9FA',overflow:'hidden',position:'relative'}}>
       <style>{`
         @keyframes ms-marq-r { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes ms-marq-l { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -82,7 +82,7 @@ const MSAudience = () => {
         .ms-marq-right:hover, .ms-marq-left:hover { animation-play-state: paused; }
       `}</style>
       <div style={{textAlign:'center',marginBottom:48,padding:'0 56px'}}>
-        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'7px 14px',border:'1px solid rgba(246,243,238,0.18)',borderRadius:100,fontSize:11,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.85)',marginBottom:28,background:'rgba(246,243,238,0.04)'}}>
+        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'7px 14px',border:'1px solid rgba(248,249,250,0.18)',borderRadius:100,fontSize:14,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,color:'rgba(248,249,250,0.85)',marginBottom:28,background:'rgba(248,249,250,0.06)'}}>
           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
           Who it's for
         </div>
@@ -121,14 +121,14 @@ const MSPricing = () => {
   return (
     <section id="pricing" style={{padding:'120px 56px'}}>
       <div style={{textAlign:'center',marginBottom:64}}>
-        <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Pricing</div>
+        <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:20}}>— Pricing</div>
         <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(28px,3.6vw,46px)',lineHeight:1.1,letterSpacing:'-0.025em',maxWidth:760,margin:'0 auto'}}>
           One plan. Everything included. Costs less than one forgotten drive per month.
         </h2>
       </div>
       <div style={{display:'flex',justifyContent:'center',maxWidth:1200,margin:'0 auto'}}>
-        <div style={{background:'#0B0F0E',color:'#F6F3EE',border:'1px solid #0B0F0E',borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:480}}>
-          <div style={{position:'absolute',top:-12,left:40,background:'#1B4DDB',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:10,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.15em'}}>MYMILESAI PRO</div>
+        <div style={{background:'#0B0F0E',color:'#F8F9FA',border:'1px solid #0B0F0E',borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:480}}>
+          <div style={{position:'absolute',top:-12,left:40,background:'#1B4DDB',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:11,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700}}>MyMilesAI Pro</div>
           <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6}}>MyMilesAI Pro</div>
           <div style={{fontSize:14,color:'rgba(246,243,238,0.65)',marginBottom:24}}>Everything a serious driver needs. No tiers, no surprises.</div>
           <div style={{display:'flex',alignItems:'baseline',gap:8,marginBottom:4}}>
@@ -152,7 +152,7 @@ const MSPricing = () => {
           </div>
         </div>
       </div>
-      <div style={{textAlign:'center',marginTop:40,fontSize:13,color:'#6B6862'}}>
+      <div style={{textAlign:'center',marginTop:40,fontSize:13,color:'#6B7280'}}>
         Cancel anytime from the app. No questions asked.
       </div>
     </section>
@@ -167,10 +167,10 @@ const MSBlog = () => {
     {cat:'For Realtors',title:'Every showing, every open house: the realtor deduction map',read:'7 min',d:'Mar 2026'},
   ];
   return (
-    <section style={{padding:'120px 56px',background:'#FAFAF9',borderTop:'1px solid #EEEBE5',borderBottom:'1px solid #EEEBE5'}}>
+    <section style={{padding:'120px 56px',background:'#FAFAFA',borderTop:'1px solid #E8EAED',borderBottom:'1px solid #E8EAED'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'end',marginBottom:56}}>
         <div>
-          <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Journal</div>
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:20}}>— Journal</div>
           <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(28px,3.2vw,42px)',lineHeight:1.1,letterSpacing:'-0.025em'}}>
             Tax guides from people<br/>who actually drive for work.
           </h2>
@@ -179,11 +179,11 @@ const MSBlog = () => {
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:20}}>
         {posts.map((p,i)=>(
-          <a key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
+          <a key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
             <div style={{aspectRatio:'4/3',background:`linear-gradient(135deg, hsl(${25+i*40},35%,70%), hsl(${25+i*40},45%,85%))`,borderRadius:8}}/>
-            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#6B6862'}}>{p.cat}</div>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
             <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#6B6862',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
               <span>{p.d}</span><span>{p.read}</span>
             </div>
           </a>
@@ -195,19 +195,19 @@ const MSBlog = () => {
 
 const MSAbout = () => {
   return (
-    <section style={{padding:'100px 56px',background:'#F6F3EE',color:'#0B0F0E'}}>
-      <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— About MyMilesAI</div>
+    <section style={{padding:'100px 56px',background:'#F8F9FA',color:'#0B0F0E'}}>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— About MyMilesAI</div>
       <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:80,alignItems:'start',marginBottom:80}}>
         <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(30px,3.4vw,44px)',lineHeight:1.1,letterSpacing:'-0.025em'}}>
           Built by people who got tired of losing deductions.
         </h2>
-        <div style={{fontSize:16,lineHeight:1.7,color:'#4A4843',display:'flex',flexDirection:'column',gap:20}}>
+        <div style={{fontSize:16,lineHeight:1.7,color:'#374151',display:'flex',flexDirection:'column',gap:20}}>
           <p>We drove for work. We forgot to log. We lost thousands at tax time — and we knew exactly where the money went. Not to the IRS, just nowhere. Unclaimed. Gone.</p>
           <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals across the US and Canada. Every feature exists because a real driver asked for it.</p>
           <p>We built it privacy-first because we don't want your location data — we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours.</p>
         </div>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32,padding:'40px 0',borderTop:'1px solid #E6E1D8',borderBottom:'1px solid #E6E1D8',marginBottom:64}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32,padding:'40px 0',borderTop:'1px solid #E5E7EB',borderBottom:'1px solid #E5E7EB',marginBottom:64}}>
         {[
           {label:'Privacy-first by design',desc:'On-device processing. We never sell your location data or driving history.'},
           {label:'Simple and affordable',desc:'$6.99/month. Less than what you\'d lose by forgetting a single client visit.'},
@@ -218,12 +218,12 @@ const MSAbout = () => {
               <svg viewBox="0 0 16 16" width={15} height={15} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
             <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:17,marginBottom:8}}>{v.label}</div>
-            <div style={{fontSize:14,color:'#4A4843',lineHeight:1.55}}>{v.desc}</div>
+            <div style={{fontSize:14,color:'#374151',lineHeight:1.55}}>{v.desc}</div>
           </div>
         ))}
       </div>
       <div style={{display:'flex',gap:16,flexWrap:'wrap',alignItems:'center'}}>
-        <div style={{fontSize:15,color:'#4A4843'}}>Questions? We're real people.</div>
+        <div style={{fontSize:15,color:'#374151'}}>Questions? We're real people.</div>
         <a href="mailto:support@mymilesai.com" style={{color:'#1B4DDB',fontWeight:600,fontSize:15,textDecoration:'underline',textUnderlineOffset:3}}>support@mymilesai.com</a>
         <a href="mailto:hello@mymilesai.com" style={{color:'#1B4DDB',fontWeight:600,fontSize:15,textDecoration:'underline',textUnderlineOffset:3}}>hello@mymilesai.com</a>
       </div>
@@ -232,8 +232,8 @@ const MSAbout = () => {
 };
 
 const MSCTA = () => (
-  <section style={{padding:'120px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F6F3EE',textAlign:'center',position:'relative',overflow:'hidden'}}>
-    <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:32}}>— Start today</div>
+  <section style={{padding:'120px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F8F9FA',textAlign:'center',position:'relative',overflow:'hidden'}}>
+    <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:32}}>— Start today</div>
     <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,5vw,64px)',lineHeight:1.05,letterSpacing:'-0.03em',marginBottom:40,maxWidth:900,margin:'0 auto 32px'}}>
       The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
     </h2>
@@ -269,7 +269,7 @@ const MSFooter = () => (
         {h:'Legal',l:[{t:'Privacy Policy',u:'privacy/'},{t:'Terms of Service',u:'terms/'}]},
       ].map(c=>(
         <div key={c.h}>
-          <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.45)',marginBottom:20}}>{c.h}</div>
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:20}}>{c.h}</div>
           {c.l.map(x=><a key={x.t} href={x.u} style={{display:'block',fontSize:13,marginBottom:10,color:'rgba(246,243,238,0.7)',textDecoration:'none'}}>{x.t}</a>)}
         </div>
       ))}

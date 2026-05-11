@@ -10,26 +10,26 @@
    Source of truth reconciled from design A (marketing-site) + B (app-redesign). */
 
 :root {
-  /* ─── Neutrals (warm, cream-biased) ─── */
+  /* ─── Neutrals ─── */
   --ink:         #0B0F0E;
   --ink-dim:     #1F1D1A;
-  --cream:       #F6F3EE;
+  --cream:       #F8F9FA;
   --paper:       #FFFFFF;
-  --sand:        #FAFAF9;
-  --warm-bg:     #EFEBE3;
-  --border:      #E6E1D8;
-  --border-alt:  #EEEBE5;
-  --divider:     #F0ECE2;
-  --muted:       #6B6862;
-  --muted-dark:  #4A4843;
-  --muted-soft:  #9A958D;
+  --sand:        #FAFAFA;
+  --warm-bg:     #F1F3F5;
+  --border:      #E5E7EB;
+  --border-alt:  #E8EAED;
+  --divider:     #F3F4F6;
+  --muted:       #6B7280;
+  --muted-dark:  #374151;
+  --muted-soft:  #9CA3AF;
 
   /* ─── Brand (MMAI canonical) ─── */
   --mmai-blue:         #1B4DDB;
   --mmai-blue-light:   #378ADD;
   --mmai-gold:         #C9A96E;
   --mmai-ink:          #0B0F0E;
-  --mmai-paper:        #FAF9F5;
+  --mmai-paper:        #FFFFFF;
   --mmai-font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
   --mmai-font-body:    'DM Sans', system-ui, sans-serif;
 

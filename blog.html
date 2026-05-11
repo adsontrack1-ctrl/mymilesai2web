@@ -20,11 +20,11 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
-  .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
+  .page-hero{padding:96px 56px 64px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
+  .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 </head>
@@ -287,17 +287,17 @@ const BlogFeatured = () => {
     <section style={{padding:'64px 56px 100px',background:'#FFFFFF'}}>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
         {posts.map((p,i)=>(
-          <a key={i} href={p.href} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:14,textDecoration:'none',color:'inherit',transition:'box-shadow 0.2s ease, transform 0.2s ease'}}
+          <a key={i} href={p.href} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:14,textDecoration:'none',color:'inherit',transition:'box-shadow 0.2s ease, transform 0.2s ease'}}
             onMouseOver={e=>{e.currentTarget.style.boxShadow='0 16px 40px -8px rgba(27,77,219,0.14)';e.currentTarget.style.transform='scale(1.02)';}}
             onMouseOut={e=>{e.currentTarget.style.boxShadow='none';e.currentTarget.style.transform='scale(1)';}}
           >
             <div style={{borderRadius:8,overflow:'hidden'}}>
               {svgs[i]}
             </div>
-            <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#1B4DDB'}}>{p.cat}</div>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:17,lineHeight:1.35,letterSpacing:'-0.01em',flex:1,color:'#0B0F0E'}}>{p.title}</h3>
-            <p style={{fontSize:13,color:'#6B6862',lineHeight:1.5}}>{p.excerpt}</p>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#9A958D',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.05em',paddingTop:8,borderTop:'1px solid #F0ECE2'}}>
+            <p style={{fontSize:13,color:'#6B7280',lineHeight:1.5}}>{p.excerpt}</p>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#9CA3AF',fontFamily:"'DM Sans',system-ui,sans-serif",paddingTop:8,borderTop:'1px solid #F3F4F6'}}>
               <span>{p.d}</span>
               <span>{p.read} read</span>
             </div>

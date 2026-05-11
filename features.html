@@ -20,11 +20,11 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:64px 56px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
-  .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
+  .page-hero{padding:64px 56px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
+  .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 <style>
@@ -76,8 +76,8 @@ const FeatAdditional = () => {
     },
   ];
   return (
-    <section style={{padding:'80px 56px',background:'#F6F3EE',borderTop:'1px solid #E6E1D8'}}>
-      <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— More features</div>
+    <section style={{padding:'80px 56px',background:'#F8F9FA',borderTop:'1px solid #E5E7EB'}}>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— More features</div>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:56,maxWidth:640}}>
         Everything else you'd expect — and a few things you wouldn't.
       </h2>
@@ -88,7 +88,7 @@ const FeatAdditional = () => {
               {item.icon}
             </div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:16,marginBottom:10,letterSpacing:'-0.01em'}}>{item.title}</h3>
-            <p style={{fontSize:14,color:'#4A4843',lineHeight:1.6}}>{item.desc}</p>
+            <p style={{fontSize:14,color:'#374151',lineHeight:1.6}}>{item.desc}</p>
           </div>
         ))}
       </div>
@@ -128,8 +128,8 @@ const HeroPhone = () => (
 );
 
 const FeatCTA = () => (
-  <section style={{padding:'64px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F6F3EE',textAlign:'center',position:'relative',overflow:'hidden'}}>
-    <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:32}}>— Start today</div>
+  <section style={{padding:'64px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F8F9FA',textAlign:'center',position:'relative',overflow:'hidden'}}>
+    <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:32}}>— Start today</div>
     <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,5vw,64px)',lineHeight:1.05,letterSpacing:'-0.03em',maxWidth:900,margin:'0 auto 32px'}}>
       The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
     </h2>

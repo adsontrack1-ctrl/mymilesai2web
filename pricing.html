@@ -20,11 +20,11 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:96px 56px 64px;background:#F6F3EE;border-bottom:1px solid #E6E1D8}
-  .page-hero .eyebrow{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#6B6862;margin-bottom:24px}
+  .page-hero{padding:96px 56px 64px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
+  .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#4A4843;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 </head>
@@ -37,12 +37,12 @@
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
 const PricingROI = () => (
-  <section style={{padding:'64px 56px',background:'#F6F3EE',borderTop:'1px solid #E6E1D8',borderBottom:'1px solid #E6E1D8'}}>
+  <section style={{padding:'64px 56px',background:'#F8F9FA',borderTop:'1px solid #E5E7EB',borderBottom:'1px solid #E5E7EB'}}>
     <div style={{maxWidth:800,margin:'0 auto',textAlign:'center'}}>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(22px,2.8vw,34px)',lineHeight:1.15,letterSpacing:'-0.025em',marginBottom:16}}>
         At $0.725/mile, it takes fewer than 10 business miles to pay for a month of MyMilesAI.
       </h2>
-      <p style={{fontSize:15,color:'#4A4843',maxWidth:560,margin:'0 auto 40px',lineHeight:1.6}}>
+      <p style={{fontSize:15,color:'#374151',maxWidth:560,margin:'0 auto 40px',lineHeight:1.6}}>
         The average self-employed driver who uses a mileage tracker deducts over $6,500 per year. MyMilesAI Pro costs $69.99/year. Do the math.
       </p>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24}}>
@@ -51,10 +51,10 @@ const PricingROI = () => (
           {n:'$6,500',label:'Avg annual deduction for tracked drivers',sub:'Drivers who actually log miles claim significantly more than those who don\'t'},
           {n:'10 days',label:'Free trial — no credit card needed',sub:'Try it during your normal week. If it doesn\'t log every trip, cancel and pay nothing'},
         ].map((s,i)=>(
-          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:12,padding:'24px 20px'}}>
+          <div key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12,padding:'24px 20px'}}>
             <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:28,color:'#1B4DDB',lineHeight:1,marginBottom:8}}>{s.n}</div>
             <div style={{fontSize:13,fontWeight:700,marginBottom:8,color:'#0B0F0E'}}>{s.label}</div>
-            <div style={{fontSize:13,color:'#6B6862',lineHeight:1.5}}>{s.sub}</div>
+            <div style={{fontSize:13,color:'#6B7280',lineHeight:1.5}}>{s.sub}</div>
           </div>
         ))}
       </div>
@@ -75,33 +75,33 @@ const PricingFAQ = () => {
     {q:'Does it work for 1099 contractors?',a:'Yes — it\'s designed specifically for 1099 workers, freelancers, rideshare drivers, and anyone who drives for work and files self-employment taxes. The exports are formatted for Schedule C and support IRS Pub. 463 requirements.'},
   ];
   return (
-    <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
+    <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E5E7EB'}}>
       <div style={{maxWidth:720,margin:'0 auto'}}>
-        <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— FAQ</div>
+        <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— FAQ</div>
         <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:48}}>
           Questions we get every week.
         </h2>
-        <div style={{display:'flex',flexDirection:'column',gap:0,border:'1px solid #E6E1D8',borderRadius:14,overflow:'hidden'}}>
+        <div style={{display:'flex',flexDirection:'column',gap:0,border:'1px solid #E5E7EB',borderRadius:14,overflow:'hidden'}}>
           {faqs.map((f,i)=>(
-            <div key={i} style={{borderBottom:i<faqs.length-1?'1px solid #E6E1D8':'none'}}>
+            <div key={i} style={{borderBottom:i<faqs.length-1?'1px solid #E5E7EB':'none'}}>
               <button
                 onClick={()=>setOpen(open===i?null:i)}
                 style={{width:'100%',padding:'20px 24px',background:'none',border:'none',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',gap:16,textAlign:'left',fontFamily:"'DM Sans',system-ui,sans-serif"}}
               >
                 <span style={{fontWeight:600,fontSize:15,color:'#0B0F0E',lineHeight:1.4}}>{f.q}</span>
-                <svg viewBox="0 0 16 16" width={16} height={16} fill="none" style={{flexShrink:0,transform:open===i?'rotate(180deg)':'none',transition:'transform 0.2s'}}><path d="M4 6L8 10L12 6" stroke="#6B6862" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <svg viewBox="0 0 16 16" width={16} height={16} fill="none" style={{flexShrink:0,transform:open===i?'rotate(180deg)':'none',transition:'transform 0.2s'}}><path d="M4 6L8 10L12 6" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </button>
               {open===i && (
-                <div style={{padding:'0 24px 20px',fontSize:14,color:'#4A4843',lineHeight:1.7}}>
+                <div style={{padding:'0 24px 20px',fontSize:14,color:'#374151',lineHeight:1.7}}>
                   {f.a}
                 </div>
               )}
             </div>
           ))}
         </div>
-        <div style={{marginTop:40,padding:'24px',background:'#F6F3EE',border:'1px solid #E6E1D8',borderRadius:12,textAlign:'center'}}>
+        <div style={{marginTop:40,padding:'24px',background:'#F8F9FA',border:'1px solid #E5E7EB',borderRadius:12,textAlign:'center'}}>
           <div style={{fontWeight:600,fontSize:15,marginBottom:8}}>Still not sure?</div>
-          <div style={{fontSize:14,color:'#4A4843',marginBottom:16}}>Try it free — you'll know in 10 days. No credit card, no commitment.</div>
+          <div style={{fontSize:14,color:'#374151',marginBottom:16}}>Try it free — you'll know in 10 days. No credit card, no commitment.</div>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'14px 28px',borderRadius:100,fontSize:14,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:6}}>
             Start Free Trial →
           </a>
