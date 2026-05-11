@@ -24,24 +24,33 @@
   --muted-dark:  #4A4843;
   --muted-soft:  #9A958D;
 
+  /* ─── Brand (MMAI canonical) ─── */
+  --mmai-blue:         #1B4DDB;
+  --mmai-blue-light:   #378ADD;
+  --mmai-gold:         #C9A96E;
+  --mmai-ink:          #0B0F0E;
+  --mmai-paper:        #FAF9F5;
+  --mmai-font-heading: 'Instrument Serif', Georgia, serif;
+  --mmai-font-body:    'DM Sans', system-ui, sans-serif;
+
   /* ─── Brand ─── */
-  --accent:       #DA0A7F;                 /* fuchsia */
-  --accent-soft:  rgba(218, 10, 127, 0.12);
+  --accent:       #1B4DDB;
+  --accent-soft:  rgba(27, 77, 219, 0.12);
   --success:      #16A34A;                 /* money / green */
   --success-soft: rgba(22, 163, 74, 0.12);
   --warn:         #F59E0B;
   --info:         #2563EB;
 
   /* Marketing-only brand gradient */
-  --g-brand: linear-gradient(90deg, #7C3AED, #EC4899);
-  --g-brand-soft: linear-gradient(90deg, rgba(124,58,237,0.10), rgba(236,72,153,0.06));
+  --g-brand: linear-gradient(90deg, #1B4DDB, #378ADD);
+  --g-brand-soft: linear-gradient(90deg, rgba(27,77,219,0.10), rgba(55,138,221,0.06));
   --g-hero-dark: linear-gradient(165deg, #1B1036 0%, #2A1248 60%, #3D1A5A 100%);
 
   /* ─── Type ─── */
   --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-sans:  'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono:  'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-  --font-brand: 'Geist', 'Inter', sans-serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+  --font-mono:  ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-brand: 'DM Sans', system-ui, sans-serif;
 
   /* ─── Radii ─── */
   --r-xs: 6px;
@@ -57,7 +66,7 @@
   --sh-sm: 0 1px 2px rgba(11, 15, 14, 0.04), 0 1px 1px rgba(11, 15, 14, 0.02);
   --sh-md: 0 8px 20px -8px rgba(11, 15, 14, 0.12), 0 2px 4px rgba(11, 15, 14, 0.04);
   --sh-lg: 0 24px 56px -20px rgba(11, 15, 14, 0.22);
-  --sh-cta: 0 12px 28px -10px rgba(124, 58, 237, 0.45);
+  --sh-cta: 0 12px 28px -10px rgba(27, 77, 219, 0.45);
 
   /* ─── Motion ─── */
   --dur-fast: 150ms;
@@ -71,11 +80,13 @@
 html, body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-sans);
+  font-family: var(--mmai-font-body, var(--font-sans));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
 }
+
+h1, h2, h3 { font-family: var(--mmai-font-heading); }
 
 html { scroll-behavior: smooth; }
 

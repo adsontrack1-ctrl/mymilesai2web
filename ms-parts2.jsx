@@ -34,22 +34,22 @@ const MSAudience = () => {
   };
   const cards = [
     // Row 1
-    {t:'Drivers',s:'Daily routes & multi-stop drops',c:'#A78BFA',i:'truck'},
+    {t:'Drivers',s:'Daily routes & multi-stop drops',c:'#C9A96E',i:'truck'},
     {t:'Consultants',s:'Client meetings & site visits',c:'#34D399',i:'brief'},
-    {t:'Contractors & Trades',s:'Job sites, supply runs & bids',c:'#F472B6',i:'wrench'},
-    {t:'Medical & Pharma Reps',s:'Hospital rounds & territory coverage',c:'#60A5FA',i:'heart'},
-    {t:'Rideshare & Gig Drivers',s:'Uber, Lyft, DoorDash & more',c:'#FBBF24',i:'car'},
-    {t:'Photographers',s:'Shoots, events & studio runs',c:'#22D3EE',i:'cam'},
+    {t:'Contractors & Trades',s:'Job sites, supply runs & bids',c:'#1B4DDB',i:'wrench'},
+    {t:'Medical & Pharma Reps',s:'Hospital rounds & territory coverage',c:'#378ADD',i:'heart'},
+    {t:'Rideshare & Gig Drivers',s:'Uber, Lyft, DoorDash & more',c:'#C9A96E',i:'car'},
+    {t:'Photographers',s:'Shoots, events & studio runs',c:'#378ADD',i:'cam'},
     {t:'Real Estate',s:'Showings, inspections & closings',c:'#F87171',i:'home'},
     // Row 2
-    {t:'Health Aides',s:'Patient visits & care routes',c:'#F472B6',i:'heart'},
+    {t:'Health Aides',s:'Patient visits & care routes',c:'#1B4DDB',i:'heart'},
     {t:'Field Inspectors',s:'Compliance routes & site audits',c:'#34D399',i:'map'},
-    {t:'Sales Representatives',s:'Territory coverage & demos',c:'#A78BFA',i:'user'},
-    {t:'Electricians & Plumbers',s:'Emergency calls & service jobs',c:'#FBBF24',i:'bolt'},
-    {t:'Nonprofit & Charity Workers',s:'Outreach drives & charity miles',c:'#60A5FA',i:'globe'},
-    {t:'Accountants & CPAs',s:'Client office visits & audits',c:'#22D3EE',i:'chart'},
+    {t:'Sales Representatives',s:'Territory coverage & demos',c:'#C9A96E',i:'user'},
+    {t:'Electricians & Plumbers',s:'Emergency calls & service jobs',c:'#C9A96E',i:'bolt'},
+    {t:'Nonprofit & Charity Workers',s:'Outreach drives & charity miles',c:'#378ADD',i:'globe'},
+    {t:'Accountants & CPAs',s:'Client office visits & audits',c:'#378ADD',i:'chart'},
     {t:'Insurance Adjusters',s:'Claim sites & damage assessments',c:'#F87171',i:'shield'},
-    {t:'Construction Foremen',s:'Site supervision & crew coordination',c:'#A78BFA',i:'crane'},
+    {t:'Construction Foremen',s:'Site supervision & crew coordination',c:'#C9A96E',i:'crane'},
   ];
   const rowA = cards.slice(0, 7);
   const rowB = cards.slice(7);
@@ -63,7 +63,7 @@ const MSAudience = () => {
             <div key={i} style={{flex:'0 0 300px',background:'rgba(246,243,238,0.04)',border:'1px solid rgba(246,243,238,0.08)',borderRadius:14,padding:'20px 22px',display:'flex',gap:14,alignItems:'center'}}>
               <Icon d={ic[a.i]} c={a.c}/>
               <div style={{minWidth:0}}>
-                <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:15,letterSpacing:'-0.005em',color:'#F6F3EE',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.t}</div>
+                <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:15,letterSpacing:'-0.005em',color:'#F6F3EE',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.t}</div>
                 <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.s}</div>
               </div>
             </div>
@@ -82,12 +82,12 @@ const MSAudience = () => {
         .ms-marq-right:hover, .ms-marq-left:hover { animation-play-state: paused; }
       `}</style>
       <div style={{textAlign:'center',marginBottom:48,padding:'0 56px'}}>
-        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'7px 14px',border:'1px solid rgba(246,243,238,0.18)',borderRadius:100,fontSize:11,fontFamily:'Geist Mono',letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.85)',marginBottom:28,background:'rgba(246,243,238,0.04)'}}>
+        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'7px 14px',border:'1px solid rgba(246,243,238,0.18)',borderRadius:100,fontSize:11,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.85)',marginBottom:28,background:'rgba(246,243,238,0.04)'}}>
           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
           Who it's for
         </div>
-        <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:400,fontSize:42,lineHeight:1.1,letterSpacing:'-0.015em',margin:0}}>
-          Built for every professional<br/>who <em style={{fontStyle:'italic',background:'linear-gradient(90deg,#A78BFA,#60A5FA)',WebkitBackgroundClip:'text',backgroundClip:'text',color:'transparent'}}>drives to earn.</em>
+        <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:42,lineHeight:1.1,letterSpacing:'-0.015em',margin:0}}>
+          Built for every professional<br/>who <em style={{fontStyle:'italic',color:'#C9A96E'}}>drives to earn.</em>
         </h2>
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:14,position:'relative'}}>
@@ -106,29 +106,29 @@ const MSTestimonials = () => {
 };
 
 const MSPricing = () => {
-  const t = {name:'Pro',price:'$6.99',sub:'/mo · $69.99/yr billed annually',desc:'The default. Everything a serious driver needs.',features:['Unlimited drives','AI auto-classify','IRS-ready PDF exports','Routes & work hours','Priority support','Multi-vehicle'],cta:'Start 7-day free trial',dark:true,badge:'MOST POPULAR'};
+  const t = {name:'Pro',price:'$6.99',sub:'/mo · $69.99/yr billed annually',desc:'The default. Everything a serious driver needs.',features:['Unlimited drives','AI auto-classify','IRS-ready PDF exports','Routes & work hours','Priority support','Multi-vehicle'],cta:'Start 10-day free trial',dark:true,badge:'MOST POPULAR'};
   return (
     <section id="pricing" style={{padding:'120px 56px'}}>
       <div style={{textAlign:'center',marginBottom:64}}>
-        <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Pricing</div>
-        <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:46,lineHeight:1.05,letterSpacing:'-0.02em',maxWidth:760,margin:'0 auto'}}>
+        <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Pricing</div>
+        <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:46,lineHeight:1.05,letterSpacing:'-0.02em',maxWidth:760,margin:'0 auto'}}>
           Costs less than one forgotten drive per month.
         </h2>
       </div>
       <div style={{display:'flex',justifyContent:'center',maxWidth:1200,margin:'0 auto'}}>
         <div style={{background:t.dark?'#0B0F0E':'#FFFFFF',color:t.dark?'#F6F3EE':'#0B0F0E',border:`1px solid ${t.dark?'#0B0F0E':'#E6E1D8'}`,borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:440}}>
-          {t.badge && <div style={{position:'absolute',top:-12,left:40,background:'#DA0A7F',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:10,fontFamily:'Geist Mono',letterSpacing:'0.15em'}}>{t.badge}</div>}
-          <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:24,marginBottom:6}}>{t.name}</div>
+          {t.badge && <div style={{position:'absolute',top:-12,left:40,background:'#1B4DDB',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:10,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.15em'}}>{t.badge}</div>}
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:24,marginBottom:6}}>{t.name}</div>
           <div style={{fontSize:14,color:t.dark?'rgba(246,243,238,0.65)':'#6B6862',marginBottom:28,minHeight:40}}>{t.desc}</div>
           <div style={{display:'flex',alignItems:'baseline',gap:6,marginBottom:4}}>
-            <span style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1}}>{t.price}</span>
+            <span style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:44,lineHeight:1}}>{t.price}</span>
           </div>
-          <div style={{fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.08em',color:t.dark?'rgba(246,243,238,0.55)':'#6B6862',marginBottom:28}}>{t.sub}</div>
-          <button style={{background:t.dark?'#FFFFFF':'#0B0F0E',color:t.dark?'#0B0F0E':'#F6F3EE',border:'none',padding:'14px',borderRadius:100,fontSize:14,fontWeight:500,cursor:'pointer',marginBottom:32}}>{t.cta}</button>
+          <div style={{fontSize:12,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em',color:t.dark?'rgba(246,243,238,0.55)':'#6B6862',marginBottom:28}}>{t.sub}</div>
+          <button style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'14px',borderRadius:100,fontSize:14,fontWeight:500,cursor:'pointer',marginBottom:32}}>{t.cta}</button>
           <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:`1px solid ${t.dark?'rgba(246,243,238,0.15)':'#E6E1D8'}`}}>
             {t.features.map(f=>(
               <div key={f} style={{display:'flex',gap:10,fontSize:14}}>
-                <span style={{color:'#DA0A7F'}}>✓</span>
+                <span style={{color:'#1B4DDB'}}>✓</span>
                 <span>{f}</span>
               </div>
             ))}
@@ -153,8 +153,8 @@ const MSBlog = () => {
     <section style={{padding:'120px 56px',background:'#FAFAF9',borderTop:'1px solid #EEEBE5',borderBottom:'1px solid #EEEBE5'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'end',marginBottom:56}}>
         <div>
-          <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Journal</div>
-          <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1.05,letterSpacing:'-0.02em'}}>
+          <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:20}}>— Journal</div>
+          <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:44,lineHeight:1.05,letterSpacing:'-0.02em'}}>
             Guides from the people<br/>who actually read the tax code.
           </h2>
         </div>
@@ -164,9 +164,9 @@ const MSBlog = () => {
         {posts.map((p,i)=>(
           <a key={i} style={{background:'#FFFFFF',border:'1px solid #E6E1D8',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
             <div style={{aspectRatio:'4/3',background:`linear-gradient(135deg, hsl(${25+i*40},35%,70%), hsl(${25+i*40},45%,85%))`,borderRadius:8}}/>
-            <div style={{fontFamily:'Geist Mono',fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#6B6862'}}>{p.cat}</div>
-            <div style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:18,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#6B6862',fontFamily:'Geist Mono',letterSpacing:'0.05em'}}>
+            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,letterSpacing:'0.15em',textTransform:'uppercase',color:'#6B6862'}}>{p.cat}</div>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#6B6862',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
               <span>{p.d}</span><span>{p.read}</span>
             </div>
           </a>
@@ -180,9 +180,9 @@ const MSAbout = () => {
   // stats + team arrays removed pending real numbers/people — do not re-add without substantiation
   return (
     <section style={{padding:'140px 56px',background:'#F6F3EE',color:'#0B0F0E'}}>
-      <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— About MyMilesAI</div>
+      <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— About MyMilesAI</div>
       <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:80,alignItems:'start',marginBottom:96}}>
-        <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:44,lineHeight:1.1,letterSpacing:'-0.02em'}}>
+        <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:44,lineHeight:1.1,letterSpacing:'-0.02em'}}>
           Built by drivers, for the people who can't stop driving.
         </h2>
         <div style={{fontSize:16,lineHeight:1.65,color:'#4A4843'}}>
@@ -194,16 +194,16 @@ const MSAbout = () => {
 };
 
 const MSCTA = () => (
-  <section style={{padding:'120px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(218,10,127,0.12), transparent 60%), #0B0F0E',color:'#F6F3EE',textAlign:'center',position:'relative',overflow:'hidden'}}>
-    <div style={{fontFamily:'Geist Mono',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:32}}>— Start today</div>
-    <h2 style={{fontFamily:"'Geist','Inter',sans-serif",fontWeight:700,fontSize:64,lineHeight:1.0,letterSpacing:'-0.03em',marginBottom:40,maxWidth:1100,margin:'0 auto 40px'}}>
-      The next mile you drive<br/>could be <em style={{color:'#DA0A7F'}}>deductible.</em>
+  <section style={{padding:'120px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F6F3EE',textAlign:'center',position:'relative',overflow:'hidden'}}>
+    <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(246,243,238,0.5)',marginBottom:32}}>— Start today</div>
+    <h2 style={{fontFamily:"'Instrument Serif',Georgia,serif",fontWeight:400,fontSize:64,lineHeight:1.0,letterSpacing:'-0.03em',marginBottom:40,maxWidth:1100,margin:'0 auto 40px'}}>
+      The next mile you drive<br/>could be <em style={{color:'#C9A96E'}}>deductible.</em>
     </h2>
     <p style={{fontSize:17,color:'rgba(246,243,238,0.65)',maxWidth:540,margin:'0 auto 40px'}}>
-      Seven days free. No credit card. Cancel before tax day and keep every log you made.
+      Ten days free. No credit card. Cancel before tax day and keep every log you made.
     </p>
     <div style={{display:'flex',gap:12,justifyContent:'center'}}>
-      <button style={{background:'linear-gradient(90deg,#7C3AED,#DA0A7F)',color:'#FFFFFF',border:'none',padding:'20px 32px',borderRadius:100,fontSize:16,fontWeight:600,cursor:'pointer',boxShadow:'0 12px 32px -8px rgba(124,58,237,0.5)'}}>Start tracking — free</button>
+      <button style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'20px 32px',borderRadius:100,fontSize:16,fontWeight:600,cursor:'pointer',boxShadow:'0 12px 32px -8px rgba(27,77,219,0.5)'}}>Start tracking — free</button>
     </div>
   </section>
 );
@@ -222,12 +222,12 @@ const MSFooter = () => (
         {h:'Legal',l:['Privacy','Terms','IRS Compliance']},
       ].map(c=>(
         <div key={c.h}>
-          <div style={{fontFamily:'Geist Mono',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.45)',marginBottom:20}}>{c.h}</div>
+          <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,letterSpacing:'0.18em',textTransform:'uppercase',color:'rgba(246,243,238,0.45)',marginBottom:20}}>{c.h}</div>
           {c.l.map(x=><a key={x} style={{display:'block',fontSize:13,marginBottom:10,color:'#F6F3EE',textDecoration:'none',cursor:'pointer'}}>{x}</a>)}
         </div>
       ))}
     </div>
-    <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:12,fontFamily:'Geist Mono',letterSpacing:'0.05em'}}>
+    <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:12,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       <span>© 2026 Harijas LLC · Manteca, CA</span>
       <span>IRS PUB. 463 FORMAT</span>
     </div>
