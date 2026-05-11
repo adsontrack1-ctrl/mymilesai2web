@@ -17,19 +17,59 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html,body{margin:0;padding:0;background:#FFFFFF;color:#111827;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:64px 56px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
-  .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
-  .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:640px}
-  .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
-  @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
-</style>
-<style>
-  .feat-card{transition:transform 0.2s ease,box-shadow 0.2s ease}
-  .feat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,77,219,0.12)}
+
+  /* ── Hero ── */
+  .f-hero{background:linear-gradient(180deg,#F0F4FF 0%,#FFFFFF 100%);padding:5rem 1.5rem 4rem;text-align:center;border-bottom:1px solid #E5E7EB}
+  .f-hero .eyebrow{display:inline-block;font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1.5rem}
+  .f-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(2.25rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.03em;color:#111827;max-width:780px;margin:0 auto 1.5rem}
+  .f-hero p{font-size:1.25rem;line-height:1.65;color:#4B5563;max-width:560px;margin:0 auto}
+
+  /* ── Alternating feature sections ── */
+  .f-section{padding:5rem 56px}
+  .f-section+.f-section{border-top:1px solid #E5E7EB}
+  .f-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .f-copy-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1rem}
+  .f-copy h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(1.75rem,2.5vw,2.25rem);line-height:1.15;letter-spacing:-.025em;color:#111827;margin:0 0 1rem}
+  .f-copy p{font-size:1.0625rem;line-height:1.7;color:#374151;max-width:480px;margin:0 0 2rem}
+  .f-stat{display:flex;align-items:baseline;gap:1rem;padding-top:1.5rem;border-top:1px solid #E5E7EB;max-width:320px}
+  .f-stat-num{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:3rem;color:#1B4DDB;line-height:1}
+  .f-stat-lbl{font-size:1rem;color:#6B7280;line-height:1.4}
+  .f-visual{aspect-ratio:4/3;border-radius:20px;padding:2rem;overflow:hidden}
+
+  /* ── More features grid ── */
+  .f-more{background:#F8F9FA;border-top:1px solid #E5E7EB;padding:5rem 56px}
+  .f-more-inner{max-width:1200px;margin:0 auto}
+  .f-more-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:#1B4DDB;margin-bottom:1rem}
+  .f-more h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(1.75rem,3vw,2.25rem);line-height:1.1;letter-spacing:-.025em;color:#111827;max-width:600px;margin:0 0 3rem}
+  .f-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .f-card{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:16px;padding:2rem;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+  .f-card:hover{border-color:#1B4DDB;box-shadow:0 4px 12px rgba(27,77,219,.08);transform:translateY(-2px)}
+  .f-card-icon{width:56px;height:56px;background:#EFF3FF;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .f-card h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:700;font-size:1.25rem;color:#111827;margin:1.25rem 0 .625rem;letter-spacing:-.01em}
+  .f-card p{font-size:1rem;line-height:1.7;color:#4B5563;margin:0}
+
+  /* ── Bottom CTA ── */
+  .f-cta{background:#0F1729;padding:5rem 56px;text-align:center}
+  .f-cta-inner{max-width:800px;margin:0 auto}
+  .f-cta-label{font-family:'DM Sans',system-ui,sans-serif;font-size:.875rem;font-weight:600;color:rgba(248,249,250,.55);margin-bottom:1.5rem}
+  .f-cta h2{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(2rem,4vw,2.5rem);line-height:1.1;letter-spacing:-.03em;color:#FFFFFF;margin:0 0 1.25rem}
+  .f-cta p{font-size:1.0625rem;color:#94A3B8;max-width:480px;margin:0 auto 2.5rem;line-height:1.65}
+  .f-cta-btn{display:inline-flex;align-items:center;gap:.5rem;background:#1B4DDB;color:#FFFFFF;padding:1rem 2.5rem;border-radius:12px;font-size:1.125rem;font-weight:600;text-decoration:none;transition:background .2s ease}
+  .f-cta-btn:hover{background:#1542B8}
+
+  /* ── Responsive ── */
+  @media(max-width:900px){
+    .f-section,.f-more,.f-cta{padding-left:24px;padding-right:24px;padding-top:3rem;padding-bottom:3rem}
+    .f-grid{grid-template-columns:1fr;gap:2rem}
+    .f-cards{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:600px){
+    .f-hero{padding:3rem 1.5rem}
+    .f-cards{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
@@ -40,95 +80,229 @@
 <script type="text/babel" src="ms-parts1.jsx?v=2026-04-26c"></script>
 <script type="text/babel" src="ms-parts2.jsx?v=2026-04-26c"></script>
 <script type="text/babel">
-const FeatAdditional = () => {
-  const items = [
+
+/* ── Visual sub-components (local copies — FeatVis* not exported from ms-parts1) ── */
+const FeatVisAutoDetect = () => (
+  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11}}>
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+      <span style={{letterSpacing:'0.15em',color:'rgba(248,249,250,0.6)'}}>● BACKGROUND · TRACKING</span>
+      <span style={{color:'rgba(248,249,250,0.4)'}}>09:41:08</span>
+    </div>
+    <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>
+      <svg viewBox="0 0 400 220" style={{width:'100%',maxWidth:500}}>
+        <path d="M 30 180 Q 100 50, 180 120 T 370 60" fill="none" stroke="#1B4DDB" strokeWidth="3" strokeDasharray="6 6" strokeLinecap="round"/>
+        <circle cx="30" cy="180" r="8" fill="#F8F9FA"/>
+        <circle cx="370" cy="60" r="10" fill="#1B4DDB"/>
+      </svg>
+    </div>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16,paddingTop:16,borderTop:'1px solid rgba(248,249,250,0.15)'}}>
+      {[['DISTANCE','4.2 mi'],['DURATION','11 min'],['STATUS','AUTO-LOGGED']].map(([k,v])=>(
+        <div key={k}>
+          <div style={{color:'rgba(248,249,250,0.5)',marginBottom:4,fontSize:9,letterSpacing:'0.1em'}}>{k}</div>
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,color:'#F8F9FA'}}>{v}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const FeatVisClassify = () => (
+  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',gap:10}}>
+    {[
+      {f:'Home',t:'Downtown Office',m:'12.1',cls:'biz',auto:true},
+      {f:'Downtown Office',t:'Client — Acme Corp',m:'4.2',cls:'biz',auto:true},
+      {f:'Acme Corp',t:'Starbucks',m:'0.8',cls:'pers',auto:false},
+      {f:'Starbucks',t:'Office',m:'1.1',cls:'biz',auto:true},
+    ].map((t,i)=>(
+      <div key={i} style={{display:'flex',alignItems:'center',gap:16,padding:14,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12}}>
+        <div style={{flex:1}}>
+          <div style={{color:'#6B7280',fontSize:11,marginBottom:2}}>{t.f} → {t.t}</div>
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20}}>{t.m} mi</div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          {t.auto && <span style={{fontSize:9,color:'#1B4DDB',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",letterSpacing:'0.1em'}}>AI</span>}
+          <span style={{padding:'6px 12px',borderRadius:100,background:t.cls==='biz'?'#1B4DDB':'#E5E7EB',color:t.cls==='biz'?'#FFFFFF':'#374151',fontSize:11,fontWeight:500}}>{t.cls==='biz'?'Business':'Personal'}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const FeatVisAudit = () => (
+  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,overflow:'hidden'}}>
+    <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
+      <div>
+        <div style={{color:'#6B7280',marginBottom:4}}>IRS FORM 2106 — 2026</div>
+        <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18}}>Mileage Log · Q1 Summary</div>
+      </div>
+      <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#FFFFFF',borderRadius:100,fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
+    </div>
+    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B7280',marginBottom:10}}>
+      <div>DATE</div><div>ROUTE</div><div style={{textAlign:'right'}}>MILES</div><div style={{textAlign:'right'}}>$</div>
+    </div>
+    {[
+      ['01/04','Home → Client A · Sales call','24.1','17.47'],
+      ['01/04','Client A → Client B · Consult','12.8','9.28'],
+      ['01/05','Home → Warehouse · Supplies','8.4','6.09'],
+      ['01/06','Office → Airport · Conference','31.2','22.62'],
+    ].map((r,i)=>(
+      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F0F0F0',fontSize:11}}>
+        <div>{r[0]}</div>
+        <div style={{color:'#111827'}}>{r[1]}</div>
+        <div style={{textAlign:'right'}}>{r[2]}</div>
+        <div style={{textAlign:'right',color:'#1B4DDB'}}>${r[3]}</div>
+      </div>
+    ))}
+    <div style={{marginTop:16,paddingTop:12,borderTop:'1px solid #111827',display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+      <span style={{color:'#6B7280'}}>Q1 TOTAL · 247 TRIPS</span>
+      <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:24,color:'#1B4DDB'}}>$2,183.14</span>
+    </div>
+  </div>
+);
+
+/* ── Main feature sections (local replacement for MSFeatures) ── */
+const FeatFeatures = () => {
+  const feats = [
     {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13.5 6.5H19L14.5 9.5L16 14L12 11L8 14L9.5 9.5L5 6.5H10.5Z"/></svg>,
-      title:'Real-Time Deduction Counter',
-      desc:'Watch your tax savings grow with every mile. The app shows you a live counter of your estimated deduction at $0.725/mile (or $0.73/km for Canada). At the end of the year, you\'ll know exactly what you\'re claiming before you sit down with your accountant.',
+      k: 'Auto GPS tracking',
+      h: 'Start driving. That\'s it.',
+      p: 'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',
+      stat: '99.4%',
+      label: 'of drives detected automatically',
+      visBg: '#0B0F0E',
+      visColor: '#F8F9FA',
+      vis: <FeatVisAutoDetect/>,
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13 3V10L17 8L18 9L13 12V22H11V12L6 9L7 8L11 10V3L12 2Z"/></svg>,
-      title:'Works Offline',
-      desc:'No signal? No problem. MyMilesAI logs trips even without an internet connection. Trips sync automatically when you\'re back online. Great for rural routes, tunnels, and areas with spotty coverage.',
+      k: 'AI trip classification',
+      h: 'Swipe right for business. Left for personal.',
+      p: 'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',
+      stat: '~12s',
+      label: 'daily review time after first week',
+      visBg: '#FAFAFA',
+      visColor: '#111827',
+      visBorder: '1px solid #E5E7EB',
+      vis: <FeatVisClassify/>,
     },
     {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
-      title:'Privacy-First',
-      desc:'Your location data stays on your device. We use on-device processing — your trips are never sold to third parties, never used for advertising, never shared with data brokers. We make money from subscriptions, not from your location history.',
-    },
-    {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2M9 21a2 2 0 100-4 2 2 0 000 4M20 21a2 2 0 100-4 2 2 0 000 4"/></svg>,
-      title:'Multi-Vehicle Support',
-      desc:'Company car Monday, personal car Friday? Track across multiple vehicles and MyMilesAI keeps the records separate. Perfect for people who drive different vehicles throughout the week.',
-    },
-    {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>,
-      title:'Client & Purpose Tagging',
-      desc:'Tag trips by client, project, or purpose. When your accountant asks "what were all your trips to Acme Corp?" you can pull that report in two taps. Organized records make tax time actually bearable.',
-    },
-    {
-      icon:<svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
-      title:'US + Canada with Locale Auto-Detect',
-      desc:'Live in Canada? The app auto-detects your region and applies CRA 2026 rates ($0.73/km for the first 5,000 km, $0.67/km after). Reports export in kilometers. Switch any time from the settings.',
+      k: 'IRS & CRA compliant exports',
+      h: 'Your accountant will actually thank you.',
+      p: 'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',
+      stat: '4/4',
+      label: 'IRS Pub. 463 elements captured',
+      visBg: '#FFFFFF',
+      visColor: '#111827',
+      vis: <FeatVisAudit/>,
     },
   ];
   return (
-    <section style={{padding:'80px 56px',background:'#F8F9FA',borderTop:'1px solid #E5E7EB'}}>
-      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— More features</div>
-      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:56,maxWidth:640}}>
-        Everything else you'd expect — and a few things you wouldn't.
-      </h2>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:28}}>
-        {items.map((item,i)=>(
-          <div key={i} className="feat-card" style={{background:'linear-gradient(135deg, #F8FAFF 0%, #F0F4FF 100%)',border:'1px solid #E0E7FF',borderLeft:'3px solid #1B4DDB',borderRadius:14,padding:'24px 22px'}}>
-            <div style={{width:48,height:48,background:'#EEF2FF',borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:16}}>
-              {item.icon}
+    <div>
+      {feats.map((f,i)=>(
+        <div key={f.k} className="f-section">
+          <div className="f-grid">
+            <div className="f-copy" style={{order:i%2===0?1:2}}>
+              <div className="f-copy-label">— {f.k}</div>
+              <h2>{f.h}</h2>
+              <p>{f.p}</p>
+              <div className="f-stat">
+                <div className="f-stat-num">{f.stat}</div>
+                <div className="f-stat-lbl">{f.label}</div>
+              </div>
             </div>
-            <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:16,marginBottom:10,letterSpacing:'-0.01em'}}>{item.title}</h3>
-            <p style={{fontSize:14,color:'#374151',lineHeight:1.6}}>{item.desc}</p>
+            <div className="f-visual" style={{order:i%2===0?2:1,background:f.visBg,border:f.visBorder||'none',color:f.visColor}}>
+              {f.vis}
+            </div>
           </div>
-        ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ── More features grid ── */
+const FeatAdditional = () => {
+  const items = [
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13.5 6.5H19L14.5 9.5L16 14L12 11L8 14L9.5 9.5L5 6.5H10.5Z"/></svg>,
+      title: 'Real-Time Deduction Counter',
+      desc: 'Watch your tax savings grow with every mile. The app shows you a live counter of your estimated deduction at $0.725/mile (or $0.73/km for Canada). At the end of the year, you\'ll know exactly what you\'re claiming before you sit down with your accountant.',
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L13 3V10L17 8L18 9L13 12V22H11V12L6 9L7 8L11 10V3L12 2Z"/></svg>,
+      title: 'Works Offline',
+      desc: 'No signal? No problem. MyMilesAI logs trips even without an internet connection. Trips sync automatically when you\'re back online. Great for rural routes, tunnels, and areas with spotty coverage.',
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
+      title: 'Privacy-First',
+      desc: 'Your location data stays on your device. We use on-device processing — your trips are never sold to third parties, never used for advertising, never shared with data brokers. We make money from subscriptions, not from your location history.',
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2M9 21a2 2 0 100-4 2 2 0 000 4M20 21a2 2 0 100-4 2 2 0 000 4"/></svg>,
+      title: 'Multi-Vehicle Support',
+      desc: 'Company car Monday, personal car Friday? Track across multiple vehicles and MyMilesAI keeps the records separate. Perfect for people who drive different vehicles throughout the week.',
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>,
+      title: 'Client & Purpose Tagging',
+      desc: 'Tag trips by client, project, or purpose. When your accountant asks "what were all your trips to Acme Corp?" you can pull that report in two taps. Organized records make tax time actually bearable.',
+    },
+    {
+      icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
+      title: 'US + Canada with Locale Auto-Detect',
+      desc: 'Live in Canada? The app auto-detects your region and applies CRA 2026 rates ($0.73/km for the first 5,000 km, $0.67/km after). Reports export in kilometers. Switch any time from the settings.',
+    },
+  ];
+  return (
+    <section className="f-more">
+      <div className="f-more-inner">
+        <div className="f-more-label">— More features</div>
+        <h2>Everything else you'd expect —<br/>and a few things you wouldn't.</h2>
+        <div className="f-cards">
+          {items.map((item,i)=>(
+            <div key={i} className="f-card">
+              <div className="f-card-icon">{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
-
-
+/* ── Bottom CTA ── */
 const FeatCTA = () => (
-  <section style={{padding:'64px 56px',background:'radial-gradient(ellipse at 50% 100%, rgba(27,77,219,0.12), transparent 60%), #0B0F0E',color:'#F8F9FA',textAlign:'center',position:'relative',overflow:'hidden'}}>
-    <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:32}}>— Start today</div>
-    <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,5vw,64px)',lineHeight:1.05,letterSpacing:'-0.03em',maxWidth:900,margin:'0 auto 32px'}}>
-      The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
-    </h2>
-    <p style={{fontSize:17,color:'rgba(246,243,238,0.65)',maxWidth:520,margin:'0 auto 40px'}}>
-      Your first 10 days are free. No credit card. Cancel anytime from the app.
-    </p>
-    <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-      <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'20px 36px',borderRadius:100,fontSize:16,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 32px -8px rgba(27,77,219,0.5)'}}>
+  <section className="f-cta">
+    <div className="f-cta-inner">
+      <div className="f-cta-label">— Start today</div>
+      <h2>The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span></h2>
+      <p>Your first 10 days are free. No credit card. Cancel anytime from the app.</p>
+      <a href="signup/" className="f-cta-btn">
         Start Free Trial
-        <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <svg viewBox="0 0 16 16" width={16} height={16} fill="none"><path d="M3 8H13M8 3L13 8L8 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </a>
     </div>
   </section>
 );
 
+/* ── Page ── */
 const Site = () => (
   <>
     <MSNav/>
-
-    <section className="page-hero">
+    <section className="f-hero">
       <div className="eyebrow">— Features</div>
       <h1>Everything you need to claim every mile.</h1>
       <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
     </section>
-    <MSFeatures/>
+    <FeatFeatures/>
     <FeatAdditional/>
     <FeatCTA/>
     <MSFooter/>
   </>
 );
+
 ReactDOM.createRoot(document.getElementById('root')).render(<Site/>);
 </script>
 </body>
