@@ -78,6 +78,59 @@
     .s01-screen4{animation:s01-screen4 8s ease-in-out infinite}
     .s01-pulse-btn{animation:s01-pulse-btn 8s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
   }
+
+  /* ── Step 02 phone defaults (static / reduced-motion: show completed state) ── */
+  .s02-cnt0{opacity:0}
+  .s02-cnt1{opacity:0}
+  .s02-cnt2{opacity:0}
+  .s02-cnt3{opacity:0}
+  .s02-cnt4{opacity:1}
+
+  @media(prefers-reduced-motion:no-preference){
+    @keyframes s02-phone-in{
+      0%{opacity:0;transform:translateY(22px)}
+      6%{opacity:1;transform:translateY(0)}
+      90%{opacity:1;transform:translateY(0)}
+      100%{opacity:0;transform:translateY(22px)}
+    }
+    @keyframes s02-route-draw{
+      0%,4%{stroke-dashoffset:220}
+      40%,100%{stroke-dashoffset:0}
+    }
+    @keyframes s02-car-move{
+      0%,18%{transform:translateX(-152px)}
+      45%,100%{transform:translateX(0)}
+    }
+    @keyframes s02-cnt0-anim{
+      0%,38%{opacity:1}42%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s02-cnt1-anim{
+      0%,38%{opacity:0}40%{opacity:1}44%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s02-cnt2-anim{
+      0%,43%{opacity:0}45%{opacity:1}49%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s02-cnt3-anim{
+      0%,48%{opacity:0}50%{opacity:1}54%{opacity:0}100%{opacity:0}
+    }
+    @keyframes s02-cnt4-anim{
+      0%,53%{opacity:0}55%{opacity:1}90%{opacity:1}100%{opacity:0}
+    }
+    @keyframes s02-badge-in{
+      0%,53%{opacity:0;transform:translateX(32px)}
+      62%,90%{opacity:1;transform:translateX(0)}
+      100%{opacity:0;transform:translateX(0)}
+    }
+    .s02-phone{animation:s02-phone-in 10s ease-in-out infinite}
+    .s02-route{animation:s02-route-draw 10s ease-in-out infinite}
+    .s02-car{animation:s02-car-move 10s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+    .s02-cnt0{animation:s02-cnt0-anim 10s ease-in-out infinite}
+    .s02-cnt1{animation:s02-cnt1-anim 10s ease-in-out infinite}
+    .s02-cnt2{animation:s02-cnt2-anim 10s ease-in-out infinite}
+    .s02-cnt3{animation:s02-cnt3-anim 10s ease-in-out infinite}
+    .s02-cnt4{animation:s02-cnt4-anim 10s ease-in-out infinite}
+    .s02-badge{animation:s02-badge-in 10s ease-in-out infinite;transform-box:fill-box}
+  }
 </style>
 </head>
 <body>
@@ -207,6 +260,67 @@ const HIWDetail = () => {
       </svg>
     </div>
   );
+  const Phone02 = () => (
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+        <defs>
+          <clipPath id="scr02">
+            <rect x="10" y="14" width="220" height="412" rx="22"/>
+          </clipPath>
+        </defs>
+        <g className="s02-phone">
+          {/* Phone frame */}
+          <rect width="240" height="440" rx="30" fill="#0F1729"/>
+          <rect x="10" y="14" width="220" height="412" rx="22" fill="#FFFFFF"/>
+          <rect x="76" y="14" width="88" height="22" rx="11" fill="#0F1729"/>
+          {/* Screen content */}
+          <g clipPath="url(#scr02)">
+            {/* Map background */}
+            <rect x="10" y="36" width="220" height="290" fill="#F0F2F6"/>
+            {/* Grid lines */}
+            <line x1="10" y1="96" x2="230" y2="96" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="10" y1="156" x2="230" y2="156" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="10" y1="216" x2="230" y2="216" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="10" y1="276" x2="230" y2="276" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="70" y1="36" x2="70" y2="326" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="130" y1="36" x2="130" y2="326" stroke="#E2E6ED" strokeWidth="1"/>
+            <line x1="190" y1="36" x2="190" y2="326" stroke="#E2E6ED" strokeWidth="1"/>
+            {/* Route path */}
+            <path className="s02-route" d="M 44 190 C 78 148 140 230 196 190" fill="none" stroke="#1B4DDB" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="220" strokeDashoffset="0"/>
+            {/* Start dot (blue) */}
+            <circle cx="44" cy="190" r="8" fill="#1B4DDB"/>
+            <circle cx="44" cy="190" r="4" fill="white"/>
+            {/* End dot (gold) */}
+            <circle cx="196" cy="190" r="8" fill="#C9A96E"/>
+            <circle cx="196" cy="190" r="4" fill="white"/>
+            {/* Car — SVG position = end; animation moves it back to start via translateX(-152px) */}
+            <g className="s02-car">
+              <rect x="184" y="177" width="22" height="12" rx="3" fill="#0F1729"/>
+              <rect x="188" y="171" width="14" height="8" rx="2" fill="#0F1729"/>
+              <circle cx="188" cy="189" r="4" fill="#4a5568"/>
+              <circle cx="202" cy="189" r="4" fill="#4a5568"/>
+            </g>
+            {/* Bottom info bar */}
+            <rect x="10" y="326" width="220" height="98" fill="#FFFFFF"/>
+            <line x1="10" y1="326" x2="230" y2="326" stroke="#E6E1D8" strokeWidth="1"/>
+            <rect x="20" y="336" width="72" height="8" rx="4" fill="#E8EEFF"/>
+            {/* Mile counter — stacked, opacity-sequenced */}
+            <text className="s02-cnt0" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">0.0 mi</text>
+            <text className="s02-cnt1" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">3.1 mi</text>
+            <text className="s02-cnt2" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">6.7 mi</text>
+            <text className="s02-cnt3" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">9.4 mi</text>
+            <text className="s02-cnt4" x="20" y="368" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="19" fill="#0F1729">12.3 mi</text>
+            {/* Deduction badge */}
+            <g className="s02-badge">
+              <rect x="128" y="352" width="88" height="28" rx="14" fill="#0F1729"/>
+              <text x="172" y="371" textAnchor="middle" fontFamily="'Plus Jakarta Sans',system-ui,sans-serif" fontWeight="700" fontSize="13" fill="#C9A96E">+$8.92</text>
+            </g>
+            <rect x="20" y="384" width="56" height="7" rx="3.5" fill="#E6E1D8"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
   return (
     <section style={{padding:'80px 56px',background:'#FFFFFF',borderTop:'1px solid #E6E1D8'}}>
       <div style={{fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',color:'#6B6862',marginBottom:24}}>— Step by step</div>
@@ -241,7 +355,7 @@ const HIWDetail = () => {
               {i<3 ? (
                 <div className="step-content-grid">
                   {textContent}
-                  {i===0 ? <Phone01/> : <div className="step-visual" id={`step-0${i+1}-visual`}/>}
+                  {i===0 ? <Phone01/> : i===1 ? <Phone02/> : <div className="step-visual" id={`step-0${i+1}-visual`}/>}
                 </div>
               ) : textContent}
             </div>
