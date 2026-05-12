@@ -130,7 +130,7 @@ const MSPricing = () => {
         <div style={{background:'#0B0F0E',color:'#F8F9FA',border:'1px solid #0B0F0E',borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:480}}>
           <div style={{position:'absolute',top:-12,left:40,background:'#1B4DDB',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:11,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700}}>MyMilesAI Pro</div>
           <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6}}>MyMilesAI Pro</div>
-          <div style={{fontSize:16,color:'rgba(246,243,238,0.65)',marginBottom:24}}>Everything a serious driver needs. No tiers, no surprises.</div>
+          <div style={{fontSize:17,color:'rgba(246,243,238,0.65)',marginBottom:24}}>Everything a serious driver needs. No tiers, no surprises.</div>
           <div style={{display:'flex',alignItems:'baseline',gap:8,marginBottom:4}}>
             <span style={{fontSize:15,color:'rgba(246,243,238,0.4)',textDecoration:'line-through',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>$699/yr</span>
             <span style={{fontSize:11,color:'rgba(246,243,238,0.4)',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em'}}>founding member</span>
@@ -144,7 +144,7 @@ const MSPricing = () => {
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'16px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',marginBottom:32,textAlign:'center',textDecoration:'none',display:'block',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.5)'}}>Start Free Trial →</a>
           <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:'1px solid rgba(246,243,238,0.15)'}}>
             {features.map(f=>(
-              <div key={f} style={{display:'flex',gap:10,fontSize:16,alignItems:'flex-start'}}>
+              <div key={f} style={{display:'flex',gap:10,fontSize:17,alignItems:'flex-start'}}>
                 <svg viewBox="0 0 16 16" width={15} height={15} style={{flexShrink:0,marginTop:2}} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#1B4DDB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 <span>{f}</span>
               </div>
@@ -182,7 +182,7 @@ const MSBlog = () => {
           <a key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
             <div style={{aspectRatio:'4/3',background:`linear-gradient(135deg, hsl(${25+i*40},35%,70%), hsl(${25+i*40},45%,85%))`,borderRadius:8}}/>
             <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:13,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
-            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
+            <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
             <div style={{display:'flex',justifyContent:'space-between',fontSize:13,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
               <span>{p.d}</span><span>{p.read}</span>
             </div>
