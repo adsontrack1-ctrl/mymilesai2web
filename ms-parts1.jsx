@@ -77,7 +77,18 @@ const MSRegionPill = () => {
   );
 };
 
+const MS_SOL_LINKS = [
+  {slug:'realtors',          label:'Realtors'},
+  {slug:'rideshare',         label:'Rideshare & Delivery'},
+  {slug:'freelancers',       label:'Freelancers & Consultants'},
+  {slug:'small-business',    label:'Small Business'},
+  {slug:'construction',      label:'Construction & Trades'},
+  {slug:'sales-reps',        label:'Sales Reps'},
+];
+
 const MSNav = ({mobile}) => {
+  const [solOpen, setSolOpen] = React.useState(false);
+  const solRef = React.useRef(null);
   const links = [
     {label:'Features', href:'features.html'},
     {label:'How It Works', href:'how-it-works.html'},
@@ -85,19 +96,68 @@ const MSNav = ({mobile}) => {
     {label:'Blog', href:'blog.html'},
     {label:'About', href:'about.html'},
   ];
-  const here = (typeof window!=='undefined' ? window.location.pathname.split('/').pop() : '') || 'marketing-site.html';
+  const here = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const isSol = here.includes('/solutions');
+  const hereFile = here.split('/').pop() || '';
+
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setSolOpen(false); };
+    const onOut = (e) => { if (solRef.current && !solRef.current.contains(e.target)) setSolOpen(false); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onOut);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onOut);
+    };
+  }, []);
+
   if(mobile) return (
     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 20px',borderBottom:'1px solid #E5E7EB'}}>
       <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={18}/></a>
       <a href="signin/" style={{background:'transparent',color:'#0B0F0E',border:'1px solid #0B0F0E',padding:'8px 16px',borderRadius:100,fontSize:12,fontWeight:500,textDecoration:'none',display:'inline-flex',alignItems:'center'}}>Sign In</a>
     </div>
   );
+
   return (
     <div className="nav-links" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'22px 56px',position:'sticky',top:0,background:'rgba(255,255,255,0.92)',backdropFilter:'blur(14px)',zIndex:50,borderBottom:'1px solid rgba(11,15,14,0.05)'}}>
       <a href="./" style={{textDecoration:'none',color:'inherit'}}><MSLogo size={22}/></a>
-      <div style={{display:'flex',gap:40,fontSize:14,color:'#1F1D1A'}}>
+      <div style={{display:'flex',gap:36,fontSize:14,color:'#1F1D1A',alignItems:'center'}}>
+        <div style={{position:'relative'}} ref={solRef}>
+          <button
+            aria-haspopup="true"
+            aria-expanded={solOpen}
+            onClick={() => setSolOpen(o => !o)}
+            style={{display:'flex',alignItems:'center',gap:5,color:'#1F1D1A',fontWeight:isSol?700:500,opacity:isSol?1:0.7,border:'none',background:'none',cursor:'pointer',fontSize:14,fontFamily:'inherit',padding:0,paddingBottom:4,borderBottom:isSol?'2px solid #1B4DDB':'2px solid transparent',transition:'opacity .15s,border-color .15s'}}
+            onMouseOver={e=>{if(!isSol)e.currentTarget.style.opacity=1}}
+            onMouseOut={e=>{if(!isSol)e.currentTarget.style.opacity=0.7}}
+          >
+            Solutions
+            <svg viewBox="0 0 10 6" width={9} height={9} fill="none" style={{transform:solOpen?'rotate(180deg)':'none',transition:'transform .2s',flexShrink:0}} aria-hidden="true">
+              <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          {solOpen && (
+            <div role="menu" aria-label="Solutions pages" style={{position:'absolute',top:'calc(100% + 14px)',left:'50%',transform:'translateX(-50%)',background:'#fff',border:'1px solid #E5E7EB',borderRadius:14,padding:8,boxShadow:'0 12px 32px -8px rgba(0,0,0,0.14)',zIndex:100,minWidth:312,display:'grid',gridTemplateColumns:'1fr 1fr',gap:2}}>
+              {MS_SOL_LINKS.map(l => (
+                <a key={l.slug} href={`/solutions/${l.slug}/`} role="menuitem"
+                  style={{display:'block',padding:'9px 12px',borderRadius:8,fontSize:13,fontWeight:500,color:'#374151',textDecoration:'none'}}
+                  onMouseOver={e=>{e.currentTarget.style.background='#F8F9FA'}}
+                  onMouseOut={e=>{e.currentTarget.style.background='transparent'}}
+                >{l.label}</a>
+              ))}
+              <a href="/solutions/" role="menuitem"
+                style={{gridColumn:'1/-1',display:'flex',justifyContent:'space-between',alignItems:'center',padding:'9px 12px',borderRadius:8,borderTop:'1px solid #F3F4F6',marginTop:4,fontSize:13,fontWeight:600,color:'#1B4DDB',textDecoration:'none'}}
+                onMouseOver={e=>{e.currentTarget.style.background='#EFF3FF'}}
+                onMouseOut={e=>{e.currentTarget.style.background='transparent'}}
+              >
+                All solutions
+                <svg viewBox="0 0 16 16" width={12} height={12} fill="none" aria-hidden="true"><path d="M3 8H13M8 3L13 8L8 13" stroke="#1B4DDB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+            </div>
+          )}
+        </div>
         {links.map(l=>{
-          const active = here === l.href;
+          const active = hereFile === l.href;
           return <a key={l.href} href={l.href} style={{color:'inherit',textDecoration:'none',fontWeight:active?700:500,opacity:active?1:0.7,position:'relative',paddingBottom:4,borderBottom:active?'2px solid #1B4DDB':'2px solid transparent',transition:'opacity .15s,border-color .15s'}} onMouseOver={e=>{if(!active)e.currentTarget.style.opacity=1}} onMouseOut={e=>{if(!active)e.currentTarget.style.opacity=0.7}}>{l.label}</a>;
         })}
       </div>
