@@ -31,7 +31,7 @@
 </style>
 <style>
   /* ── Step 2-column layout ── */
-  .step-content-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .step-content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;align-items:center}
   @media(max-width:768px){.step-content-grid{grid-template-columns:1fr}}
 
   /* ── Step 01 phone: static defaults (reduced-motion / no-JS fallback shows Ready screen) ── */
@@ -297,8 +297,8 @@ const HIWDetail = () => {
     },
   ];
   const Phone01 = () => (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
-      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'176px',display:'block'}} aria-hidden="true">
         <g className="s01-phone">
           {/* Phone frame */}
           <rect width="240" height="440" rx="30" fill="#0F1729"/>
@@ -361,8 +361,8 @@ const HIWDetail = () => {
     </div>
   );
   const Phone02 = () => (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
-      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'176px',display:'block'}} aria-hidden="true">
         <defs>
           <clipPath id="scr02">
             <rect x="10" y="14" width="220" height="412" rx="22"/>
@@ -422,8 +422,8 @@ const HIWDetail = () => {
     </div>
   );
   const Phone03 = () => (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
-      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'176px',display:'block'}} aria-hidden="true">
         <defs>
           <clipPath id="scr03">
             <rect x="10" y="14" width="220" height="412" rx="22"/>
@@ -500,8 +500,8 @@ const HIWDetail = () => {
     </div>
   );
   const Phone04 = () => (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'20px 0'}}>
-      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'240px',display:'block'}} aria-hidden="true">
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',padding:'8px 0'}}>
+      <svg viewBox="0 0 240 440" style={{width:'100%',maxWidth:'176px',display:'block'}} aria-hidden="true">
         <defs>
           <clipPath id="scr04">
             <rect x="10" y="14" width="220" height="412" rx="22"/>
@@ -584,14 +584,14 @@ const HIWDetail = () => {
     </div>
   );
   return (
-    <section style={{padding:'40px 56px 64px',background:'#FFFFFF'}}>
+    <section style={{padding:'40px 56px 40px',background:'#FFFFFF'}}>
       <div style={{display:'flex',flexDirection:'column',gap:0}}>
         {steps.map((s,i)=>{
           const textContent = (
             <div style={{paddingTop:10}}>
               <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6,letterSpacing:'-0.02em'}}>{s.title}</h3>
-              <div style={{fontSize:14,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,marginBottom:20}}>{s.sub}</div>
-              <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:20}}>
+              <div style={{fontSize:14,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,marginBottom:12}}>{s.sub}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:12}}>
                 {s.bullets.map((b,bi)=>(
                   <div key={bi} style={{display:'flex',gap:10,alignItems:'flex-start',fontSize:17,color:'#1F1D1A'}}>
                     <svg viewBox="0 0 16 16" width={14} height={14} style={{flexShrink:0,marginTop:3}} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke={s.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -605,7 +605,7 @@ const HIWDetail = () => {
             </div>
           );
           return (
-            <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?64:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
+            <div key={i} style={{display:'grid',gridTemplateColumns:'80px 1fr',gap:32,paddingBottom:i<steps.length-1?28:0,marginBottom:i<steps.length-1?0:0,position:'relative'}}>
               {i < steps.length-1 && <div style={{position:'absolute',left:36,top:44,bottom:0,width:2,background:'#E5E7EB'}}/>}
               <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:0,zIndex:1}}>
                 <div style={{width:48,height:48,borderRadius:'50%',background:s.color,display:'flex',alignItems:'center',justifyContent:'center',color:'#FFFFFF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13,fontWeight:700,flexShrink:0}}>{s.n}</div>
