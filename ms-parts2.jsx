@@ -181,9 +181,9 @@ const MSBlog = () => {
         {posts.map((p,i)=>(
           <a key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
             <div style={{aspectRatio:'4/3',background:`linear-gradient(135deg, hsl(${25+i*40},35%,70%), hsl(${25+i*40},45%,85%))`,borderRadius:8}}/>
-            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:13,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
             <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:13,color:'#6B7280',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
               <span>{p.d}</span><span>{p.read}</span>
             </div>
           </a>
@@ -218,7 +218,7 @@ const MSAbout = () => {
               <svg viewBox="0 0 16 16" width={15} height={15} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
             <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:17,marginBottom:8}}>{v.label}</div>
-            <div style={{fontSize:14,color:'#374151',lineHeight:1.55}}>{v.desc}</div>
+            <div style={{fontSize:16,color:'#374151',lineHeight:1.55}}>{v.desc}</div>
           </div>
         ))}
       </div>

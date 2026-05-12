@@ -48,8 +48,8 @@
   .f-card{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:16px;padding:2rem;transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
   .f-card:hover{border-color:#1B4DDB;box-shadow:0 4px 12px rgba(27,77,219,.08);transform:translateY(-2px)}
   .f-card-icon{width:56px;height:56px;background:#EFF3FF;border-radius:50%;display:flex;align-items:center;justify-content:center}
-  .f-card h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:700;font-size:1.25rem;color:#111827;margin:1.25rem 0 .625rem;letter-spacing:-.01em}
-  .f-card p{font-size:1rem;line-height:1.7;color:#4B5563;margin:0}
+  .f-card h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:700;font-size:1.375rem;color:#111827;margin:1.25rem 0 .625rem;letter-spacing:-.01em}
+  .f-card p{font-size:1.0625rem;line-height:1.7;color:#4B5563;margin:0}
 
   /* ── Bottom CTA ── */
   .f-cta{background:#0F1729;padding:5rem 56px;text-align:center}
@@ -83,7 +83,7 @@
 
 /* ── Visual sub-components (local copies — FeatVis* not exported from ms-parts1) ── */
 const FeatVisAutoDetect = () => (
-  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:11}}>
+  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:13}}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
       <span style={{letterSpacing:'0.15em',color:'rgba(248,249,250,0.6)'}}>● Background tracking</span>
       <span style={{color:'rgba(248,249,250,0.4)'}}>09:41:08</span>
@@ -116,7 +116,7 @@ const FeatVisClassify = () => (
     ].map((t,i)=>(
       <div key={i} style={{display:'flex',alignItems:'center',gap:16,padding:14,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12}}>
         <div style={{flex:1}}>
-          <div style={{color:'#6B7280',fontSize:11,marginBottom:2}}>{t.f} → {t.t}</div>
+          <div style={{color:'#6B7280',fontSize:12,marginBottom:2}}>{t.f} → {t.t}</div>
           <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20}}>{t.m} mi</div>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
@@ -129,7 +129,7 @@ const FeatVisClassify = () => (
 );
 
 const FeatVisAudit = () => (
-  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:10,overflow:'hidden'}}>
+  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:12,overflow:'hidden'}}>
     <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
         <div style={{color:'#6B7280',marginBottom:4}}>IRS Form 2106 — 2026</div>
@@ -137,7 +137,7 @@ const FeatVisAudit = () => (
       </div>
       <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#FFFFFF',borderRadius:100,fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ Verified</div>
     </div>
-    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B7280',marginBottom:10}}>
+    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:12,color:'#6B7280',marginBottom:10}}>
       <div>Date</div><div>Route</div><div style={{textAlign:'right'}}>Miles</div><div style={{textAlign:'right'}}>$</div>
     </div>
     {[
@@ -146,7 +146,7 @@ const FeatVisAudit = () => (
       ['01/05','Home → Warehouse · Supplies','8.4','6.09'],
       ['01/06','Office → Airport · Conference','31.2','22.62'],
     ].map((r,i)=>(
-      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F0F0F0',fontSize:11}}>
+      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F0F0F0',fontSize:13}}>
         <div>{r[0]}</div>
         <div style={{color:'#111827'}}>{r[1]}</div>
         <div style={{textAlign:'right'}}>{r[2]}</div>

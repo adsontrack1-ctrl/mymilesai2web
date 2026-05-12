@@ -478,7 +478,7 @@ const FeatVisClassify = () => (
 );
 
 const FeatVisAudit = () => (
-  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:10,position:'relative',overflow:'hidden'}}>
+  <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,position:'relative',overflow:'hidden'}}>
     <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
         <div style={{color:'#6B7280',marginBottom:4}}>IRS FORM 2106 — 2026</div>
