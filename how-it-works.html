@@ -20,11 +20,13 @@
   html,body{margin:0;padding:0;background:#FFFFFF;color:#0B0F0E;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   ::selection{background:#1B4DDB;color:#FFFFFF}
-  .page-hero{padding:96px 56px 64px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
+  .page-hero{padding:96px 56px 48px;background:#F8F9FA;border-bottom:1px solid #E5E7EB}
   .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
   .page-hero p{font-size:20px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
+  .page-hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+  .page-hero-trust{font-size:13px;color:#6B7280;margin-top:16px;font-family:'DM Sans',system-ui,sans-serif}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 <style>
@@ -582,11 +584,7 @@ const HIWDetail = () => {
     </div>
   );
   return (
-    <section style={{padding:'64px 56px',background:'#FFFFFF'}}>
-      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— Step by step</div>
-      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:64,maxWidth:640}}>
-        Exactly what happens from download to deduction.
-      </h2>
+    <section style={{padding:'40px 56px 64px',background:'#FFFFFF'}}>
       <div style={{display:'flex',flexDirection:'column',gap:0}}>
         {steps.map((s,i)=>{
           const textContent = (
@@ -672,6 +670,32 @@ const HIWCalculator = () => {
   );
 };
 
+const HIWBottomCTA = () => (
+  <section style={{padding:'80px 56px',background:'#F8F9FA',borderTop:'1px solid #E5E7EB',textAlign:'center'}}>
+    <div style={{maxWidth:640,margin:'0 auto'}}>
+      <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:16}}>— Ready?</div>
+      <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(26px,3vw,38px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:12}}>
+        Your first deductible mile starts today.
+      </h2>
+      <p style={{fontSize:17,color:'#374151',lineHeight:1.6,marginBottom:32}}>
+        Download, drive, deduct. It takes 90 seconds to set up and nothing to maintain.
+      </p>
+      <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginBottom:20}}>
+        <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'15px 30px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',whiteSpace:'nowrap'}}>
+          Start Free Trial
+          <svg viewBox="0 0 16 16" width={13} height={13} fill="none" aria-hidden="true"><path d="M3 8H13M8 3L13 8L8 13" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+        <a href="pricing.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'14px 26px',borderRadius:100,fontSize:15,fontWeight:600,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,whiteSpace:'nowrap'}}>
+          See Pricing
+        </a>
+      </div>
+      <div style={{fontSize:13,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif"}}>
+        7 days free. Cancel anytime. · IRS Pub. 463 compliant · CRA T2125 compliant
+      </div>
+    </div>
+  </section>
+);
+
 const Site = () => (
   <>
     <MSNav/>
@@ -680,10 +704,20 @@ const Site = () => (
       <div className="eyebrow">— How it works</div>
       <h1>From download to deduction in under a minute.</h1>
       <p>No hardware. No setup fees. Just your phone, your car, and 90 seconds.</p>
+      <div className="page-hero-ctas">
+        <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'15px 30px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',whiteSpace:'nowrap'}}>
+          Start Free Trial
+          <svg viewBox="0 0 16 16" width={13} height={13} fill="none" aria-hidden="true"><path d="M3 8H13M8 3L13 8L8 13" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+        <a href="pricing.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'14px 26px',borderRadius:100,fontSize:15,fontWeight:600,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,whiteSpace:'nowrap'}}>
+          See Pricing
+        </a>
+      </div>
+      <div className="page-hero-trust">7 days free. Cancel anytime. · IRS Pub. 463 compliant · CRA T2125 compliant</div>
     </section>
     <HIWDetail/>
     <HIWCalculator/>
-    <MSCTA/>
+    <HIWBottomCTA/>
     <MSFooter/>
   </>
 );
