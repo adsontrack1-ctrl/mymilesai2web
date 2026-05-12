@@ -1,0 +1,179 @@
+/*
+  MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+  how-it-works.html hero before/after animation.
+*/
+
+/* 2-col hero inner wrapper */
+.page-hero-inner{display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center;max-width:1100px}
+
+/* ── Before/After widget shell ── */
+.ba-wrap{display:flex;align-items:center;gap:12px;flex-shrink:0;width:464px}
+
+/* ── Left card: Before ── */
+.ba-left{
+  flex:1;
+  background-color:#FAF7F2;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.4' fill='%23C9A96E' fill-opacity='.12'/%3E%3C/svg%3E");
+  border-radius:4px;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
+  padding:14px 13px 12px;
+  position:relative;
+  overflow:hidden;
+  transform:rotate(-2deg);
+  user-select:none;
+}
+.ba-left-header{
+  font-family:'Caveat',cursive;
+  font-size:14.5px;
+  font-weight:700;
+  color:#374151;
+  margin-bottom:9px;
+  padding-bottom:8px;
+  border-bottom:1px dashed #D6CCBC;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.ba-left-header s{color:#B5AAA0;font-size:13px;font-weight:400}
+.ba-entry{font-family:'Caveat',cursive;font-size:13px;color:#4B5563;line-height:1.75}
+.ba-entry s{color:#B5AAA0}
+.ba-left-total{
+  font-family:'Caveat',cursive;
+  font-size:14px;
+  font-weight:700;
+  color:#374151;
+  margin-top:9px;
+  padding-top:8px;
+  border-top:1px dashed #D6CCBC;
+}
+.ba-coffee{position:absolute;bottom:-10px;right:-10px;pointer-events:none;opacity:.9}
+
+/* ── Right card: After ── */
+.ba-right{
+  flex:1;
+  background:#FFFFFF;
+  border-radius:8px;
+  border:1px solid rgba(27,77,219,.12);
+  box-shadow:0 12px 32px rgba(27,77,219,.08);
+  padding:13px;
+  position:relative;
+  overflow:hidden;
+}
+.ba-right-badge{
+  display:flex;align-items:center;gap:5px;
+  font-size:8.5px;font-weight:700;letter-spacing:.08em;
+  color:#1B4DDB;font-family:'DM Sans',monospace;
+  margin-bottom:5px;opacity:1;
+}
+.ba-badge-dot{width:7px;height:7px;border-radius:50%;background:#C9A96E;flex-shrink:0}
+.ba-right-title{
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:11.5px;font-weight:700;color:#0B0F0E;
+  margin-bottom:10px;opacity:1;
+}
+.ba-rows{display:flex;flex-direction:column;gap:2px}
+.ba-row{display:flex;justify-content:space-between;align-items:flex-start;gap:5px;padding:3px 0;opacity:1}
+.ba-row-info{flex:1;min-width:0}
+.ba-row-trip{font-size:10.5px;font-family:'DM Sans',monospace;color:#374151;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ba-row-meta{font-size:9px;color:#9CA3AF;font-family:'DM Sans',monospace;margin-top:1px}
+.ba-row-amount{color:#1B4DDB;font-weight:700;font-size:10.5px;font-family:'DM Sans',monospace;flex-shrink:0}
+.ba-divider{height:1.5px;background:linear-gradient(90deg,#C9A96E,#E8D5A3);width:100%;margin:9px 0 7px;opacity:1}
+.ba-bottom{display:flex;justify-content:space-between;align-items:center;opacity:1}
+.ba-bottom-label{font-size:9.5px;color:#6B7280;font-family:'DM Sans',monospace}
+.ba-total-num{color:#1B4DDB;font-weight:700;font-size:13px;font-family:'DM Sans',monospace;min-width:68px;text-align:right}
+.ba-total-num::after{content:"$2,183.14"}
+
+/* ── Arrow ── */
+.ba-arrow-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;animation:ba-arrow-pulse 2s ease-in-out infinite}
+.ba-arrow-label{font-size:7.5px;font-weight:700;letter-spacing:.07em;color:#6B7280;font-family:'DM Sans',monospace;white-space:nowrap;text-transform:uppercase}
+@keyframes ba-arrow-pulse{
+  0%,100%{transform:scale(1)   translateX(0)}
+  50%    {transform:scale(1.06) translateX(1px)}
+}
+
+/* ── 8s loop (reduced-motion: static end state shown via base rules above) ── */
+@media(prefers-reduced-motion:no-preference){
+  .ba-left{animation:ba-wobble 8s ease-in-out infinite}
+  @keyframes ba-wobble{
+    0%     {transform:rotate(-2deg)}
+    12.5%  {transform:rotate(-2deg)}
+    15.6%  {transform:rotate(-1deg)}
+    18.75% {transform:rotate(-2.8deg)}
+    21.9%  {transform:rotate(-1.5deg)}
+    25%    {transform:rotate(-2deg)}
+    100%   {transform:rotate(-2deg)}
+  }
+
+  .ba-right-badge,.ba-right-title{opacity:0;animation:ba-header-in 8s ease-in-out infinite}
+  @keyframes ba-header-in{
+    0%,18.75%{opacity:0}
+    27%      {opacity:1}
+    93.75%   {opacity:1}
+    100%     {opacity:0}
+  }
+
+  .ba-row{opacity:0}
+  .ba-row1{animation:ba-row1-in 8s ease-in-out infinite}
+  .ba-row2{animation:ba-row2-in 8s ease-in-out infinite}
+  .ba-row3{animation:ba-row3-in 8s ease-in-out infinite}
+  .ba-row4{animation:ba-row4-in 8s ease-in-out infinite}
+  @keyframes ba-row1-in{
+    0%,25%  {opacity:0;transform:translateY(5px)}
+    32%     {opacity:1;transform:translateY(0)}
+    93.75%  {opacity:1;transform:translateY(0)}
+    100%    {opacity:0;transform:translateY(5px)}
+  }
+  @keyframes ba-row2-in{
+    0%,37.5%{opacity:0;transform:translateY(5px)}
+    44%     {opacity:1;transform:translateY(0)}
+    93.75%  {opacity:1;transform:translateY(0)}
+    100%    {opacity:0;transform:translateY(5px)}
+  }
+  @keyframes ba-row3-in{
+    0%,50%  {opacity:0;transform:translateY(5px)}
+    56.5%   {opacity:1;transform:translateY(0)}
+    93.75%  {opacity:1;transform:translateY(0)}
+    100%    {opacity:0;transform:translateY(5px)}
+  }
+  @keyframes ba-row4-in{
+    0%,62.5%{opacity:0;transform:translateY(5px)}
+    69%     {opacity:1;transform:translateY(0)}
+    93.75%  {opacity:1;transform:translateY(0)}
+    100%    {opacity:0;transform:translateY(5px)}
+  }
+
+  .ba-divider{width:0;opacity:1;animation:ba-divider-draw 8s linear infinite}
+  @keyframes ba-divider-draw{
+    0%,75%  {width:0;opacity:1}
+    81.25%  {width:100%;opacity:1}
+    93.75%  {width:100%;opacity:1}
+    100%    {width:100%;opacity:0}
+  }
+
+  .ba-bottom{opacity:0;animation:ba-bottom-in 8s ease-in-out infinite}
+  @keyframes ba-bottom-in{
+    0%,75% {opacity:0}
+    82%    {opacity:1}
+    93.75% {opacity:1}
+    100%   {opacity:0}
+  }
+
+  .ba-total-num::after{animation:ba-countup 8s linear infinite}
+  @keyframes ba-countup{
+    0%,74%    {content:"$0.00"}
+    78%       {content:"$437.00"}
+    81%       {content:"$875.00"}
+    83.5%     {content:"$1,312.00"}
+    85.5%     {content:"$1,750.00"}
+    87.5%,94% {content:"$2,183.14"}
+    95%,100%  {content:"$0.00"}
+  }
+}
+
+/* ── Mobile: stack vertically, arrow points down ── */
+@media(max-width:900px){
+  .page-hero-inner{grid-template-columns:1fr;gap:40px}
+  .ba-wrap{flex-direction:column;width:100%;max-width:320px;margin:0 auto;gap:10px}
+  .ba-left,.ba-right{flex:none;width:100%}
+  .ba-arrow-wrap{animation:none;transform:rotate(90deg)}
+}
