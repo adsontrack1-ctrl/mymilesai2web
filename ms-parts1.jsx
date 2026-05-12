@@ -379,7 +379,7 @@ const MSHow = () => {
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
       <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— How it works</div>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,3.8vw,48px)',lineHeight:1.08,letterSpacing:'-0.025em',marginBottom:56,maxWidth:780}}>
-        Three steps. Thousands in recovered deductions.
+        Three steps. $2,183.14 recovered, on average, every quarter.
       </h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32}}>
         {steps.map(s=>(
@@ -405,7 +405,7 @@ const MSFeatures = () => {
   const feats = [
     {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
     {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'12s',label:'daily review time after first week'},
-    {k:'IRS & CRA compliant exports',h:'Your accountant will actually thank you.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
+    {k:'IRS & CRA compliant exports',h:'One tap. IRS-ready. Done.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
