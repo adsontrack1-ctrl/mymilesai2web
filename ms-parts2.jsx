@@ -40,7 +40,7 @@ const MSAudience = () => {
     {t:'Medical & Pharma Reps',s:'Hospital rounds & territory coverage',c:'#378ADD',i:'heart'},
     {t:'Rideshare & Gig Drivers',s:'Uber, Lyft, DoorDash & more',c:'#C9A96E',i:'car'},
     {t:'Photographers',s:'Shoots, events & studio runs',c:'#378ADD',i:'cam'},
-    {t:'Real Estate',s:'Showings, inspections & closings',c:'#F87171',i:'home'},
+    {t:'Real Estate',s:'Showings, inspections & closings',c:'#1B4DDB',i:'home'},
     // Row 2
     {t:'Health Aides',s:'Patient visits & care routes',c:'#1B4DDB',i:'heart'},
     {t:'Field Inspectors',s:'Compliance routes & site audits',c:'#34D399',i:'map'},
@@ -48,7 +48,7 @@ const MSAudience = () => {
     {t:'Electricians & Plumbers',s:'Emergency calls & service jobs',c:'#C9A96E',i:'bolt'},
     {t:'Nonprofit & Charity Workers',s:'Outreach drives & charity miles',c:'#378ADD',i:'globe'},
     {t:'Accountants & CPAs',s:'Client office visits & audits',c:'#378ADD',i:'chart'},
-    {t:'Insurance Adjusters',s:'Claim sites & damage assessments',c:'#F87171',i:'shield'},
+    {t:'Insurance Adjusters',s:'Claim sites & damage assessments',c:'#1B4DDB',i:'shield'},
     {t:'Construction Foremen',s:'Site supervision & crew coordination',c:'#C9A96E',i:'crane'},
   ];
   const rowA = cards.slice(0, 7);
@@ -140,7 +140,7 @@ const MSPricing = () => {
             <span style={{fontSize:16,color:'rgba(246,243,238,0.7)',fontWeight:500}}>/month</span>
           </div>
           <div style={{fontSize:13,color:'rgba(246,243,238,0.55)',marginBottom:6}}>or <strong style={{color:'#C9A96E'}}>$69.99/year</strong> — save ~17%</div>
-          <div style={{fontSize:12,color:'rgba(246,243,238,0.5)',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em',marginBottom:28}}>10-DAY FREE TRIAL · NO CREDIT CARD REQUIRED</div>
+          <div style={{fontSize:12,color:'rgba(246,243,238,0.5)',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em',marginBottom:28}}>7 DAYS FREE · CANCEL ANYTIME</div>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'16px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',marginBottom:32,textAlign:'center',textDecoration:'none',display:'block',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.5)'}}>Start Free Trial →</a>
           <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:'1px solid rgba(246,243,238,0.15)'}}>
             {features.map(f=>(
@@ -238,7 +238,7 @@ const MSCTA = () => (
       The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
     </h2>
     <p style={{fontSize:17,color:'rgba(246,243,238,0.65)',maxWidth:520,margin:'0 auto 16px'}}>
-      Your first 10 days are free. No credit card. Cancel anytime from the app.
+      Your first 7 days are free. Cancel anytime from the app.
     </p>
     <p style={{fontSize:14,color:'rgba(246,243,238,0.4)',maxWidth:520,margin:'0 auto 40px',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       Switching from MileIQ? We support CSV import.

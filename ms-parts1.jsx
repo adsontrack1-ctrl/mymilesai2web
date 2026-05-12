@@ -201,11 +201,11 @@ const MSHero = () => {
         <div style={{display:'flex',gap:24,fontSize:12.5,color:'#6B7280',flexWrap:'wrap',alignItems:'center'}}>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
             <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M8 4v4l3 2" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            10-day free trial
+            7-day free trial
           </span>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
-            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M5 4V3a3 3 0 0 1 6 0v1" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round"/></svg>
-            No credit card required
+            <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><path d="M2 8l4 4L14 4" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Cancel anytime
           </span>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
             <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M2 8H14M8 2Q11 5 11 8Q11 11 8 14Q5 11 5 8Q5 5 8 2" stroke="#6B7280" strokeWidth="1.2" fill="none"/></svg>
@@ -404,7 +404,7 @@ const MSHow = () => {
 const MSFeatures = () => {
   const feats = [
     {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
-    {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'~12s',label:'daily review time after first week'},
+    {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'12s',label:'daily review time after first week'},
     {k:'IRS & CRA compliant exports',h:'Your accountant will actually thank you.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
   ];
   return (
@@ -528,7 +528,7 @@ const HeroPhone = () => (
         <span style={{fontSize:9,color:'#9CA3AF',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>now</span>
       </div>
       {/* Dashboard card (purple/pink gauge) */}
-      <div style={{margin:'12px 14px 0',background:'linear-gradient(165deg,#1B1036 0%,#2A1248 60%,#3D1A5A 100%)',borderRadius:18,padding:'16px 16px 14px',color:'#F8F9FA',position:'relative',overflow:'hidden'}}>
+      <div style={{margin:'12px 14px 0',background:'linear-gradient(165deg,#0A1628 0%,#0F1E3D 60%,#1B2F5A 100%)',borderRadius:18,padding:'16px 16px 14px',color:'#F8F9FA',position:'relative',overflow:'hidden'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
           <span style={{display:'inline-flex',alignItems:'center',gap:5,padding:'3px 9px',borderRadius:100,background:'rgba(201,169,110,0.15)',fontSize:9,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',color:'#C9A96E',letterSpacing:'0.1em'}}>
             <span style={{width:5,height:5,borderRadius:'50%',background:'#C9A96E'}}/>
@@ -555,7 +555,7 @@ const HeroPhone = () => (
         {/* Three stat tiles */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:6}}>
           {[['68.1','BUSINESS MI','#1B4DDB'],['23.1','PERSONAL MI','#378ADD'],['$49.39','DEDUCTION','#C9A96E']].map(([v,k,c])=>(
-            <div key={k} style={{background:'rgba(11,6,25,0.5)',border:'1px solid rgba(27,77,219,0.15)',borderRadius:10,padding:'8px 6px',textAlign:'center'}}>
+            <div key={k} style={{background:'rgba(10,22,40,0.5)',border:'1px solid rgba(27,77,219,0.15)',borderRadius:10,padding:'8px 6px',textAlign:'center'}}>
               <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:16,color:c,lineHeight:1}}>{v}</div>
               <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:7,color:'rgba(246,243,238,0.55)',letterSpacing:'0.1em',marginTop:3}}>{k}</div>
             </div>
