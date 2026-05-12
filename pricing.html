@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Pricing — MyMilesAI: $6.99/month, 10-Day Free Trial</title>
+<title>Pricing — MyMilesAI: $6.99/month, 7-Day Free Trial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
   .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:20px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 </head>
@@ -49,7 +49,7 @@ const PricingROI = () => (
         {[
           {n:'97 mi',label:'Break-even point at annual price',sub:'At $0.725/mi, 97 miles of business driving pays for a full year of MyMilesAI Pro'},
           {n:'$6,500',label:'Avg annual deduction for tracked drivers',sub:'Drivers who actually log miles claim significantly more than those who don\'t'},
-          {n:'10 days',label:'Free trial — no credit card needed',sub:'Try it during your normal week. If it doesn\'t log every trip, cancel and pay nothing'},
+          {n:'7 days',label:'Free trial — cancel anytime',sub:'Try it during your normal week. If it doesn\'t log every trip, cancel and pay nothing'},
         ].map((s,i)=>(
           <div key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12,padding:'24px 20px'}}>
             <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:28,color:'#1B4DDB',lineHeight:1,marginBottom:8}}>{s.n}</div>
@@ -65,7 +65,7 @@ const PricingROI = () => (
 const PricingFAQ = () => {
   const [open, setOpen] = React.useState(null);
   const faqs = [
-    {q:'Is there a free plan?',a:'No free plan, but we offer a 10-day free trial — no credit card required. You can use every feature during the trial and see exactly how much you would have deducted. If it\'s not useful, cancel before day 10 and you pay nothing.'},
+    {q:'Is there a free plan?',a:'No free plan, but we offer a 7-day free trial. You can use every feature during the trial and see exactly how much you would have deducted. If it\'s not useful, cancel before day 7 and you pay nothing.'},
     {q:'Can I cancel anytime?',a:'Yes. Cancel from within the app at any time. No questions asked, no cancellation fees, no phone calls to sit through. If you cancel mid-period, you keep access until the end of your billing cycle.'},
     {q:'Does it work in Canada?',a:'Yes. MyMilesAI supports Canada with CRA 2026 rates built in: $0.73/km for the first 5,000 km of business driving per year, and $0.67/km after that. The app detects your region and switches units automatically. Reports export in kilometers.'},
     {q:'Will it drain my battery?',a:'No. We use a low-power GPS mode optimized for background operation. MyMilesAI typically uses about 1% of your daily battery — less than most social media apps. On most phones you won\'t notice it in your battery stats.'},
@@ -101,7 +101,7 @@ const PricingFAQ = () => {
         </div>
         <div style={{marginTop:40,padding:'24px',background:'#F8F9FA',border:'1px solid #E5E7EB',borderRadius:12,textAlign:'center'}}>
           <div style={{fontWeight:600,fontSize:15,marginBottom:8}}>Still not sure?</div>
-          <div style={{fontSize:14,color:'#374151',marginBottom:16}}>Try it free — you'll know in 10 days. No credit card, no commitment.</div>
+          <div style={{fontSize:14,color:'#374151',marginBottom:16}}>Try it free — you'll know in 7 days. Cancel anytime.</div>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'14px 28px',borderRadius:100,fontSize:14,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:6}}>
             Start Free Trial →
           </a>
@@ -118,7 +118,7 @@ const Site = () => (
     <section className="page-hero">
       <div className="eyebrow">— Pricing</div>
       <h1>One plan. Everything included.</h1>
-      <p>MyMilesAI Pro is $6.99/month or $69.99/year. 10-day free trial, no credit card required. At $0.725/mile, it takes fewer than 10 business trips to pay for a year.</p>
+      <p>MyMilesAI Pro is $6.99/month or $69.99/year. 7-day free trial. At $0.725/mile, it takes fewer than 10 business trips to pay for a year.</p>
     </section>
     <MSPricing/>
     <PricingROI/>
