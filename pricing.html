@@ -119,6 +119,18 @@ const Site = () => (
       <div className="eyebrow">— Pricing</div>
       <h1>One plan. Everything included.</h1>
       <p>MyMilesAI Pro is $6.99/month or $69.99/year. 7-day free trial. At $0.725/mile, it takes fewer than 10 business trips to pay for a year.</p>
+      <div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:32}}>
+        <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'15px 30px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',whiteSpace:'nowrap'}}>
+          Start Free Trial
+          <svg viewBox="0 0 16 16" width={13} height={13} fill="none" aria-hidden="true"><path d="M3 8H13M8 3L13 8L8 13" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+        <a href="how-it-works.html" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'14px 26px',borderRadius:100,fontSize:15,fontWeight:600,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,whiteSpace:'nowrap'}}>
+          See How It Works
+        </a>
+      </div>
+      <div style={{fontSize:13,color:'#6B7280',marginTop:16,fontFamily:"'DM Sans',system-ui,sans-serif"}}>
+        7 days free. Cancel anytime. · IRS Pub. 463 compliant · CRA T2125 compliant
+      </div>
     </section>
     <MSPricing/>
     <PricingROI/>
