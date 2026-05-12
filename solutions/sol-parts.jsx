@@ -694,7 +694,7 @@ const SolPersonaPage = ({persona}) => {
           <div style={{textAlign:'center',marginBottom:40}}>
             <div style={{fontSize:14,fontWeight:700,color:'#1B4DDB',marginBottom:12}}>— Sample export</div>
             <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(1.5rem,2.5vw,2rem)',letterSpacing:'-0.025em',color:'#111827',marginBottom:10}}>
-              Your accountant will actually thank you.
+              One tap. IRS-ready. Done.
             </h2>
             <p style={{fontSize:'1rem',color:'#6B7280',maxWidth:480,margin:'0 auto',lineHeight:1.6}}>{s.auditLabel} · {s.form2} ready</p>
           </div>
