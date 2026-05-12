@@ -1,0 +1,46 @@
+<!doctype html>
+<!--
+  MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+  Confidential and proprietary. Unauthorized use prohibited.
+  MyMilesAI is a trademark of Harijas LLC.
+  MyMilesAI is a recordkeeping tool - not tax advice.
+  See LICENSE for full terms. harijasllc@outlook.com
+-->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mileage Tracking for Every Profession — MyMilesAI</title>
+<meta name="description" content="Auto GPS mileage tracking built for realtors, rideshare drivers, freelancers, small business owners, tradespeople, and sales reps. IRS and CRA compliant." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="solutions.css">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#FFFFFF;color:#111827;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit}
+  ::selection{background:#1B4DDB;color:#FFFFFF}
+  #root{min-height:100vh}
+</style>
+</head>
+<body>
+
+<!-- locale.js must load BEFORE Babel scripts so window.MM is available -->
+<script src="locale.js"></script>
+<script src="../assets/vendor/react.production.min.js"></script>
+<script src="../assets/vendor/react-dom.production.min.js"></script>
+<script src="../assets/vendor/babel.min.js"></script>
+<script type="text/babel" src="../ms-parts1.jsx?v=2026-05-11a"></script>
+<script type="text/babel" src="../ms-parts2.jsx?v=2026-05-11a"></script>
+<script type="text/babel" src="sol-parts.jsx?v=2026-05-11a"></script>
+
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('root')).render(<SolHubPage/>);
+</script>
+
+<div id="root"></div>
+</body>
+</html>
