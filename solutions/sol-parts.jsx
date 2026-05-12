@@ -436,7 +436,7 @@ const SolPersonaGrid = ({locale}) => (
     <div className="sol-grid-inner">
       <div className="sol-grid-head">
         <div style={{fontSize:14,fontWeight:700,color:'#1B4DDB',marginBottom:12}}>— Choose your profession</div>
-        <h2>Built for how you actually drive.</h2>
+        <h2>Which kind of driver are you?</h2>
         <p>Select your profession and see how MyMilesAI captures every deductible mile automatically.</p>
       </div>
       <div className="sol-persona-grid">
