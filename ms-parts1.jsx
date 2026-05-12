@@ -182,7 +182,7 @@ const MSHero = () => {
           <span style={{display:'block'}}>Stop losing</span>
           <span style={{display:'block',color:'#1B4DDB'}}>tax deductions.</span>
         </h1>
-        <p style={{fontSize:17,lineHeight:1.6,color:'#374151',maxWidth:510,marginBottom:36}}>
+        <p style={{fontSize:20,lineHeight:1.6,color:'#374151',maxWidth:510,marginBottom:36}}>
           You drove 47 miles to that client meeting. Did you log it? Didn't think so. MyMilesAI tracks every mile automatically — no buttons, no manual entries, no forgotten deductions.
         </p>
         <div style={{padding:'14px 20px',background:'#F6FBF7',border:'1px solid #BBF0CB',borderRadius:10,marginBottom:28,display:'inline-flex',alignItems:'center',gap:10,fontSize:13}}>
@@ -198,7 +198,7 @@ const MSHero = () => {
             See How It Works
           </a>
         </div>
-        <div style={{display:'flex',gap:24,fontSize:12.5,color:'#6B7280',flexWrap:'wrap',alignItems:'center'}}>
+        <div style={{display:'flex',gap:24,fontSize:14,color:'#6B7280',flexWrap:'wrap',alignItems:'center'}}>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
             <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M8 4v4l3 2" stroke="#6B7280" strokeWidth="1.4" strokeLinecap="round"/></svg>
             7-day free trial
@@ -384,10 +384,10 @@ const MSHow = () => {
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32}}>
         {steps.map(s=>(
           <div key={s.n} style={{borderTop:'1px solid #0B0F0E',paddingTop:24}}>
-            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,color:'#1B4DDB',marginBottom:20}}>{s.n}</div>
+            <div style={{fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:14,color:'#1B4DDB',marginBottom:20}}>{s.n}</div>
             <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:26,lineHeight:1.15,marginBottom:14,letterSpacing:'-0.02em'}}>{s.title}</h3>
-            <p style={{fontSize:15,lineHeight:1.6,color:'#374151',marginBottom:20}}>{s.body}</p>
-            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,fontSize:13,color:'#6B7280'}}>{s.meta}</div>
+            <p style={{fontSize:17,lineHeight:1.6,color:'#374151',marginBottom:20}}>{s.body}</p>
+            <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,fontSize:14,color:'#6B7280'}}>{s.meta}</div>
             {s.cta ? (
               <button onClick={s.ctaAction} style={{marginTop:18,padding:'12px 18px',background:'#0B0F0E',color:'#F8F9FA',border:'none',borderRadius:6,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:600,fontSize:13,cursor:'pointer',letterSpacing:'0.01em'}}>
                 {s.cta}
@@ -415,10 +415,10 @@ const MSFeatures = () => {
             <div style={{order:i%2===0?1:2}}>
               <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:20}}>— {f.k}</div>
               <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(28px,3.2vw,42px)',lineHeight:1.1,letterSpacing:'-0.025em',marginBottom:20}}>{f.h}</h2>
-              <p style={{fontSize:16,lineHeight:1.6,color:'#374151',maxWidth:480,marginBottom:28}}>{f.p}</p>
+              <p style={{fontSize:18,lineHeight:1.6,color:'#374151',maxWidth:480,marginBottom:28}}>{f.p}</p>
               <div style={{display:'flex',alignItems:'baseline',gap:16,paddingTop:24,borderTop:'1px solid #E5E7EB',maxWidth:320}}>
                 <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:38,color:'#1B4DDB',lineHeight:1}}>{f.stat}</div>
-                <div style={{fontSize:13,color:'#6B7280',lineHeight:1.4}}>{f.label}</div>
+                <div style={{fontSize:14,color:'#6B7280',lineHeight:1.4}}>{f.label}</div>
               </div>
             </div>
             <div style={{order:i%2===0?2:1,aspectRatio:'4/3',background:i===0?'#0B0F0E':i===1?'#FAFAFA':'#FFFFFF',border:i===1?'1px solid #E8EAED':'none',borderRadius:20,padding:32,position:'relative',overflow:'hidden',color:i===0?'#F8F9FA':'#0B0F0E'}}>
@@ -434,7 +434,7 @@ const MSFeatures = () => {
 };
 
 const FeatVisAutoDetect = () => (
-  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:11}}>
+  <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'space-between',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:13}}>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
       <span style={{letterSpacing:'0.15em',color:'rgba(246,243,238,0.6)'}}>● BACKGROUND · TRACKING</span>
       <span style={{color:'rgba(246,243,238,0.4)'}}>09:41:08</span>
@@ -464,8 +464,8 @@ const FeatVisClassify = () => (
       {f:'Starbucks',t:'Office',m:'1.1',cls:'biz',auto:true},
     ].map((t,i)=>(
       <div key={i} style={{display:'flex',alignItems:'center',gap:16,padding:14,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12}}>
-        <div style={{flex:1,fontSize:12}}>
-          <div style={{color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:11}}>{t.f} → {t.t}</div>
+        <div style={{flex:1,fontSize:14}}>
+          <div style={{color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12}}>{t.f} → {t.t}</div>
           <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:20,marginTop:2}}>{t.m} mi</div>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:8}}>
@@ -486,11 +486,11 @@ const FeatVisAudit = () => (
       </div>
       <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#F8F9FA',borderRadius:100,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>
     </div>
-    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:10,color:'#6B7280',marginBottom:10}}>
+    <div style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,fontSize:12,color:'#6B7280',marginBottom:10}}>
       <div>DATE</div><div>ROUTE</div><div style={{textAlign:'right'}}>MILES</div><div style={{textAlign:'right'}}>$</div>
     </div>
     {[['01/04','Home → Client A · Sales call','24.1','17.47'],['01/04','Client A → Client B · Consultation','12.8','9.28'],['01/05','Home → Warehouse · Supplies','8.4','6.09'],['01/06','Office → Airport · Conference travel','31.2','22.62']].map((r,i)=>(
-      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F8F9FA',fontSize:11}}>
+      <div key={i} style={{display:'grid',gridTemplateColumns:'60px 1fr 60px 60px',gap:8,padding:'8px 0',borderBottom:'1px solid #F8F9FA',fontSize:13}}>
         <div>{r[0]}</div><div style={{color:'#0B0F0E'}}>{r[1]}</div><div style={{textAlign:'right'}}>{r[2]}</div><div style={{textAlign:'right',color:'#1B4DDB'}}>${r[3]}</div>
       </div>
     ))}

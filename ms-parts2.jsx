@@ -64,7 +64,7 @@ const MSAudience = () => {
               <Icon d={ic[a.i]} c={a.c}/>
               <div style={{minWidth:0}}>
                 <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:15,letterSpacing:'-0.005em',color:'#F8F9FA',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.t}</div>
-                <div style={{fontSize:12,color:'rgba(246,243,238,0.55)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.s}</div>
+                <div style={{fontSize:14,color:'rgba(246,243,238,0.55)',marginTop:3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{a.s}</div>
               </div>
             </div>
           ))}
@@ -130,7 +130,7 @@ const MSPricing = () => {
         <div style={{background:'#0B0F0E',color:'#F8F9FA',border:'1px solid #0B0F0E',borderRadius:20,padding:40,position:'relative',display:'flex',flexDirection:'column',width:'100%',maxWidth:480}}>
           <div style={{position:'absolute',top:-12,left:40,background:'#1B4DDB',color:'#FFFFFF',padding:'4px 10px',borderRadius:100,fontSize:11,fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700}}>MyMilesAI Pro</div>
           <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6}}>MyMilesAI Pro</div>
-          <div style={{fontSize:14,color:'rgba(246,243,238,0.65)',marginBottom:24}}>Everything a serious driver needs. No tiers, no surprises.</div>
+          <div style={{fontSize:16,color:'rgba(246,243,238,0.65)',marginBottom:24}}>Everything a serious driver needs. No tiers, no surprises.</div>
           <div style={{display:'flex',alignItems:'baseline',gap:8,marginBottom:4}}>
             <span style={{fontSize:15,color:'rgba(246,243,238,0.4)',textDecoration:'line-through',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace'}}>$699/yr</span>
             <span style={{fontSize:11,color:'rgba(246,243,238,0.4)',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em'}}>founding member</span>
@@ -139,12 +139,12 @@ const MSPricing = () => {
             <span style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:52,lineHeight:1}}>$6.99</span>
             <span style={{fontSize:16,color:'rgba(246,243,238,0.7)',fontWeight:500}}>/month</span>
           </div>
-          <div style={{fontSize:13,color:'rgba(246,243,238,0.55)',marginBottom:6}}>or <strong style={{color:'#C9A96E'}}>$69.99/year</strong> — save ~17%</div>
+          <div style={{fontSize:14,color:'rgba(246,243,238,0.55)',marginBottom:6}}>or <strong style={{color:'#C9A96E'}}>$69.99/year</strong> — save ~17%</div>
           <div style={{fontSize:12,color:'rgba(246,243,238,0.5)',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.08em',marginBottom:28}}>7 DAYS FREE · CANCEL ANYTIME</div>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'16px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',marginBottom:32,textAlign:'center',textDecoration:'none',display:'block',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.5)'}}>Start Free Trial →</a>
           <div style={{display:'flex',flexDirection:'column',gap:12,paddingTop:24,borderTop:'1px solid rgba(246,243,238,0.15)'}}>
             {features.map(f=>(
-              <div key={f} style={{display:'flex',gap:10,fontSize:14,alignItems:'flex-start'}}>
+              <div key={f} style={{display:'flex',gap:10,fontSize:16,alignItems:'flex-start'}}>
                 <svg viewBox="0 0 16 16" width={15} height={15} style={{flexShrink:0,marginTop:2}} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#1B4DDB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 <span>{f}</span>
               </div>
@@ -152,7 +152,7 @@ const MSPricing = () => {
           </div>
         </div>
       </div>
-      <div style={{textAlign:'center',marginTop:40,fontSize:13,color:'#6B7280'}}>
+      <div style={{textAlign:'center',marginTop:40,fontSize:14,color:'#6B7280'}}>
         Cancel anytime from the app. No questions asked.
       </div>
     </section>
@@ -237,10 +237,10 @@ const MSCTA = () => (
     <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,5vw,64px)',lineHeight:1.05,letterSpacing:'-0.03em',marginBottom:40,maxWidth:900,margin:'0 auto 32px'}}>
       The next mile you drive<br/>could be <span style={{color:'#C9A96E'}}>deductible.</span>
     </h2>
-    <p style={{fontSize:17,color:'rgba(246,243,238,0.65)',maxWidth:520,margin:'0 auto 16px'}}>
+    <p style={{fontSize:20,color:'rgba(246,243,238,0.65)',maxWidth:520,margin:'0 auto 16px'}}>
       Your first 7 days are free. Cancel anytime from the app.
     </p>
-    <p style={{fontSize:14,color:'rgba(246,243,238,0.4)',maxWidth:520,margin:'0 auto 40px',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
+    <p style={{fontSize:15,color:'rgba(246,243,238,0.4)',maxWidth:520,margin:'0 auto 40px',fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       Switching from MileIQ? We support CSV import.
     </p>
     <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
@@ -257,8 +257,8 @@ const MSFooter = () => (
     <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr 1fr 1fr 1fr',gap:40,marginBottom:64}}>
       <div>
         <MSLogo onDark={true} size={22}/>
-        <p style={{fontSize:14,marginTop:20,maxWidth:280,lineHeight:1.55,color:'rgba(246,243,238,0.6)'}}>The automatic mileage tracker for self-employed professionals in the US and Canada.</p>
-        <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6,fontSize:13}}>
+        <p style={{fontSize:16,marginTop:20,maxWidth:280,lineHeight:1.55,color:'rgba(246,243,238,0.6)'}}>The automatic mileage tracker for self-employed professionals in the US and Canada.</p>
+        <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6,fontSize:15}}>
           <a href="mailto:support@mymilesai.com" style={{color:'rgba(246,243,238,0.6)',textDecoration:'none'}}>support@mymilesai.com</a>
           <a href="mailto:hello@mymilesai.com" style={{color:'rgba(246,243,238,0.6)',textDecoration:'none'}}>hello@mymilesai.com</a>
         </div>
@@ -269,16 +269,16 @@ const MSFooter = () => (
         {h:'Legal',l:[{t:'Privacy Policy',u:'privacy/'},{t:'Terms of Service',u:'terms/'}]},
       ].map(c=>(
         <div key={c.h}>
-          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:12,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:20}}>{c.h}</div>
-          {c.l.map(x=><a key={x.t} href={x.u} style={{display:'block',fontSize:13,marginBottom:10,color:'rgba(246,243,238,0.7)',textDecoration:'none'}}>{x.t}</a>)}
+          <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'rgba(248,249,250,0.6)',marginBottom:20}}>{c.h}</div>
+          {c.l.map(x=><a key={x.t} href={x.u} style={{display:'block',fontSize:15,marginBottom:10,color:'rgba(246,243,238,0.7)',textDecoration:'none'}}>{x.t}</a>)}
         </div>
       ))}
     </div>
-    <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:12,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
+    <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:13,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       <span>© 2026 Harijas LLC · All rights reserved</span>
       <span>IRS PUB. 463 · CRA T2200 COMPATIBLE</span>
     </div>
-    <div style={{paddingTop:24,fontSize:11,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
+    <div style={{paddingTop:24,fontSize:14,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
       <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available IRS and CRA guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee IRS or tax-authority acceptance of your records or your tax return.
     </div>
   </footer>

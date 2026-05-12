@@ -24,7 +24,7 @@
   .page-hero .eyebrow{font-family:'DM Sans',system-ui,sans-serif;font-size:14px;font-weight:600;color:#1B4DDB;margin-bottom:24px}
   .page-hero h1{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;font-size:clamp(34px,4.2vw,56px);line-height:1.06;letter-spacing:-0.03em;margin:0;max-width:900px}
   .page-hero h1 em{font-style:normal;color:#1B4DDB}
-  .page-hero p{font-size:16px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
+  .page-hero p{font-size:20px;line-height:1.6;color:#374151;max-width:600px;margin:24px 0 0}
   @media (max-width: 760px){ .page-hero{padding:80px 24px 56px} .page-hero h1{font-size:38px} }
 </style>
 <style>
@@ -592,16 +592,16 @@ const HIWDetail = () => {
           const textContent = (
             <div style={{paddingTop:10}}>
               <h3 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,marginBottom:6,letterSpacing:'-0.02em'}}>{s.title}</h3>
-              <div style={{fontSize:13,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,marginBottom:20}}>{s.sub}</div>
+              <div style={{fontSize:14,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:500,marginBottom:20}}>{s.sub}</div>
               <div style={{display:'flex',flexDirection:'column',gap:10,marginBottom:20}}>
                 {s.bullets.map((b,bi)=>(
-                  <div key={bi} style={{display:'flex',gap:10,alignItems:'flex-start',fontSize:15,color:'#1F1D1A'}}>
+                  <div key={bi} style={{display:'flex',gap:10,alignItems:'flex-start',fontSize:17,color:'#1F1D1A'}}>
                     <svg viewBox="0 0 16 16" width={14} height={14} style={{flexShrink:0,marginTop:3}} fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke={s.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     {b}
                   </div>
                 ))}
               </div>
-              <div style={{background:'#F8F9FA',border:`1px solid ${s.color}33`,borderLeft:`3px solid ${s.color}`,borderRadius:8,padding:'12px 16px',fontSize:14,color:'#374151',lineHeight:1.6,fontStyle:'normal',maxWidth:580}}>
+              <div style={{background:'#F8F9FA',border:`1px solid ${s.color}33`,borderLeft:`3px solid ${s.color}`,borderRadius:8,padding:'12px 16px',fontSize:15,color:'#374151',lineHeight:1.6,fontStyle:'normal',maxWidth:580}}>
                 {s.note}
               </div>
             </div>
