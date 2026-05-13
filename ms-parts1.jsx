@@ -295,7 +295,7 @@ const MSHero = () => {
 };
 
 /* HOW IT WORKS — 3 steps. Step 03 ships a working "Try a sample PDF"
-   download so visitors can see the IRS Pub. 463 format before signing up. */
+   download so visitors can see the mileage log format before signing up. */
 const MS_SAMPLE_TRIPS = [
   {date:'2026-04-02', from:'Home Office', to:'Acme Corp HQ', purpose:'Q2 strategy meeting w/ J. Lopez', miles:18.4, type:'biz'},
   {date:'2026-04-02', from:'Acme Corp HQ', to:'Beanline Coffee', purpose:'Lunch (personal)', miles:1.2, type:'pers'},
@@ -339,7 +339,7 @@ function msDownloadSamplePDF() {
   doc.setTextColor(85, 85, 85);
   doc.text('April 2026 (sample data) · Driver: Demo · Generated ' + new Date().toLocaleString(), margin, margin + 24);
 
-  const badgeText = 'IRS PUB 463';
+  const badgeText = 'VERIFIED';
   const badgeW = doc.getTextWidth(badgeText) + 14;
   const badgeX = pageW - margin - badgeW;
   doc.setFillColor(27, 94, 63);
@@ -419,7 +419,7 @@ function msDownloadSamplePDF() {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(102, 102, 102);
-  const notice = 'SAMPLE — illustrative trips only. Real reports are generated from your own MyMilesAI trip log. Method: Standard mileage rate (IRS Publication 463). This log records the four IRS-required substantiation elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+  const notice = 'SAMPLE — illustrative trips only. Real reports are generated from your own MyMilesAI trip log. Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
   doc.text(doc.splitTextToSize(notice, pageW - margin * 2), margin, y);
 
   const blob = doc.output('blob');
@@ -438,7 +438,7 @@ const MSHow = () => {
   const steps = [
     {n:'01',title:'Install and go.',body:'Download from the App Store. Sign in with Google, Apple, or email. That\'s the entire setup. No hardware. No OBD plug. No Bluetooth beacon. Just your phone.',meta:'Zero taps · Background mode'},
     {n:'02',title:'Drive normally.',body:'MyMilesAI runs in the background. It detects when you\'re driving and logs your start point, end point, route, distance, and time — silently, even when your phone is locked. You drove 12.3 miles to a client meeting. We logged it. You didn\'t have to think about it.',meta:'~0 taps per trip'},
-    {n:'03',title:'Swipe and export.',body:'At end of day, open the app. Swipe right for Business, left for Personal — it takes about 12 seconds. Hit export. Get a PDF in IRS Pub. 463 format. That 12.3-mile trip is now an $8.92 deduction. Send it to your accountant or upload to TurboTax.',meta:'One tap export',cta:'Try a sample PDF →',ctaAction:msDownloadSamplePDF},
+    {n:'03',title:'Swipe and export.',body:'At end of day, open the app. Swipe right for Business, left for Personal — it takes about 12 seconds. Hit export. Get a PDF with all required elements. That 12.3-mile trip is now an $8.92 deduction. Send it to your accountant or upload to TurboTax.',meta:'One tap export',cta:'Try a sample PDF →',ctaAction:msDownloadSamplePDF},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
@@ -470,7 +470,7 @@ const MSFeatures = () => {
   const feats = [
     {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
     {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'12s',label:'daily review time after first week'},
-    {k:'IRS & CRA compliant exports',h:'One tap. IRS-ready. Done.',p:'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',stat:'4/4',label:'IRS Pub. 463 elements captured'},
+    {k:'Tax-ready exports',h:'One tap. Tax-ready. Done.',p:'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',stat:'4/4',label:'required elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
@@ -546,7 +546,7 @@ const FeatVisAudit = () => (
   <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:12,position:'relative',overflow:'hidden'}}>
     <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
-        <div style={{color:'#6B7280',marginBottom:4}}>IRS FORM 2106 — 2026</div>
+        <div style={{color:'#6B7280',marginBottom:4}}>MILEAGE SUMMARY — 2026</div>
         <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18,fontStyle:'normal'}}>Mileage Log · Q1 Summary</div>
       </div>
       <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#F8F9FA',borderRadius:100,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ VERIFIED</div>

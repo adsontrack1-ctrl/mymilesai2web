@@ -109,10 +109,10 @@ const MSPricing = () => {
   const features = [
     'Unlimited automatic trip tracking',
     'AI business/personal classification',
-    'IRS Pub. 463 compliant PDF exports',
+    'Tax-ready PDF exports',
     'CSV export for QuickBooks, Xero, FreshBooks',
     'Real-time deduction counter ($0.725/mi or $0.73/km)',
-    'US + Canada with CRA 2026 rates built in',
+    'US + Canada with standard mileage rates built in',
     'Works offline — syncs when back online',
     'Client and purpose tagging',
     'Multi-vehicle support',
@@ -202,7 +202,7 @@ const MSAbout = () => {
           Built by people who got tired of losing deductions.
         </h2>
         <div style={{fontSize:16,lineHeight:1.7,color:'#374151',display:'flex',flexDirection:'column',gap:20}}>
-          <p>We drove for work. We forgot to log. We lost thousands at tax time — and we knew exactly where the money went. Not to the IRS, just nowhere. Unclaimed. Gone.</p>
+          <p>We drove for work. We forgot to log. We lost thousands at tax time — and we knew exactly where the money went. Just nowhere. Unclaimed. Gone.</p>
           <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals across the US and Canada. Every feature exists because a real driver asked for it.</p>
           <p>We built it privacy-first because we don't want your location data — we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours.</p>
         </div>
@@ -276,10 +276,10 @@ const MSFooter = () => (
     </div>
     <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:13,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       <span>© 2026 Harijas LLC · All rights reserved</span>
-      <span>IRS PUB. 463 · CRA T2200 COMPATIBLE</span>
+      <span>US + CANADA</span>
     </div>
     <div style={{paddingTop:24,fontSize:14,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
-      <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available IRS and CRA guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee IRS or tax-authority acceptance of your records or your tax return.
+      <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee tax-authority acceptance of your records or your tax return.
     </div>
   </footer>
 );
