@@ -214,11 +214,11 @@ const MSHero = () => {
         </div>
       </div>
       <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680}}>
-        <HeroPhone/>
-        <div style={{position:'absolute',top:'50%',left:-40,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:'11px 16px',boxShadow:'0 14px 36px -14px rgba(11,15,14,0.18)',display:'flex',alignItems:'center',gap:9,fontSize:13,fontWeight:500,animation:'float2 7s ease-in-out infinite'}}>
-          <span style={{width:24,height:24,borderRadius:'50%',background:'#F0FDF4',display:'inline-flex',alignItems:'center',justifyContent:'center',color:'#16A34A',fontSize:13,fontWeight:700}}>$</span>
-          <span style={{color:'#16A34A',fontWeight:600}}>+$8.77 deduction logged</span>
-        </div>
+        <img
+          src="assets/hero/app-real.jpg"
+          alt="MyMilesAI app — automatic mileage tracking"
+          style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 50px 100px -20px rgba(27,77,219,0.28), 0 20px 40px -15px rgba(11,15,14,0.12)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%',position:'relative',zIndex:2}}
+        />
       </div>
       <style>{`
         @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
