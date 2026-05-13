@@ -179,7 +179,7 @@ const MSHero = () => {
           <span style={{display:'block'}}>Claim every <span style={{color:'#1B4DDB',fontStyle:'italic'}}>dollar.</span></span>
         </h1>
         <p style={{fontSize:20,lineHeight:1.6,color:'#374151',maxWidth:510,marginBottom:36}}>
-          MyMilesAI automatically logs your trips with GPS, classifies them with AI, and calculates your IRS tax deductions — all hands-free.
+          MyMilesAI automatically logs your trips with GPS, classifies them with AI, and calculates your tax deductions — all hands-free.
         </p>
         <div style={{display:'flex',gap:14,alignItems:'center',marginBottom:24,flexWrap:'wrap'}}>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'17px 32px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none'}}>
