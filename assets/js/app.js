@@ -77,6 +77,9 @@
   let _tripsFilter = 'all';
   let _session = null;
 
+  let _openClassifyDropdown = null;
+  let _hoveredTripId = null;
+
   // Sentinel for trips with no vehicle_id assigned. Used as a pseudo-vehicle
   // option in the Reports page vehicle filter so users can see those trips
   // explicitly instead of wondering why their per-vehicle filter is empty.
@@ -439,13 +442,9 @@
     });
   }
 
-  function renderTripsTable(trips, profile) {
-    const root = $('[data-mmai="trips-table-body"]');
-    if (!root) return;
-
-    // Always recompute counts from the full list — counts don't change with filter.
+  function recomputeAndRenderCounts() {
     let bizCount = 0, persCount = 0, uncCount = 0;
-    for (const t of trips) {
+    for (const t of _allTrips) {
       if (isBusiness(t.type)) bizCount++;
       else if (isPersonal(t.type)) persCount++;
       else uncCount++;
@@ -453,7 +452,16 @@
     setText('[data-mmai="trips-filter-biz"]', bizCount);
     setText('[data-mmai="trips-filter-pers"]', persCount);
     setText('[data-mmai="trips-filter-unc"]', uncCount);
-    setText('[data-mmai="trips-eyebrow-review"]', `${trips.length} trips · ${uncCount} need review`);
+    setText('[data-mmai="trips-eyebrow-review"]', `${_allTrips.length} trips · ${uncCount} need review`);
+    setText('[data-mmai="needs-review"]', uncCount);
+    setText('[data-mmai="greeting-count"]', String(uncCount));
+  }
+
+  function renderTripsTable(trips, profile) {
+    const root = $('[data-mmai="trips-table-body"]');
+    if (!root) return;
+
+    recomputeAndRenderCounts();
 
     if (!trips.length) {
       root.innerHTML = '<div class="empty">No trips this year yet.</div>';
@@ -1369,36 +1377,6 @@
     closeRowMenu();
     const menu = document.createElement('div');
     menu.className = 'mmai-rowmenu';
-    const tag = classTag(trip.type);
-    const items = [
-      { label: '✓ Mark business', type: 'biz', hide: tag.cls === 'biz' },
-      { label: '○ Mark personal', type: 'pers', hide: tag.cls === 'pers' },
-      { label: '? Mark needs review', type: 'uncl', hide: tag.cls === 'unreviewed' },
-    ].filter((i) => !i.hide);
-    items.forEach((i) => {
-      const el = document.createElement('div');
-      el.className = 'mmai-rowmenu-item';
-      el.textContent = i.label;
-      el.addEventListener('click', async () => {
-        try {
-          const upd = { type: i.type };
-          // Recompute deductible client-side: business → miles × rate, else null.
-          const rate = Number(_profileRef.mileage_rate) > 0 ? Number(_profileRef.mileage_rate) : 0.725;
-          upd.deductible = i.type === 'biz' ? Math.round(Number(trip.miles) * rate * 100) / 100 : null;
-          const { error } = await _sb.from('trips').update(upd).eq('id', trip.id);
-          if (error) throw new Error(error.message);
-          closeRowMenu();
-          await refreshAfterMutation(session);
-        } catch (err) {
-          console.error('[mmai] classify:', err);
-          alert('Could not update trip: ' + (err.message || err));
-        }
-      });
-      menu.appendChild(el);
-    });
-    const sep = document.createElement('div');
-    sep.className = 'mmai-rowmenu-sep';
-    menu.appendChild(sep);
     const del = document.createElement('div');
     del.className = 'mmai-rowmenu-item danger';
     del.textContent = '🗑  Delete trip';
@@ -1439,23 +1417,113 @@
     }, 0);
   }
 
+  // ───────── Classify trip (optimistic) ─────────
+  async function classifyTrip(tripId, newType, session) {
+    const idx = _allTrips.findIndex((t) => String(t.id) === tripId);
+    if (idx < 0) return;
+    const trip = _allTrips[idx];
+    const oldType = trip.type;
+    const oldDeductible = trip.deductible;
+    const rate = effectiveRate(_profileRef);
+    const newDeductible = newType === 'biz'
+      ? Math.round(Number(trip.miles) * rate * 100) / 100
+      : null;
+    trip.type = newType;
+    trip.deductible = newDeductible;
+    recomputeAndRenderCounts();
+    reapplyTripsView();
+    try {
+      const { error } = await _sb.from('trips')
+        .update({ type: newType, deductible: newDeductible })
+        .eq('id', tripId);
+      if (error) throw new Error(error.message);
+    } catch (err) {
+      console.error('[mmai] classify:', err);
+      trip.type = oldType;
+      trip.deductible = oldDeductible;
+      recomputeAndRenderCounts();
+      reapplyTripsView();
+      showToast("Couldn't update — try again");
+    }
+  }
+
+  function showToast(msg) {
+    const prev = document.querySelector('.mmai-toast');
+    if (prev) prev.remove();
+    const el = document.createElement('div');
+    el.className = 'mmai-toast';
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 3000);
+  }
+
+  // ───────── Classify dropdown ─────────
+  function closeClassifyDropdown() {
+    if (_openClassifyDropdown) { _openClassifyDropdown.remove(); _openClassifyDropdown = null; }
+  }
+
+  function showClassifyDropdown(pill, tripId, session) {
+    closeClassifyDropdown();
+    closeRowMenu();
+    const trip = _allTrips.find((t) => String(t.id) === tripId);
+    if (!trip) return;
+    const currentCls = classTag(trip.type).cls;
+    const OPTIONS = [
+      { label: '✓ Business',    type: 'biz',  cls: 'biz' },
+      { label: 'Personal',      type: 'pers', cls: 'pers' },
+      { label: '? Needs review', type: 'uncl', cls: 'unreviewed' },
+    ];
+    const dropdown = document.createElement('div');
+    dropdown.className = 'cls-dropdown';
+    for (const opt of OPTIONS) {
+      const btn = document.createElement('button');
+      btn.className = 'cls-option' + (opt.cls === currentCls ? ' active' : '');
+      btn.textContent = opt.label;
+      btn.addEventListener('click', async () => {
+        closeClassifyDropdown();
+        await classifyTrip(tripId, opt.type, session);
+      });
+      dropdown.appendChild(btn);
+    }
+    document.body.appendChild(dropdown);
+    const r = pill.getBoundingClientRect();
+    const dw = dropdown.offsetWidth || 170;
+    let left = r.left;
+    if (left + dw > window.innerWidth - 8) left = window.innerWidth - dw - 8;
+    dropdown.style.left = left + 'px';
+    dropdown.style.top = (r.bottom + 4) + 'px';
+    _openClassifyDropdown = dropdown;
+    setTimeout(() => {
+      const onDoc = (e) => {
+        if (_openClassifyDropdown && !_openClassifyDropdown.contains(e.target)) {
+          closeClassifyDropdown();
+          document.removeEventListener('click', onDoc, true);
+        }
+      };
+      document.addEventListener('click', onDoc, true);
+    }, 0);
+  }
+
+  function wireClassifyDropdowns(session) {
+    const root = $('[data-mmai="trips-table-body"]');
+    if (!root) return;
+    root.addEventListener('click', (e) => {
+      const pill = e.target.closest('.cls-pill');
+      if (!pill) return;
+      e.stopPropagation();
+      const tripId = pill.dataset.tripId;
+      if (tripId) showClassifyDropdown(pill, tripId, session);
+    });
+  }
+
   function wireTripRowMenu(session) {
     const root = $('[data-mmai="trips-table-body"]');
     if (!root) return;
     root.addEventListener('click', (e) => {
       const more = e.target.closest('.more');
       if (!more) return;
-      const row = more.closest('.tt-row');
-      if (!row) return;
-      // Find the trip by row index against the currently-rendered list.
-      const all = $$('.tt-row');
-      let idx = -1;
-      all.forEach((r, i) => { if (r === row) idx = i; });
-      if (idx < 0) return;
-      const visible = _allTrips
-        .filter((t) => tripMatchesFilter(t, _tripsFilter))
-        .filter((t) => tripMatchesSearch(t, _tripsSearch));
-      const trip = visible[idx];
+      const tripId = more.dataset.tripId;
+      const trip = _allTrips.find((t) => String(t.id) === tripId);
       if (!trip) return;
       openTripRowMenu(more, trip, session);
     });
@@ -1841,7 +1909,8 @@
           bodyHtml: `
             <div class="mmai-field-help" style="font-size:13px;line-height:1.55;color:#0B0F0E">
               <p style="margin-bottom:10px"><strong>+ Log trip</strong> — manually record a trip from any tab. Saves to your account instantly.</p>
-              <p style="margin-bottom:10px"><strong>Trip ⋯ menu</strong> — click the ⋯ on any row to mark a trip business / personal / needs-review, or delete it.</p>
+              <p style="margin-bottom:10px"><strong>Classify inline</strong> — click the Business / Personal / Needs review pill on any row to reclassify it instantly. Updates save automatically.</p>
+              <p style="margin-bottom:10px"><strong>Trip ⋯ menu</strong> — click the ⋯ on any row to delete it.</p>
               <p style="margin-bottom:10px"><strong>Reports</strong> — pick a period, classification, vehicle, and format, then click <em>Generate report</em> for a one-click PDF or CSV.</p>
               <p style="margin-bottom:10px"><strong>Search</strong> — the search box on Dashboard and Trips filters by address, purpose, or date instantly.</p>
               <p style="margin-bottom:10px">Need a hand? Email <a href="mailto:support@mymilesai.com" style="color:#1B4DDB">support@mymilesai.com</a>.</p>
@@ -1921,6 +1990,7 @@
 
     // Mutation wiring needs the session — wire after it's available.
     wireLogTripButtons(session);
+    wireClassifyDropdowns(session);
     wireTripRowMenu(session);
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);

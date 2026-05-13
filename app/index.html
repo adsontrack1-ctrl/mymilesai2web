@@ -259,6 +259,21 @@
   .mmai-rowmenu-sep { height: 1px; background: #EFF1F5; margin: 4px 6px; }
   .tt-row .more { background: transparent; border: none; }
   .tt-row .more:hover { color: #1B4DDB; }
+  /* ─── CLASSIFY PILL (inline, trip rows) ─── */
+  .cls-pill{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap;background:transparent;border:none;cursor:pointer;font-family:inherit;transition:opacity .15s}
+  .cls-pill:hover{opacity:0.72}
+  .cls-pill.cls-biz{background:#1B5E3F;color:#F8F9FB}
+  .cls-pill.cls-pers{background:#E5E7EB;color:#0B0F0E}
+  .cls-pill.cls-unreviewed{background:rgba(201,169,110,0.15);color:#8B7355}
+  .cls-pill[aria-busy="true"]{opacity:0.5;cursor:wait}
+  /* ─── CLASSIFY DROPDOWN ─── */
+  .cls-dropdown{position:fixed;background:#FFF;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 28px -8px rgba(11,15,30,0.2);z-index:200;overflow:hidden;min-width:170px}
+  .cls-option{display:block;width:100%;padding:10px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;color:#0B0F0E;cursor:pointer;text-align:left}
+  .cls-option:hover{background:#F4F6FA}
+  .cls-option.active{font-weight:600;color:#1B4DDB}
+  /* ─── TOAST ─── */
+  .mmai-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0B0F0E;color:#F8F9FB;padding:11px 20px;border-radius:100px;font-size:13px;font-family:inherit;z-index:300;pointer-events:none;animation:toastIn .18s ease}
+  @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%)}}
   .set-val.edit-link:not(.disabled) { cursor: pointer; }
   .set-val.edit-link:not(.disabled):hover { color: #1B4DDB; }
 </style>
