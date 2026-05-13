@@ -12,43 +12,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MyMilesAI — Logged-in App · Full Package</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#F1F3F8;font-family:'Manrope','Inter',sans-serif;color:#0B0F0E;padding:32px 40px 80px}
+  body{background:#F1F3F8;font-family:'DM Sans',sans-serif;color:#0B0F0E;padding:32px 40px 80px}
   .header{max-width:1400px;margin:0 auto 20px;display:flex;align-items:center;justify-content:space-between}
-  .header .title{font-family:'Manrope','Inter',sans-serif;font-size:28px;font-weight:600;letter-spacing:-0.01em}
+  .header .title{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:600;letter-spacing:-0.01em}
   .header a{font-size:13px;color:#6B6862;text-decoration:none}
   .tabs{max-width:1400px;margin:0 auto 28px;display:flex;gap:6px;padding:6px;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:100px;width:fit-content;box-shadow:0 4px 16px -8px rgba(0,0,0,0.05)}
-  .tabs button{background:transparent;border:none;padding:9px 18px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'Manrope','Inter',sans-serif;font-weight:600;color:#6B6862;letter-spacing:-0.005em}
-  .tabs button.on{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF}
+  .tabs button{background:transparent;border:none;padding:9px 18px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;color:#6B6862;letter-spacing:-0.005em}
+  .tabs button.on{background:linear-gradient(90deg,#1B4DDB,#378ADD);color:#FFFFFF}
   .app{max-width:1400px;margin:0 auto;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:24px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(11,15,30,0.15);display:grid;grid-template-columns:240px 1fr;min-height:860px}
   .sidebar{background:#FAFAFB;border-right:1px solid #EEEFF3;padding:24px 16px;display:flex;flex-direction:column}
   .logo{display:flex;align-items:center;gap:8px;padding:0 8px 24px;border-bottom:1px solid #E5E7EB;margin-bottom:20px;line-height:1}
   .logo svg{width:20px;height:20px;flex-shrink:0}
-  .logo-w{font-family:'Satoshi','Inter Tight',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.035em;color:#0B0F0E}
-  .logo-w .ai{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;background:linear-gradient(90deg,#7C3AED,#DA0A7F);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.02em;padding-left:0.03em}
+  .logo-w{font-family:'DM Sans',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.035em;color:#0B0F0E}
+  .logo-w .ai{font-family:'Instrument Serif',serif;font-weight:800;background:linear-gradient(90deg,#1B4DDB,#C9A96E);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-0.02em;padding-left:0.03em}
   .nav-section{font-family:'IBM Plex Mono';font-weight:600;font-size:9px;letter-spacing:0.01em;color:#6B6862;padding:16px 8px 8px}
   .nav-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;font-size:13.5px;color:#0B0F0E;cursor:pointer;margin-bottom:2px}
-  .nav-item.active{background:linear-gradient(90deg,rgba(124,58,237,0.10),rgba(218,10,127,0.10));font-weight:600;color:#7C3AED}
+  .nav-item.active{background:rgba(27,77,219,0.08);font-weight:600;color:#1B4DDB}
   .nav-item .ic{width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6B6862}
-  .nav-item.active .ic{color:#DA0A7F}
+  .nav-item.active .ic{color:#1B4DDB}
   .nav-item .count{margin-left:auto;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862}
-  .nav-item.active .count{color:#DA0A7F}
+  .nav-item.active .count{color:#1B4DDB}
   .profile{margin-top:auto;padding:14px 12px;border-top:1px solid #E5E7EB;display:flex;align-items:center;gap:10px}
-  .profile .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6)}
+  .profile .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1B4DDB,#378ADD)}
   .profile .nm{font-size:13px;font-weight:500}
   .profile .em{font-size:11px;color:#6B6862}
   .main{padding:32px 40px;overflow-y:auto;max-height:860px}
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:20px}
   .eyebrow{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:8px}
-  .greeting{font-family:'Manrope','Inter',sans-serif;font-size:38px;letter-spacing:-0.01em;line-height:1.05;font-weight:600;letter-spacing:-0.02em}
-  .greeting em{color:#DA0A7F;font-style:normal;font-weight:700}
+  .greeting{font-family:'DM Sans',sans-serif;font-size:38px;letter-spacing:-0.01em;line-height:1.05;font-weight:600;letter-spacing:-0.02em}
+  .greeting em{color:#C9A96E;font-style:normal;font-weight:700}
   .tools{display:flex;gap:10px;align-items:center;flex-shrink:0}
   .search{background:#FFF;border:1px solid #E5E7EB;border-radius:100px;padding:10px 16px;font-size:13px;width:220px;font-family:inherit}
-  .btn{background:linear-gradient(90deg,#7C3AED,#DA0A7F);color:#FFFFFF;border:none;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(124,58,237,0.4)}
+  .btn{background:linear-gradient(90deg,#1B4DDB,#378ADD);color:#FFFFFF;border:none;padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(27,77,219,0.4)}
   .btn.ghost{background:transparent;color:#0B0F0E;border:1px solid #E5E7EB}
-  .btn.accent{background:#DA0A7F;color:#FFF}
+  .btn.accent{background:#1B4DDB;color:#FFF}
   .page{display:none}
   .page.on{display:block}
   /* ─── DASHBOARD ─── */
@@ -57,45 +57,45 @@
   .kpi.dark{background:#0B0F0E;color:#F8F9FB;border-color:#0B0F0E}
   .kpi .l{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:14px}
   .kpi.dark .l{color:rgba(246,243,238,0.55)}
-  .kpi .v{font-family:'Manrope','Inter',sans-serif;font-size:46px;line-height:1;letter-spacing:-0.01em;font-weight:600;letter-spacing:-0.02em}
+  .kpi .v{font-family:'DM Sans',sans-serif;font-size:46px;line-height:1;letter-spacing:-0.01em;font-weight:600;letter-spacing:-0.02em}
   .kpi.green .v{color:#1B5E3F}
   .kpi .s{font-size:12px;color:#6B6862;margin-top:10px}
   .kpi.dark .s{color:rgba(246,243,238,0.6)}
   .kpi .up{color:#1B5E3F;font-family:'IBM Plex Mono';font-weight:600;font-size:11px}
   .kpi .chart{margin-top:16px;height:50px;display:flex;align-items:end;gap:3px}
-  .kpi .chart span{flex:1;background:rgba(218,10,127,0.3);border-radius:2px}
-  .kpi .chart span.hi{background:#DA0A7F}
-  .kpi.dark .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px}
-  .kpi.dark .pdot{width:6px;height:6px;border-radius:50%;background:#DA0A7F;animation:pulse 1.5s infinite}
+  .kpi .chart span{flex:1;background:rgba(27,77,219,0.2);border-radius:2px}
+  .kpi .chart span.hi{background:#1B4DDB}
+  .kpi.dark .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(201,169,110,0.2);color:#C9A96E;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px}
+  .kpi.dark .pdot{width:6px;height:6px;border-radius:50%;background:#C9A96E;animation:pulse 1.5s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
   .content{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
   .panel{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:14px;padding:24px}
-  .panel h3{font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:400;margin-bottom:4px;letter-spacing:-0.01em}
+  .panel h3{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:400;margin-bottom:4px;letter-spacing:-0.01em}
   .panel .sub{font-size:12px;color:#6B6862;margin-bottom:20px}
   .panel-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:18px}
-  .panel-head a{font-size:12px;color:#DA0A7F;text-decoration:none}
+  .panel-head a{font-size:12px;color:#1B4DDB;text-decoration:none}
   .trip{display:grid;grid-template-columns:auto 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid #EFF1F5}
   .trip:last-child{border-bottom:none}
   .trip .time{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;color:#6B6862;letter-spacing:0.05em}
-  .trip .from{font-family:'Manrope','Inter',sans-serif;font-size:18px;line-height:1.1;font-weight:600}
+  .trip .from{font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.1;font-weight:600}
   .trip .to{color:#6B6862;font-size:12px;margin-top:2px}
-  .trip .mi{font-family:'Manrope','Inter',sans-serif;font-size:22px;font-weight:600}
+  .trip .mi{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:600}
   .tag{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:500;white-space:nowrap}
   .tag.biz{background:#1B5E3F;color:#F8F9FB}
   .tag.pers{background:#E5E7EB;color:#0B0F0E}
-  .tag.unreviewed{background:rgba(218,10,127,0.15);color:#DA0A7F;display:flex;align-items:center;gap:6px}
+  .tag.unreviewed{background:rgba(201,169,110,0.15);color:#8B7355;display:flex;align-items:center;gap:6px}
   .ded{background:#0B0F0E;color:#F8F9FB;border-radius:14px;padding:26px;margin-bottom:14px}
   .ded .l{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.55);margin-bottom:12px}
-  .ded .v{font-family:'Manrope','Inter',sans-serif;font-size:60px;line-height:1;color:#DA0A7F;margin-bottom:6px}
+  .ded .v{font-family:'DM Sans',sans-serif;font-size:60px;line-height:1;color:#C9A96E;margin-bottom:6px}
   .ded .s{font-size:13px;color:rgba(246,243,238,0.6);margin-bottom:22px}
   .ded .bar{height:6px;background:rgba(246,243,238,0.1);border-radius:3px;overflow:hidden;margin-bottom:10px}
-  .ded .bar div{height:100%;background:#DA0A7F;width:62%}
+  .ded .bar div{height:100%;background:#C9A96E;width:62%}
   .ded .bar-label{display:flex;justify-content:space-between;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.5)}
   .ded .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(246,243,238,0.1);font-size:12px}
   .ded .row:last-child{border-bottom:none}
   .ded .row span:last-child{font-family:'IBM Plex Mono';font-weight:600}
   .export{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:20px}
-  .export h4{font-family:'Manrope','Inter',sans-serif;font-size:20px;margin-bottom:6px}
+  .export h4{font-family:'DM Sans',sans-serif;font-size:20px;margin-bottom:6px}
   .export p{font-size:12px;color:#6B6862;margin-bottom:14px}
   .export button{width:100%}
 
@@ -110,18 +110,18 @@
   .tt-row:last-child{border-bottom:none}
   .tt-row:hover{background:#F8F9FB}
   .tt-row .dt{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;color:#4A4843}
-  .tt-row .from{font-family:'Manrope','Inter',sans-serif;font-size:17px}
+  .tt-row .from{font-family:'DM Sans',sans-serif;font-size:17px}
   .tt-row .to{font-size:11px;color:#6B6862;margin-top:2px}
   .tt-row .pur{font-size:12px;color:#4A4843}
-  .tt-row .mi{font-family:'Manrope','Inter',sans-serif;font-size:18px;text-align:right}
+  .tt-row .mi{font-family:'DM Sans',sans-serif;font-size:18px;text-align:right}
   .tt-row .val{font-family:'IBM Plex Mono';font-weight:600;font-size:12px;color:#1B5E3F;text-align:right}
   .tt-row .more{color:#6B6862;text-align:center;font-size:14px;cursor:pointer}
 
   /* ─── REPORTS ─── */
   .rep-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:20px}
   .rep-builder{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:28px}
-  .rep-builder h3{font-family:'Manrope','Inter',sans-serif;font-size:30px;font-weight:400;margin-bottom:6px;letter-spacing:-0.01em}
-  .rep-builder h3 em{color:#DA0A7F;}
+  .rep-builder h3{font-family:'DM Sans',sans-serif;font-size:30px;font-weight:400;margin-bottom:6px;letter-spacing:-0.01em}
+  .rep-builder h3 em{color:#C9A96E;}
   .rep-builder .sub{font-size:13px;color:#6B6862;margin-bottom:24px}
   .field{margin-bottom:20px}
   .field-label{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:10px}
@@ -130,15 +130,15 @@
   .vcheck{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#F8F9FB;border:1px solid #E5E7EB;border-radius:10px;font-size:13px}
   .vcheck.on{background:#0B0F0E;color:#F8F9FB;border-color:#0B0F0E}
   .vcheck .cb{width:16px;height:16px;border-radius:4px;border:1.5px solid #6B6862;display:flex;align-items:center;justify-content:center;font-size:10px}
-  .vcheck.on .cb{background:#DA0A7F;border-color:#DA0A7F;color:#FFF}
+  .vcheck.on .cb{background:#1B4DDB;border-color:#1B4DDB;color:#FFF}
   .rep-prev{background:#0B0F0E;color:#F8F9FB;border-radius:14px;padding:28px;display:flex;flex-direction:column}
   .rep-prev .pdfcard{background:#F8F9FB;color:#0B0F0E;border-radius:10px;padding:20px;margin-bottom:18px;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;line-height:1.6}
   .pdfcard .pdf-head{display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #E5E7EB}
-  .pdfcard .pdf-title{font-family:'Manrope','Inter',sans-serif;font-size:16px;}
+  .pdfcard .pdf-title{font-family:'DM Sans',sans-serif;font-size:16px;}
   .pdf-row{display:grid;grid-template-columns:50px 1fr 50px 50px;gap:6px;padding:4px 0;font-size:9.5px;border-bottom:1px dashed #E5E7EB}
   .pdf-row:last-child{border:none}
   .rep-totals{margin-top:auto;padding-top:20px;border-top:1px solid rgba(246,243,238,0.15)}
-  .rep-totals .big{font-family:'Manrope','Inter',sans-serif;font-size:56px;line-height:1;color:#DA0A7F}
+  .rep-totals .big{font-family:'DM Sans',sans-serif;font-size:56px;line-height:1;color:#C9A96E}
   .rep-totals .lbl{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:rgba(246,243,238,0.55);margin-bottom:6px}
   .rep-totals .lb2{font-size:12px;color:rgba(246,243,238,0.6);margin-top:6px}
   .rep-cta{display:flex;gap:8px;margin-top:20px}
@@ -146,9 +146,9 @@
   .prev-reports{margin-top:20px}
   .prev-reports-head{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;color:#6B6862;margin-bottom:12px}
   .prev-row{display:grid;grid-template-columns:1fr auto auto auto;gap:14px;align-items:center;padding:14px 18px;background:#FFF;border:1px solid #E5E7EB;border-radius:10px;margin-bottom:8px;font-size:13px}
-  .prev-row .nm{font-family:'Manrope','Inter',sans-serif;font-size:17px}
+  .prev-row .nm{font-family:'DM Sans',sans-serif;font-size:17px}
   .prev-row .mt{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.01em;margin-top:2px}
-  .prev-row .val2{font-family:'Manrope','Inter',sans-serif;font-size:18px;color:#1B5E3F}
+  .prev-row .val2{font-family:'DM Sans',sans-serif;font-size:18px;color:#1B5E3F}
 
   /* ─── VEHICLES ─── */
   .veh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
@@ -156,11 +156,11 @@
   .vcard.add{background:transparent;border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;text-align:center;color:#6B6862;cursor:pointer}
   .vcard.add .plus{width:44px;height:44px;border-radius:50%;border:1px solid #6B6862;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
   .vbadge{position:absolute;top:22px;right:22px;padding:4px 10px;border-radius:100px;background:#1B5E3F;color:#F8F9FB;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em}
-  .vhead{font-family:'Manrope','Inter',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px;line-height:1.15}
+  .vhead{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px;line-height:1.15}
   .vsub{font-family:'IBM Plex Mono';font-weight:600;font-size:10px;color:#6B6862;letter-spacing:0.01em;margin-bottom:20px}
   .vstat{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 0;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;margin-bottom:16px}
   .vstat .k{font-family:'IBM Plex Mono';font-weight:600;font-size:9px;letter-spacing:0.01em;color:#6B6862;margin-bottom:6px;white-space:nowrap}
-  .vstat .v{font-family:'Manrope','Inter',sans-serif;font-size:20px;line-height:1;font-weight:600;white-space:nowrap}
+  .vstat .v{font-family:'DM Sans',sans-serif;font-size:20px;line-height:1;font-weight:600;white-space:nowrap}
   .vfoot{display:flex;justify-content:space-between;font-size:11px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em}
 
   /* ─── SETTINGS ─── */
@@ -169,7 +169,7 @@
   .set-nav .snav{padding:10px 14px;border-radius:8px;font-size:13px;cursor:pointer;color:#4A4843}
   .set-nav .snav.on{background:#0B0F0E;color:#F8F9FB}
   .set-panel{background:#FFF;border:1px solid #E5E7EB;border-radius:14px;padding:32px}
-  .set-panel h3{font-family:'Manrope','Inter',sans-serif;font-size:32px;margin-bottom:6px;letter-spacing:-0.01em}
+  .set-panel h3{font-family:'DM Sans',sans-serif;font-size:32px;margin-bottom:6px;letter-spacing:-0.01em}
   .set-panel .sub{font-size:13px;color:#6B6862;margin-bottom:28px}
   .set-group{padding-top:24px;border-top:1px solid #E5E7EB;margin-top:24px}
   .set-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #EFF1F5}
@@ -182,7 +182,7 @@
   .toggle.off::after{left:2px;right:auto}
   .set-val{font-family:'IBM Plex Mono';font-weight:600;font-size:11px;letter-spacing:0.01em;color:#6B6862;}
   .set-val.edit-link{cursor:pointer}
-  .set-val.edit-link:hover{color:#DA0A7F}
+  .set-val.edit-link:hover{color:#1B4DDB}
   .sp{display:none}
   .sp.on{display:block}
 
@@ -190,29 +190,29 @@
   .map-view{display:grid;grid-template-columns:1fr 340px;gap:18px;height:760px}
   .map-surface{background:linear-gradient(135deg,#E8E3D6,#D4CCBA);border:1px solid #E5E7EB;border-radius:14px;position:relative;overflow:hidden}
   .map-surface svg{position:absolute;inset:0;width:100%;height:100%}
-  .map-pin{position:absolute;width:28px;height:28px;border-radius:50%;background:#DA0A7F;color:#FFF;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;transform:translate(-50%,-100%);box-shadow:0 6px 16px -4px rgba(218,10,127,0.5);border:2px solid #FFF}
+  .map-pin{position:absolute;width:28px;height:28px;border-radius:50%;background:#1B4DDB;color:#FFF;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;transform:translate(-50%,-100%);box-shadow:0 6px 16px -4px rgba(27,77,219,0.5);border:2px solid #FFF}
   .map-pin.biz{background:#1B5E3F}
   .map-label{position:absolute;transform:translate(-50%,-100%) translateY(-34px);background:#FFF;border:1px solid #E5E7EB;padding:4px 10px;border-radius:100px;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;white-space:nowrap;letter-spacing:0.05em}
   .place-list{display:flex;flex-direction:column;gap:8px;max-height:760px;overflow-y:auto}
   .pcard{background:#FFF;border:1px solid #E5E7EB;border-radius:12px;padding:16px}
   .pcard.sel{border-color:#0B0F0E;box-shadow:0 6px 20px -10px rgba(11,15,14,0.2)}
-  .pcard .ph{font-family:'Manrope','Inter',sans-serif;font-size:18px;margin-bottom:4px}
+  .pcard .ph{font-family:'DM Sans',sans-serif;font-size:18px;margin-bottom:4px}
   .pcard .pa{font-size:11px;color:#6B6862;margin-bottom:12px}
   .pcard .prow{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #EFF1F5;font-size:12px}
   .pcard .prow .v{font-family:'IBM Plex Mono';font-weight:600;color:#0B0F0E}
   .pbadge{display:inline-block;padding:3px 8px;border-radius:100px;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em;}
   .pbadge.biz{background:rgba(27,94,63,0.12);color:#1B5E3F}
-  .pbadge.pers{background:rgba(218,10,127,0.12);color:#DA0A7F}
+  .pbadge.pers{background:rgba(107,104,98,0.12);color:#4A4843}
   body:not(.mmai-ready) .main { visibility: hidden; }
   .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
   .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
-  .signout-link:hover { color: #DA0A7F; }
+  .signout-link:hover { color: #1B4DDB; }
   .cs-badge { margin-left: auto; font-family:'IBM Plex Mono'; font-weight:600; font-size:9px; letter-spacing:0.06em; color:#6B6862; background:#F1F3F8; padding:2px 6px; border-radius:6px; }
   .nav-item.disabled { opacity: 0.55; cursor: not-allowed; }
-  .empty { padding: 32px 16px; text-align:center; color:#6B6862; font-size:13px; font-family:'Manrope','Inter',sans-serif; }
+  .empty { padding: 32px 16px; text-align:center; color:#6B6862; font-size:13px; font-family:'DM Sans',sans-serif; }
   .coming-soon { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:480px; padding:48px 32px; text-align:center; }
-  .coming-soon .cs-eyebrow { font-family:'IBM Plex Mono'; font-weight:600; font-size:10px; letter-spacing:0.08em; color:#DA0A7F; margin-bottom:14px; }
-  .coming-soon h2 { font-family:'Manrope','Inter',sans-serif; font-size:34px; font-weight:600; letter-spacing:-0.01em; margin-bottom:10px; }
+  .coming-soon .cs-eyebrow { font-family:'IBM Plex Mono'; font-weight:600; font-size:10px; letter-spacing:0.08em; color:#1B4DDB; margin-bottom:14px; }
+  .coming-soon h2 { font-family:'DM Sans',sans-serif; font-size:34px; font-weight:600; letter-spacing:-0.01em; margin-bottom:10px; }
   .coming-soon p { font-size:14px; color:#6B6862; max-width:480px; line-height:1.55; }
   button[disabled], .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
   .edit-link.disabled { opacity: 0.4; pointer-events: none; }
@@ -232,7 +232,7 @@
   #mmai-overlay[hidden] { display: none !important; }
   .mmai-modal { background: #FFFFFF; border-radius: 18px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 80px -20px rgba(11,15,30,0.45); }
   .mmai-modal-head { padding: 22px 26px 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .mmai-modal-title { font-family: 'Manrope','Inter',sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .mmai-modal-title { font-family: 'DM Sans',sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
   .mmai-modal-sub { font-size: 12px; color: #6B6862; padding: 0 26px 14px; }
   .mmai-modal-close { background: transparent; border: none; font-size: 22px; line-height: 1; cursor: pointer; color: #6B6862; padding: 0 4px; }
   .mmai-modal-close:hover { color: #0B0F0E; }
@@ -241,8 +241,8 @@
   .mmai-field { display: flex; flex-direction: column; gap: 6px; }
   .mmai-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .mmai-field label { font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 9.5px; letter-spacing: 0.04em; color: #6B6862; text-transform: uppercase; }
-  .mmai-field input, .mmai-field select, .mmai-field textarea { font-family: 'Manrope','Inter',sans-serif; font-size: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; color: #0B0F0E; }
-  .mmai-field input:focus, .mmai-field select:focus, .mmai-field textarea:focus { outline: 2px solid rgba(218,10,127,0.35); border-color: #DA0A7F; }
+  .mmai-field input, .mmai-field select, .mmai-field textarea { font-family: 'DM Sans',sans-serif; font-size: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; color: #0B0F0E; }
+  .mmai-field input:focus, .mmai-field select:focus, .mmai-field textarea:focus { outline: 2px solid rgba(27,77,219,0.35); border-color: #1B4DDB; }
   .mmai-field-help { font-size: 11px; color: #6B6862; }
   .mmai-class-pills { display: flex; gap: 6px; flex-wrap: wrap; }
   .mmai-class-pills .pill { cursor: pointer; user-select: none; }
@@ -254,11 +254,10 @@
   .mmai-rowmenu-item.danger { color: #B91C1C; }
   .mmai-rowmenu-sep { height: 1px; background: #EFF1F5; margin: 4px 6px; }
   .tt-row .more { background: transparent; border: none; }
-  .tt-row .more:hover { color: #DA0A7F; }
+  .tt-row .more:hover { color: #1B4DDB; }
   .set-val.edit-link:not(.disabled) { cursor: pointer; }
-  .set-val.edit-link:not(.disabled):hover { color: #DA0A7F; }
+  .set-val.edit-link:not(.disabled):hover { color: #1B4DDB; }
 </style>
-<link id="gfont-Montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Inter" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"><link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
 <script>
   window.__MMAI_CONFIG__ = {
     SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
@@ -279,7 +278,7 @@
 <div class="app">
   <aside class="sidebar">
     <div class="logo">
-      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="12" cy="50" r="4" fill="#0B0F0E"></circle><path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#DA0A7F" stroke-width="2.5" stroke-linecap="round" fill="none"></path><circle cx="52" cy="14" r="5" fill="#DA0A7F"></circle><circle cx="52" cy="14" r="2" fill="#F8F9FB"></circle></svg>
+      <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="12" cy="50" r="4" fill="#0B0F0E"></circle><path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#1B4DDB" stroke-width="2.5" stroke-linecap="round" fill="none"></path><circle cx="52" cy="14" r="5" fill="#1B4DDB"></circle><circle cx="52" cy="14" r="2" fill="#F8F9FB"></circle></svg>
       <span class="logo-w">MyMiles<span class="ai">AI</span></span>
     </div>
     <div class="nav-section">Drive</div>
@@ -317,14 +316,14 @@
       </div>
       <div class="kpi-row">
         <div class="kpi dark">
-          <div class="pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(218,10,127,0.2);color:#DA0A7F;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px"><span class="pdot"></span>Live · auto-detecting</div>
+          <div class="pill" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(201,169,110,0.2);color:#C9A96E;font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.01em;margin-bottom:14px"><span class="pdot"></span>Live · auto-detecting</div>
           <div class="l" style="margin-bottom:6px">YTD deduction</div>
-          <div class="v" style="color:#DA0A7F" data-mmai="ytd-deduction">$0.00</div>
+          <div class="v" style="color:#C9A96E" data-mmai="ytd-deduction">$0.00</div>
           <div class="s">Updated live as trips classify</div>
         </div>
         <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">0</div></div>
         <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">0%</div><div class="s" data-mmai="business-of-total">0 of 0 mi</div></div>
-        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#DA0A7F" data-mmai="needs-review">0</div><div class="s">Unclassified trips this year</div></div>
+        <div class="kpi"><div class="l">Needs review</div><div class="v" style="color:#C9A96E" data-mmai="needs-review">0</div><div class="s">Unclassified trips this year</div></div>
       </div>
       <div class="content">
         <div class="panel">
@@ -339,12 +338,12 @@
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(246,243,238,0.15)">
               <div class="row"><span>Business miles</span><span data-mmai="quarter-business-miles">0</span></div>
               <div class="row"><span>Mileage rate</span><span data-mmai="quarter-rate">$0.725</span></div>
-              <div class="row"><span>Est. tax saved (24%)</span><span style="color:#DA0A7F" data-mmai="quarter-tax-saved">$0.00</span></div>
+              <div class="row"><span>Est. tax saved (24%)</span><span style="color:#C9A96E" data-mmai="quarter-tax-saved">$0.00</span></div>
             </div>
           </div>
           <div class="export">
             <h4>Export for your CPA</h4>
-            <p>PDF reports in IRS Pub. 463 format — date, route, purpose, miles for every business trip. One tap, direct download.</p>
+            <p>PDF reports with all required fields — date, route, purpose, miles for every business trip. One tap, direct download.</p>
             <button class="btn accent" data-mmai="quick-pdf-export" style="width:100%">⬇ Export PDF (YTD · business)</button>
             <button class="btn ghost" data-mmai="quick-csv-export" style="width:100%;margin-top:8px">⬇ Export CSV (YTD · all trips)</button>
           </div>
@@ -362,7 +361,7 @@
         <div class="tools">
           <input class="search" placeholder="Search by address, purpose…" data-mmai="trips-search">
           <button class="btn ghost" data-mmai="trips-export-csv" title="Download a CSV of every trip currently visible">⬇ Export CSV</button>
-          <button class="btn ghost" data-mmai="trips-export-pdf" title="Download a PDF of every trip currently visible — IRS Pub. 463 format">⬇ Export PDF</button>
+          <button class="btn ghost" data-mmai="trips-export-pdf" title="Download a PDF of every trip currently visible — standard mileage format">⬇ Export PDF</button>
           <button class="btn" data-mmai="open-log-trip">+ Log trip</button>
         </div>
       </div>
@@ -370,7 +369,7 @@
         <span class="pill on" data-trips-filter="all">All<span class="ct" data-mmai="trips-count">0</span></span>
         <span class="pill" data-trips-filter="biz">Business<span class="ct" data-mmai="trips-filter-biz">0</span></span>
         <span class="pill" data-trips-filter="pers">Personal<span class="ct" data-mmai="trips-filter-pers">0</span></span>
-        <span class="pill" data-trips-filter="unc" style="color:#DA0A7F;border-color:#DA0A7F">Needs review<span class="ct" data-mmai="trips-filter-unc">0</span></span>
+        <span class="pill" data-trips-filter="unc" style="color:#C9A96E;border-color:#C9A96E">Needs review<span class="ct" data-mmai="trips-filter-unc">0</span></span>
       </div>
       <div class="trips-table">
         <div class="tt-head"><div>Date</div><div>Route</div><div>Purpose</div><div style="text-align:right">Miles</div><div style="text-align:right">VALUE</div><div style="text-align:center">CLASS</div><div></div></div>
@@ -396,8 +395,8 @@
     <section class="page" id="p-reports" data-screen-label="App 04 Reports">
       <div class="topbar">
         <div>
-          <div class="eyebrow">IRS Pub. 463 format · Standard mileage method</div>
-          <div class="greeting">Build an <em>audit-ready</em> mileage log.</div>
+          <div class="eyebrow">Standard mileage method</div>
+          <div class="greeting">Build an <em>accurate</em> mileage log.</div>
         </div>
       </div>
       <div class="rep-grid">
@@ -429,7 +428,7 @@
           <div class="field">
             <div class="field-label">Format</div>
             <div class="period-pills">
-              <span class="pill on" data-rep-format="pdf">PDF · IRS Pub 463</span>
+              <span class="pill on" data-rep-format="pdf">PDF · Standard</span>
               <span class="pill" data-rep-format="csv">CSV · generic</span>
               <span class="pill" data-rep-format="quickbooks">QuickBooks CSV</span>
               <span class="pill" data-rep-format="xero">Xero CSV</span>
@@ -437,7 +436,7 @@
           </div>
           <div class="field">
             <div class="field-label">Notice</div>
-            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the IRS default if set). PDF and CSV exports download directly to your device — one tap, no print dialog.</div>
+            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the country default if set). PDF and CSV exports download directly to your device — one tap, no print dialog.</div>
           </div>
         </div>
         <div class="rep-prev">
@@ -447,7 +446,7 @@
                 <div style="color:#6B6862">MYMILESAI · MILEAGE LOG</div>
                 <div class="pdf-title" data-mmai="rep-period-title">—</div>
               </div>
-              <div style="padding:4px 8px;background:#1B5E3F;color:#F8F9FB;border-radius:100px;font-size:8px;letter-spacing:0.01em;align-self:flex-start">PUB 463</div>
+              <div style="padding:4px 8px;background:#1B5E3F;color:#F8F9FB;border-radius:100px;font-size:8px;letter-spacing:0.01em;align-self:flex-start">VERIFIED</div>
             </div>
             <div class="pdf-row" style="color:#6B6862"><div>Date</div><div>Route</div><div style="text-align:right">MI</div><div style="text-align:right">$</div></div>
             <div data-mmai="rep-summary"></div>
@@ -455,7 +454,7 @@
           <div class="rep-totals">
             <div class="lbl">Total deduction</div>
             <div class="big" data-mmai="rep-total-deduction">$0.00</div>
-            <div class="lb2" data-mmai="rep-totals-line">— trips · — miles · IRS rate $0.725</div>
+            <div class="lb2" data-mmai="rep-totals-line">— trips · — miles · standard rate</div>
             <div class="rep-cta">
               <button class="btn accent" data-mmai="rep-generate" style="width:100%">Generate report</button>
             </div>
@@ -498,8 +497,8 @@
             <h3>Account</h3>
             <div class="sub">Profile and plan. Edits are managed from the iOS app.</div>
             <div style="display:flex;align-items:center;gap:16px;padding-bottom:24px;border-bottom:1px solid #E5E7EB">
-              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#DA0A7F,#F472B6);display:flex;align-items:center;justify-content:center;color:#FFF;font-family:'Manrope','Inter',sans-serif;font-weight:700;font-size:20px" data-mmai="set-avatar">A</div>
-              <div style="flex:1"><div style="font-family:'Manrope','Inter',sans-serif;font-size:22px" data-mmai="set-name">—</div><div style="font-size:12px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px" data-mmai="set-plan-line">—</div></div>
+              <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1B4DDB,#378ADD);display:flex;align-items:center;justify-content:center;color:#FFF;font-family:'DM Sans',sans-serif;font-weight:700;font-size:20px" data-mmai="set-avatar">A</div>
+              <div style="flex:1"><div style="font-family:'DM Sans',sans-serif;font-size:22px" data-mmai="set-name">—</div><div style="font-size:12px;color:#6B6862;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.05em;margin-top:2px" data-mmai="set-plan-line">—</div></div>
               <button class="btn ghost" data-jump="billing">Manage plan</button>
             </div>
             <div class="set-group" style="border-top:none;padding-top:0">
@@ -540,15 +539,15 @@
             <h3>Billing</h3>
             <div class="sub">Plan and payment method. Subscription changes are handled in the iOS app.</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px">
-              <div style="border:1px solid #DA0A7F;border-radius:12px;padding:18px;background:linear-gradient(180deg,rgba(218,10,127,0.05),transparent)">
-                <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#DA0A7F">CURRENT PLAN</div>
-                <div style="font-family:'Manrope','Inter',sans-serif;font-size:24px;font-weight:700;margin-top:6px" data-mmai="bill-plan">—</div>
+              <div style="border:1px solid #1B4DDB;border-radius:12px;padding:18px;background:linear-gradient(180deg,rgba(27,77,219,0.05),transparent)">
+                <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#1B4DDB">CURRENT PLAN</div>
+                <div style="font-family:'DM Sans',sans-serif;font-size:24px;font-weight:700;margin-top:6px" data-mmai="bill-plan">—</div>
                 <div style="font-size:12px;color:#6B6862;margin-top:4px" data-mmai="bill-renew-line">—</div>
                 <div style="margin-top:14px;display:flex;gap:8px"><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Manage in iOS app">Change plan</button><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Manage in iOS app">Cancel</button></div>
               </div>
               <div style="border:1px solid #E5E7EB;border-radius:12px;padding:18px">
                 <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:10px;letter-spacing:0.08em;color:#6B6862">PAYMENT METHOD</div>
-                <div style="font-family:'Manrope','Inter',sans-serif;font-size:18px;font-weight:600;margin-top:6px" data-mmai="bill-payment-method">—</div>
+                <div style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;margin-top:6px" data-mmai="bill-payment-method">—</div>
                 <div style="font-size:12px;color:#6B6862;margin-top:4px" data-mmai="bill-payment-detail">—</div>
                 <div style="margin-top:14px"><button class="btn ghost" style="font-size:11px;padding:6px 12px" disabled title="Update card in iOS app">Update card</button></div>
               </div>
@@ -565,7 +564,7 @@
             <div class="sub">Sign out of this browser session.</div>
             <div class="set-group" style="border-top:none;padding-top:0">
               <div class="set-row"><div><div class="nm">Email</div><div class="ds" data-mmai="set-email">—</div></div><span class="set-val">SIGNED IN</span></div>
-              <div class="set-row"><div><div class="nm">Sign out of this browser</div><div class="ds">Returns you to the sign-in page on this device only.</div></div><a href="#" data-mmai="signout" class="btn ghost" style="text-decoration:none;color:#DA0A7F;border-color:#DA0A7F">Sign out →</a></div>
+              <div class="set-row"><div><div class="nm">Sign out of this browser</div><div class="ds">Returns you to the sign-in page on this device only.</div></div><a href="#" data-mmai="signout" class="btn ghost" style="text-decoration:none">Sign out →</a></div>
             </div>
             <div class="coming-soon" style="min-height:200px">
               <div class="cs-eyebrow">PASSWORD · 2FA · ACTIVE SESSIONS · COMING SOON</div>
@@ -594,10 +593,10 @@
   </div>
 </div>
 
-<script src="../assets/vendor/supabase.min.js?v=20260505j"></script>
-<script src="../assets/vendor/jspdf.umd.min.js?v=20260505j"></script>
-<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260505j"></script>
-<script src="../assets/js/app.js?v=20260505j"></script>
+<script src="../assets/vendor/supabase.min.js?v=20260513a"></script>
+<script src="../assets/vendor/jspdf.umd.min.js?v=20260513a"></script>
+<script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260513a"></script>
+<script src="../assets/js/app.js?v=20260513a"></script>
 <script>
 function go(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
@@ -641,7 +640,7 @@ document.querySelectorAll('[data-jump]').forEach(b => {
 document.querySelectorAll('.edit-link').forEach(el => {
   el.addEventListener('click', () => {
     const orig = el.textContent;
-    el.style.color = '#DA0A7F';
+    el.style.color = '#1B4DDB';
     el.textContent = 'EDITING…';
     setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 900);
   });
