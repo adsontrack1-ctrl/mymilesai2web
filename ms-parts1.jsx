@@ -162,6 +162,7 @@ const MSNav = ({mobile}) => {
         })}
       </div>
       <div className="nav-signin" style={{display:'flex',alignItems:'center',gap:14}}>
+        <MSRegionPill />
         <a href="signin/" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s',textDecoration:'none',display:'inline-flex',alignItems:'center'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E5E7EB'}}>Sign In</a>
       </div>
     </div>
