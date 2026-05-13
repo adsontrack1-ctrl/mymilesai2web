@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Features — MyMilesAI: Auto GPS Tracking, AI Classification, IRS-Ready Exports</title>
+<title>Features — MyMilesAI: Auto GPS Tracking, AI Classification, Tax-Ready Exports</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -132,7 +132,7 @@ const FeatVisAudit = () => (
   <div style={{width:'100%',height:'100%',background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:14,padding:24,fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",fontSize:12,overflow:'hidden'}}>
     <div style={{display:'flex',justifyContent:'space-between',marginBottom:20,paddingBottom:16,borderBottom:'1px solid #E5E7EB'}}>
       <div>
-        <div style={{color:'#6B7280',marginBottom:4}}>IRS Form 2106 — 2026</div>
+        <div style={{color:'#6B7280',marginBottom:4}}>Mileage Summary — 2026</div>
         <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:18}}>Mileage Log · Q1 Summary</div>
       </div>
       <div style={{padding:'6px 10px',background:'#1B4DDB',color:'#FFFFFF',borderRadius:100,fontSize:9,fontWeight:600,letterSpacing:'0.1em'}}>✓ Verified</div>
@@ -185,11 +185,11 @@ const FeatFeatures = () => {
       vis: <FeatVisClassify/>,
     },
     {
-      k: 'IRS & CRA compliant exports',
-      h: 'One tap. IRS-ready. Done.',
-      p: 'One tap exports a PDF in IRS Pub. 463 format with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US (IRS $0.725/mi) and Canada (CRA $0.73/km) with locale auto-detect.',
+      k: 'Tax-ready exports',
+      h: 'One tap. Tax-ready. Done.',
+      p: 'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',
       stat: '4/4',
-      label: 'IRS Pub. 463 elements captured',
+      label: 'required elements captured',
       visBg: '#FFFFFF',
       visColor: '#111827',
       vis: <FeatVisAudit/>,
@@ -250,7 +250,7 @@ const FeatAdditional = () => {
     {
       icon: <svg viewBox="0 0 24 24" width={28} height={28} fill="none" stroke="#1B4DDB" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"/></svg>,
       title: 'US + Canada with Locale Auto-Detect',
-      desc: 'Live in Canada? The app auto-detects your region and applies CRA 2026 rates ($0.73/km for the first 5,000 km, $0.67/km after). Reports export in kilometers. Switch any time from the settings.',
+      desc: 'Live in Canada? The app auto-detects your region and applies Canadian standard mileage rates. Reports export in kilometers. Switch any time from the settings.',
     },
   ];
   return (
@@ -294,7 +294,7 @@ const Site = () => (
     <section className="f-hero">
       <div className="eyebrow">— Features</div>
       <h1>Everything you need to claim every mile.</h1>
-      <p>Auto GPS tracking, AI classification, IRS-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
+      <p>Auto GPS tracking, AI classification, tax-ready exports, and 6 more features built specifically for self-employed professionals who drive for work and need records that hold up at tax time.</p>
       <div style={{display:'flex',gap:12,flexWrap:'wrap',justifyContent:'center',marginTop:'2rem'}}>
         <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',padding:'15px 30px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',whiteSpace:'nowrap'}}>
           Start Free Trial
@@ -305,7 +305,7 @@ const Site = () => (
         </a>
       </div>
       <div style={{fontSize:13,color:'#6B7280',marginTop:16,fontFamily:"'DM Sans',system-ui,sans-serif"}}>
-        7 days free. Cancel anytime. · IRS Pub. 463 compliant · CRA T2125 compliant
+        7 days free. Cancel anytime. · US + Canada
       </div>
     </section>
     <FeatFeatures/>
