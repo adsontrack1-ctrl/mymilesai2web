@@ -173,6 +173,10 @@ const MSHero = () => {
   return (
     <section style={{padding:'72px 56px 110px',display:'grid',gridTemplateColumns:'1.1fr 1fr',gap:56,alignItems:'center',position:'relative',overflow:'hidden',minHeight:720}}>
       <div style={{position:'absolute',top:'-10%',right:'-8%',width:720,height:720,background:'radial-gradient(circle at center, rgba(27,77,219,0.08), rgba(55,138,221,0.04) 40%, transparent 70%)',pointerEvents:'none',filter:'blur(20px)'}}/>
+      <svg style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',overflow:'visible'}} viewBox="0 0 1100 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d="M 80 640 Q 280 460 520 380 Q 720 310 960 180" fill="none" stroke="#1B4DDB" strokeDasharray="6 9" strokeWidth="1.5" opacity="0.22"/>
+        <circle className="hero-route-dot" r="5.5" fill="#C9A96E"/>
+      </svg>
       <div style={{position:'relative',zIndex:2}}>
         <h1 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(38px,4.2vw,62px)',lineHeight:1.06,letterSpacing:'-0.03em',marginBottom:26}}>
           <span style={{display:'block'}}>Stop losing</span>
@@ -205,17 +209,101 @@ const MSHero = () => {
           </span>
         </div>
       </div>
-      <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680}}>
-        <img
-          src="assets/hero/app-real.jpg"
-          alt="MyMilesAI app — automatic mileage tracking"
-          style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 50px 100px -20px rgba(27,77,219,0.28), 0 20px 40px -15px rgba(11,15,14,0.12)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%',position:'relative',zIndex:2}}
-        />
+      <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680,overflow:'visible'}}>
+        <div className="hero-glow" style={{position:'absolute',width:300,height:500,borderRadius:'50%',background:'radial-gradient(ellipse at center, rgba(27,77,219,0.20) 0%, rgba(27,77,219,0.06) 50%, transparent 70%)',zIndex:1,pointerEvents:'none',filter:'blur(28px)'}}/>
+        <div style={{position:'relative',flexShrink:0,zIndex:2}}>
+          <img
+            src="assets/hero/app-real.jpg"
+            alt="MyMilesAI app — automatic mileage tracking"
+            style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.15), 0 8px 24px rgba(0,0,0,0.08)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%'}}
+          />
+          <div className="hero-card1" style={{position:'absolute',top:56,left:-148,background:'#FFFFFF',border:'1px solid rgba(27,77,219,0.18)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(27,77,219,0.10)',width:144,zIndex:3,pointerEvents:'none'}}>
+            <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#1B4DDB',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>NEW TRIP</div>
+            <div style={{fontSize:13,fontWeight:700,color:'#0B0F0E'}}>12.4 mi</div>
+            <div style={{fontSize:11,color:'#16A34A',fontWeight:600,marginTop:2}}>+$8.99 deduction</div>
+          </div>
+          <div className="hero-card2" style={{position:'absolute',top:'32%',right:-144,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.35)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:134,zIndex:3,pointerEvents:'none'}}>
+            <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#C9A96E',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>Q1 TOTAL</div>
+            <div style={{fontSize:14,fontWeight:700,color:'#0B0F0E'}}>247 trips</div>
+          </div>
+          <div className="hero-card3" style={{position:'absolute',bottom:86,left:-152,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.25)',borderRadius:12,padding:'12px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:148,zIndex:3,pointerEvents:'none'}}>
+            <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#6B7280',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>DEDUCTIBLE</div>
+            <div style={{fontSize:20,fontWeight:800,color:'#C9A96E',fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif"}}>$2,183.14</div>
+          </div>
+          <div className="hero-counter" style={{position:'absolute',top:'56%',right:-122,transform:'translateY(-50%)',zIndex:3,pointerEvents:'none',textAlign:'right'}}>
+            <div className="hero-counter-amount" style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:22,color:'#C9A96E',lineHeight:1}}/>
+            <div style={{fontSize:8,fontWeight:700,letterSpacing:'0.1em',color:'#9CA3AF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginTop:5}}>DEDUCTIBLE · Q1</div>
+          </div>
+        </div>
       </div>
       <style>{`
         @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
         @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         @keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+        /* Layer 2: Glow pulse */
+        .hero-glow{animation:hero-glow-pulse 4s ease-in-out infinite}
+        @keyframes hero-glow-pulse{0%,100%{opacity:.4}50%{opacity:.65}}
+
+        /* Layer 3: Route dot along path */
+        .hero-route-dot{
+          offset-path:path('M 80 640 Q 280 460 520 380 Q 720 310 960 180');
+          offset-distance:0%;
+          animation:hero-route-dot-move 8s linear infinite;
+        }
+        @keyframes hero-route-dot-move{to{offset-distance:100%}}
+
+        /* Layer 4: Floating cards — stagger baked into keyframes */
+        .hero-card1{opacity:0;transform:translateY(-20px);animation:hero-card1-in 10s ease-in-out infinite}
+        .hero-card2{opacity:0;transform:translateX(20px); animation:hero-card2-in 10s ease-in-out infinite}
+        .hero-card3{opacity:0;transform:translateY(20px); animation:hero-card3-in 10s ease-in-out infinite}
+        @keyframes hero-card1-in{
+          0%       {opacity:0;transform:translateY(-20px)}
+          10%      {opacity:1;transform:translateY(0)}
+          80%      {opacity:1;transform:translateY(0)}
+          90%,100% {opacity:0;transform:translateY(-20px)}
+        }
+        @keyframes hero-card2-in{
+          0%,20%   {opacity:0;transform:translateX(20px)}
+          30%      {opacity:1;transform:translateX(0)}
+          85%      {opacity:1;transform:translateX(0)}
+          95%,100% {opacity:0;transform:translateX(20px)}
+        }
+        @keyframes hero-card3-in{
+          0%,40%   {opacity:0;transform:translateY(20px)}
+          50%      {opacity:1;transform:translateY(0)}
+          88%      {opacity:1;transform:translateY(0)}
+          98%,100% {opacity:0;transform:translateY(20px)}
+        }
+
+        /* Layer 5: $ counter — count-up via ::after content */
+        .hero-counter-amount::after{content:"$2,183.14"}
+        @keyframes hero-countup{
+          0%       {content:"$0.00"}
+          12%      {content:"$261.00"}
+          24%      {content:"$545.00"}
+          36%      {content:"$872.00"}
+          48%      {content:"$1,200.00"}
+          60%      {content:"$1,637.00"}
+          75%,100% {content:"$2,183.14"}
+        }
+        @media(prefers-reduced-motion:no-preference){
+          .hero-counter-amount::after{animation:hero-countup 8s linear infinite}
+        }
+
+        /* Reduced-motion: static end state, no animation */
+        @media(prefers-reduced-motion:reduce){
+          .hero-glow{animation:none;opacity:.5}
+          .hero-route-dot{animation:none;offset-distance:100%}
+          .hero-card1,.hero-card2,.hero-card3{animation:none;opacity:1;transform:none}
+          .hero-counter-amount::after{content:"$2,183.14";animation:none}
+        }
+
+        /* Mobile: phone + glow only, hide cards + counter */
+        @media(max-width:900px){
+          .hero-card1,.hero-card2,.hero-card3,.hero-counter{display:none}
+          .hero-glow{width:180px!important;height:280px!important}
+        }
       `}</style>
     </section>
   );
