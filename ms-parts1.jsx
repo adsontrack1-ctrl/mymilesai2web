@@ -174,10 +174,6 @@ const MSHero = () => {
     <section style={{padding:'72px 56px 110px',display:'grid',gridTemplateColumns:'1.1fr 1fr',gap:56,alignItems:'center',position:'relative',overflow:'hidden',minHeight:720}}>
       <div style={{position:'absolute',top:'-10%',right:'-8%',width:720,height:720,background:'radial-gradient(circle at center, rgba(27,77,219,0.08), rgba(55,138,221,0.04) 40%, transparent 70%)',pointerEvents:'none',filter:'blur(20px)'}}/>
       <div style={{position:'relative',zIndex:2}}>
-        <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'6px 14px',background:'#F0F4FF',border:'1px solid #C7D6FB',borderRadius:100,fontSize:12,fontWeight:600,color:'#1B4DDB',marginBottom:28,letterSpacing:'0.01em'}}>
-          <svg viewBox="0 0 16 16" width={11} height={11} fill="none"><path d="M8 1L9.5 6.5H15L10.5 10L12 15.5L8 12L4 15.5L5.5 10L1 6.5H6.5Z" fill="#1B4DDB" opacity="0.8"/></svg>
-          IRS 2026 rate: $0.725/mile — are you capturing it?
-        </div>
         <h1 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(38px,4.2vw,62px)',lineHeight:1.06,letterSpacing:'-0.03em',marginBottom:26}}>
           <span style={{display:'block'}}>Stop losing</span>
           <span style={{display:'block',color:'#1B4DDB'}}>tax deductions.</span>
@@ -185,10 +181,6 @@ const MSHero = () => {
         <p style={{fontSize:20,lineHeight:1.6,color:'#374151',maxWidth:510,marginBottom:36}}>
           You drove 47 miles to that client meeting. Did you log it? Didn't think so. MyMilesAI tracks every mile automatically — no buttons, no manual entries, no forgotten deductions.
         </p>
-        <div style={{padding:'14px 20px',background:'#F6FBF7',border:'1px solid #BBF0CB',borderRadius:10,marginBottom:28,display:'inline-flex',alignItems:'center',gap:10,fontSize:13}}>
-          <svg viewBox="0 0 16 16" width={14} height={14} fill="none"><path d="M8 1L13 3V8Q13 12 8 15Q3 12 3 8V3Z" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinejoin="round"/><path d="M5.5 8L7.3 9.8L10.7 6" fill="none" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          <span style={{color:'#15803D',fontWeight:600}}>Trusted by 1,000+ self-employed professionals across the US and Canada</span>
-        </div>
         <div style={{display:'flex',gap:14,alignItems:'center',marginBottom:24,flexWrap:'wrap'}}>
           <a href="signup/" style={{background:'#1B4DDB',color:'#FFFFFF',border:'none',padding:'17px 32px',borderRadius:100,fontSize:15,fontWeight:700,cursor:'pointer',boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',display:'inline-flex',alignItems:'center',gap:8,textDecoration:'none'}}>
             Start Free Trial
