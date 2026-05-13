@@ -556,7 +556,7 @@
   }
 
   // ───────── Reports ─────────
-  // Client-side IRS Pub 463 mileage-log generator. No backend.
+  // Client-side mileage-log PDF generator. No backend.
   // PDFs are produced directly via jsPDF + autoTable (vendored) so the
   // user gets a one-tap download instead of a browser print dialog.
   const _reportState = {
@@ -873,7 +873,7 @@
     doc.text(`${label} · Driver: ${drvName} · Generated ${new Date().toLocaleString()}`, margin, margin + 24);
 
     // PUB 463 badge (top-right)
-    const badgeText = 'IRS PUB 463';
+    const badgeText = 'VERIFIED';
     const badgeW = doc.getTextWidth(badgeText) + 14;
     const badgeX = pageW - margin - badgeW;
     const badgeY = margin;
@@ -974,7 +974,7 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(102, 102, 102);
-    const notice = 'Method: Standard mileage rate (IRS Publication 463). This log records the four IRS-required substantiation elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+    const notice = 'Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
     const lines = doc.splitTextToSize(notice, pageW - margin * 2);
     doc.text(lines, margin, y);
 
@@ -1599,9 +1599,9 @@
   // populate the suggested default and the displayed unit/symbol/authority.
   // Falls back to US for any country not in this map.
   const TAX_PRESETS = {
-    US: { rate: 0.725, symbol: '$',  unit: 'mi', authority: 'IRS',                       method: 'Standard mileage rate',          refDoc: 'Pub. 463',          taxYear: '2026',     noteLine: 'Overrides the IRS default ($0.725 / 2026 for business use).' },
+    US: { rate: 0.725, symbol: '$',  unit: 'mi', authority: 'Standard',                  method: 'Standard mileage rate',          refDoc: 'Standard rates',    taxYear: '2026',     noteLine: 'Overrides the standard mileage rate ($0.725 / mi for 2026 business use).' },
     GB: { rate: 0.45,  symbol: '£',  unit: 'mi', authority: 'HMRC',                      method: 'Approved Mileage Allowance',     refDoc: 'AMAP rates',        taxYear: '2025/26',  noteLine: 'Overrides the HMRC default (£0.45/mi first 10,000 mi/year, £0.25/mi after).' },
-    CA: { rate: 0.72,  symbol: 'CA$',unit: 'km', authority: 'CRA',                       method: 'Reasonable per-km allowance',    refDoc: 'Reasonable rates',  taxYear: '2025',     noteLine: 'Overrides the CRA reasonable rate (CA$0.72/km first 5,000 km, CA$0.66/km after).' },
+    CA: { rate: 0.72,  symbol: 'CA$',unit: 'km', authority: 'Standard',                  method: 'Reasonable per-km allowance',    refDoc: 'Standard rates',    taxYear: '2025',     noteLine: 'Overrides the standard per-km rate (CA$0.72/km first 5,000 km, CA$0.66/km after).' },
     AU: { rate: 0.88,  symbol: 'A$', unit: 'km', authority: 'ATO',                       method: 'Cents per kilometre',            refDoc: 'Cents-per-km',      taxYear: '2024-25',  noteLine: 'Overrides the ATO default (A$0.88/km, capped at 5,000 km/year).' },
     DE: { rate: 0.30,  symbol: '€',  unit: 'km', authority: 'Bundesfinanzministerium',   method: 'Entfernungspauschale',           refDoc: 'EStG § 9',          taxYear: '2026',     noteLine: 'Overrides the Pendlerpauschale default (€0.30/km up to 20 km, €0.38/km thereafter).' },
     FR: { rate: 0.529, symbol: '€',  unit: 'km', authority: 'DGFiP',                     method: 'Barème kilométrique',            refDoc: 'Barème BIC-BNC',    taxYear: '2025',     noteLine: 'Overrides the DGFiP barème (varies by engine fiscal horsepower and distance).' },
