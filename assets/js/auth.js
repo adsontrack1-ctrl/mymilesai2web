@@ -77,12 +77,18 @@
         return;
       }
 
-      location.replace('/app/');
+      // New web signups land on the iOS onboarding page first.
+      const dest = (mode === 'signup') ? '/welcome/' : '/app/';
+      location.replace(dest);
     });
   }
 
   // ──────── OAuth (Google + Apple) ────────
   async function oauth(provider) {
+    // Flag checked by handleCallback to route new signups to /welcome/.
+    if (document.body.dataset.authPage === 'signup') {
+      try { localStorage.setItem('mmai_after_auth', 'welcome'); } catch (_e) {}
+    }
     const { error } = await _sb.auth.signInWithOAuth({
       provider,
       options: { redirectTo: CALLBACK_URL },
@@ -106,7 +112,7 @@
       const emailField = $('[name=email]');
       const email = emailField ? emailField.value.trim() : '';
       if (!email) {
-        msg('#auth-msg', 'Enter your email above first, then tap reset password.', 'err');
+        msg('#auth-msg', 'Enter your email above first, then click reset password.', 'err');
         emailField && emailField.focus();
         return;
       }
@@ -125,7 +131,14 @@
       for (let i = 0; i < 25; i++) {
         const { data } = await _sb.auth.getSession();
         if (data.session) {
-          location.replace('/app/');
+          let dest = '/app/';
+          try {
+            if (localStorage.getItem('mmai_after_auth') === 'welcome') {
+              localStorage.removeItem('mmai_after_auth');
+              dest = '/welcome/';
+            }
+          } catch (_e) {}
+          location.replace(dest);
           return;
         }
         await new Promise((r) => setTimeout(r, 200));
