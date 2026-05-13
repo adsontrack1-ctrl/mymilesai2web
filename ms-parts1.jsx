@@ -173,10 +173,6 @@ const MSHero = () => {
   return (
     <section style={{padding:'72px 56px 110px',display:'grid',gridTemplateColumns:'1.1fr 1fr',gap:56,alignItems:'center',position:'relative',overflow:'hidden',minHeight:720}}>
       <div style={{position:'absolute',top:'-10%',right:'-8%',width:720,height:720,background:'radial-gradient(circle at center, rgba(27,77,219,0.08), rgba(55,138,221,0.04) 40%, transparent 70%)',pointerEvents:'none',filter:'blur(20px)'}}/>
-      <svg style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0,pointerEvents:'none',overflow:'visible'}} viewBox="0 0 1100 720" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path d="M 80 640 Q 280 460 520 380 Q 720 310 960 180" fill="none" stroke="#1B4DDB" strokeDasharray="6 9" strokeWidth="1.5" opacity="0.22"/>
-        <circle className="hero-route-dot" r="5.5" fill="#C9A96E"/>
-      </svg>
       <div style={{position:'relative',zIndex:2}}>
         <h1 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(38px,4.2vw,62px)',lineHeight:1.06,letterSpacing:'-0.03em',marginBottom:26}}>
           <span style={{display:'block'}}>Stop losing</span>
@@ -213,10 +209,14 @@ const MSHero = () => {
         <div className="hero-glow" style={{position:'absolute',width:320,height:680,borderRadius:'50%',background:'radial-gradient(ellipse at center, rgba(27,77,219,0.25) 0%, rgba(27,77,219,0.08) 50%, transparent 70%)',zIndex:1,pointerEvents:'none',filter:'blur(32px)'}}/>
         <div style={{position:'relative',flexShrink:0,zIndex:2}}>
           <img
+            className="hero-phone-img"
             src="assets/hero/app-real.jpg"
             alt="MyMilesAI app — automatic mileage tracking"
-            style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.18), 0 8px 24px rgba(0,0,0,0.10)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%'}}
+            style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.18), 0 8px 24px rgba(0,0,0,0.10)',display:'block',maxWidth:'100%'}}
           />
+          <div style={{position:'absolute',top:46,left:41,width:130,height:14,background:'#F0F2F5',borderRadius:3,zIndex:4,pointerEvents:'none',transform:'rotate(-2deg)',transformOrigin:'left center',display:'flex',alignItems:'center',paddingLeft:3}}>
+            <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:9,color:'#111827',letterSpacing:'-0.01em',lineHeight:1}}>demo</span>
+          </div>
           <div className="hero-card1" style={{position:'absolute',top:56,left:-148,background:'#FFFFFF',border:'1px solid rgba(27,77,219,0.18)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(27,77,219,0.10)',width:144,zIndex:3,pointerEvents:'none'}}>
             <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#1B4DDB',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>NEW TRIP</div>
             <div style={{fontSize:13,fontWeight:700,color:'#0B0F0E'}}>12.4 mi</div>
@@ -241,13 +241,15 @@ const MSHero = () => {
         .hero-glow{animation:hero-glow-pulse 4s ease-in-out infinite}
         @keyframes hero-glow-pulse{0%,100%{opacity:.4}50%{opacity:.6}}
 
-        /* Layer 3: Route dot along path */
-        .hero-route-dot{
-          offset-path:path('M 80 640 Q 280 460 520 380 Q 720 310 960 180');
-          offset-distance:0%;
-          animation:hero-route-dot-move 8s linear infinite;
+        /* Phone: tilt + float */
+        .hero-phone-img{transform:rotate(-2deg)}
+        @media(prefers-reduced-motion:no-preference){
+          .hero-phone-img{animation:hero-phone-float 3s ease-in-out infinite}
         }
-        @keyframes hero-route-dot-move{to{offset-distance:100%}}
+        @keyframes hero-phone-float{
+          0%,100%{transform:rotate(-2deg) translateY(0)}
+          50%    {transform:rotate(-2deg) translateY(-8px)}
+        }
 
         /* Layer 4: Floating cards — stagger baked into keyframes */
         .hero-card1{opacity:0;transform:translateY(-20px);animation:hero-card1-in 10s ease-in-out infinite}
@@ -275,7 +277,7 @@ const MSHero = () => {
         /* Reduced-motion: static end state, no animation */
         @media(prefers-reduced-motion:reduce){
           .hero-glow{animation:none;opacity:.5}
-          .hero-route-dot{animation:none;offset-distance:100%}
+          .hero-phone-img{animation:none;transform:rotate(-2deg)}
           .hero-card1,.hero-card2,.hero-card3{animation:none;opacity:1;transform:none}
         }
 
