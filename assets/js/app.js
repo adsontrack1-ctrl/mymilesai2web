@@ -1889,6 +1889,28 @@
     });
   }
 
+  // ───────── Trips keyboard shortcuts ─────────
+  // B / P / N while hovering a row classifies it as Business / Personal / Needs review.
+  function wireTripsKeyboard(session) {
+    const root = $('[data-mmai="trips-table-body"]');
+    if (!root) return;
+    root.addEventListener('mouseover', (e) => {
+      const row = e.target.closest('.tt-row[data-trip-id]');
+      _hoveredTripId = row ? row.dataset.tripId : null;
+    });
+    root.addEventListener('mouseleave', () => { _hoveredTripId = null; });
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('p-trips')?.classList.contains('on')) return;
+      if (!_hoveredTripId) return;
+      const active = document.activeElement;
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT')) return;
+      const key = e.key.toLowerCase();
+      if (key === 'b') { e.preventDefault(); classifyTrip(_hoveredTripId, 'biz', session); }
+      else if (key === 'p') { e.preventDefault(); classifyTrip(_hoveredTripId, 'pers', session); }
+      else if (key === 'n') { e.preventDefault(); classifyTrip(_hoveredTripId, 'uncl', session); }
+    });
+  }
+
   function wireLocaleToggle() {
     const toggle = $('[data-mmai="locale-toggle"]');
     if (!toggle) return;
@@ -1991,6 +2013,7 @@
     // Mutation wiring needs the session — wire after it's available.
     wireLogTripButtons(session);
     wireClassifyDropdowns(session);
+    wireTripsKeyboard(session);
     wireTripRowMenu(session);
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
