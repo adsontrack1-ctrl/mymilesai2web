@@ -210,12 +210,12 @@ const MSHero = () => {
         </div>
       </div>
       <div style={{position:'relative',zIndex:2,display:'flex',justifyContent:'center',alignItems:'center',minHeight:680,overflow:'visible'}}>
-        <div className="hero-glow" style={{position:'absolute',width:300,height:500,borderRadius:'50%',background:'radial-gradient(ellipse at center, rgba(27,77,219,0.20) 0%, rgba(27,77,219,0.06) 50%, transparent 70%)',zIndex:1,pointerEvents:'none',filter:'blur(28px)'}}/>
+        <div className="hero-glow" style={{position:'absolute',width:320,height:680,borderRadius:'50%',background:'radial-gradient(ellipse at center, rgba(27,77,219,0.25) 0%, rgba(27,77,219,0.08) 50%, transparent 70%)',zIndex:1,pointerEvents:'none',filter:'blur(32px)'}}/>
         <div style={{position:'relative',flexShrink:0,zIndex:2}}>
           <img
             src="assets/hero/app-real.jpg"
             alt="MyMilesAI app — automatic mileage tracking"
-            style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.15), 0 8px 24px rgba(0,0,0,0.08)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%'}}
+            style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.18), 0 8px 24px rgba(0,0,0,0.10)',transform:'rotate(-2deg)',display:'block',maxWidth:'100%'}}
           />
           <div className="hero-card1" style={{position:'absolute',top:56,left:-148,background:'#FFFFFF',border:'1px solid rgba(27,77,219,0.18)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(27,77,219,0.10)',width:144,zIndex:3,pointerEvents:'none'}}>
             <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#1B4DDB',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>NEW TRIP</div>
@@ -230,10 +230,6 @@ const MSHero = () => {
             <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#6B7280',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>DEDUCTIBLE</div>
             <div style={{fontSize:20,fontWeight:800,color:'#C9A96E',fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif"}}>$2,183.14</div>
           </div>
-          <div className="hero-counter" style={{position:'absolute',top:'56%',right:-122,transform:'translateY(-50%)',zIndex:3,pointerEvents:'none',textAlign:'right'}}>
-            <div className="hero-counter-amount" style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:22,color:'#C9A96E',lineHeight:1}}/>
-            <div style={{fontSize:8,fontWeight:700,letterSpacing:'0.1em',color:'#9CA3AF',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginTop:5}}>DEDUCTIBLE · Q1</div>
-          </div>
         </div>
       </div>
       <style>{`
@@ -243,7 +239,7 @@ const MSHero = () => {
 
         /* Layer 2: Glow pulse */
         .hero-glow{animation:hero-glow-pulse 4s ease-in-out infinite}
-        @keyframes hero-glow-pulse{0%,100%{opacity:.4}50%{opacity:.65}}
+        @keyframes hero-glow-pulse{0%,100%{opacity:.4}50%{opacity:.6}}
 
         /* Layer 3: Route dot along path */
         .hero-route-dot{
@@ -276,32 +272,16 @@ const MSHero = () => {
           98%,100% {opacity:0;transform:translateY(20px)}
         }
 
-        /* Layer 5: $ counter — count-up via ::after content */
-        .hero-counter-amount::after{content:"$2,183.14"}
-        @keyframes hero-countup{
-          0%       {content:"$0.00"}
-          12%      {content:"$261.00"}
-          24%      {content:"$545.00"}
-          36%      {content:"$872.00"}
-          48%      {content:"$1,200.00"}
-          60%      {content:"$1,637.00"}
-          75%,100% {content:"$2,183.14"}
-        }
-        @media(prefers-reduced-motion:no-preference){
-          .hero-counter-amount::after{animation:hero-countup 8s linear infinite}
-        }
-
         /* Reduced-motion: static end state, no animation */
         @media(prefers-reduced-motion:reduce){
           .hero-glow{animation:none;opacity:.5}
           .hero-route-dot{animation:none;offset-distance:100%}
           .hero-card1,.hero-card2,.hero-card3{animation:none;opacity:1;transform:none}
-          .hero-counter-amount::after{content:"$2,183.14";animation:none}
         }
 
         /* Mobile: phone + glow only, hide cards + counter */
         @media(max-width:900px){
-          .hero-card1,.hero-card2,.hero-card3,.hero-counter{display:none}
+          .hero-card1,.hero-card2,.hero-card3{display:none}
           .hero-glow{width:180px!important;height:280px!important}
         }
       `}</style>
