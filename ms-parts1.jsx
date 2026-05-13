@@ -214,8 +214,11 @@ const MSHero = () => {
             alt="MyMilesAI app — automatic mileage tracking"
             style={{width:264,height:'auto',borderRadius:44,boxShadow:'0 20px 60px rgba(27,77,219,0.18), 0 8px 24px rgba(0,0,0,0.10)',display:'block',maxWidth:'100%',WebkitMaskImage:'linear-gradient(to bottom, black 95%, transparent 100%)',maskImage:'linear-gradient(to bottom, black 95%, transparent 100%)'}}
           />
-          <div style={{position:'absolute',top:40,left:41,width:130,height:18,background:'#FFFFFF',borderRadius:3,zIndex:4,pointerEvents:'none',display:'flex',alignItems:'center',paddingLeft:3}}>
+          <div style={{position:'absolute',top:55,left:39,width:128,height:18,background:'#EFEFF4',borderRadius:3,zIndex:4,pointerEvents:'none',display:'flex',alignItems:'center',paddingLeft:3}}>
             <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:11,color:'#111827',letterSpacing:'-0.01em',lineHeight:1}}>demo</span>
+          </div>
+          <div style={{position:'absolute',top:440,left:35,width:150,height:18,background:'#FFFFFF',borderRadius:3,zIndex:4,pointerEvents:'none',display:'flex',alignItems:'center',paddingLeft:3}}>
+            <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:11,color:'#111827',letterSpacing:'-0.01em',lineHeight:1}}>Client Office</span>
           </div>
           <div className="hero-card1" style={{position:'absolute',top:56,left:-148,background:'#FFFFFF',border:'1px solid rgba(27,77,219,0.18)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(27,77,219,0.10)',width:144,zIndex:3,pointerEvents:'none'}}>
             <div style={{fontSize:9,fontWeight:700,letterSpacing:'0.07em',color:'#1B4DDB',fontFamily:"ui-monospace,'SF Mono',Menlo,monospace",marginBottom:4}}>NEW TRIP</div>
