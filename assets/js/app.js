@@ -354,7 +354,21 @@
     return true; // 'all'
   }
 
-  function renderTripRows(trips, profile) {
+  // ───────── Date bucket helpers ─────────
+  function bucketDate(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tripDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diffDays = Math.round((today - tripDay) / 86400000);
+    if (diffDays === 0) return 'today';
+    if (diffDays === 1) return 'yesterday';
+    if (diffDays <= 7) return 'week';
+    if (d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()) return 'month';
+    return 'earlier';
+  }
+
+  function renderGroupedTripRows(trips, profile) {
     const root = $('[data-mmai="trips-table-body"]');
     if (!root) return;
     if (!trips.length) {
@@ -362,27 +376,50 @@
       return;
     }
     const rate = effectiveRate(profile);
-    root.innerHTML = trips.map((t) => {
-      const tag = classTag(t.type);
-      const value = isBusiness(t.type) ? '$' + (Number(t.miles) * rate).toFixed(2) : '—';
-      const rowStyle = tag.cls === 'unreviewed' ? ' style="background:rgba(218,10,127,0.04)"' : '';
-      const purText = t.purpose
-        ? escapeHtml(t.purpose)
-        : (tag.cls === 'unreviewed' ? '— Needs purpose' : tag.label);
-      const purStyle = tag.cls === 'unreviewed' && !t.purpose ? ' style="color:#DA0A7F"' : '';
-      return `<div class="tt-row"${rowStyle}>
-        <div class="dt">${escapeHtml(formatDateShort(t.trip_date)).toUpperCase()}${t.trip_time ? ' · ' + escapeHtml(formatTime(t.trip_time)).toUpperCase() : ''}</div>
-        <div>
-          <div class="from">${escapeHtml(shortAddr(t.from_addr))} → ${escapeHtml(shortAddr(t.to_addr))}</div>
-          <div class="to">${t.duration_mins ? escapeHtml(t.duration_mins + ' min') : '—'}</div>
-        </div>
-        <div class="pur"${purStyle}>${purText}</div>
-        <div class="mi">${(Number(t.miles) || 0).toFixed(1)}</div>
-        <div class="val">${value}</div>
-        <div style="text-align:center"><span class="tag ${tag.cls}">${tag.label}</span></div>
-        <div class="more">⋯</div>
-      </div>`;
-    }).join('');
+    const preset = taxPresetForCountry(getActiveLocale());
+    const BUCKET_ORDER = ['today', 'yesterday', 'week', 'month', 'earlier'];
+    const BUCKET_LABELS = { today: 'Today', yesterday: 'Yesterday', week: 'This week', month: 'Earlier this month', earlier: 'Earlier' };
+    const groups = {};
+    for (const t of trips) {
+      const b = bucketDate(t.trip_date);
+      if (!groups[b]) groups[b] = [];
+      groups[b].push(t);
+    }
+    let html = '';
+    for (const bucket of BUCKET_ORDER) {
+      const group = groups[bucket];
+      if (!group || !group.length) continue;
+      const tw = group.length === 1 ? 'trip' : 'trips';
+      html += `<div class="tt-group-header">${BUCKET_LABELS[bucket]} · ${group.length} ${tw}</div>`;
+      for (const t of group) {
+        const tag = classTag(t.type);
+        const value = isBusiness(t.type)
+          ? preset.symbol + (Number(t.miles) * rate).toFixed(2)
+          : '—';
+        const needsReview = tag.cls === 'unreviewed';
+        const rowStyle = needsReview ? ' style="background:rgba(201,169,110,0.06)"' : '';
+        const purText = t.purpose
+          ? escapeHtml(t.purpose)
+          : (needsReview ? '— Needs purpose' : tag.label);
+        const purStyle = needsReview && !t.purpose ? ' style="color:#C9A96E"' : '';
+        const tid = escapeHtml(String(t.id));
+        html += `<div class="tt-row" data-trip-id="${tid}"${rowStyle}>
+          <div class="dt">${escapeHtml(formatDateShort(t.trip_date)).toUpperCase()}${t.trip_time ? ' · ' + escapeHtml(formatTime(t.trip_time)).toUpperCase() : ''}</div>
+          <div>
+            <div class="from">${escapeHtml(shortAddr(t.from_addr))} → ${escapeHtml(shortAddr(t.to_addr))}</div>
+            <div class="to">${t.duration_mins ? escapeHtml(String(t.duration_mins) + ' min') : '—'}</div>
+          </div>
+          <div class="pur"${purStyle}>${purText}</div>
+          <div class="mi">${(Number(t.miles) || 0).toFixed(1)}<span style="font-size:10px;color:#6B6862;margin-left:2px">${escapeHtml(preset.unit)}</span></div>
+          <div class="val">${value}</div>
+          <div style="text-align:center">
+            <button class="cls-pill cls-${tag.cls}" data-trip-id="${tid}">${tag.cls === 'biz' ? '✓ ' : ''}${tag.label}</button>
+          </div>
+          <div><button class="more" data-trip-id="${tid}">⋯</button></div>
+        </div>`;
+      }
+    }
+    root.innerHTML = html;
   }
 
   function applyTripsFilter(filter) {
@@ -422,7 +459,7 @@
       root.innerHTML = '<div class="empty">No trips this year yet.</div>';
       return;
     }
-    renderTripRows(trips.filter((t) => tripMatchesFilter(t, _tripsFilter)), profile);
+    renderGroupedTripRows(trips.filter((t) => tripMatchesFilter(t, _tripsFilter)), profile);
   }
 
   function renderQuarter(trips, kpis) {
@@ -1166,7 +1203,7 @@
     const filtered = _allTrips
       .filter((t) => tripMatchesFilter(t, _tripsFilter))
       .filter((t) => tripMatchesSearch(t, _tripsSearch));
-    renderTripRows(filtered, _profileRef);
+    renderGroupedTripRows(filtered, _profileRef);
   }
   function reapplyDashboardRecent() {
     const filtered = _dashSearch
