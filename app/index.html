@@ -204,6 +204,9 @@
   .pbadge.biz{background:rgba(27,94,63,0.12);color:#1B5E3F}
   .pbadge.pers{background:rgba(107,104,98,0.12);color:#4A4843}
   body:not(.mmai-ready) .main { visibility: hidden; }
+  .locale-pill { display: flex; background: #F1F3F8; border-radius: 100px; padding: 3px; margin: 10px 12px 4px; }
+  .locale-btn { flex: 1; border: none; padding: 5px 4px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s; }
+  .locale-btn.active { background: #FFFFFF; color: #0B0F0E; box-shadow: 0 1px 3px rgba(0,0,0,0.10); }
   .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
   .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
   .signout-link:hover { color: #1B4DDB; }
@@ -291,6 +294,10 @@
     <div class="nav-section">Account</div>
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
     <div class="nav-item" id="nav-help" data-mmai="open-help" style="cursor:pointer"><span class="ic">?</span>Help</div>
+    <div class="locale-pill" data-mmai="locale-toggle" title="Switch display locale">
+      <button class="locale-btn" data-locale="US">🇺🇸 MI</button>
+      <button class="locale-btn" data-locale="CA">🇨🇦 KM</button>
+    </div>
     <div class="profile">
       <div class="avatar" data-mmai="profile-initial"></div>
       <div><div class="nm" data-mmai="profile-name">Marcus T.</div><div class="em" data-mmai="profile-plan">Pro · 2026</div></div>
@@ -343,7 +350,7 @@
           </div>
           <div class="export">
             <h4>Export for your CPA</h4>
-            <p>PDF reports with all required fields — date, route, purpose, miles for every business trip. One tap, direct download.</p>
+            <p>PDF reports with all required fields — date, route, purpose, miles for every business trip. One click, direct download.</p>
             <button class="btn accent" data-mmai="quick-pdf-export" style="width:100%">⬇ Export PDF (YTD · business)</button>
             <button class="btn ghost" data-mmai="quick-csv-export" style="width:100%;margin-top:8px">⬇ Export CSV (YTD · all trips)</button>
           </div>
@@ -436,7 +443,7 @@
           </div>
           <div class="field">
             <div class="field-label">Notice</div>
-            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the country default if set). PDF and CSV exports download directly to your device — one tap, no print dialog.</div>
+            <div style="font-size:12px;color:#6B6862;line-height:1.55">Standard mileage rate applied is from your profile (overrides the country default if set). PDF and CSV exports download directly to your device — one click, no print dialog.</div>
           </div>
         </div>
         <div class="rep-prev">
@@ -593,6 +600,7 @@
   </div>
 </div>
 
+<script src="../assets/js/locale.js?v=20260513a"></script>
 <script src="../assets/vendor/supabase.min.js?v=20260513a"></script>
 <script src="../assets/vendor/jspdf.umd.min.js?v=20260513a"></script>
 <script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260513a"></script>

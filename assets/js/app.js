@@ -39,6 +39,32 @@
     return IRS_RATE_2026;
   }
 
+  // Active display locale — may differ from profile.country when the user
+  // toggles the region pill. Reads mm_region from localStorage via window.MM.
+  function getActiveLocale() {
+    if (window.MM) return window.MM.get();
+    return ((_profileRef && _profileRef.country) || 'US').toUpperCase();
+  }
+
+  // Temporarily patches _profileRef to reflect the active locale for the
+  // duration of fn(), then restores the original values. This lets all existing
+  // render functions that read _profileRef.country see the toggled locale
+  // without permanently mutating the stored profile.
+  function withActiveLocale(fn) {
+    const active = getActiveLocale();
+    const savedCountry = _profileRef.country;
+    const savedRate = _profileRef.mileage_rate;
+    if (active !== ((savedCountry) || 'US').toUpperCase()) {
+      _profileRef.country = active;
+      _profileRef.mileage_rate = 0; // use locale default rate, not user override
+    }
+    try { return fn(); }
+    finally {
+      _profileRef.country = savedCountry;
+      _profileRef.mileage_rate = savedRate;
+    }
+  }
+
   const { createClient } = window.supabase;
   const _sb = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -49,6 +75,7 @@
   let _profileRef = {};
   let _vehiclesList = [];
   let _tripsFilter = 'all';
+  let _session = null;
 
   // Sentinel for trips with no vehicle_id assigned. Used as a pseudo-vehicle
   // option in the Reports page vehicle filter so users can see those trips
@@ -220,9 +247,7 @@
 
   function formatDollars(n) {
     let sym = '$';
-    try {
-      if (_profileRef && _profileRef.country) sym = taxPresetForCountry(_profileRef.country).symbol;
-    } catch (_e) { /* TAX_PRESETS not yet in scope — fall back to $ */ }
+    try { sym = taxPresetForCountry(getActiveLocale()).symbol; } catch (_e) {}
     return sym + (Math.round(n * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
@@ -1671,6 +1696,7 @@
         if (error) throw new Error(error.message);
         closeModal();
         await refreshAfterMutation(session);
+        if (opts.onAfterSave) opts.onAfterSave(value);
       },
     });
   }
@@ -1715,6 +1741,7 @@
         return `<select id="pe-val">${opts}</select>`;
       })(),
       help: 'Sets tax-rate defaults and report locale conventions.',
+      onAfterSave: (v) => { window.MM && window.MM.set(v || 'US'); },
     });
     link('[data-mmai="edit-rate"]', (() => {
       const preset = taxPresetForCountry(_profileRef.country);
@@ -1749,6 +1776,25 @@
   }
 
   // ───────── Help ─────────
+  // ───────── Locale toggle ─────────
+  function renderLocaleToggle() {
+    const active = getActiveLocale();
+    $$('[data-mmai="locale-toggle"] [data-locale]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-locale') === active);
+    });
+  }
+
+  function wireLocaleToggle() {
+    const toggle = $('[data-mmai="locale-toggle"]');
+    if (!toggle) return;
+    renderLocaleToggle();
+    toggle.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-locale]');
+      if (!btn || !window.MM) return;
+      window.MM.set(btn.getAttribute('data-locale'));
+    });
+  }
+
   function wireHelp() {
     $$('[data-mmai="open-help"]').forEach((el) => {
       el.addEventListener('click', () => {
@@ -1759,9 +1805,9 @@
             <div class="mmai-field-help" style="font-size:13px;line-height:1.55;color:#0B0F0E">
               <p style="margin-bottom:10px"><strong>+ Log trip</strong> — manually record a trip from any tab. Saves to your account instantly.</p>
               <p style="margin-bottom:10px"><strong>Trip ⋯ menu</strong> — click the ⋯ on any row to mark a trip business / personal / needs-review, or delete it.</p>
-              <p style="margin-bottom:10px"><strong>Reports</strong> — pick a period, classification, vehicle, and format, then tap <em>Generate report</em> for a one-tap PDF or CSV.</p>
+              <p style="margin-bottom:10px"><strong>Reports</strong> — pick a period, classification, vehicle, and format, then click <em>Generate report</em> for a one-click PDF or CSV.</p>
               <p style="margin-bottom:10px"><strong>Search</strong> — the search box on Dashboard and Trips filters by address, purpose, or date instantly.</p>
-              <p style="margin-bottom:10px">Need a hand? Email <a href="mailto:support@mymilesai.com" style="color:#DA0A7F">support@mymilesai.com</a>.</p>
+              <p style="margin-bottom:10px">Need a hand? Email <a href="mailto:support@mymilesai.com" style="color:#1B4DDB">support@mymilesai.com</a>.</p>
             </div>
           `,
           saveLabel: 'Got it',
@@ -1804,6 +1850,7 @@
     _allTrips = trips;
     _profileRef = profile;
     _vehiclesList = vehicles;
+    _session = session;
 
     // First-install auto-set time zone + country so timestamps, cutoffs, and
     // tax-rate defaults match the user's device from day one. Both are
@@ -1811,20 +1858,29 @@
     await ensureProfileTimezone(session);
     await ensureProfileCountry(session);
 
-    const kpis = computeKpis(trips, profile);
+    // Seed active locale from profile country on first visit (no mm_region set yet).
+    // Write directly to localStorage to avoid firing mm-locale-change before render.
+    if (window.MM && !localStorage.getItem('mm_region')) {
+      try { localStorage.setItem('mm_region', _profileRef.country || 'US'); } catch (_e) {}
+    }
 
-    renderHeader(session, profile, kpis);
-    renderKpis(kpis);
-    renderRecentTrips(trips);
-    renderTripsTable(trips, profile);
-    renderQuarter(trips, kpis);
-    renderSettings(profile, session);
-    renderBilling(profile);
-    renderVehicles(vehicles);
-    renderPlaces(profile);
+    // Locale-sensitive renders use withActiveLocale so the region toggle
+    // applies from first paint.
+    withActiveLocale(() => {
+      const kpis = computeKpis(_allTrips, _profileRef);
+      renderHeader(session, _profileRef, kpis);
+      renderKpis(kpis);
+      renderRecentTrips(_allTrips);
+      renderTripsTable(_allTrips, _profileRef);
+      renderQuarter(_allTrips, kpis);
+      renderReportPreview();
+      renderTaxPanel();
+    });
+    renderSettings(_profileRef, session);
+    renderBilling(_profileRef);
+    renderVehicles(_vehiclesList);
+    renderPlaces(_profileRef);
     renderReportVehicleChecks();
-    renderReportPreview();
-    renderTaxPanel();
 
     // Mutation wiring needs the session — wire after it's available.
     wireLogTripButtons(session);
@@ -1832,6 +1888,22 @@
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
     wireSettingsEdits(session);
+    wireLocaleToggle();
+
+    // Re-render locale-sensitive panels when the region pill is toggled.
+    document.addEventListener('mm-locale-change', () => {
+      if (!_session) return;
+      withActiveLocale(() => {
+        const kpis = computeKpis(_allTrips, _profileRef);
+        renderKpis(kpis);
+        renderRecentTrips(_allTrips);
+        renderTripsTable(_allTrips, _profileRef);
+        renderQuarter(_allTrips, kpis);
+        renderReportPreview();
+        renderTaxPanel();
+      });
+      renderLocaleToggle();
+    });
 
     document.body.classList.add('mmai-ready');
   }
