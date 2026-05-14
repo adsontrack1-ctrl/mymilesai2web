@@ -301,6 +301,13 @@
   @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%)}}
   .set-val.edit-link:not(.disabled) { cursor: pointer; }
   .set-val.edit-link:not(.disabled):hover { color: #1B4DDB; }
+
+  /* ─── SPARKLINES ─── */
+  .kpi-spark{display:block;width:100%;overflow:visible}
+  .kpi-micro{font-size:11px;margin-top:5px;display:flex;align-items:center;gap:4px}
+  .kpi-micro .up{color:#15803D;font-family:'IBM Plex Mono';font-weight:600}
+  .kpi-micro .dn{color:#6B7280;font-family:'IBM Plex Mono';font-weight:600}
+  .kpi-micro .neu{color:#6B7280;font-family:'IBM Plex Mono';font-weight:600}
 </style>
 <script>
   window.__MMAI_CONFIG__ = {
@@ -368,6 +375,8 @@
           <div class="l" style="margin-bottom:6px">YTD deduction</div>
           <div class="v" style="color:#1B4DDB" data-mmai="ytd-deduction">$0.00</div>
           <div class="s">Updated live as trips classify</div>
+          <svg class="kpi-spark" data-mmai="ytd-spark" height="60" viewBox="0 0 280 60" preserveAspectRatio="none" style="margin-top:14px"></svg>
+          <div class="kpi-micro" data-mmai="ytd-micro"></div>
         </div>
         <div class="kpi green"><div class="l">Miles · YTD</div><div class="v" data-mmai="miles-total">0</div></div>
         <div class="kpi"><div class="l">Business %</div><div class="v" data-mmai="business-pct">0%</div><div class="s" data-mmai="business-of-total">0 of 0 mi</div></div>

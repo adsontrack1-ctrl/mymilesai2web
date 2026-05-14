@@ -321,6 +321,74 @@
     if (av) av.textContent = first.slice(0, 1).toUpperCase();
   }
 
+  // ───────── Sparkline helpers ─────────
+  function weeklyBuckets(trips, weeks, valueFn) {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const currentMonday = new Date(now);
+    currentMonday.setDate(now.getDate() - ((dayOfWeek + 6) % 7));
+    currentMonday.setHours(0, 0, 0, 0);
+    const buckets = [];
+    for (let i = weeks - 1; i >= 0; i--) {
+      const weekStart = new Date(currentMonday);
+      weekStart.setDate(currentMonday.getDate() - i * 7);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      weekEnd.setHours(23, 59, 59, 999);
+      buckets.push(trips.reduce((s, t) => {
+        const d = new Date(t.trip_date + 'T00:00:00');
+        return (d >= weekStart && d <= weekEnd) ? s + valueFn(t) : s;
+      }, 0));
+    }
+    return buckets;
+  }
+
+  function buildSparkPath(values, w, h) {
+    if (!values.length) return { path: '', lastX: 0, lastY: 0 };
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    const range = max - min || 1;
+    const pad = 4;
+    const n = values.length;
+    const pts = values.map((v, i) => [
+      n === 1 ? w / 2 : pad + (i / (n - 1)) * (w - pad * 2),
+      h - pad - ((v - min) / range) * (h - pad * 2),
+    ]);
+    if (n === 1) return { path: `M${pts[0][0]},${pts[0][1]}`, lastX: pts[0][0], lastY: pts[0][1] };
+    let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for (let i = 1; i < n; i++) {
+      const [px, py] = pts[i - 1];
+      const [cx2, cy] = pts[i];
+      const mid = ((px + cx2) / 2).toFixed(1);
+      d += ` C${mid},${py.toFixed(1)} ${mid},${cy.toFixed(1)} ${cx2.toFixed(1)},${cy.toFixed(1)}`;
+    }
+    const [lx, ly] = pts[n - 1];
+    return { path: d, lastX: lx, lastY: ly };
+  }
+
+  function renderYtdSparkline(trips) {
+    const svgEl = $('[data-mmai="ytd-spark"]');
+    const microEl = $('[data-mmai="ytd-micro"]');
+    if (!svgEl) return;
+    const rate = effectiveRate(_profileRef || {});
+    const buckets = weeklyBuckets(trips, 12, (t) => isBusiness(t.type) ? Number(t.miles) * rate : 0);
+    const { path, lastX, lastY } = buildSparkPath(buckets, 280, 60);
+    svgEl.innerHTML = path
+      ? `<path d="${path}" fill="none" stroke="rgba(27,77,219,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+         <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3.5" fill="#C9A96E"/>`
+      : '';
+    if (microEl) {
+      const last = buckets[buckets.length - 1] || 0;
+      const prev = buckets.length >= 2 ? buckets[buckets.length - 2] : 0;
+      const diff = last - prev;
+      const isUp = diff > 0.005, isDn = diff < -0.005;
+      const cls = isUp ? 'up' : (isDn ? 'dn' : 'neu');
+      const arrow = isUp ? '↑' : (isDn ? '↓' : '·');
+      const sign = isUp ? '+' : '';
+      microEl.innerHTML = `<span class="${cls}">${arrow} ${sign}$${Math.abs(diff).toFixed(2)} this week</span>`;
+    }
+  }
+
   function renderKpis(kpis) {
     setText('[data-mmai="ytd-deduction"]', formatDollars(kpis.ytdDeduction));
     setText('[data-mmai="miles-total"]', kpis.totalMiles.toLocaleString(undefined, { maximumFractionDigits: 0 }));
@@ -328,6 +396,7 @@
     setText('[data-mmai="business-of-total"]', `${Math.round(kpis.businessMiles).toLocaleString()} of ${Math.round(kpis.totalMiles).toLocaleString()} mi`);
     setText('[data-mmai="needs-review"]', kpis.needsReview);
     setAll('[data-mmai="trips-count"]', kpis.tripCount.toLocaleString());
+    renderYtdSparkline(_allTrips);
   }
 
   function renderRecentTrips(trips) {
