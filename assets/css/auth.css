@@ -41,7 +41,7 @@ body.auth {
 }
 
 .auth-card h1 {
-  font-family: var(--font-serif);
+  font-family: 'Instrument Serif', serif;
   font-weight: 400;
   font-size: 40px;
   line-height: 1.05;
