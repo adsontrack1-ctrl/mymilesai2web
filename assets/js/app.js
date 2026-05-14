@@ -431,7 +431,7 @@
       p.classList.toggle('on', p.getAttribute('data-trips-filter') === filter);
     });
     const filtered = _allTrips.filter((t) => tripMatchesFilter(t, filter));
-    renderTripRows(filtered, _profileRef);
+    renderGroupedTripRows(filtered, _profileRef);
   }
 
   function wireTripsFilters() {
