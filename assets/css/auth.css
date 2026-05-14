@@ -62,11 +62,9 @@ body.auth {
   margin-bottom: 16px;
 }
 .field label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-family: var(--font-sans);
+  font-size: 13px;
   color: var(--muted);
-  text-transform: uppercase;
 }
 .field input {
   font-family: inherit;
@@ -109,10 +107,8 @@ body.auth {
   gap: 12px;
   margin: 24px 0;
   color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: 12px;
 }
 .divider::before, .divider::after {
   content: '';
