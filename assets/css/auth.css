@@ -83,8 +83,8 @@ body.auth {
 
 .btn-primary {
   width: 100%;
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--mmai-blue);
+  color: #fff;
   border: none;
   padding: 15px;
   border-radius: var(--r-pill);
@@ -98,7 +98,7 @@ body.auth {
   justify-content: center;
   gap: 10px;
 }
-.btn-primary:hover { background: var(--ink-dim); }
+.btn-primary:hover { background: #1640C0; }
 .btn-primary:disabled { opacity: 0.6; cursor: wait; }
 
 .divider {
