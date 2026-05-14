@@ -1653,22 +1653,53 @@
     });
   }
 
-  // ───────── + Add place ─────────
-  function openAddPlaceModal(session) {
+  // ───────── Add / Edit place modal ─────────
+  // existing = null for Add, or the full place object for Edit.
+  function openPlaceModal(session, existing) {
+    const isEdit = !!existing;
+    let chosenCategory = isEdit ? (existing.category || null) : null;
+    const catLabels = { biz: 'Business', pers: 'Personal', null: 'None' };
+    const catPillHtml = (cat) => {
+      const CATS = [
+        { key: 'biz',  label: 'Business', cls: 'biz' },
+        { key: 'pers', label: 'Personal',  cls: 'pers' },
+        { key: null,   label: 'None',      cls: '' },
+      ];
+      return CATS.map((c) => {
+        const active = c.key === cat;
+        const bg = active ? (c.cls === 'biz' ? '#1B5E3F' : c.cls === 'pers' ? '#6B6862' : '#0B0F0E') : '#FFF';
+        const col = active ? '#FFF' : '#0B0F0E';
+        return `<span class="pill${active ? ' on' : ''}" data-ap-cat="${c.key === null ? '' : c.key}" style="background:${bg};color:${col};cursor:pointer">${c.label}</span>`;
+      }).join('');
+    };
     const bodyHtml = `
-      <div class="mmai-field"><label for="ap-label">Label</label><input id="ap-label" type="text" placeholder="Home, Office, Client A"></div>
-      <div class="mmai-field"><label for="ap-address">Address</label><input id="ap-address" type="text" placeholder="123 Main St, Houston, TX"></div>
+      <div class="mmai-field"><label for="ap-label">Label</label><input id="ap-label" type="text" placeholder="Home, Office, Client A" value="${escapeHtml(isEdit ? (existing.label || '') : '')}"></div>
+      <div class="mmai-field"><label for="ap-address">Address</label><input id="ap-address" type="text" placeholder="123 Main St, Houston, TX" value="${escapeHtml(isEdit ? (existing.address || '') : '')}"></div>
       <div class="mmai-field-row">
-        <div class="mmai-field"><label for="ap-lat">Latitude (optional)</label><input id="ap-lat" type="number" step="any" placeholder="29.7604"></div>
-        <div class="mmai-field"><label for="ap-lng">Longitude (optional)</label><input id="ap-lng" type="number" step="any" placeholder="-95.3698"></div>
+        <div class="mmai-field"><label for="ap-lat">Latitude (optional)</label><input id="ap-lat" type="number" step="any" placeholder="29.7604" value="${isEdit && existing.lat ? existing.lat : ''}"></div>
+        <div class="mmai-field"><label for="ap-lng">Longitude (optional)</label><input id="ap-lng" type="number" step="any" placeholder="-95.3698" value="${isEdit && existing.lng ? existing.lng : ''}"></div>
       </div>
-      <div class="mmai-field-help">Coordinates let MyMilesAI snap trip endpoints to this place automatically. You can leave them blank — they're filled in automatically when you tag the location from the iOS app.</div>
+      <div class="mmai-field">
+        <label>Category</label>
+        <div class="mmai-class-pills" id="ap-cat-pills">${catPillHtml(chosenCategory)}</div>
+      </div>
+      <div class="mmai-field-help">Coordinates let MyMilesAI snap trip endpoints to this place automatically. Leave blank — they're filled in automatically from the iOS app.</div>
     `;
     openModal({
-      title: '+ Add place',
+      title: isEdit ? 'Edit place' : '+ Add place',
       sub: 'Saved places appear in the Places tab and help auto-classify recurring routes.',
       bodyHtml,
-      saveLabel: 'Add place',
+      saveLabel: isEdit ? 'Save changes' : 'Add place',
+      afterOpen: (body) => {
+        body.querySelectorAll('[data-ap-cat]').forEach((p) => {
+          p.addEventListener('click', () => {
+            const raw = p.getAttribute('data-ap-cat');
+            chosenCategory = raw === '' ? null : raw;
+            const pills = body.getElementById ? body.getElementById('ap-cat-pills') : document.getElementById('ap-cat-pills');
+            if (pills) pills.innerHTML = catPillHtml(chosenCategory);
+          });
+        });
+      },
       onSave: async () => {
         const label = document.getElementById('ap-label').value.trim();
         const address = document.getElementById('ap-address').value.trim();
@@ -1676,32 +1707,39 @@
         const lng = parseFloat(document.getElementById('ap-lng').value);
         if (!label) return modalShowError('Label is required.');
         if (!address) return modalShowError('Address is required.');
-        const existing = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
-        const key = normAddr(address);
-        const dupIdx = existing.findIndex((e) => normAddr(e && e.address) === key);
+        const arr = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
         let next;
-        if (dupIdx >= 0) {
-          // Same address already saved — update label / coords on the existing
-          // entry instead of appending a duplicate row.
-          const prev = existing[dupIdx];
-          existing[dupIdx] = {
-            ...prev,
-            label,
-            address,
-            lat: Number.isFinite(lat) ? lat : (prev.lat || 0),
-            lng: Number.isFinite(lng) ? lng : (prev.lng || 0),
-          };
-          next = existing;
+        if (isEdit) {
+          const idx = arr.findIndex((e) => e && e.id === existing.id);
+          if (idx >= 0) {
+            arr[idx] = { ...arr[idx], label, address,
+              lat: Number.isFinite(lat) ? lat : (arr[idx].lat || 0),
+              lng: Number.isFinite(lng) ? lng : (arr[idx].lng || 0),
+              category: chosenCategory,
+            };
+          }
+          next = arr;
         } else {
-          const entry = {
-            id: 'loc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
-            label,
-            address,
-            lat: Number.isFinite(lat) ? lat : 0,
-            lng: Number.isFinite(lng) ? lng : 0,
-            visits: 0,
-          };
-          next = existing.concat([entry]);
+          const key = normAddr(address);
+          const dupIdx = arr.findIndex((e) => normAddr(e && e.address) === key);
+          if (dupIdx >= 0) {
+            const prev = arr[dupIdx];
+            arr[dupIdx] = { ...prev, label, address,
+              lat: Number.isFinite(lat) ? lat : (prev.lat || 0),
+              lng: Number.isFinite(lng) ? lng : (prev.lng || 0),
+              category: chosenCategory,
+            };
+            next = arr;
+          } else {
+            next = arr.concat([{
+              id: 'loc-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+              label, address,
+              lat: Number.isFinite(lat) ? lat : 0,
+              lng: Number.isFinite(lng) ? lng : 0,
+              visits: 0,
+              category: chosenCategory,
+            }]);
+          }
         }
         const { error } = await _sb.from('profiles')
           .update({ named_locations: next })
@@ -1712,9 +1750,31 @@
       },
     });
   }
+
   function wireAddPlaceButton(session) {
     $$('[data-mmai="open-add-place"]').forEach((b) => {
-      b.addEventListener('click', () => openAddPlaceModal(session));
+      b.addEventListener('click', () => openPlaceModal(session, null));
+    });
+  }
+
+  // ───────── Places card actions (edit, delete, category) ─────────
+  function wirePlacesActions(session) {
+    const root = $('[data-mmai="places-list"]');
+    if (!root) return;
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const placeId = btn.dataset.placeId;
+      const place = _allPlaces.find((p) => String(p.id) === placeId);
+      if (!place) return;
+      const act = btn.dataset.act;
+      if (act === 'edit') {
+        openPlaceModal(session, place);
+      } else if (act === 'delete') {
+        deletePlace(session, place);
+      } else if (act === 'cat') {
+        openCategoryPicker(btn, placeId, session);
+      }
     });
   }
 
@@ -2077,6 +2137,7 @@
     wireTripsKeyboard(session);
     wireTripRowMenu(session);
     wirePlacesSearch();
+    wirePlacesActions(session);
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
     wireSettingsEdits(session);
