@@ -1757,6 +1757,63 @@
     });
   }
 
+  // ───────── Delete place with undo ─────────
+  function showUndoToast(msg, onUndo) {
+    const prev = document.querySelector('.mmai-undo-toast');
+    if (prev) prev.remove();
+    const el = document.createElement('div');
+    el.className = 'mmai-undo-toast';
+    el.innerHTML = `<span>${escapeHtml(msg)}</span><button class="undo-btn">Undo</button>`;
+    document.body.appendChild(el);
+    const timer = setTimeout(() => { if (el.parentNode) el.remove(); }, 5000);
+    el.querySelector('.undo-btn').addEventListener('click', () => {
+      clearTimeout(timer);
+      el.remove();
+      onUndo();
+    });
+  }
+
+  async function deletePlace(session, place) {
+    if (!confirm(`Delete "${place.label || 'this place'}"?`)) return;
+    const arr = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
+    const idx = arr.findIndex((e) => e && e.id === place.id);
+    if (idx < 0) return;
+    // Optimistic remove
+    arr.splice(idx, 1);
+    _profileRef.named_locations = arr;
+    _allPlaces = dedupePlaces(arr);
+    setAll('[data-mmai="places-count"]', _allPlaces.length);
+    reapplyPlacesView();
+    try {
+      const { error } = await _sb.from('profiles')
+        .update({ named_locations: arr })
+        .eq('id', session.user.id);
+      if (error) throw new Error(error.message);
+      showUndoToast(`"${place.label || 'Place'}" deleted`, async () => {
+        const restored = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
+        restored.splice(idx, 0, place);
+        const { error: e2 } = await _sb.from('profiles')
+          .update({ named_locations: restored })
+          .eq('id', session.user.id);
+        if (e2) { showToast("Couldn't restore — try again"); return; }
+        _profileRef.named_locations = restored;
+        _allPlaces = dedupePlaces(restored);
+        setAll('[data-mmai="places-count"]', _allPlaces.length);
+        reapplyPlacesView();
+      });
+    } catch (err) {
+      console.error('[mmai] deletePlace:', err);
+      // Revert
+      const reverted = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
+      reverted.splice(idx, 0, place);
+      _profileRef.named_locations = reverted;
+      _allPlaces = dedupePlaces(reverted);
+      setAll('[data-mmai="places-count"]', _allPlaces.length);
+      reapplyPlacesView();
+      showToast("Couldn't delete — try again");
+    }
+  }
+
   // ───────── Category picker (inline, places cards) ─────────
   function closeCategoryPicker() {
     if (_openCategoryPicker) { _openCategoryPicker.remove(); _openCategoryPicker = null; }
