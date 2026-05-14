@@ -230,9 +230,9 @@
   .mmai-undo-toast .undo-btn{background:#1B4DDB;color:#FFF;border:none;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .12s}
   .mmai-undo-toast .undo-btn:hover{opacity:0.85}
   body:not(.mmai-ready) .main { visibility: hidden; }
-  .locale-pill { display: flex; background: #F1F3F8; border-radius: 100px; padding: 3px; margin: 10px 12px 4px; }
-  .locale-btn { flex: 1; border: none; padding: 5px 4px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s; }
-  .locale-btn.active { background: #FFFFFF; color: #0B0F0E; box-shadow: 0 1px 3px rgba(0,0,0,0.10); }
+  .locale-pill { display: flex; background: #EDEEF2; border-radius: 100px; padding: 3px; gap: 2px; }
+  .locale-btn { border: none; padding: 6px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s, color 0.12s; white-space: nowrap; }
+  .locale-btn.active { background: #1B4DDB; color: #FFFFFF; box-shadow: 0 1px 4px rgba(27,77,219,0.35); }
   .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
   .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
   .signout-link:hover { color: #1B4DDB; }
@@ -335,10 +335,6 @@
     <div class="nav-section">Account</div>
     <div class="nav-item" id="nav-settings" onclick="go('settings')"><span class="ic">◴</span>Settings</div>
     <div class="nav-item" id="nav-help" data-mmai="open-help" style="cursor:pointer"><span class="ic">?</span>Help</div>
-    <div class="locale-pill" data-mmai="locale-toggle" title="Switch display locale">
-      <button class="locale-btn" data-locale="US">🇺🇸 MI</button>
-      <button class="locale-btn" data-locale="CA">🇨🇦 KM</button>
-    </div>
     <div class="profile">
       <div class="avatar" data-mmai="profile-initial"></div>
       <div><div class="nm" data-mmai="profile-name">Marcus T.</div><div class="em" data-mmai="profile-plan">Pro · 2026</div></div>
@@ -358,6 +354,10 @@
           </div>
         </div>
         <div class="tools">
+          <div class="locale-pill" data-mmai="locale-toggle" title="Switch display currency">
+            <button class="locale-btn" data-locale="US">🇺🇸 USD</button>
+            <button class="locale-btn" data-locale="CA">🇨🇦 CAD</button>
+          </div>
           <input class="search" placeholder="Search trips, places…" data-mmai="dash-search">
           <button class="btn" data-mmai="open-log-trip">+ Log trip</button>
         </div>
