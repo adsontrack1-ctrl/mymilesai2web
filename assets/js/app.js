@@ -389,6 +389,24 @@
     }
   }
 
+  function renderMilesSparkline(trips) {
+    const svgEl = $('[data-mmai="miles-spark"]');
+    if (!svgEl) return;
+    const buckets = weeklyBuckets(trips, 8, (t) => Number(t.miles) || 0);
+    const { path } = buildSparkPath(buckets, 200, 40);
+    svgEl.innerHTML = path
+      ? `<path d="${path}" fill="none" stroke="rgba(201,169,110,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`
+      : '';
+  }
+
+  function renderBizRing(pct) {
+    const arc = $('[data-mmai="biz-ring-arc"]');
+    if (!arc) return;
+    const circumference = 175.9;
+    const offset = circumference * (1 - Math.min(Math.max(pct, 0), 100) / 100);
+    arc.setAttribute('stroke-dashoffset', offset.toFixed(1));
+  }
+
   function renderKpis(kpis) {
     setText('[data-mmai="ytd-deduction"]', formatDollars(kpis.ytdDeduction));
     setText('[data-mmai="miles-total"]', kpis.totalMiles.toLocaleString(undefined, { maximumFractionDigits: 0 }));
@@ -397,6 +415,10 @@
     setText('[data-mmai="needs-review"]', kpis.needsReview);
     setAll('[data-mmai="trips-count"]', kpis.tripCount.toLocaleString());
     renderYtdSparkline(_allTrips);
+    renderMilesSparkline(_allTrips);
+    renderBizRing(kpis.businessPct);
+    const nrEl = $('[data-mmai="needs-review"]');
+    if (nrEl) nrEl.classList.toggle('pulsing', kpis.needsReview > 0);
   }
 
   function renderRecentTrips(trips) {
