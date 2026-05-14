@@ -1757,6 +1757,70 @@
     });
   }
 
+  // ───────── Category picker (inline, places cards) ─────────
+  function closeCategoryPicker() {
+    if (_openCategoryPicker) { _openCategoryPicker.remove(); _openCategoryPicker = null; }
+  }
+
+  function openCategoryPicker(anchor, placeId, session) {
+    closeCategoryPicker();
+    const place = _allPlaces.find((p) => String(p.id) === placeId);
+    if (!place) return;
+    const current = place.category || null;
+    const OPTIONS = [
+      { label: '✓ Business', cat: 'biz' },
+      { label: 'Personal',   cat: 'pers' },
+      { label: 'None',       cat: null },
+    ];
+    const picker = document.createElement('div');
+    picker.className = 'cat-picker';
+    for (const opt of OPTIONS) {
+      const btn = document.createElement('button');
+      btn.className = 'cat-option' + (opt.cat === current ? ' active' : '');
+      btn.textContent = opt.label;
+      btn.addEventListener('click', async () => {
+        closeCategoryPicker();
+        // Optimistic update
+        place.category = opt.cat;
+        reapplyPlacesView();
+        // Write full array to DB
+        const arr = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
+        const idx = arr.findIndex((e) => e && e.id === placeId);
+        if (idx >= 0) arr[idx] = { ...arr[idx], category: opt.cat };
+        try {
+          const { error } = await _sb.from('profiles')
+            .update({ named_locations: idx >= 0 ? arr : arr })
+            .eq('id', session.user.id);
+          if (error) throw new Error(error.message);
+          _profileRef.named_locations = arr;
+        } catch (err) {
+          console.error('[mmai] cat update:', err);
+          place.category = current;
+          reapplyPlacesView();
+          showToast("Couldn't update — try again");
+        }
+      });
+      picker.appendChild(btn);
+    }
+    document.body.appendChild(picker);
+    const r = anchor.getBoundingClientRect();
+    const dw = picker.offsetWidth || 160;
+    let left = r.left;
+    if (left + dw > window.innerWidth - 8) left = window.innerWidth - dw - 8;
+    picker.style.left = left + 'px';
+    picker.style.top = (r.bottom + 4) + 'px';
+    _openCategoryPicker = picker;
+    setTimeout(() => {
+      const onDoc = (e) => {
+        if (_openCategoryPicker && !_openCategoryPicker.contains(e.target)) {
+          closeCategoryPicker();
+          document.removeEventListener('click', onDoc, true);
+        }
+      };
+      document.addEventListener('click', onDoc, true);
+    }, 0);
+  }
+
   // ───────── Places card actions (edit, delete, category) ─────────
   function wirePlacesActions(session) {
     const root = $('[data-mmai="places-list"]');
