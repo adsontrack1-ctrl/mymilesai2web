@@ -434,12 +434,15 @@
       const dot = tag.cls === 'unreviewed' ? '<span style="width:6px;height:6px;border-radius:50%;background:#C9A96E;display:inline-block;margin-right:6px"></span>' : (tag.cls === 'biz' ? '✓ ' : '');
       return `<div class="trip">
         <div class="time">${escapeHtml(formatDateShort(t.trip_date))}${t.trip_time ? ' · ' + escapeHtml(formatTime(t.trip_time)) : ''}</div>
-        <div>
-          <div class="from">${escapeHtml(shortAddr(t.from_addr))} → ${escapeHtml(shortAddr(t.to_addr))}</div>
-          <div class="to">${t.duration_mins ? escapeHtml(t.duration_mins + ' min') : (t.purpose ? escapeHtml(t.purpose) : '—')}</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="trip-route"><div class="route-dot-s"></div><div class="route-line"></div><div class="route-dot-e"></div></div>
+          <div>
+            <div class="from" style="font-size:14px">${escapeHtml(shortAddr(t.from_addr))} → ${escapeHtml(shortAddr(t.to_addr))}</div>
+            <div class="to">${t.duration_mins ? escapeHtml(t.duration_mins + ' min') : (t.purpose ? escapeHtml(t.purpose) : '—')}</div>
+          </div>
         </div>
         <div class="mi">${(Number(t.miles) || 0).toFixed(1)}<span style="font-size:11px;color:#6B6862"> mi</span></div>
-        <div class="tag ${tag.cls}">${dot}${tag.label}</div>
+        <div class="tag ${tag.cls}" style="padding:6px 14px">${dot}${tag.label}</div>
       </div>`;
     }).join('');
   }
