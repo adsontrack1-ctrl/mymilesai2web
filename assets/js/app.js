@@ -411,7 +411,7 @@
       const y = padT + ((clampedH - START_H) / (END_H - START_H)) * plotH;
       const mi = Number(t.miles) || 1;
       const r = Math.max(4, Math.min(12, 4 + (mi / maxMi) * 8));
-      const fill = isBusiness(t.type) ? '#15803D' : (isPersonal(t.type) ? '#9CA3AF' : '#C9A96E');
+      const fill = isBusiness(t.type) ? '#1B4DDB' : (isPersonal(t.type) ? '#9CA3AF' : '#1B4DDB');
       const lbl = escapeHtml((t.to_addr || '').split(',')[0] || '') + ' · ' + mi.toFixed(1) + ' mi';
       svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}" opacity="0.82"><title>${lbl}</title></circle>`;
     }
@@ -1815,7 +1815,7 @@
       ];
       return CATS.map((c) => {
         const active = c.key === cat;
-        const bg = active ? (c.cls === 'biz' ? '#1B5E3F' : c.cls === 'pers' ? '#6B6862' : '#0B0F0E') : '#FFF';
+        const bg = active ? (c.cls === 'biz' ? '#1B4DDB' : c.cls === 'pers' ? '#6B6862' : '#0B0F0E') : '#FFF';
         const col = active ? '#FFF' : '#0B0F0E';
         return `<span class="pill${active ? ' on' : ''}" data-ap-cat="${c.key === null ? '' : c.key}" style="background:${bg};color:${col};cursor:pointer">${c.label}</span>`;
       }).join('');
