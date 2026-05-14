@@ -79,6 +79,9 @@
 
   let _openClassifyDropdown = null;
   let _hoveredTripId = null;
+  let _openCategoryPicker = null;
+  let _allPlaces = [];
+  let _placesSearch = '';
 
   // Sentinel for trips with no vehicle_id assigned. Used as a pseudo-vehicle
   // option in the Reports page vehicle filter so users can see those trips
@@ -579,25 +582,83 @@
     }
     return Array.from(byKey.values());
   }
-  function renderPlaces(profile) {
-    const raw = Array.isArray(profile.named_locations) ? profile.named_locations : [];
-    const places = dedupePlaces(raw);
-    setAll('[data-mmai="places-count"]', places.length);
+  function renderPlaceCards(places) {
     const root = $('[data-mmai="places-list"]');
     if (!root) return;
     if (!places.length) {
-      root.innerHTML = '<div class="empty">No saved places yet. Tap "+ Add place" above to save a frequent destination.</div>';
+      if (_allPlaces.length && _placesSearch) {
+        root.innerHTML = '<div class="empty" style="grid-column:1/-1">No places match your search.</div>';
+      } else {
+        root.innerHTML = `<div class="places-empty" style="grid-column:1/-1">
+          <div class="places-empty-icon">◎</div>
+          <div class="places-empty-title">No saved places yet.</div>
+          <div class="places-empty-sub">Add places you visit often to auto-classify trips.</div>
+          <button class="btn places-empty-cta" data-mmai="open-add-place">+ Add your first place</button>
+        </div>`;
+      }
       return;
     }
     root.innerHTML = places.map((p) => {
-      const visits = Number.isFinite(p.visits) ? p.visits : 0;
-      const coords = (p.lat != null && p.lng != null) ? `${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}` : '';
-      return `<div class="pcard">
-        <div class="ph">${escapeHtml(p.label || 'Place')}</div>
-        <div class="pa">${escapeHtml(p.address || coords || '—')}</div>
-        <div class="prow"><span>Visits</span><span class="v">${visits}</span></div>
+      const pid = escapeHtml(String(p.id || ''));
+      const visits = Number(p.visits) || 0;
+      const visitText = visits > 0 ? `${visits} visit${visits === 1 ? '' : 's'}` : 'Not yet visited';
+      const badgeHtml = p.category === 'biz'
+        ? `<button class="pbadge biz" data-act="cat" data-place-id="${pid}">Business</button>`
+        : p.category === 'pers'
+          ? `<button class="pbadge pers" data-act="cat" data-place-id="${pid}">Personal</button>`
+          : `<button class="pbadge" style="background:#F4F6FA;color:#6B6862" data-act="cat" data-place-id="${pid}">+ Category</button>`;
+      return `<div class="pcard" data-place-id="${pid}">
+        <div class="pcard-top">
+          <div class="ph">${escapeHtml(p.label || 'Place')}</div>
+          ${badgeHtml}
+        </div>
+        <div class="pa">${escapeHtml(p.address || '—')}</div>
+        <div class="prow">
+          <span class="v">${escapeHtml(visitText)}</span>
+          <span class="pcard-actions">
+            <button class="pcard-act-btn" data-act="edit" data-place-id="${pid}">Edit</button>
+            <button class="pcard-act-btn danger" data-act="delete" data-place-id="${pid}">Delete</button>
+          </span>
+        </div>
       </div>`;
     }).join('');
+  }
+
+  function reapplyPlacesView() {
+    const q = _placesSearch.toLowerCase();
+    const filtered = q
+      ? _allPlaces.filter((p) =>
+          (p.label || '').toLowerCase().includes(q) ||
+          (p.address || '').toLowerCase().includes(q))
+      : _allPlaces;
+    renderPlaceCards(filtered);
+  }
+
+  function renderPlaces(profile) {
+    const raw = Array.isArray(profile.named_locations) ? profile.named_locations : [];
+    _allPlaces = dedupePlaces(raw);
+    setAll('[data-mmai="places-count"]', _allPlaces.length);
+    reapplyPlacesView();
+  }
+
+  function wirePlacesSearch() {
+    const inp = $('[data-mmai="places-search"]');
+    const clr = $('[data-mmai="places-search-clear"]');
+    if (!inp) return;
+    inp.addEventListener('input', () => {
+      _placesSearch = inp.value.trim();
+      if (clr) clr.hidden = !_placesSearch;
+      reapplyPlacesView();
+    });
+    if (clr) {
+      clr.addEventListener('click', () => {
+        inp.value = '';
+        _placesSearch = '';
+        clr.hidden = true;
+        inp.focus();
+        reapplyPlacesView();
+      });
+    }
   }
 
   // ───────── Reports ─────────
@@ -2015,6 +2076,7 @@
     wireClassifyDropdowns(session);
     wireTripsKeyboard(session);
     wireTripRowMenu(session);
+    wirePlacesSearch();
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
     wireSettingsEdits(session);

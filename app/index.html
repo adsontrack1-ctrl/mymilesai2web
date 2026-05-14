@@ -194,16 +194,41 @@
   .map-pin{position:absolute;width:28px;height:28px;border-radius:50%;background:#1B4DDB;color:#FFF;display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;transform:translate(-50%,-100%);box-shadow:0 6px 16px -4px rgba(27,77,219,0.5);border:2px solid #FFF}
   .map-pin.biz{background:#1B5E3F}
   .map-label{position:absolute;transform:translate(-50%,-100%) translateY(-34px);background:#FFF;border:1px solid #E5E7EB;padding:4px 10px;border-radius:100px;font-size:11px;font-family:'IBM Plex Mono';font-weight:600;white-space:nowrap;letter-spacing:0.05em}
-  .place-list{display:flex;flex-direction:column;gap:8px;max-height:760px;overflow-y:auto}
-  .pcard{background:#FFF;border:1px solid #E5E7EB;border-radius:12px;padding:16px}
+  .place-list{padding:16px}
+  .pcard{background:#FFF;border:1px solid #E5E7EB;border-radius:12px;padding:18px;transition:border-color .15s}
+  .pcard:hover{border-color:rgba(27,77,219,0.22)}
   .pcard.sel{border-color:#0B0F0E;box-shadow:0 6px 20px -10px rgba(11,15,14,0.2)}
-  .pcard .ph{font-family:'DM Sans',sans-serif;font-size:18px;margin-bottom:4px}
-  .pcard .pa{font-size:11px;color:#6B6862;margin-bottom:12px}
-  .pcard .prow{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #EFF1F5;font-size:12px}
-  .pcard .prow .v{font-family:'IBM Plex Mono';font-weight:600;color:#0B0F0E}
-  .pbadge{display:inline-block;padding:3px 8px;border-radius:100px;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em;}
+  .pcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+  .pcard .ph{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;line-height:1.2}
+  .pcard .pa{font-size:12px;color:#6B6862;margin-bottom:14px;line-height:1.4}
+  .pcard .prow{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #EFF1F5;font-size:12px}
+  .pcard .prow .v{font-family:'IBM Plex Mono';font-weight:600;color:#6B6862;font-size:11px}
+  .pcard-actions{display:flex;gap:6px}
+  .pcard-act-btn{font-size:11px;font-family:inherit;font-weight:600;padding:5px 10px;border-radius:100px;border:1px solid #E5E7EB;background:#FFF;color:#0B0F0E;cursor:pointer;transition:all .12s}
+  .pcard-act-btn:hover{background:#F4F6FA;border-color:#CBD0D8}
+  .pcard-act-btn.danger{color:#B91C1C}
+  .pcard-act-btn.danger:hover{background:rgba(185,28,28,0.06);border-color:rgba(185,28,28,0.3)}
+  .pbadge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:10px;font-family:'IBM Plex Mono';font-weight:600;letter-spacing:0.01em;cursor:pointer;border:none;background:transparent}
   .pbadge.biz{background:rgba(27,94,63,0.12);color:#1B5E3F}
   .pbadge.pers{background:rgba(107,104,98,0.12);color:#4A4843}
+  /* ─── CATEGORY PICKER ─── */
+  .cat-picker{position:fixed;background:#FFF;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 28px -8px rgba(11,15,30,0.2);z-index:200;overflow:hidden;min-width:160px}
+  .cat-option{display:block;width:100%;padding:10px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;color:#0B0F0E;cursor:pointer;text-align:left}
+  .cat-option:hover{background:#F4F6FA}
+  .cat-option.active{font-weight:600;color:#1B4DDB}
+  /* ─── PLACES SEARCH ─── */
+  .places-search-wrap{position:relative;display:flex;align-items:center}
+  .places-search-clear{position:absolute;right:10px;background:none;border:none;color:#6B6862;cursor:pointer;font-size:16px;line-height:1;padding:0 4px}
+  .places-search-clear:hover{color:#0B0F0E}
+  /* ─── PLACES EMPTY STATE ─── */
+  .places-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 24px;text-align:center}
+  .places-empty-icon{font-size:48px;color:#E5E7EB;margin-bottom:20px;line-height:1}
+  .places-empty-title{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+  .places-empty-sub{font-size:14px;color:#6B6862;margin-bottom:28px;line-height:1.5;max-width:320px}
+  /* ─── UNDO TOAST ─── */
+  .mmai-undo-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0B0F0E;color:#F8F9FB;padding:10px 10px 10px 20px;border-radius:100px;font-size:13px;font-family:inherit;z-index:300;display:flex;align-items:center;gap:12px;animation:toastIn .18s ease;white-space:nowrap}
+  .mmai-undo-toast .undo-btn{background:#1B4DDB;color:#FFF;border:none;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .12s}
+  .mmai-undo-toast .undo-btn:hover{opacity:0.85}
   body:not(.mmai-ready) .main { visibility: hidden; }
   .locale-pill { display: flex; background: #F1F3F8; border-radius: 100px; padding: 3px; margin: 10px 12px 4px; }
   .locale-btn { flex: 1; border: none; padding: 5px 4px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s; }
@@ -408,10 +433,14 @@
           <div class="greeting">Your <em>frequent places.</em></div>
         </div>
         <div class="tools">
+          <div class="places-search-wrap">
+            <input class="search" placeholder="Search places…" data-mmai="places-search" style="padding-right:32px">
+            <button class="places-search-clear" data-mmai="places-search-clear" hidden title="Clear search">×</button>
+          </div>
           <button class="btn" data-mmai="open-add-place">+ Add place</button>
         </div>
       </div>
-      <div class="place-list" data-mmai="places-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px"></div>
+      <div class="place-list" data-mmai="places-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
     </section>
 
     <!-- REPORTS -->
