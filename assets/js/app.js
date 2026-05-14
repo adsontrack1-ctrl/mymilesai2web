@@ -428,7 +428,7 @@
     const { path, lastX, lastY } = buildSparkPath(buckets, 280, 60);
     svgEl.innerHTML = path
       ? `<path d="${path}" fill="none" stroke="rgba(27,77,219,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-         <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3.5" fill="#C9A96E"/>`
+         <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3.5" fill="#1B4DDB"/>`
       : '';
     if (microEl) {
       const last = buckets[buckets.length - 1] || 0;
@@ -484,7 +484,7 @@
     const recent = trips.slice(0, 5);
     root.innerHTML = recent.map((t) => {
       const tag = classTag(t.type);
-      const dot = tag.cls === 'unreviewed' ? '<span style="width:6px;height:6px;border-radius:50%;background:#C9A96E;display:inline-block;margin-right:6px"></span>' : (tag.cls === 'biz' ? '✓ ' : '');
+      const dot = tag.cls === 'unreviewed' ? '<span style="width:6px;height:6px;border-radius:50%;background:#1B4DDB;display:inline-block;margin-right:6px"></span>' : (tag.cls === 'biz' ? '✓ ' : '');
       return `<div class="trip">
         <div class="time">${escapeHtml(formatDateShort(t.trip_date))}${t.trip_time ? ' · ' + escapeHtml(formatTime(t.trip_time)) : ''}</div>
         <div style="display:flex;align-items:center;gap:10px">
@@ -550,11 +550,11 @@
           ? preset.symbol + (Number(t.miles) * rate).toFixed(2)
           : '—';
         const needsReview = tag.cls === 'unreviewed';
-        const rowStyle = needsReview ? ' style="background:rgba(201,169,110,0.06)"' : '';
+        const rowStyle = needsReview ? ' style="background:rgba(27,77,219,0.04)"' : '';
         const purText = t.purpose
           ? escapeHtml(t.purpose)
           : (needsReview ? '— Needs purpose' : tag.label);
-        const purStyle = needsReview && !t.purpose ? ' style="color:#C9A96E"' : '';
+        const purStyle = needsReview && !t.purpose ? ' style="color:#185FA5"' : '';
         const tid = escapeHtml(String(t.id));
         html += `<div class="tt-row" data-trip-id="${tid}"${rowStyle}>
           <div class="dt">${escapeHtml(formatDateShort(t.trip_date)).toUpperCase()}${t.trip_time ? ' · ' + escapeHtml(formatTime(t.trip_time)).toUpperCase() : ''}</div>
