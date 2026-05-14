@@ -366,6 +366,59 @@
     return { path: d, lastX: lx, lastY: ly };
   }
 
+  function renderWeeklyTimeline(trips) {
+    const container = $('[data-mmai="week-timeline-inner"]');
+    if (!container) return;
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - ((dayOfWeek + 6) % 7));
+    monday.setHours(0, 0, 0, 0);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999);
+    const weekTrips = trips.filter((t) => {
+      const d = new Date(t.trip_date + 'T00:00:00');
+      return d >= monday && d <= sunday;
+    });
+    if (!weekTrips.length) {
+      container.innerHTML = '<div class="week-timeline-empty">No drives this week yet.</div>';
+      return;
+    }
+    const W = 900, H = 110;
+    const padL = 30, padR = 16, padT = 12, padB = 26;
+    const plotW = W - padL - padR;
+    const plotH = H - padT - padB;
+    const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const START_H = 6, END_H = 22;
+    const maxMi = Math.max(...weekTrips.map((t) => Number(t.miles) || 1));
+    let svg = `<svg viewBox="0 0 ${W} ${H}" class="week-timeline-svg" style="height:${H}px">`;
+    for (let d = 0; d <= 6; d++) {
+      const x = padL + (d / 6) * plotW;
+      svg += `<line x1="${x.toFixed(1)}" y1="${padT}" x2="${x.toFixed(1)}" y2="${padT + plotH}" stroke="#F1F3F8" stroke-width="1.5"/>`;
+      svg += `<text x="${x.toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#9CA3AF" font-weight="600">${DAY_LABELS[d]}</text>`;
+    }
+    for (const t of weekTrips) {
+      const d = new Date(t.trip_date + 'T00:00:00');
+      const dayIdx = (d.getDay() + 6) % 7;
+      let hour = 12;
+      if (t.trip_time) {
+        const parts = t.trip_time.split(':');
+        hour = parseInt(parts[0], 10) + (parseInt(parts[1], 10) || 0) / 60;
+      }
+      const clampedH = Math.min(Math.max(hour, START_H), END_H);
+      const x = padL + (dayIdx / 6) * plotW;
+      const y = padT + ((clampedH - START_H) / (END_H - START_H)) * plotH;
+      const mi = Number(t.miles) || 1;
+      const r = Math.max(4, Math.min(12, 4 + (mi / maxMi) * 8));
+      const fill = isBusiness(t.type) ? '#15803D' : (isPersonal(t.type) ? '#9CA3AF' : '#C9A96E');
+      const lbl = escapeHtml((t.to_addr || '').split(',')[0] || '') + ' · ' + mi.toFixed(1) + ' mi';
+      svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}" opacity="0.82"><title>${lbl}</title></circle>`;
+    }
+    svg += '</svg>';
+    container.innerHTML = svg;
+  }
+
   function renderYtdSparkline(trips) {
     const svgEl = $('[data-mmai="ytd-spark"]');
     const microEl = $('[data-mmai="ytd-micro"]');
@@ -1414,6 +1467,7 @@
     renderHeader(session, profile, kpis);
     renderKpis(kpis);
     reapplyDashboardRecent();
+    renderWeeklyTimeline(_allTrips);
     renderTripsTable(trips, profile);
     reapplyTripsView();
     renderQuarter(trips, kpis);
@@ -2335,6 +2389,7 @@
       renderHeader(session, _profileRef, kpis);
       renderKpis(kpis);
       renderRecentTrips(_allTrips);
+      renderWeeklyTimeline(_allTrips);
       renderTripsTable(_allTrips, _profileRef);
       renderQuarter(_allTrips, kpis);
       renderReportPreview();
@@ -2365,6 +2420,7 @@
         const kpis = computeKpis(_allTrips, _profileRef);
         renderKpis(kpis);
         renderRecentTrips(_allTrips);
+        renderWeeklyTimeline(_allTrips);
         renderTripsTable(_allTrips, _profileRef);
         renderQuarter(_allTrips, kpis);
         renderReportPreview();

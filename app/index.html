@@ -321,6 +321,12 @@
   .route-dot-s{width:8px;height:8px;border-radius:50%;background:#15803D;flex-shrink:0}
   .route-line{width:2px;height:14px;background:#CBD5E1;flex-shrink:0;border-radius:1px}
   .route-dot-e{width:8px;height:8px;border-radius:50%;background:#9CA3AF;flex-shrink:0}
+  /* ─── WEEK TIMELINE ─── */
+  .week-timeline{background:#FFFFFF;border:1px solid #E5E7EB;border-radius:14px;padding:24px;margin-top:18px}
+  .week-timeline h3{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:400;letter-spacing:-0.01em;margin-bottom:16px}
+  .week-timeline h3 em{color:#C9A96E;font-style:italic;font-family:'Instrument Serif',serif}
+  .week-timeline-svg{display:block;width:100%}
+  .week-timeline-empty{text-align:center;padding:28px;color:#6B6862;font-size:13px}
 </style>
 <script>
   window.__MMAI_CONFIG__ = {
@@ -418,6 +424,10 @@
             <button class="btn ghost" data-mmai="quick-csv-export" style="width:100%;margin-top:8px">⬇ Export CSV (YTD · all trips)</button>
           </div>
         </div>
+      </div>
+      <div class="week-timeline">
+        <h3>This <em>week's</em> drives</h3>
+        <div data-mmai="week-timeline-inner"><div class="week-timeline-empty">Loading…</div></div>
       </div>
     </section>
 
