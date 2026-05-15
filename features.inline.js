@@ -285,7 +285,7 @@ const FeatFeatures = () => {
   }, {
     k: 'Tax-ready exports',
     h: 'One tap. Tax-ready. Done.',
-    p: 'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',
+    p: 'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Tax rates auto-applied based on your country setting.',
     stat: '4/4',
     label: 'required elements captured',
     visBg: '#FFFFFF',
@@ -417,8 +417,8 @@ const FeatAdditional = () => {
     }), React.createElement("path", {
       d: "M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"
     })),
-    title: 'US + Canada with Locale Auto-Detect',
-    desc: 'Live in Canada? The app auto-detects your region and applies Canadian standard mileage rates. Reports export in kilometers. Switch any time from the settings.'
+    title: 'Country-aware tax rates',
+    desc: 'Set your country in Settings and the app applies the right tax rate and units automatically — miles or kilometres, with the right standard mileage rate baked in. Built-in coverage for the US, Canada, UK, Australia, Germany, France, Ireland, Netherlands, and India.'
   }];
   return React.createElement("section", {
     className: "f-more"
@@ -523,5 +523,5 @@ const Site = () => React.createElement(React.Fragment, null, React.createElement
     marginTop: 16,
     fontFamily: "'DM Sans',system-ui,sans-serif"
   }
-}, "7 days free. Cancel anytime. \xB7 US + Canada")), React.createElement(FeatFeatures, null), React.createElement(FeatAdditional, null), React.createElement(FeatCTA, null), React.createElement(MSFooter, null));
+}, "7 days free. Cancel anytime. \xB7 Multi-region")), React.createElement(FeatFeatures, null), React.createElement(FeatAdditional, null), React.createElement(FeatCTA, null), React.createElement(MSFooter, null));
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Site, null));

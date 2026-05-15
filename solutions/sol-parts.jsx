@@ -6,7 +6,9 @@
  */
 
 /* Solutions shared components — exported to window.Sol*
-   Requires: locale.js loaded first (window.MM), ms-parts1.jsx (MSLogo, MSRegionPill, MSFooter, MSCTA)
+   Requires: locale.js loaded first (window.MM provides strings + personas
+             tables only — the toggle was removed), ms-parts1.jsx
+             (MSLogo, MSFooter, MSCTA)
    CSS: solutions.css (pa- keyframes, phone frame, sol- layout classes) */
 
 /* ─────────────────────────────────────────────────────────────────
@@ -84,17 +86,14 @@ const SOL_ICONS = {
 };
 
 /* ─────────────────────────────────────────────────────────────────
-   Locale hook (shared by all components)
+   Locale hook — was previously a US/CA toggle bound to MSRegionPill.
+   Region toggle was removed (Settings → Country is the single source
+   of truth for logged-in users; marketing visitors get a single
+   canonical US locale). Returns a constant so every consumer still
+   reads window.MM.strings[locale] / window.MM.personas[...][locale]
+   without code changes.
 ───────────────────────────────────────────────────────────────── */
-const useLocale = () => {
-  const [locale, setLocale] = React.useState(window.MM.get());
-  React.useEffect(() => {
-    const h = e => setLocale(e.detail.locale);
-    document.addEventListener('mm-locale-change', h);
-    return () => document.removeEventListener('mm-locale-change', h);
-  }, []);
-  return locale;
-};
+const useLocale = () => 'US';
 
 /* ─────────────────────────────────────────────────────────────────
    Beat 1 — GPS map / drive detection
@@ -370,7 +369,6 @@ const SolNav = () => {
         </div>
 
         <div className="sol-nav-right">
-          <MSRegionPill/>
           <a href="/signin/" style={{background:'#fff',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'9px 20px',borderRadius:100,fontSize:14,fontWeight:600,textDecoration:'none',display:'inline-flex',alignItems:'center',transition:'border-color .15s'}}
             onMouseOver={e=>e.currentTarget.style.borderColor='#0B0F0E'}
             onMouseOut={e=>e.currentTarget.style.borderColor='#E5E7EB'}>Sign In</a>
@@ -393,7 +391,6 @@ const SolNav = () => {
         ))}
         {links.map(l => <a key={l.href} href={l.href}>{l.label}</a>)}
         <div className="sol-drawer-foot">
-          <MSRegionPill/>
           <a href="/signin/" style={{fontSize:14,fontWeight:600,color:'#0B0F0E',textDecoration:'none'}}>Sign In →</a>
         </div>
       </div>

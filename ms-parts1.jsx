@@ -23,60 +23,6 @@ const MSLogo = ({size=22, onDark=false}) => (
   </div>
 );
 
-const MSRegionPill = () => {
-  const [region, setRegion] = React.useState(() => {
-    try { return localStorage.getItem('mm_region') || 'US'; } catch(e) { return 'US'; }
-  });
-  const [open, setOpen] = React.useState(false);
-  const choose = (r) => {
-    setRegion(r);
-    if (window.MM) { window.MM.set(r); } else { try { localStorage.setItem('mm_region', r); } catch(e) {} try { document.dispatchEvent(new CustomEvent('mm-locale-change',{detail:{locale:r}})); } catch(e) {} }
-    setOpen(false);
-  };
-  const opts = {
-    US: {label:'MI', sub:'United States'},
-    CA: {label:'KM', sub:'Canada'},
-  };
-  const Flag = ({code}) => code === 'US' ? (
-    <span style={{width:18,height:12,display:'inline-block',background:'linear-gradient(180deg,#B22234 33%,#FFFFFF 33%,#FFFFFF 66%,#B22234 66%)',borderRadius:2,position:'relative',overflow:'hidden',flexShrink:0}}>
-      <span style={{position:'absolute',top:0,left:0,width:7,height:6,background:'#3C3B6E'}}/>
-    </span>
-  ) : (
-    <span style={{width:18,height:12,display:'inline-block',background:'linear-gradient(90deg,#D52B1E 0 25%,#FFFFFF 25% 75%,#D52B1E 75%)',borderRadius:2,position:'relative',overflow:'hidden',flexShrink:0}}>
-      <span style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',color:'#D52B1E',fontSize:8,lineHeight:1,fontWeight:700}}>🍁</span>
-    </span>
-  );
-  React.useEffect(() => {
-    if(!open) return;
-    const close = () => setOpen(false);
-    document.addEventListener('click', close);
-    return () => document.removeEventListener('click', close);
-  }, [open]);
-  return (
-    <div style={{position:'relative'}} onClick={e=>e.stopPropagation()}>
-      <button onClick={()=>setOpen(o=>!o)} style={{display:'flex',alignItems:'center',gap:6,padding:'7px 10px 7px 12px',border:'1px solid #E5E7EB',borderRadius:100,fontSize:13,background:'#FFFFFF',cursor:'pointer',fontFamily:'inherit'}}>
-        <Flag code={region}/>
-        <span style={{fontWeight:600,letterSpacing:'0.02em'}}>{opts[region].label}</span>
-        <span style={{fontSize:9,opacity:0.5,marginLeft:1}}>▾</span>
-      </button>
-      {open && (
-        <div style={{position:'absolute',top:'calc(100% + 6px)',right:0,background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:12,padding:6,boxShadow:'0 14px 36px -10px rgba(11,15,14,0.18)',minWidth:200,zIndex:60}}>
-          {['US','CA'].map(r=>(
-            <button key={r} onClick={()=>choose(r)} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 12px',width:'100%',background:r===region?'#F8F9FA':'transparent',border:'none',borderRadius:8,cursor:'pointer',fontFamily:'inherit',textAlign:'left'}}>
-              <Flag code={r}/>
-              <div style={{flex:1}}>
-                <div style={{fontSize:13,fontWeight:600}}>{opts[r].sub}</div>
-                <div style={{fontSize:11,color:'#6B7280'}}>Distance in {opts[r].label === 'MI' ? 'miles' : 'kilometers'}</div>
-              </div>
-              {r===region && <span style={{color:'#1B4DDB',fontSize:13}}>✓</span>}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 const MS_SOL_LINKS = [
   {slug:'realtors',          label:'Realtors'},
   {slug:'rideshare',         label:'Rideshare & Delivery'},
@@ -162,7 +108,6 @@ const MSNav = ({mobile}) => {
         })}
       </div>
       <div className="nav-signin" style={{display:'flex',alignItems:'center',gap:14}}>
-        <MSRegionPill />
         <a href="signin/" style={{background:'#FFFFFF',color:'#0B0F0E',border:'1px solid #E5E7EB',padding:'10px 22px',borderRadius:100,fontSize:14,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s',textDecoration:'none',display:'inline-flex',alignItems:'center'}} onMouseOver={e=>{e.currentTarget.style.borderColor='#0B0F0E'}} onMouseOut={e=>{e.currentTarget.style.borderColor='#E5E7EB'}}>Sign In</a>
       </div>
     </div>
@@ -202,7 +147,7 @@ const MSHero = () => {
           </span>
           <span style={{display:'inline-flex',alignItems:'center',gap:6}}>
             <svg viewBox="0 0 16 16" width={13} height={13} fill="none"><circle cx="8" cy="8" r="6.5" stroke="#6B7280" strokeWidth="1.4"/><path d="M2 8H14M8 2Q11 5 11 8Q11 11 8 14Q5 11 5 8Q5 5 8 2" stroke="#6B7280" strokeWidth="1.2" fill="none"/></svg>
-            US + Canada
+            Multi-region
           </span>
         </div>
       </div>
@@ -471,7 +416,7 @@ const MSFeatures = () => {
   const feats = [
     {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'Auto',label:'no taps required to start a trip'},
     {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'12s',label:'daily review time after first week'},
-    {k:'Tax-ready exports',h:'One tap. Tax-ready. Done.',p:'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',stat:'4/4',label:'required elements captured'},
+    {k:'Tax-ready exports',h:'One tap. Tax-ready. Done.',p:'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Tax rates auto-applied based on your country setting.',stat:'4/4',label:'required elements captured'},
   ];
   return (
     <section style={{padding:'120px 56px'}}>
@@ -687,4 +632,4 @@ const HeroPhone = () => (
 );
 
 window.HeroPhone=HeroPhone;
-window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSHow=MSHow; window.MSFeatures=MSFeatures; window.MSRegionPill=MSRegionPill;
+window.MSLogo=MSLogo; window.MSNav=MSNav; window.MSHero=MSHero; window.MSHow=MSHow; window.MSFeatures=MSFeatures;

@@ -385,7 +385,7 @@ const MSTestimonials = () => {
   return null;
 };
 const MSPricing = () => {
-  const features = ['Unlimited automatic trip tracking', 'AI business/personal classification', 'Tax-ready PDF exports', 'CSV export for QuickBooks, Xero, FreshBooks', 'Real-time deduction counter ($0.725/mi or $0.73/km)', 'US + Canada with standard mileage rates built in', 'Works offline — syncs when back online', 'Client and purpose tagging', 'Multi-vehicle support', 'Privacy-first: on-device processing, no data selling'];
+  const features = ['Unlimited automatic trip tracking', 'AI business/personal classification', 'Tax-ready PDF exports', 'CSV export for QuickBooks, Xero, FreshBooks', 'Real-time deduction counter ($0.725/mi or $0.73/km)', 'Country-aware tax rates built in (multi-region support)', 'Works offline — syncs when back online', 'Client and purpose tagging', 'Multi-vehicle support', 'Privacy-first: on-device processing, no data selling'];
   return React.createElement("section", {
     id: "pricing",
     style: {
@@ -734,7 +734,7 @@ const MSAbout = () => {
       flexDirection: 'column',
       gap: 20
     }
-  }, React.createElement("p", null, "We drove for work. We forgot to log. We lost thousands at tax time \u2014 and we knew exactly where the money went. Just nowhere. Unclaimed. Gone."), React.createElement("p", null, "So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals across the US and Canada. Every feature exists because a real driver asked for it."), React.createElement("p", null, "We built it privacy-first because we don't want your location data \u2014 we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours."))), React.createElement("div", {
+  }, React.createElement("p", null, "We drove for work. We forgot to log. We lost thousands at tax time \u2014 and we knew exactly where the money went. Just nowhere. Unclaimed. Gone."), React.createElement("p", null, "So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals wherever they drive for work. Every feature exists because a real driver asked for it."), React.createElement("p", null, "We built it privacy-first because we don't want your location data \u2014 we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours."))), React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3,1fr)',
@@ -931,7 +931,7 @@ const MSFooter = () => React.createElement("footer", {
     lineHeight: 1.55,
     color: 'rgba(246,243,238,0.6)'
   }
-}, "The automatic mileage tracker for self-employed professionals in the US and Canada."), React.createElement("div", {
+}, "The automatic mileage tracker for self-employed professionals."), React.createElement("div", {
   style: {
     marginTop: 20,
     display: 'flex',
@@ -1017,7 +1017,7 @@ const MSFooter = () => React.createElement("footer", {
     fontFamily: 'ui-monospace,\'SF Mono\',Menlo,monospace',
     letterSpacing: '0.05em'
   }
-}, React.createElement("span", null, "\xA9 2026 Harijas LLC \xB7 All rights reserved"), React.createElement("span", null, "US + CANADA")), React.createElement("div", {
+}, React.createElement("span", null, "\xA9 2026 Harijas LLC \xB7 All rights reserved"), React.createElement("span", null, "MULTI-REGION")), React.createElement("div", {
   style: {
     paddingTop: 24,
     fontSize: 14,

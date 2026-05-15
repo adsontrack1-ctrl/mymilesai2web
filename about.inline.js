@@ -62,7 +62,7 @@ const AboutPage = () => React.createElement(React.Fragment, null, React.createEl
     lineHeight: 1.7,
     color: '#374151'
   }
-}, React.createElement("p", null, "MyMilesAI is a product of Harijas LLC. We're based in Canada, and we serve self-employed professionals across the US and Canada \u2014 freelancers, real estate agents, rideshare and delivery drivers, 1099 contractors, and small business owners who drive for work and need a paper trail."), React.createElement("p", null, "We built MyMilesAI because the existing options were either too expensive, too complicated, or built for enterprise fleet management rather than individual workers. MileIQ is fine if you're in the US and want to pay Microsoft for a cloud-based mileage log. We wanted something that worked for Canadian drivers too, that processed data on-device instead of sending it to a server, and that cost less than a cup of coffee a month."), React.createElement("p", null, "Every feature in MyMilesAI exists because a real driver asked for it. The AI classification, Canada rate support, the offline mode, the QuickBooks CSV exports \u2014 all of it came from actual users telling us what they needed at tax time."))), React.createElement("div", {
+}, React.createElement("p", null, "MyMilesAI is a product of Harijas LLC. We're based in Canada, and we serve self-employed professionals wherever they drive for work \u2014 freelancers, real estate agents, rideshare and delivery drivers, 1099 contractors, and small business owners who drive for work and need a paper trail."), React.createElement("p", null, "We built MyMilesAI because the existing options were either too expensive, too complicated, or built for enterprise fleet management rather than individual workers. MileIQ is fine if you want to pay Microsoft for a cloud-based mileage log. We wanted something that handled multiple countries, processed data on-device instead of sending it to a server, and cost less than a cup of coffee a month."), React.createElement("p", null, "Every feature in MyMilesAI exists because a real driver asked for it. The AI classification, the country-aware tax rates, the offline mode, the QuickBooks CSV exports \u2014 all of it came from actual users telling us what they needed at tax time."))), React.createElement("div", {
   style: {
     display: 'flex',
     flexDirection: 'column',
@@ -79,7 +79,7 @@ const AboutPage = () => React.createElement(React.Fragment, null, React.createEl
   value: 'Canada'
 }, {
   label: 'Serving',
-  value: 'US + Canada'
+  value: 'Multi-region'
 }, {
   label: 'Contact',
   value: 'support@mymilesai.com'

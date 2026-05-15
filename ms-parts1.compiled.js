@@ -55,178 +55,6 @@ const MSLogo = ({
     paddingLeft: '0.03em'
   }
 }, "AI")));
-const MSRegionPill = () => {
-  const [region, setRegion] = React.useState(() => {
-    try {
-      return localStorage.getItem('mm_region') || 'US';
-    } catch (e) {
-      return 'US';
-    }
-  });
-  const [open, setOpen] = React.useState(false);
-  const choose = r => {
-    setRegion(r);
-    if (window.MM) {
-      window.MM.set(r);
-    } else {
-      try {
-        localStorage.setItem('mm_region', r);
-      } catch (e) {}
-      try {
-        document.dispatchEvent(new CustomEvent('mm-locale-change', {
-          detail: {
-            locale: r
-          }
-        }));
-      } catch (e) {}
-    }
-    setOpen(false);
-  };
-  const opts = {
-    US: {
-      label: 'MI',
-      sub: 'United States'
-    },
-    CA: {
-      label: 'KM',
-      sub: 'Canada'
-    }
-  };
-  const Flag = ({
-    code
-  }) => code === 'US' ? React.createElement("span", {
-    style: {
-      width: 18,
-      height: 12,
-      display: 'inline-block',
-      background: 'linear-gradient(180deg,#B22234 33%,#FFFFFF 33%,#FFFFFF 66%,#B22234 66%)',
-      borderRadius: 2,
-      position: 'relative',
-      overflow: 'hidden',
-      flexShrink: 0
-    }
-  }, React.createElement("span", {
-    style: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: 7,
-      height: 6,
-      background: '#3C3B6E'
-    }
-  })) : React.createElement("span", {
-    style: {
-      width: 18,
-      height: 12,
-      display: 'inline-block',
-      background: 'linear-gradient(90deg,#D52B1E 0 25%,#FFFFFF 25% 75%,#D52B1E 75%)',
-      borderRadius: 2,
-      position: 'relative',
-      overflow: 'hidden',
-      flexShrink: 0
-    }
-  }, React.createElement("span", {
-    style: {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%,-50%)',
-      color: '#D52B1E',
-      fontSize: 8,
-      lineHeight: 1,
-      fontWeight: 700
-    }
-  }, "\uD83C\uDF41"));
-  React.useEffect(() => {
-    if (!open) return;
-    const close = () => setOpen(false);
-    document.addEventListener('click', close);
-    return () => document.removeEventListener('click', close);
-  }, [open]);
-  return React.createElement("div", {
-    style: {
-      position: 'relative'
-    },
-    onClick: e => e.stopPropagation()
-  }, React.createElement("button", {
-    onClick: () => setOpen(o => !o),
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 6,
-      padding: '7px 10px 7px 12px',
-      border: '1px solid #E5E7EB',
-      borderRadius: 100,
-      fontSize: 13,
-      background: '#FFFFFF',
-      cursor: 'pointer',
-      fontFamily: 'inherit'
-    }
-  }, React.createElement(Flag, {
-    code: region
-  }), React.createElement("span", {
-    style: {
-      fontWeight: 600,
-      letterSpacing: '0.02em'
-    }
-  }, opts[region].label), React.createElement("span", {
-    style: {
-      fontSize: 9,
-      opacity: 0.5,
-      marginLeft: 1
-    }
-  }, "\u25BE")), open && React.createElement("div", {
-    style: {
-      position: 'absolute',
-      top: 'calc(100% + 6px)',
-      right: 0,
-      background: '#FFFFFF',
-      border: '1px solid #E5E7EB',
-      borderRadius: 12,
-      padding: 6,
-      boxShadow: '0 14px 36px -10px rgba(11,15,14,0.18)',
-      minWidth: 200,
-      zIndex: 60
-    }
-  }, ['US', 'CA'].map(r => React.createElement("button", {
-    key: r,
-    onClick: () => choose(r),
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: '10px 12px',
-      width: '100%',
-      background: r === region ? '#F8F9FA' : 'transparent',
-      border: 'none',
-      borderRadius: 8,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      textAlign: 'left'
-    }
-  }, React.createElement(Flag, {
-    code: r
-  }), React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 600
-    }
-  }, opts[r].sub), React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: '#6B7280'
-    }
-  }, "Distance in ", opts[r].label === 'MI' ? 'miles' : 'kilometers')), r === region && React.createElement("span", {
-    style: {
-      color: '#1B4DDB',
-      fontSize: 13
-    }
-  }, "\u2713")))));
-};
 const MS_SOL_LINKS = [{
   slug: 'realtors',
   label: 'Realtors'
@@ -496,7 +324,7 @@ const MSNav = ({
       alignItems: 'center',
       gap: 14
     }
-  }, React.createElement(MSRegionPill, null), React.createElement("a", {
+  }, React.createElement("a", {
     href: "signin/",
     style: {
       background: '#FFFFFF',
@@ -701,7 +529,7 @@ const MSHero = () => {
     stroke: "#6B7280",
     strokeWidth: "1.2",
     fill: "none"
-  })), "US + Canada"))), React.createElement("div", {
+  })), "Multi-region"))), React.createElement("div", {
     style: {
       position: 'relative',
       zIndex: 2,
@@ -1280,7 +1108,7 @@ const MSFeatures = () => {
   }, {
     k: 'Tax-ready exports',
     h: 'One tap. Tax-ready. Done.',
-    p: 'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',
+    p: 'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Tax rates auto-applied based on your country setting.',
     stat: '4/4',
     label: 'required elements captured'
   }];
@@ -2170,4 +1998,3 @@ window.MSNav = MSNav;
 window.MSHero = MSHero;
 window.MSHow = MSHow;
 window.MSFeatures = MSFeatures;
-window.MSRegionPill = MSRegionPill;
