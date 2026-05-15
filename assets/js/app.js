@@ -974,11 +974,14 @@
     const inp = $('[data-mmai="places-search"]');
     const clr = $('[data-mmai="places-search-clear"]');
     if (!inp) return;
-    inp.addEventListener('input', () => {
+    const onInput = () => {
       _placesSearch = inp.value.trim();
       if (clr) clr.hidden = !_placesSearch;
       reapplyPlacesView();
-    });
+    };
+    // 150ms debounce avoids re-rendering the place grid on every
+    // keystroke when filtering a 500+ saved-place list.
+    inp.addEventListener('input', debounced(onInput, 150));
     if (clr) {
       clr.addEventListener('click', () => {
         inp.value = '';
@@ -1670,20 +1673,34 @@
       : _allTrips;
     renderRecentTrips(filtered);
   }
+  // Debounce keystroke-driven filters so a fast typer on a 5k-trip
+  // dataset doesn't re-render the table on every input event. 150ms
+  // keeps the result feeling instant while collapsing bursts.
+  function debounced(fn, ms) {
+    let t = null;
+    return function () {
+      const ctx = this; const args = arguments;
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(ctx, args), ms);
+    };
+  }
+
   function wireSearch() {
     const ts = document.querySelector('[data-mmai="trips-search"]');
     if (ts) {
-      ts.addEventListener('input', () => {
+      const onTrips = debounced(() => {
         _tripsSearch = ts.value.trim().toLowerCase();
         reapplyTripsView();
-      });
+      }, 150);
+      ts.addEventListener('input', onTrips);
     }
     const ds = document.querySelector('[data-mmai="dash-search"]');
     if (ds) {
-      ds.addEventListener('input', () => {
+      const onDash = debounced(() => {
         _dashSearch = ds.value.trim().toLowerCase();
         reapplyDashboardRecent();
-      });
+      }, 150);
+      ds.addEventListener('input', onDash);
     }
   }
 
@@ -2718,6 +2735,8 @@
   // ───────── Realtime ─────────
   let _realtimeDebounce = null;
   let _realtimeChannel = null;
+  let _realtimeRetry = null;
+  let _realtimeBackoff = 1000; // ms — capped exponential
   function wireRealtime(session) {
     if (!_sb.channel) return;
     if (_realtimeChannel) {
@@ -2732,6 +2751,16 @@
         });
       }, 600);
     };
+    // Reconnect on hard failure with exponential backoff capped at 30s.
+    // Without this the dashboard goes silently stale on the first WAN
+    // hiccup and only recovers on a full page refresh.
+    const scheduleReconnect = () => {
+      clearTimeout(_realtimeRetry);
+      _realtimeRetry = setTimeout(() => {
+        _realtimeBackoff = Math.min(_realtimeBackoff * 2, 30000);
+        wireRealtime(session);
+      }, _realtimeBackoff);
+    };
     _realtimeChannel = _sb
       .channel(`mmai-${userId}`)
       .on('postgres_changes',
@@ -2744,8 +2773,13 @@
           { event: '*', schema: 'public', table: 'profiles', filter: `id=eq.${userId}` },
           onChange)
       .subscribe((status) => {
-        if (status !== 'SUBSCRIBED') {
-          console.warn('[mmai] realtime status:', status);
+        if (status === 'SUBSCRIBED') {
+          _realtimeBackoff = 1000; // reset on healthy reconnect
+          return;
+        }
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          console.warn('[mmai] realtime status:', status, '— scheduling reconnect');
+          scheduleReconnect();
         }
       });
   }

@@ -749,15 +749,11 @@ document.querySelectorAll('[data-jump]').forEach(b => {
     if (nav) nav.click();
   });
 });
-// Edit-links flash to confirm the click registers.
-document.querySelectorAll('.edit-link').forEach(el => {
-  el.addEventListener('click', () => {
-    const orig = el.textContent;
-    el.style.color = '#1B4DDB';
-    el.textContent = 'EDITING…';
-    setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 900);
-  });
-});
+// Edit-links open the corresponding modal — wired in app.js via the
+// `data-mmai="edit-*"` selectors. The previous EDITING… flash was
+// redundant (the modal opening is the confirmation that the click
+// registered) and was leaking into screen-readers as a transient label
+// change while the modal was already open.
 </script>
 
 
