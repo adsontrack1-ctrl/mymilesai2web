@@ -187,6 +187,27 @@
     return data || [];
   }
 
+  // Soft-deleted trips for the Settings → Recently deleted panel.
+  // Limited to the last 30 days because the delete-expired-accounts
+  // edge function purges anything older. Schema is identical to
+  // loadTripsYtd so the same row renderer can be reused.
+  async function loadDeletedTrips(userId) {
+    const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const cols = 'id,from_addr,to_addr,miles,type,trip_date,trip_time,duration_mins,deleted_at';
+    const { data, error } = await _sb
+      .from('trips')
+      .select(cols)
+      .eq('user_id', userId)
+      .not('deleted_at', 'is', null)
+      .gte('deleted_at', cutoff)
+      .order('deleted_at', { ascending: false });
+    if (error) {
+      console.warn('[mmai] deleted trips load:', error.message);
+      return [];
+    }
+    return data || [];
+  }
+
   async function loadVehicles(userId) {
     const { data, error } = await _sb
       .from('vehicles')
@@ -202,27 +223,46 @@
   }
 
   // ───────── Classification helpers ─────────
-  // iOS app uses 'biz'/'pers'/'uncl'; some legacy rows use 'business'/'personal'.
-  // Anything unclassified or unknown counts toward needs-review.
+  // iOS app uses 'biz'/'pers'/'med'/'char'/'uncl'; some legacy rows use the
+  // long-form spellings. Anything unclassified or unknown counts toward
+  // needs-review. Web must accept the same shape as iOS so users see a
+  // consistent dashboard across devices.
   function isBusiness(t) { return t === 'biz' || t === 'business'; }
   function isPersonal(t) { return t === 'pers' || t === 'personal'; }
+  function isMedical(t)  { return t === 'med' || t === 'medical'; }
+  function isCharity(t)  { return t === 'char' || t === 'charity'; }
+  function isDeductible(t) { return isBusiness(t) || isMedical(t) || isCharity(t); }
+  // Per-category mileage rates (US federal 2026 defaults; profile.country may override).
+  // Medical and charity rates are surfaced for KPI display only; the rate the
+  // user sees on the dashboard is the business rate (most common case).
+  const RATE_MEDICAL_2026  = 0.21;
+  const RATE_CHARITY_2026  = 0.14;
 
   function computeKpis(trips, profile) {
     const tripCount = trips.length;
     let businessMiles = 0;
     let personalMiles = 0;
+    let medicalMiles = 0;
+    let charityMiles = 0;
     let needsReview = 0;
     for (const t of trips) {
       const mi = Number(t.miles) || 0;
       if (isBusiness(t.type)) businessMiles += mi;
       else if (isPersonal(t.type)) personalMiles += mi;
+      else if (isMedical(t.type)) medicalMiles += mi;
+      else if (isCharity(t.type)) charityMiles += mi;
       else needsReview += 1;
     }
-    const totalMiles = businessMiles + personalMiles;
+    const totalMiles = businessMiles + personalMiles + medicalMiles + charityMiles;
     const businessPct = totalMiles > 0 ? Math.round((businessMiles / totalMiles) * 100) : 0;
     const rate = effectiveRate(profile);
-    const ytdDeduction = businessMiles * rate;
-    return { tripCount, businessMiles, personalMiles, totalMiles, businessPct, needsReview, ytdDeduction, rate };
+    const ytdDeduction = (businessMiles * rate)
+                       + (medicalMiles * RATE_MEDICAL_2026)
+                       + (charityMiles * RATE_CHARITY_2026);
+    return {
+      tripCount, businessMiles, personalMiles, medicalMiles, charityMiles,
+      totalMiles, businessPct, needsReview, ytdDeduction, rate,
+    };
   }
 
   function computeQuarter(trips, kpis) {
@@ -292,6 +332,8 @@
   function classTag(type) {
     if (isBusiness(type)) return { cls: 'biz', label: 'Business' };
     if (isPersonal(type)) return { cls: 'pers', label: 'Personal' };
+    if (isMedical(type))  return { cls: 'med',  label: 'Medical' };
+    if (isCharity(type))  return { cls: 'char', label: 'Charity' };
     return { cls: 'unreviewed', label: 'Review' };
   }
 
@@ -652,7 +694,7 @@
     setText('[data-mmai="set-plan-line"]', line);
 
     setText('[data-mmai="set-fullname"]', profile.name || '—');
-    setText('[data-mmai="set-email"]', session.user.email || '—');
+    setAll('[data-mmai="set-email"]', session.user.email || '—');
     setText('[data-mmai="set-phone"]', profile.phone || '—');
     setText('[data-mmai="edit-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
     setText('[data-mmai="set-language"]', profile.locale ? profile.locale.toUpperCase() : '—');
@@ -660,19 +702,140 @@
     setText('[data-mmai="edit-country"]', profile.country || '—');
   }
 
+  // ───────── AI suggestion (web parity port) ─────────
+  // Mirrors the iOS aiClassify layers within the constraints of the web
+  // data shape (loadTripsYtd projects a thin column set with no end
+  // coords, so we match by normalized address text instead of cell hash):
+  //   Layer 2 — most recent classified trip with the same to_addr
+  //   Layer 1.7 — named-location dominance (≥3 trips ending at this
+  //               named loc, ≥75% sharing a category)
+  //   Layer 1 — Home/Office keyword on the named loc that matches the
+  //             destination address, with commute rule
+  //   Fallback — return null (do not auto-suggest)
+  function normalizeAddrKey(s) {
+    if (!s) return '';
+    return String(s).toLowerCase()
+      .replace(/[^a-z0-9 ]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  const _OFFICE_WORDS = ['office', 'work', 'client', 'job'];
+  const _HOME_WORDS   = ['home', 'house', 'residence'];
+  function placeMatchKind(label) {
+    const l = String(label || '').toLowerCase();
+    if (_HOME_WORDS.some((w) => l.includes(w))) return 'home';
+    if (_OFFICE_WORDS.some((w) => l.includes(w))) return 'office';
+    return null;
+  }
+  function aiSuggestForTrip(trip) {
+    if (!trip) return null;
+    const toKey = normalizeAddrKey(trip.to_addr);
+    if (!toKey) return null;
+    // Layer 2 — most recent classified trip with the same destination key.
+    // _allTrips is ordered DESC by trip_date+trip_time per loadTripsYtd.
+    for (const t of _allTrips) {
+      if (String(t.id) === String(trip.id)) continue;
+      if (!isBusiness(t.type) && !isPersonal(t.type) && !isMedical(t.type) && !isCharity(t.type)) continue;
+      if (normalizeAddrKey(t.to_addr) !== toKey) continue;
+      const tag = classTag(t.type);
+      return { type: t.type, label: tag.label, confidence: 0.95, reason: 'You tagged the last trip here ' + tag.label + '.' };
+    }
+    // Layer 1.7 — named-location dominance.
+    const places = Array.isArray(_profileRef && _profileRef.named_locations) ? _profileRef.named_locations : [];
+    const placeMatch = places.find((p) => normalizeAddrKey(p && (p.addr || p.address || p.label)) === toKey || (p && normalizeAddrKey(p.label) && toKey.includes(normalizeAddrKey(p.label))));
+    if (placeMatch) {
+      // Count siblings ending at the same place.
+      const siblings = _allTrips.filter((t) => normalizeAddrKey(t.to_addr) === toKey && (isBusiness(t.type) || isPersonal(t.type) || isMedical(t.type) || isCharity(t.type)));
+      if (siblings.length >= 3) {
+        const counts = {};
+        for (const t of siblings) counts[t.type] = (counts[t.type] || 0) + 1;
+        let bestType = null, bestCount = 0;
+        for (const k of Object.keys(counts)) {
+          if (counts[k] > bestCount) { bestCount = counts[k]; bestType = k; }
+        }
+        if (bestType && bestCount / siblings.length >= 0.75) {
+          const tag = classTag(bestType);
+          return { type: bestType, label: tag.label, confidence: 0.92, reason: `${bestCount} of ${siblings.length} trips here are ${tag.label}.` };
+        }
+      }
+      // Layer 1 — office/home keyword on named place.
+      const kind = placeMatchKind(placeMatch.label || placeMatch.category);
+      if (kind === 'office') {
+        return { type: 'biz', label: 'Business', confidence: 0.85, reason: `Trips to "${placeMatch.label || 'this place'}" are usually business.` };
+      }
+      if (kind === 'home') {
+        return { type: 'pers', label: 'Personal', confidence: 0.85, reason: 'Trips ending at home are personal.' };
+      }
+    }
+    return null;
+  }
+
+  // ───────── Recently deleted ─────────
+  // Lazy-loaded on first visit to the panel so dashboard refreshes don't
+  // pay the cost of an extra query for users who never delete anything.
+  async function refreshTrash(session) {
+    const list = document.querySelector('[data-mmai="trash-list"]');
+    const empty = document.querySelector('[data-mmai="trash-empty"]');
+    if (!list) return;
+    list.querySelectorAll('.trash-row').forEach((n) => n.remove());
+    const rows = await loadDeletedTrips(session.user.id);
+    if (!rows.length) { if (empty) empty.hidden = false; return; }
+    if (empty) empty.hidden = true;
+    for (const t of rows) {
+      const div = document.createElement('div');
+      div.className = 'set-row trash-row';
+      const tag = classTag(t.type);
+      const deletedAt = t.deleted_at ? new Date(t.deleted_at) : null;
+      const daysLeft = deletedAt
+        ? Math.max(0, 30 - Math.floor((Date.now() - deletedAt.getTime()) / 86400000))
+        : 30;
+      div.innerHTML = `
+        <div>
+          <div class="nm">${escapeHtml(shortAddr(t.from_addr))} → ${escapeHtml(shortAddr(t.to_addr))}</div>
+          <div class="ds">${formatDateShort(t.trip_date)} · ${(Number(t.miles) || 0).toFixed(1)} mi · <span style="color:#${tag.cls === 'biz' ? '1B4DDB' : tag.cls === 'pers' ? '6B6862' : tag.cls === 'med' ? 'B91C1C' : tag.cls === 'char' ? '9D174D' : '185FA5'}">${tag.label}</span> · ${daysLeft} day${daysLeft === 1 ? '' : 's'} left</div>
+        </div>
+        <button class="btn ghost" data-restore-id="${escapeHtml(t.id)}" style="white-space:nowrap">↺ Restore</button>
+      `;
+      list.appendChild(div);
+    }
+    list.querySelectorAll('[data-restore-id]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-restore-id');
+        btn.disabled = true;
+        btn.textContent = '…';
+        try {
+          const { error } = await _sb.from('trips')
+            .update({ deleted_at: null })
+            .eq('id', id);
+          if (error) throw new Error(error.message);
+          await refreshTrash(session);
+          await refreshAfterMutation(session);
+        } catch (err) {
+          console.error('[mmai] restore:', err);
+          btn.disabled = false;
+          btn.textContent = '↺ Restore';
+          mmaiAlert({ title: 'Could not restore trip', body: err.message || String(err) });
+        }
+      });
+    });
+  }
+
   function renderBilling(profile) {
     const tierRaw = profile.plan || profile.subscription_tier || 'Free';
     const tier = tierRaw.charAt(0).toUpperCase() + tierRaw.slice(1).toLowerCase();
     setText('[data-mmai="bill-plan"]', tier);
 
+    // Friendly date format (Sept 15, 2026) instead of locale numeric so
+    // users can scan their billing card without parsing ISO strings.
+    const friendlyDate = (iso) => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
     let renewLine = '—';
     const now = new Date();
     if (profile.subscription_expires_at) {
-      renewLine = `Renews ${new Date(profile.subscription_expires_at).toLocaleDateString()}`;
+      renewLine = `Renews ${friendlyDate(profile.subscription_expires_at)}`;
     } else if (profile.trial_ends_at && new Date(profile.trial_ends_at) > now) {
-      renewLine = `Trial ends ${new Date(profile.trial_ends_at).toLocaleDateString()}`;
+      renewLine = `Trial ends ${friendlyDate(profile.trial_ends_at)}`;
     } else if (profile.subscription_started_at) {
-      renewLine = `Active since ${new Date(profile.subscription_started_at).toLocaleDateString()}`;
+      renewLine = `Active since ${friendlyDate(profile.subscription_started_at)}`;
     } else {
       renewLine = profile.billing_interval ? `${profile.billing_interval[0].toUpperCase() + profile.billing_interval.slice(1)} billing` : 'Free plan';
     }
@@ -1098,7 +1261,7 @@
   // dialog, no new tab — caller passes the Blob to triggerDownload().
   function genPDF(trips, profile, label) {
     if (!window.jspdf || !window.jspdf.jsPDF) {
-      alert('PDF library failed to load. Please refresh the page and try again.');
+      mmaiAlert({ title: 'PDF library failed to load', body: 'Please refresh the page and try again.' });
       return null;
     }
     const { jsPDF } = window.jspdf;
@@ -1125,7 +1288,7 @@
     doc.setTextColor(85, 85, 85);
     doc.text(`${label} · Driver: ${drvName} · Generated ${new Date().toLocaleString()}`, margin, margin + 24);
 
-    // PUB 463 badge (top-right)
+    // Verified badge (top-right)
     const badgeText = 'VERIFIED';
     const badgeW = doc.getTextWidth(badgeText) + 14;
     const badgeX = pageW - margin - badgeW;
@@ -1227,7 +1390,7 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(102, 102, 102);
-    const notice = 'Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+    const notice = 'Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified tax professional before filing.';
     const lines = doc.splitTextToSize(notice, pageW - margin * 2);
     doc.text(lines, margin, y);
 
@@ -1265,11 +1428,11 @@
     }
   }
 
-  // Quick PDF/CSV exports from the Dashboard "Export for your CPA" card —
+  // Quick PDF/CSV exports from the Dashboard "Export for tax filing" card —
   // YTD, business-only PDF; YTD, all-trips CSV. No filter UI; one tap.
   function quickPdfExport() {
     if (!_allTrips || !_allTrips.length) {
-      alert('No trips to export yet. Log trips in the iOS app first.');
+      mmaiAlert({ title: 'No trips to export yet', body: 'Log a trip first to enable exports.' });
       return;
     }
     const yr = new Date().getFullYear();
@@ -1280,7 +1443,7 @@
 
   function quickCsvExport() {
     if (!_allTrips || !_allTrips.length) {
-      alert('No trips to export yet. Log trips in the iOS app first.');
+      mmaiAlert({ title: 'No trips to export yet', body: 'Log a trip first to enable exports.' });
       return;
     }
     const yr = new Date().getFullYear();
@@ -1293,7 +1456,7 @@
   // Needs review) so the download matches what the user is currently viewing.
   function tripsTabExport(format) {
     if (!_allTrips || !_allTrips.length) {
-      alert('No trips to export yet. Log trips in the iOS app first.');
+      mmaiAlert({ title: 'No trips to export yet', body: 'Log a trip first to enable exports.' });
       return;
     }
     const trips = _allTrips.filter((t) => tripMatchesFilter(t, _tripsFilter));
@@ -1401,6 +1564,67 @@
         modalShowError(err && err.message ? err.message : 'Save failed. Please try again.');
         saveBtn.disabled = false;
       }
+    });
+  }
+
+  // ───────── Branded confirm / alert ─────────
+  // Promise-returning replacements for window.confirm / window.alert.
+  // Both reuse the shared #mmai-overlay so the UI matches the rest of the
+  // app and dismiss handling (Esc, backdrop, close button) is uniform.
+  function mmaiConfirm({ title, body, confirmLabel = 'Confirm', danger = false } = {}) {
+    return new Promise((resolve) => {
+      const bodyHtml = body
+        ? `<p style="margin:0;color:#374151;line-height:1.5">${escapeHtml(body)}</p>`
+        : '';
+      const saveBtn = document.getElementById('mmai-modal-save');
+      const prevClass = saveBtn.className;
+      openModal({
+        title: title || 'Are you sure?',
+        bodyHtml,
+        saveLabel: confirmLabel,
+        onSave: async () => { saveBtn.className = prevClass; resolve(true); },
+      });
+      saveBtn.className = prevClass + (danger ? ' danger' : '');
+      // closeModal triggered by cancel/esc/backdrop resolves false.
+      const overlay = document.getElementById('mmai-overlay');
+      const watchClose = () => {
+        if (overlay.hidden) {
+          saveBtn.className = prevClass;
+          overlay.removeEventListener('transitionend', watchClose);
+          resolve(false);
+        }
+      };
+      const cancelBtn = document.getElementById('mmai-modal-cancel');
+      const closeBtn = document.getElementById('mmai-modal-close');
+      const onCancel = () => { saveBtn.className = prevClass; resolve(false); };
+      cancelBtn.addEventListener('click', onCancel, { once: true });
+      closeBtn.addEventListener('click', onCancel, { once: true });
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) onCancel();
+      }, { once: true });
+    });
+  }
+
+  function mmaiAlert({ title, body, dismissLabel = 'OK' } = {}) {
+    return new Promise((resolve) => {
+      const bodyHtml = body
+        ? `<p style="margin:0;color:#374151;line-height:1.5">${escapeHtml(body)}</p>`
+        : '';
+      const cancelBtn = document.getElementById('mmai-modal-cancel');
+      cancelBtn.style.display = 'none';
+      openModal({
+        title: title || 'Heads up',
+        bodyHtml,
+        saveLabel: dismissLabel,
+        onSave: async () => { cancelBtn.style.display = ''; resolve(); },
+      });
+      const closeBtn = document.getElementById('mmai-modal-close');
+      const onClose = () => { cancelBtn.style.display = ''; resolve(); };
+      closeBtn.addEventListener('click', onClose, { once: true });
+      const overlay = document.getElementById('mmai-overlay');
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) onClose();
+      }, { once: true });
     });
   }
 
@@ -1513,6 +1737,8 @@
         <div class="mmai-class-pills">
           <span class="pill on" data-lt-type="biz">Business</span>
           <span class="pill" data-lt-type="pers">Personal</span>
+          <span class="pill" data-lt-type="med">Medical</span>
+          <span class="pill" data-lt-type="char">Charity</span>
           <span class="pill" data-lt-type="uncl">Needs review</span>
         </div>
       </div>
@@ -1563,7 +1789,17 @@
           source: 'web',
         };
         if (vehicleId) row.vehicle_id = vehicleId;
-        const { error } = await _sb.from('trips').insert(row);
+        // Idempotent upsert on trip_uid. A double-click, network retry,
+        // or backgrounded re-submission re-sends the SAME trip_uid
+        // (generated once at row construction above), so the DB returns
+        // a single row instead of two duplicates. Matches the live
+        // `trips_trip_uid_unique` constraint (globally unique on
+        // trip_uid; the iOS app's `tripsRepo.upsert` comment about
+        // "can't guarantee UNIQUE" is stale — the guarantee holds).
+        const { error } = await _sb.from('trips').upsert(row, {
+          onConflict: 'trip_uid',
+          ignoreDuplicates: false,
+        });
         if (error) throw new Error(error.message);
         closeModal();
         await refreshAfterMutation(session);
@@ -1590,17 +1826,24 @@
     del.className = 'mmai-rowmenu-item danger';
     del.textContent = '🗑  Delete trip';
     del.addEventListener('click', async () => {
-      if (!confirm('Delete this trip? It will be hidden from reports and KPIs.')) return;
+      closeRowMenu();
+      const ok = await mmaiConfirm({
+        title: 'Delete this trip?',
+        body: 'It will be hidden from reports and KPIs. You can restore it from Recently Deleted within 30 days.',
+        confirmLabel: 'Delete trip',
+        danger: true,
+      });
+      if (!ok) return;
       try {
         const { error } = await _sb.from('trips')
           .update({ deleted_at: new Date().toISOString() })
           .eq('id', trip.id);
         if (error) throw new Error(error.message);
-        closeRowMenu();
+        closeModal();
         await refreshAfterMutation(session);
       } catch (err) {
         console.error('[mmai] delete:', err);
-        alert('Could not delete trip: ' + (err.message || err));
+        mmaiAlert({ title: 'Could not delete trip', body: err.message || String(err) });
       }
     });
     menu.appendChild(del);
@@ -1678,12 +1921,40 @@
     if (!trip) return;
     const currentCls = classTag(trip.type).cls;
     const OPTIONS = [
-      { label: '✓ Business',    type: 'biz',  cls: 'biz' },
-      { label: 'Personal',      type: 'pers', cls: 'pers' },
+      { label: '✓ Business',     type: 'biz',  cls: 'biz' },
+      { label: 'Personal',       type: 'pers', cls: 'pers' },
+      { label: '+ Medical',      type: 'med',  cls: 'med' },
+      { label: '♥ Charity',      type: 'char', cls: 'char' },
       { label: '? Needs review', type: 'uncl', cls: 'unreviewed' },
     ];
     const dropdown = document.createElement('div');
     dropdown.className = 'cls-dropdown';
+
+    // AI suggestion shown only for unreviewed trips and only when the
+    // classifier returns a non-null result. Surfaced as a header row,
+    // visually distinct, with the rationale text below it.
+    const suggestion = currentCls === 'unreviewed' ? aiSuggestForTrip(trip) : null;
+    if (suggestion) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cls-suggest';
+      wrap.style.cssText = 'padding:10px 14px;border-bottom:1px solid #EFF1F5;background:linear-gradient(180deg,#F4F8FF 0%,#FFFFFF 100%)';
+      const head = document.createElement('button');
+      head.type = 'button';
+      head.className = 'cls-option';
+      head.style.cssText = 'background:#1B4DDB;color:#FFFFFF;padding:8px 12px;border-radius:8px;width:100%;text-align:left;font-weight:600;border:none;cursor:pointer;font-family:inherit;font-size:12px';
+      head.textContent = `✨ AI suggests ${suggestion.label} · ${Math.round(suggestion.confidence * 100)}%`;
+      head.addEventListener('click', async () => {
+        closeClassifyDropdown();
+        await classifyTrip(tripId, suggestion.type, session);
+      });
+      const reason = document.createElement('div');
+      reason.style.cssText = 'margin-top:6px;font-size:11px;color:#374151;line-height:1.4';
+      reason.textContent = suggestion.reason;
+      wrap.appendChild(head);
+      wrap.appendChild(reason);
+      dropdown.appendChild(wrap);
+    }
+
     for (const opt of OPTIONS) {
       const btn = document.createElement('button');
       btn.className = 'cls-option' + (opt.cls === currentCls ? ' active' : '');
@@ -1767,12 +2038,17 @@
         const odo = parseFloat(document.getElementById('av-odo').value);
         const isDefault = document.getElementById('av-default').checked;
         if (!name) return modalShowError('Nickname is required.');
-        // Demote previous default if user is setting a new one.
+        // Demote ALL existing defaults atomically by user_id. Reading
+        // from the local _vehiclesList cache is racy — another tab or the
+        // iOS app may have promoted a different vehicle since we last
+        // refreshed. Pushing the demotion through SQL with a single
+        // user-scoped WHERE clause means "only one default per user"
+        // remains invariant regardless of stale local state.
         if (isDefault) {
-          const prev = _vehiclesList.find((v) => v.is_default);
-          if (prev) {
-            await _sb.from('vehicles').update({ is_default: false }).eq('id', prev.id);
-          }
+          await _sb.from('vehicles')
+            .update({ is_default: false })
+            .eq('user_id', session.user.id)
+            .eq('is_default', true);
         }
         const row = {
           user_id: session.user.id,
@@ -1922,7 +2198,13 @@
   }
 
   async function deletePlace(session, place) {
-    if (!confirm(`Delete "${place.label || 'this place'}"?`)) return;
+    const ok = await mmaiConfirm({
+      title: `Delete "${place.label || 'this place'}"?`,
+      body: 'Your saved places help the AI classify trips faster. You can re-add it from any past trip address.',
+      confirmLabel: 'Delete place',
+      danger: true,
+    });
+    if (!ok) return;
     const arr = Array.isArray(_profileRef.named_locations) ? _profileRef.named_locations.slice() : [];
     const idx = arr.findIndex((e) => e && e.id === place.id);
     if (idx < 0) return;
@@ -2308,8 +2590,28 @@
     toggle.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-locale]');
       if (!btn || !window.MM) return;
-      window.MM.set(btn.getAttribute('data-locale'));
+      const target = btn.getAttribute('data-locale');
+      const prev = getActiveLocale();
+      window.MM.set(target);
+      if (target !== prev) {
+        // Toast clarifies that the toggle re-renders the dashboard against a
+        // different rate/unit but does NOT mutate any stored trip data.
+        // Users tend to fear that flipping US ↔ CA "converts" their history;
+        // a 4s confirmation removes the doubt.
+        showToast(`Showing miles & deductions in ${target} units. Your trip data is unchanged.`);
+      }
     });
+  }
+
+  // Lightweight non-blocking toast for region-pill + future inline confirmations.
+  // Stacks visually with the existing .mmai-undo-toast styles.
+  function showToast(text, durationMs = 4000) {
+    document.querySelectorAll('.mmai-info-toast').forEach((n) => n.remove());
+    const el = document.createElement('div');
+    el.className = 'mmai-undo-toast mmai-info-toast';
+    el.textContent = text;
+    document.body.appendChild(el);
+    setTimeout(() => { el.remove(); }, durationMs);
   }
 
   function wireHelp() {
@@ -2340,6 +2642,12 @@
     $$('[data-mmai="signout"]').forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
+        const ok = await mmaiConfirm({
+          title: 'Sign out of this browser?',
+          body: 'You can sign back in any time with the same email. Your trips and settings stay synced.',
+          confirmLabel: 'Sign out',
+        });
+        if (!ok) return;
         try { await _sb.auth.signOut(); } catch (_e) {}
         location.replace('/signin/');
       });
@@ -2430,6 +2738,53 @@
     });
 
     document.body.classList.add('mmai-ready');
+
+    // Expose the trash refresh so the Settings tab-switch handler in
+    // app/index.html can lazy-load it on first visit. Closure access is
+    // module-scoped; a window-level handle is the simplest bridge to
+    // inline <script> code that lives outside this IIFE.
+    window.mmaiRefreshTrash = () => refreshTrash(session);
+
+    // Realtime: subscribe to this user's trip changes so a mutation on
+    // another device (iOS app, second browser tab) reflects here within
+    // ~1-3s without a manual refresh. Debounced because a bulk-apply or
+    // outbox drain can fire dozens of row-level events back to back.
+    wireRealtime(session);
+  }
+
+  // ───────── Realtime ─────────
+  let _realtimeDebounce = null;
+  let _realtimeChannel = null;
+  function wireRealtime(session) {
+    if (!_sb.channel) return;
+    if (_realtimeChannel) {
+      try { _sb.removeChannel(_realtimeChannel); } catch (_e) {}
+    }
+    const userId = session.user.id;
+    const onChange = () => {
+      clearTimeout(_realtimeDebounce);
+      _realtimeDebounce = setTimeout(() => {
+        refreshAfterMutation(session).catch((err) => {
+          console.warn('[mmai] realtime refresh:', err);
+        });
+      }, 600);
+    };
+    _realtimeChannel = _sb
+      .channel(`mmai-${userId}`)
+      .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'trips', filter: `user_id=eq.${userId}` },
+          onChange)
+      .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'vehicles', filter: `user_id=eq.${userId}` },
+          onChange)
+      .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'profiles', filter: `id=eq.${userId}` },
+          onChange)
+      .subscribe((status) => {
+        if (status !== 'SUBSCRIBED') {
+          console.warn('[mmai] realtime status:', status);
+        }
+      });
   }
 
   if (document.readyState === 'loading') {

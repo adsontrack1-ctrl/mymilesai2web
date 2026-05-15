@@ -11,7 +11,10 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MyMilesAI — Logged-in App · Full Package</title>
+<title>MyMilesAI — Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="theme-color" content="#0B0F0E" />
+<meta name="robots" content="noindex, nofollow" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
@@ -230,6 +233,12 @@
   .mmai-undo-toast .undo-btn{background:#1B4DDB;color:#FFF;border:none;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .12s}
   .mmai-undo-toast .undo-btn:hover{opacity:0.85}
   body:not(.mmai-ready) .main { visibility: hidden; }
+  body:not(.mmai-ready) [data-mmai="trips-count"],
+  body:not(.mmai-ready) [data-mmai="places-count"],
+  body:not(.mmai-ready) [data-mmai="vehicles-count"],
+  body:not(.mmai-ready) [data-mmai="profile-name"],
+  body:not(.mmai-ready) [data-mmai="profile-plan"],
+  body:not(.mmai-ready) [data-mmai="profile-initial"] { visibility: hidden; }
   .locale-pill { display: flex; background: #EDEEF2; border-radius: 100px; padding: 3px; gap: 2px; }
   .locale-btn { border: none; padding: 6px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s, color 0.12s; white-space: nowrap; }
   .locale-btn.active { background: #1B4DDB; color: #FFFFFF; box-shadow: 0 1px 4px rgba(27,77,219,0.35); }
@@ -289,6 +298,8 @@
   .cls-pill:hover{opacity:0.72}
   .cls-pill.cls-biz{background:#1B4DDB;color:#FFFFFF}
   .cls-pill.cls-pers{background:#E5E7EB;color:#0B0F0E}
+  .cls-pill.cls-med{background:#FEE2E2;color:#B91C1C}
+  .cls-pill.cls-char{background:#FCE7F3;color:#9D174D}
   .cls-pill.cls-unreviewed{background:#EFF4FF;color:#185FA5}
   .cls-pill[aria-busy="true"]{opacity:0.5;cursor:wait}
   /* ─── CLASSIFY DROPDOWN ─── */
@@ -314,7 +325,11 @@
   .ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;color:#1B4DDB}
   /* ─── NEEDS REVIEW PULSE ─── */
   @keyframes numPulse{0%,100%{opacity:1}50%{opacity:0.65}}
-  .v.pulsing{animation:numPulse 1.5s ease-in-out infinite}
+  /* Pulse fires three times then settles, so the dashboard signals "needs
+     attention" on landing but doesn't anxiety-induce a user who's mid-task.
+     The .pulsing class is re-applied by app.js whenever needsReview changes,
+     so a new unclassified trip will pulse again. */
+  .v.pulsing{animation:numPulse 1.5s ease-in-out 3}
   /* ─── TRIP ROW POLISH ─── */
   .trip:hover{background:#EFF4FF;border-radius:8px}
   .trip-route{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
@@ -336,13 +351,13 @@
 </script>
 </head>
 <body>
-<div class="tabs">
-  <button class="on" onclick="go('dashboard')">Dashboard</button>
-  <button onclick="go('trips')">Trips</button>
-  <button onclick="go('places')">Places</button>
-  <button onclick="go('reports')">Reports</button>
-  <button onclick="go('vehicles')">Vehicles</button>
-  <button onclick="go('settings')">Settings</button>
+<div class="tabs" role="tablist" aria-label="App sections">
+  <button id="tab-dashboard" class="on" role="tab" aria-selected="true" aria-controls="p-dashboard" onclick="go('dashboard', event)">Dashboard</button>
+  <button id="tab-trips" role="tab" aria-selected="false" aria-controls="p-trips" onclick="go('trips', event)">Trips</button>
+  <button id="tab-places" role="tab" aria-selected="false" aria-controls="p-places" onclick="go('places', event)">Places</button>
+  <button id="tab-reports" role="tab" aria-selected="false" aria-controls="p-reports" onclick="go('reports', event)">Reports</button>
+  <button id="tab-vehicles" role="tab" aria-selected="false" aria-controls="p-vehicles" onclick="go('vehicles', event)">Vehicles</button>
+  <button id="tab-settings" role="tab" aria-selected="false" aria-controls="p-settings" onclick="go('settings', event)">Settings</button>
 </div>
 
 <div class="app">
@@ -353,7 +368,7 @@
     </div>
     <div class="nav-section">Drive</div>
     <div class="nav-item active" id="nav-dashboard" onclick="go('dashboard')"><span class="ic">◐</span>Dashboard</div>
-    <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">847</span></div>
+    <div class="nav-item" id="nav-trips" onclick="go('trips')"><span class="ic">↝</span>Trips<span class="count" data-mmai="trips-count">0</span></div>
     <div class="nav-item" id="nav-places" onclick="go('places')"><span class="ic">◎</span>Places<span class="count" data-mmai="places-count">0</span></div>
     <div class="nav-section">Business</div>
     <div class="nav-item" id="nav-reports" onclick="go('reports')"><span class="ic">◇</span>Reports</div>
@@ -363,14 +378,14 @@
     <div class="nav-item" id="nav-help" data-mmai="open-help" style="cursor:pointer"><span class="ic">?</span>Help</div>
     <div class="profile">
       <div class="avatar" data-mmai="profile-initial"></div>
-      <div><div class="nm" data-mmai="profile-name">Marcus T.</div><div class="em" data-mmai="profile-plan">Pro · 2026</div></div>
+      <div><div class="nm" data-mmai="profile-name">—</div><div class="em" data-mmai="profile-plan">—</div></div>
     </div>
     <a href="#" data-mmai="signout" class="signout-link">Sign out</a>
   </aside>
   <main class="main">
 
     <!-- DASHBOARD -->
-    <section class="page on" id="p-dashboard" data-screen-label="App 01 Dashboard">
+    <section class="page on" id="p-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" data-screen-label="App 01 Dashboard">
       <div class="topbar">
         <div>
           <div class="eyebrow" data-mmai="eyebrow-date">—</div>
@@ -407,7 +422,7 @@
       </div>
       <div class="content">
         <div class="panel">
-          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Most recent five trips this year. Classify in the iOS app.</div></div><a onclick="mmaiGo('trips')" style="cursor:pointer">View all <span data-mmai="trips-count">0</span> →</a></div>
+          <div class="panel-head"><div><h3>Recent trips</h3><div class="sub">Most recent five trips this year. Classify in the iOS app.</div></div><a onclick="(window.mmaiGo||go)('trips')" style="cursor:pointer">View all <span data-mmai="trips-count">0</span> →</a></div>
           <div data-mmai="recent-trips"></div>
         </div>
         <div>
@@ -422,7 +437,7 @@
             </div>
           </div>
           <div class="export">
-            <h4>Export for your CPA</h4>
+            <h4>Export for tax filing</h4>
             <p>PDF reports with all required fields — date, route, purpose, miles for every business trip. One click, direct download.</p>
             <button class="btn accent" data-mmai="quick-pdf-export" style="width:100%">⬇ Export PDF (YTD · business)</button>
             <button class="btn ghost" data-mmai="quick-csv-export" style="width:100%;margin-top:8px">⬇ Export CSV (YTD · all trips)</button>
@@ -436,7 +451,7 @@
     </section>
 
     <!-- TRIPS -->
-    <section class="page" id="p-trips" data-screen-label="App 02 Trips">
+    <section class="page" id="p-trips" role="tabpanel" aria-labelledby="tab-trips" data-screen-label="App 02 Trips">
       <div class="topbar">
         <div>
           <div class="eyebrow" data-mmai="trips-eyebrow-review">0 trips · 0 need review</div>
@@ -462,7 +477,7 @@
     </section>
 
     <!-- PLACES -->
-    <section class="page" id="p-places" data-screen-label="App 03 Places">
+    <section class="page" id="p-places" role="tabpanel" aria-labelledby="tab-places" data-screen-label="App 03 Places">
       <div class="topbar">
         <div>
           <div class="eyebrow"><span data-mmai="places-count">0</span> saved places</div>
@@ -480,7 +495,7 @@
     </section>
 
     <!-- REPORTS -->
-    <section class="page" id="p-reports" data-screen-label="App 04 Reports">
+    <section class="page" id="p-reports" role="tabpanel" aria-labelledby="tab-reports" data-screen-label="App 04 Reports">
       <div class="topbar">
         <div>
           <div class="eyebrow">Standard mileage method</div>
@@ -552,7 +567,7 @@
     </section>
 
     <!-- VEHICLES -->
-    <section class="page" id="p-vehicles" data-screen-label="App 05 Vehicles">
+    <section class="page" id="p-vehicles" role="tabpanel" aria-labelledby="tab-vehicles" data-screen-label="App 05 Vehicles">
       <div class="topbar">
         <div>
           <div class="eyebrow"><span data-mmai="vehicles-count">0</span> vehicles</div>
@@ -564,7 +579,7 @@
     </section>
 
     <!-- SETTINGS -->
-    <section class="page" id="p-settings" data-screen-label="App 06 Settings">
+    <section class="page" id="p-settings" role="tabpanel" aria-labelledby="tab-settings" data-screen-label="App 06 Settings">
       <div class="topbar">
         <div>
           <div class="eyebrow">Account &amp; automation</div>
@@ -577,6 +592,7 @@
           <div class="snav" data-sp="automation">Automation</div>
           <div class="snav" data-sp="tax">Tax preferences</div>
           <div class="snav" data-sp="billing">Billing</div>
+          <div class="snav" data-sp="trash">Recently deleted</div>
           <div class="snav" data-sp="security">Security</div>
         </div>
         <div>
@@ -646,6 +662,15 @@
             </div>
           </div>
 
+          <!-- RECENTLY DELETED -->
+          <div class="set-panel sp" id="sp-trash">
+            <h3>Recently deleted</h3>
+            <div class="sub">Trips you delete are hidden from reports and KPIs for 30 days, then permanently removed. Restore any of them below.</div>
+            <div data-mmai="trash-list" class="set-group" style="border-top:none;padding-top:0">
+              <div class="empty" data-mmai="trash-empty" hidden>Nothing here yet. Trips you delete will appear here for 30 days.</div>
+            </div>
+          </div>
+
           <!-- SECURITY -->
           <div class="set-panel sp" id="sp-security">
             <h3>Security</h3>
@@ -687,21 +712,25 @@
 <script src="../assets/vendor/jspdf.plugin.autotable.min.js?v=20260513a"></script>
 <script src="../assets/js/app.js?v=20260513a"></script>
 <script>
-function go(name){
+function go(name, ev){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.getElementById('p-'+name).classList.add('on');
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));
-  event && event.target && event.target.classList && event.target.classList.add('on');
+  const pg = document.getElementById('p-'+name);
+  if(pg) pg.classList.add('on');
   // sidebar active
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const s = document.getElementById('nav-'+name);
   if(s) s.classList.add('active');
-  // tab active fallback (when triggered from sidebar)
+  // tab active + aria-selected (works from tab click OR sidebar)
   const tabs = document.querySelectorAll('.tabs button');
   const order = ['dashboard','trips','places','reports','vehicles','settings'];
   const idx = order.indexOf(name);
-  tabs.forEach((b,i)=>b.classList.toggle('on', i===idx));
-  document.querySelector('.main').scrollTop = 0;
+  tabs.forEach((b,i)=>{
+    const on = i===idx;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  const main = document.querySelector('.main');
+  if(main) main.scrollTop = 0;
 }
 document.getElementById('nav-dashboard').classList.add('active');
 
@@ -715,6 +744,8 @@ document.querySelectorAll('.set-nav .snav').forEach(n => {
     document.querySelectorAll('.sp').forEach(p => p.classList.remove('on'));
     const panel = document.getElementById('sp-' + target);
     if (panel) panel.classList.add('on');
+    // Recently-deleted is lazy-loaded — app.js exposes window.mmaiRefreshTrash.
+    if (target === 'trash' && window.mmaiRefreshTrash) window.mmaiRefreshTrash();
   });
 });
 // "Manage plan" jump-to-billing.

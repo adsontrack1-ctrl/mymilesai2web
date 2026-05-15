@@ -242,7 +242,7 @@ const SolBeatDeduct = ({persona, locale}) => {
         <span style={{fontSize:10,color:'#6B7280'}}>Est. annual deduction</span>
         <span style={{fontWeight:800,fontSize:18,fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",color:'#C9A96E',lineHeight:1,animation:'pa-gold-glow 2s 1.1s ease-in-out infinite'}}>{p.deduction}</span>
       </div>
-      <div style={{marginTop:10,fontSize:9,color:'#9CA3AF',textAlign:'center',animation:'pa-fade 0.4s 0.9s ease both'}}>{s.complianceLabel} · {s.form1}</div>
+      <div style={{marginTop:10,fontSize:9,color:'#9CA3AF',textAlign:'center',animation:'pa-fade 0.4s 0.9s ease both'}}>{s.complianceLabel}</div>
     </div>
   );
 };
@@ -458,7 +458,7 @@ const SolHubHero = ({locale}) => {
           <div className="sol-hub-eyebrow">— Solutions</div>
           <h1 className="sol-hub-h1">Built for how<br/>you actually drive.</h1>
           <p className="sol-hub-sub">
-            Tax-ready mileage tracking, {s.complianceLabel}. Every mile captured automatically — no buttons, no manual entries, no missed deductions.
+            Tax-ready mileage tracking for every profession. Every mile captured automatically — no buttons, no manual entries, no missed deductions.
           </p>
           <div className="sol-hub-ctas">
             <a href="/signup/" style={{background:'#1B4DDB',color:'#fff',padding:'15px 30px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.45)',whiteSpace:'nowrap'}}>

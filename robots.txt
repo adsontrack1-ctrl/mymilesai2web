@@ -2,5 +2,12 @@ User-agent: *
 Allow: /
 Disallow: /app/
 Disallow: /auth-callback/
+Disallow: /welcome/
+Disallow: /signin/
+Disallow: /signup/
+Disallow: /solutions/_animation-preview.html
+Disallow: /solutions/_locale-test.html
+Disallow: /app/_demo.html
+Disallow: /app/_preview-aman.html
 
 Sitemap: https://mymilesai.com/sitemap.xml

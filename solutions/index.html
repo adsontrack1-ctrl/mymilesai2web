@@ -8,7 +8,7 @@
 -->
 <html lang="en">
 <head>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://maps.googleapis.com https://routes.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Mileage Tracking for Every Profession — MyMilesAI</title>
@@ -25,21 +25,18 @@
   ::selection{background:#1B4DDB;color:#FFFFFF}
   #root{min-height:100vh}
 </style>
+<!-- build-jsx: compiled -->
 </head>
 <body>
 
 <!-- locale.js must load BEFORE Babel scripts so window.MM is available -->
 <script src="locale.js"></script>
 <script src="../assets/vendor/react.production.min.js"></script>
-<script src="../assets/vendor/react-dom.production.min.js"></script>
-<script src="../assets/vendor/babel.min.js"></script>
-<script type="text/babel" src="../ms-parts1.jsx?v=2026-05-11a"></script>
-<script type="text/babel" src="../ms-parts2.jsx?v=2026-05-11a"></script>
-<script type="text/babel" src="sol-parts.jsx?v=2026-05-11a"></script>
+<script src="../assets/vendor/react-dom.production.min.js"></script><script src="../ms-parts1.compiled.js?v=2026-05-11a"></script>
+<script src="../ms-parts2.compiled.js?v=2026-05-11a"></script>
+<script src="sol-parts.compiled.js?v=2026-05-11a"></script>
 
-<script type="text/babel">
-  ReactDOM.createRoot(document.getElementById('root')).render(<SolHubPage/>);
-</script>
+<script src="index.inline.js"></script>
 
 <div id="root"></div>
 </body>

@@ -1,0 +1,35 @@
+{
+  "name": "MyMilesAI",
+  "short_name": "MyMilesAI",
+  "description": "Automatic mileage tracking with AI classification and tax-ready exports.",
+  "start_url": "/app/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0B0F0E",
+  "orientation": "portrait",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "Log trip",
+      "short_name": "Log trip",
+      "description": "Open the +Log trip modal",
+      "url": "/app/#log-trip"
+    },
+    {
+      "name": "Reports",
+      "short_name": "Reports",
+      "description": "Generate a YTD tax report",
+      "url": "/app/#reports"
+    }
+  ]
+}
