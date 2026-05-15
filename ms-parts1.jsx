@@ -420,7 +420,7 @@ function msDownloadSamplePDF() {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(102, 102, 102);
-  const notice = 'SAMPLE — illustrative trips only. Real reports are generated from your own MyMilesAI trip log. Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+  const notice = 'SAMPLE — illustrative trips only. Real reports are generated from your own MyMilesAI trip log. Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified tax professional before filing.';
   doc.text(doc.splitTextToSize(notice, pageW - margin * 2), margin, y);
 
   const blob = doc.output('blob');

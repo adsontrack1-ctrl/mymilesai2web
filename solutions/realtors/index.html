@@ -119,7 +119,7 @@ const PERSONA = {
     { q: (s) => `What mileage rate does MyMilesAI use?`, a: (s) => `${s.rate}. The rate is updated each January automatically.` },
     { q: 'Does it capture miles driven between showings?', a: 'Yes — every leg is logged, including client A to client B drives that happen back-to-back.' },
     { q: 'What about open house weekends?', a: 'MyMilesAI runs 24/7 and captures weekend drives the same as weekdays.' },
-    { q: (s) => `Is this ${s.complianceLabel}?`, a: (s) => `Yes. Exports meet ${s.form1} standards with timestamps, start/end addresses, and total ${s.unit} — everything required for a mileage deduction.` },
+    { q: 'Does the log have what tax filing needs?', a: (s) => `Exports include timestamps, start/end addresses, and total ${s.unit} — the four required elements for a mileage record (date, destination, business purpose, and miles driven).` },
     { q: 'Do I need to tag every trip?', a: 'No. The AI handles classification. You can review trips in the app, but tagging is never required.' },
   ],
   testimonial: {
