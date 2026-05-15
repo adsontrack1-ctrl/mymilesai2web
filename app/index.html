@@ -239,9 +239,6 @@
   body:not(.mmai-ready) [data-mmai="profile-name"],
   body:not(.mmai-ready) [data-mmai="profile-plan"],
   body:not(.mmai-ready) [data-mmai="profile-initial"] { visibility: hidden; }
-  .locale-pill { display: flex; background: #EDEEF2; border-radius: 100px; padding: 3px; gap: 2px; }
-  .locale-btn { border: none; padding: 6px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; color: #6B6862; background: transparent; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s, color 0.12s; white-space: nowrap; }
-  .locale-btn.active { background: #1B4DDB; color: #FFFFFF; box-shadow: 0 1px 4px rgba(27,77,219,0.35); }
   .profile .avatar { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
   .signout-link { display: block; margin-top: 12px; padding: 6px 0; font-size: 12px; color: #6b7280; text-decoration: none; cursor: pointer; }
   .signout-link:hover { color: #1B4DDB; }
@@ -395,10 +392,6 @@
           </div>
         </div>
         <div class="tools">
-          <div class="locale-pill" data-mmai="locale-toggle" title="Switch display currency">
-            <button class="locale-btn" data-locale="US">🇺🇸 USD</button>
-            <button class="locale-btn" data-locale="CA">🇨🇦 CAD</button>
-          </div>
           <input class="search" placeholder="Search trips, places…" data-mmai="dash-search">
           <button class="btn" data-mmai="open-log-trip">+ Log trip</button>
         </div>
