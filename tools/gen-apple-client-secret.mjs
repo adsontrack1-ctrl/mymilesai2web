@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
  * Confidential and proprietary. Unauthorized use prohibited.
@@ -6,7 +7,6 @@
  * See LICENSE for full terms. harijasllc@outlook.com
  */
 
-#!/usr/bin/env node
 /**
  * gen-apple-client-secret.mjs
  *
@@ -17,7 +17,7 @@
  *   node tools/gen-apple-client-secret.mjs \
  *     --team-id     UPU6GJ5B68 \
  *     --key-id      ABCDE12345 \
- *     --services-id com.harijasllc.mymilesaiapp.signin \
+ *     --services-id com.harijasllc.mymilesaiapp.web \
  *     --p8-path     ~/Developer/MyMilesAI-Backups/apple-auth/AuthKey_ABCDE12345.p8 \
  *     [--ttl-days   180]
  *
@@ -72,7 +72,7 @@ if (missing.length) {
   console.error('  node tools/gen-apple-client-secret.mjs \\');
   console.error('    --team-id UPU6GJ5B68 \\');
   console.error('    --key-id ABCDE12345 \\');
-  console.error('    --services-id com.harijasllc.mymilesaiapp.signin \\');
+  console.error('    --services-id com.harijasllc.mymilesaiapp.web \\');
   console.error('    --p8-path ~/Developer/MyMilesAI-Backups/apple-auth/AuthKey_ABCDE12345.p8\n');
   process.exit(1);
 }

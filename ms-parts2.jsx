@@ -161,10 +161,10 @@ const MSPricing = () => {
 
 const MSBlog = () => {
   const posts = [
-    {cat:'Tax Guide',title:'The 2026 IRS mileage rate, explained in plain English',read:'6 min',d:'Apr 2026'},
-    {cat:'For Rideshare',title:'Uber drivers: what your 1099-K doesn\'t tell you about deductions',read:'9 min',d:'Apr 2026'},
-    {cat:'Audit Prep',title:'What an IRS mileage audit actually looks like (and how to survive)',read:'12 min',d:'Mar 2026'},
-    {cat:'For Realtors',title:'Every showing, every open house: the realtor deduction map',read:'7 min',d:'Mar 2026'},
+    {cat:'Tax Guide',title:'The 2026 IRS mileage rate, explained in plain English',read:'6 min',d:'Apr 2026',u:'blog/irs-mileage-rate-2026.html'},
+    {cat:'For Rideshare',title:'Uber drivers: what your 1099-K doesn\'t tell you about deductions',read:'9 min',d:'Apr 2026',u:'blog/uber-driver-deductions-2026.html'},
+    {cat:'Audit Prep',title:'What an IRS mileage audit actually looks like (and how to survive)',read:'12 min',d:'Mar 2026',u:'blog/irs-mileage-audit-guide.html'},
+    {cat:'For Realtors',title:'Every showing, every open house: the realtor deduction map',read:'7 min',d:'Mar 2026',u:'blog/realtor-mileage-deductions.html'},
   ];
   return (
     <section style={{padding:'120px 56px',background:'#FAFAFA',borderTop:'1px solid #E8EAED',borderBottom:'1px solid #E8EAED'}}>
@@ -175,11 +175,11 @@ const MSBlog = () => {
             Tax guides from people<br/>who actually drive for work.
           </h2>
         </div>
-        <a style={{fontSize:14,color:'#0B0F0E',textDecoration:'underline',textUnderlineOffset:4}}>All articles →</a>
+        <a href="blog.html" style={{fontSize:14,color:'#0B0F0E',textDecoration:'underline',textUnderlineOffset:4}}>All articles →</a>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:20}}>
         {posts.map((p,i)=>(
-          <a key={i} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
+          <a key={i} href={p.u} style={{background:'#FFFFFF',border:'1px solid #E5E7EB',borderRadius:16,padding:24,display:'flex',flexDirection:'column',gap:16,textDecoration:'none',color:'inherit',cursor:'pointer'}}>
             <div style={{aspectRatio:'4/3',background:`linear-gradient(135deg, hsl(${25+i*40},35%,70%), hsl(${25+i*40},45%,85%))`,borderRadius:8}}/>
             <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:13,fontWeight:600,color:'#1B4DDB'}}>{p.cat}</div>
             <div style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:700,fontSize:22,lineHeight:1.3,letterSpacing:'-0.01em',flex:1}}>{p.title}</div>

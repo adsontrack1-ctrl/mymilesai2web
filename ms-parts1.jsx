@@ -469,7 +469,7 @@ const MSHow = () => {
 /* FEATURE SHOWCASE — split visual + copy */
 const MSFeatures = () => {
   const feats = [
-    {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'99.4%',label:'of drives detected automatically'},
+    {k:'Auto GPS tracking',h:'Start driving. That\'s it.',p:'No buttons to press. No app to open. MyMilesAI detects motion via GPS and accelerometer, logs your trip silently even when your phone is locked, and does it all on less battery than a 2-minute phone call. Every mile captured is a deductible mile you would have forgotten.',stat:'Auto',label:'no taps required to start a trip'},
     {k:'AI trip classification',h:'Swipe right for business. Left for personal.',p:'Review trips at end of day — takes about 12 seconds. Swipe right for Business, left for Personal. The AI learns your routes after a week and auto-classifies recurring trips. Client office every Tuesday? Classified. Regular supply run? Done.',stat:'12s',label:'daily review time after first week'},
     {k:'Tax-ready exports',h:'One tap. Tax-ready. Done.',p:'One tap exports a PDF with all four required elements: date, destination, business purpose, and miles. Or export CSV for QuickBooks, Xero, FreshBooks, or Wave. Works for US and Canada with locale auto-detect.',stat:'4/4',label:'required elements captured'},
   ];

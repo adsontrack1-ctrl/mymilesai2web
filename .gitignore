@@ -6,3 +6,10 @@ node_modules/
 *.log
 apple-auth-key-*.p8
 tools/AuthKey_*.p8
+
+# Local-only spec and preview HTML — never commit
+WIRING_SPEC.md
+app/_demo.html
+app/_preview-*.html
+solutions/_animation-preview.html
+solutions/_locale-test.html

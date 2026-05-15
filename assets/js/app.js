@@ -652,7 +652,7 @@
     setText('[data-mmai="set-plan-line"]', line);
 
     setText('[data-mmai="set-fullname"]', profile.name || '—');
-    setText('[data-mmai="set-email"]', session.user.email || '—');
+    setAll('[data-mmai="set-email"]', session.user.email || '—');
     setText('[data-mmai="set-phone"]', profile.phone || '—');
     setText('[data-mmai="edit-timezone"]', profile.timezone ? profile.timezone.replace(/_/g, ' ') : '—');
     setText('[data-mmai="set-language"]', profile.locale ? profile.locale.toUpperCase() : '—');

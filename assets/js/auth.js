@@ -122,15 +122,97 @@
     });
   }
 
+  // ──────── Password recovery (in-page form) ────────
+  // When Supabase delivers a recovery link, the URL fragment includes
+  // `type=recovery`. We must NOT bounce to /app/ — we need to let the user
+  // set a new password first.
+  function isRecoveryFlow() {
+    const hash = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+    if (hash.get('type') === 'recovery') return true;
+    const qs = new URLSearchParams(location.search || '');
+    return qs.get('type') === 'recovery';
+  }
+
+  function showRecoveryForm() {
+    const card = $('.callback-box');
+    if (!card) return;
+    const heading = card.querySelector('h1');
+    const sub = card.querySelector('.sub');
+    const spin = card.querySelector('.spinner');
+    if (spin) spin.style.display = 'none';
+    if (heading) heading.textContent = 'Set a new password';
+    if (sub) sub.textContent = 'Choose a new password for your MyMilesAI account.';
+    // Build form (CSP-safe — no innerHTML with user data).
+    const form = document.createElement('form');
+    form.id = 'pw-reset-form';
+    form.autocomplete = 'off';
+    form.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-top:18px;text-align:left';
+
+    const mkInput = (name, label) => {
+      const wrap = document.createElement('label');
+      wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;font-size:13px';
+      const lab = document.createElement('span');
+      lab.textContent = label;
+      const inp = document.createElement('input');
+      inp.type = 'password';
+      inp.name = name;
+      inp.required = true;
+      inp.minLength = 8;
+      inp.autocomplete = 'new-password';
+      inp.style.cssText = 'padding:12px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:15px;font-family:inherit';
+      wrap.appendChild(lab);
+      wrap.appendChild(inp);
+      return { wrap, inp };
+    };
+
+    const { wrap: w1, inp: pw1 } = mkInput('password', 'New password (8+ characters)');
+    const { wrap: w2, inp: pw2 } = mkInput('confirm', 'Confirm new password');
+    const submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.className = 'btn-primary';
+    submit.textContent = 'Update password';
+    submit.style.cssText = 'margin-top:8px;width:100%';
+
+    form.appendChild(w1);
+    form.appendChild(w2);
+    form.appendChild(submit);
+    card.appendChild(form);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (pw1.value !== pw2.value) {
+        msg('#auth-msg', 'Passwords do not match.', 'err');
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = '…';
+      const { error } = await _sb.auth.updateUser({ password: pw1.value });
+      if (error) {
+        submit.disabled = false;
+        submit.textContent = 'Update password';
+        msg('#auth-msg', error.message, 'err');
+        return;
+      }
+      msg('#auth-msg', 'Password updated. Redirecting…', 'ok');
+      setTimeout(() => location.replace('/app/'), 800);
+    });
+  }
+
   // ──────── Auth callback ────────
   async function handleCallback() {
     // Supabase JS v2 auto-handles session from URL when detectSessionInUrl=true.
-    // We just need to wait for the session, then redirect.
+    // We just need to wait for the session, then redirect — UNLESS this is a
+    // password-recovery link, in which case we render the set-password form.
     try {
+      const recovery = isRecoveryFlow();
       // Try up to ~5 seconds for the session to settle (Apple/Google redirects land with fragment).
       for (let i = 0; i < 25; i++) {
         const { data } = await _sb.auth.getSession();
         if (data.session) {
+          if (recovery) {
+            showRecoveryForm();
+            return;
+          }
           let dest = '/app/';
           try {
             if (localStorage.getItem('mmai_after_auth') === 'welcome') {
