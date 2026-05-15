@@ -39,10 +39,11 @@
     return IRS_RATE_2026;
   }
 
-  // Active display locale — may differ from profile.country when the user
-  // toggles the region pill. Reads mm_region from localStorage via window.MM.
+  // Active display locale is now derived directly from the user's
+  // Settings → Country choice. The old USD/CAD toggle pill was removed
+  // (currency follows country automatically). Falls back to 'US' until
+  // the profile finishes loading on cold boot.
   function getActiveLocale() {
-    if (window.MM) return window.MM.get();
     return ((_profileRef && _profileRef.country) || 'US').toUpperCase();
   }
 
@@ -291,10 +292,28 @@
     return 'Good evening';
   }
 
+  // Currency display follows the user's Settings → Country choice.
+  // Uses Intl.NumberFormat so each locale gets its native formatting
+  // (e.g., £1,234.56 / €1.234,56 / ₹1,23,456.78). Falls back to the
+  // raw symbol + toLocaleString if the runtime lacks the chosen
+  // currency (older browsers, or future country additions with no
+  // currency mapping yet).
   function formatDollars(n) {
-    let sym = '$';
-    try { sym = taxPresetForCountry(getActiveLocale()).symbol; } catch (_e) {}
-    return sym + (Math.round(n * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let preset = TAX_PRESETS.US;
+    try { preset = taxPresetForCountry(getActiveLocale()); } catch (_e) {}
+    const amount = Number.isFinite(n) ? n : 0;
+    if (preset.currency) {
+      try {
+        // Default `symbol` display keeps CAD/AUD/USD distinguishable
+        // (CA$ / A$ / $) on en-* runtimes. `narrowSymbol` would
+        // collapse all three to "$" and lose the disambiguation.
+        return new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: preset.currency,
+        }).format(amount);
+      } catch (_e) { /* fall through to symbol+number */ }
+    }
+    return (preset.symbol || '$') + (Math.round(amount * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function formatDateLong(date = new Date()) {
@@ -2376,15 +2395,15 @@
   // populate the suggested default and the displayed unit/symbol/authority.
   // Falls back to US for any country not in this map.
   const TAX_PRESETS = {
-    US: { rate: 0.725, symbol: '$',  unit: 'mi', authority: 'Standard',                  method: 'Standard mileage rate',          refDoc: 'Standard rates',    taxYear: '2026',     noteLine: 'Overrides the standard mileage rate ($0.725 / mi for 2026 business use).' },
-    GB: { rate: 0.45,  symbol: '£',  unit: 'mi', authority: 'HMRC',                      method: 'Approved Mileage Allowance',     refDoc: 'AMAP rates',        taxYear: '2025/26',  noteLine: 'Overrides the HMRC default (£0.45/mi first 10,000 mi/year, £0.25/mi after).' },
-    CA: { rate: 0.72,  symbol: 'CA$',unit: 'km', authority: 'Standard',                  method: 'Reasonable per-km allowance',    refDoc: 'Standard rates',    taxYear: '2025',     noteLine: 'Overrides the standard per-km rate (CA$0.72/km first 5,000 km, CA$0.66/km after).' },
-    AU: { rate: 0.88,  symbol: 'A$', unit: 'km', authority: 'ATO',                       method: 'Cents per kilometre',            refDoc: 'Cents-per-km',      taxYear: '2024-25',  noteLine: 'Overrides the ATO default (A$0.88/km, capped at 5,000 km/year).' },
-    DE: { rate: 0.30,  symbol: '€',  unit: 'km', authority: 'Bundesfinanzministerium',   method: 'Entfernungspauschale',           refDoc: 'EStG § 9',          taxYear: '2026',     noteLine: 'Overrides the Pendlerpauschale default (€0.30/km up to 20 km, €0.38/km thereafter).' },
-    FR: { rate: 0.529, symbol: '€',  unit: 'km', authority: 'DGFiP',                     method: 'Barème kilométrique',            refDoc: 'Barème BIC-BNC',    taxYear: '2025',     noteLine: 'Overrides the DGFiP barème (varies by engine fiscal horsepower and distance).' },
-    IE: { rate: 0.41,  symbol: '€',  unit: 'km', authority: 'Revenue',                   method: 'Civil service kilometric rates', refDoc: 'Civil service',     taxYear: '2025',     noteLine: 'Overrides the Revenue civil service rate (€0.41/km first 1,500 km).' },
-    NL: { rate: 0.23,  symbol: '€',  unit: 'km', authority: 'Belastingdienst',           method: 'Onbelaste km-vergoeding',        refDoc: 'Belastingdienst',   taxYear: '2025',     noteLine: 'Overrides the Belastingdienst tax-free allowance (€0.23/km).' },
-    IN: { rate: 0,     symbol: '₹',  unit: 'km', authority: 'Income Tax India',          method: 'Conveyance allowance',           refDoc: 'Employer policy',   taxYear: '2025-26',  noteLine: 'India has no statutory per-km tax rate — set per your employer’s policy.' },
+    US: { rate: 0.725, symbol: '$',  currency: 'USD', unit: 'mi', authority: 'Standard',                  method: 'Standard mileage rate',          refDoc: 'Standard rates',    taxYear: '2026',     noteLine: 'Overrides the standard mileage rate ($0.725 / mi for 2026 business use).' },
+    GB: { rate: 0.45,  symbol: '£',  currency: 'GBP', unit: 'mi', authority: 'HMRC',                      method: 'Approved Mileage Allowance',     refDoc: 'AMAP rates',        taxYear: '2025/26',  noteLine: 'Overrides the HMRC default (£0.45/mi first 10,000 mi/year, £0.25/mi after).' },
+    CA: { rate: 0.72,  symbol: 'CA$',currency: 'CAD', unit: 'km', authority: 'Standard',                  method: 'Reasonable per-km allowance',    refDoc: 'Standard rates',    taxYear: '2025',     noteLine: 'Overrides the standard per-km rate (CA$0.72/km first 5,000 km, CA$0.66/km after).' },
+    AU: { rate: 0.88,  symbol: 'A$', currency: 'AUD', unit: 'km', authority: 'ATO',                       method: 'Cents per kilometre',            refDoc: 'Cents-per-km',      taxYear: '2024-25',  noteLine: 'Overrides the ATO default (A$0.88/km, capped at 5,000 km/year).' },
+    DE: { rate: 0.30,  symbol: '€',  currency: 'EUR', unit: 'km', authority: 'Bundesfinanzministerium',   method: 'Entfernungspauschale',           refDoc: 'EStG § 9',          taxYear: '2026',     noteLine: 'Overrides the Pendlerpauschale default (€0.30/km up to 20 km, €0.38/km thereafter).' },
+    FR: { rate: 0.529, symbol: '€',  currency: 'EUR', unit: 'km', authority: 'DGFiP',                     method: 'Barème kilométrique',            refDoc: 'Barème BIC-BNC',    taxYear: '2025',     noteLine: 'Overrides the DGFiP barème (varies by engine fiscal horsepower and distance).' },
+    IE: { rate: 0.41,  symbol: '€',  currency: 'EUR', unit: 'km', authority: 'Revenue',                   method: 'Civil service kilometric rates', refDoc: 'Civil service',     taxYear: '2025',     noteLine: 'Overrides the Revenue civil service rate (€0.41/km first 1,500 km).' },
+    NL: { rate: 0.23,  symbol: '€',  currency: 'EUR', unit: 'km', authority: 'Belastingdienst',           method: 'Onbelaste km-vergoeding',        refDoc: 'Belastingdienst',   taxYear: '2025',     noteLine: 'Overrides the Belastingdienst tax-free allowance (€0.23/km).' },
+    IN: { rate: 0,     symbol: '₹',  currency: 'INR', unit: 'km', authority: 'Income Tax India',          method: 'Conveyance allowance',           refDoc: 'Employer policy',   taxYear: '2025-26',  noteLine: 'India has no statutory per-km tax rate — set per your employer’s policy.' },
   };
   function taxPresetForCountry(country) {
     if (!country) return TAX_PRESETS.US;
@@ -2517,8 +2536,7 @@
         const opts = listCountries().map((c) => `<option value="${escapeHtml(c.code)}"${c.code === cur ? ' selected' : ''}>${escapeHtml(c.name)} · ${escapeHtml(c.code)}</option>`).join('');
         return `<select id="pe-val">${opts}</select>`;
       })(),
-      help: 'Sets tax-rate defaults and report locale conventions.',
-      onAfterSave: (v) => { window.MM && window.MM.set(v || 'US'); },
+      help: 'Sets tax-rate defaults, display currency, and report locale conventions.',
     });
     link('[data-mmai="edit-rate"]', (() => {
       const preset = taxPresetForCountry(_profileRef.country);
@@ -2552,15 +2570,6 @@
       `${rateLabel} rate applied to business trips. ${preset.noteLine}`);
   }
 
-  // ───────── Help ─────────
-  // ───────── Locale toggle ─────────
-  function renderLocaleToggle() {
-    const active = getActiveLocale();
-    $$('[data-mmai="locale-toggle"] [data-locale]').forEach((btn) => {
-      btn.classList.toggle('active', btn.getAttribute('data-locale') === active);
-    });
-  }
-
   // ───────── Trips keyboard shortcuts ─────────
   // B / P / N while hovering a row classifies it as Business / Personal / Needs review.
   function wireTripsKeyboard(session) {
@@ -2581,37 +2590,6 @@
       else if (key === 'p') { e.preventDefault(); classifyTrip(_hoveredTripId, 'pers', session); }
       else if (key === 'n') { e.preventDefault(); classifyTrip(_hoveredTripId, 'uncl', session); }
     });
-  }
-
-  function wireLocaleToggle() {
-    const toggle = $('[data-mmai="locale-toggle"]');
-    if (!toggle) return;
-    renderLocaleToggle();
-    toggle.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-locale]');
-      if (!btn || !window.MM) return;
-      const target = btn.getAttribute('data-locale');
-      const prev = getActiveLocale();
-      window.MM.set(target);
-      if (target !== prev) {
-        // Toast clarifies that the toggle re-renders the dashboard against a
-        // different rate/unit but does NOT mutate any stored trip data.
-        // Users tend to fear that flipping US ↔ CA "converts" their history;
-        // a 4s confirmation removes the doubt.
-        showToast(`Showing miles & deductions in ${target} units. Your trip data is unchanged.`);
-      }
-    });
-  }
-
-  // Lightweight non-blocking toast for region-pill + future inline confirmations.
-  // Stacks visually with the existing .mmai-undo-toast styles.
-  function showToast(text, durationMs = 4000) {
-    document.querySelectorAll('.mmai-info-toast').forEach((n) => n.remove());
-    const el = document.createElement('div');
-    el.className = 'mmai-undo-toast mmai-info-toast';
-    el.textContent = text;
-    document.body.appendChild(el);
-    setTimeout(() => { el.remove(); }, durationMs);
   }
 
   function wireHelp() {
@@ -2684,14 +2662,9 @@
     await ensureProfileTimezone(session);
     await ensureProfileCountry(session);
 
-    // Seed active locale from profile country on first visit (no mm_region set yet).
-    // Write directly to localStorage to avoid firing mm-locale-change before render.
-    if (window.MM && !localStorage.getItem('mm_region')) {
-      try { localStorage.setItem('mm_region', _profileRef.country || 'US'); } catch (_e) {}
-    }
-
-    // Locale-sensitive renders use withActiveLocale so the region toggle
-    // applies from first paint.
+    // Locale-sensitive renders use withActiveLocale so currency and unit
+    // come from profile.country on first paint. The display currency
+    // follows Settings → Country automatically (no manual toggle).
     withActiveLocale(() => {
       const kpis = computeKpis(_allTrips, _profileRef);
       renderHeader(session, _profileRef, kpis);
@@ -2719,23 +2692,13 @@
     wireAddVehicleButton(session);
     wireAddPlaceButton(session);
     wireSettingsEdits(session);
-    wireLocaleToggle();
 
-    // Re-render locale-sensitive panels when the region pill is toggled.
-    document.addEventListener('mm-locale-change', () => {
-      if (!_session) return;
-      withActiveLocale(() => {
-        const kpis = computeKpis(_allTrips, _profileRef);
-        renderKpis(kpis);
-        renderRecentTrips(_allTrips);
-        renderWeeklyTimeline(_allTrips);
-        renderTripsTable(_allTrips, _profileRef);
-        renderQuarter(_allTrips, kpis);
-        renderReportPreview();
-        renderTaxPanel();
-      });
-      renderLocaleToggle();
-    });
+    // Country changes flow through Settings → Country edit. The edit
+    // saves to profiles.country, then refreshAfterMutation() reloads
+    // the profile and re-renders every locale-sensitive panel (KPIs,
+    // quarter, tax preview, recent trips, weekly timeline, reports).
+    // No manual currency toggle is needed — display currency follows
+    // the saved country automatically via TAX_PRESETS[country].
 
     document.body.classList.add('mmai-ready');
 
