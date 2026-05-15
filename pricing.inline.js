@@ -86,8 +86,8 @@ const PricingFAQ = () => {
     q: 'Can I cancel anytime?',
     a: 'Yes. Cancel from within the app at any time. No questions asked, no cancellation fees, no phone calls to sit through. If you cancel mid-period, you keep access until the end of your billing cycle.'
   }, {
-    q: 'Does it work in Canada?',
-    a: 'Yes. Standard mileage rates for US and Canada built in. The app detects your region and switches units automatically. Reports export in kilometers.'
+    q: 'Does it work outside the US?',
+    a: 'Yes. Set your country in Settings and the app applies the right tax rate and units (miles or kilometres) automatically. Country-aware rates cover the US, Canada, UK, Australia, Germany, France, Ireland, Netherlands, and India today.'
   }, {
     q: 'Will it drain my battery?',
     a: 'No. We use a low-power GPS mode optimized for background operation. MyMilesAI typically uses about 1% of your daily battery — less than most social media apps. On most phones you won\'t notice it in your battery stats.'
@@ -290,5 +290,5 @@ const Site = () => React.createElement(React.Fragment, null, React.createElement
     marginTop: 16,
     fontFamily: "'DM Sans',system-ui,sans-serif"
   }
-}, "7 days free. Cancel anytime. \xB7 US + Canada")), React.createElement(MSPricing, null), React.createElement(PricingROI, null), React.createElement(PricingFAQ, null), React.createElement(MSCTA, null), React.createElement(MSFooter, null));
+}, "7 days free. Cancel anytime. \xB7 Multi-region")), React.createElement(MSPricing, null), React.createElement(PricingROI, null), React.createElement(PricingFAQ, null), React.createElement(MSCTA, null), React.createElement(MSFooter, null));
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Site, null));

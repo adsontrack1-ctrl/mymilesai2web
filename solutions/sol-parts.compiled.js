@@ -172,15 +172,7 @@ const SOL_ICONS = {
     d: "M12 12v5M8.5 14.5l3.5-2.5 3.5 2.5"
   }))
 };
-const useLocale = () => {
-  const [locale, setLocale] = React.useState(window.MM.get());
-  React.useEffect(() => {
-    const h = e => setLocale(e.detail.locale);
-    document.addEventListener('mm-locale-change', h);
-    return () => document.removeEventListener('mm-locale-change', h);
-  }, []);
-  return locale;
-};
+const useLocale = () => 'US';
 const SolBeatDetect = () => React.createElement("div", {
   style: {
     width: '100%',
@@ -948,7 +940,7 @@ const SolNav = () => {
     }, l.label);
   })), React.createElement("div", {
     className: "sol-nav-right"
-  }, React.createElement(MSRegionPill, null), React.createElement("a", {
+  }, React.createElement("a", {
     href: "/signin/",
     style: {
       background: '#fff',
@@ -1008,7 +1000,7 @@ const SolNav = () => {
     href: l.href
   }, l.label)), React.createElement("div", {
     className: "sol-drawer-foot"
-  }, React.createElement(MSRegionPill, null), React.createElement("a", {
+  }, React.createElement("a", {
     href: "/signin/",
     style: {
       fontSize: 14,

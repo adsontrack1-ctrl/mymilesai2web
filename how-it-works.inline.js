@@ -1620,7 +1620,7 @@ const HIWBottomCTA = () => React.createElement("section", {
     color: '#6B7280',
     fontFamily: "'DM Sans',system-ui,sans-serif"
   }
-}, "7 days free. Cancel anytime. \xB7 US + Canada")));
+}, "7 days free. Cancel anytime. \xB7 Multi-region")));
 const BeforeAfterWidget = () => React.createElement("div", {
   className: "ba-wrap",
   "aria-hidden": "true"
@@ -1787,5 +1787,5 @@ const Site = () => React.createElement(React.Fragment, null, React.createElement
   }
 }, "See Pricing")), React.createElement("div", {
   className: "page-hero-trust"
-}, "7 days free. Cancel anytime. \xB7 US + Canada")), React.createElement(BeforeAfterWidget, null))), React.createElement(HIWDetail, null), React.createElement(HIWCalculator, null), React.createElement(HIWBottomCTA, null), React.createElement(MSFooter, null));
+}, "7 days free. Cancel anytime. \xB7 Multi-region")), React.createElement(BeforeAfterWidget, null))), React.createElement(HIWDetail, null), React.createElement(HIWCalculator, null), React.createElement(HIWBottomCTA, null), React.createElement(MSFooter, null));
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Site, null));

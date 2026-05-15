@@ -25,22 +25,13 @@
     },
   };
 
-  function read() {
-    try { return localStorage.getItem(KEY) || 'US'; } catch (_e) { return 'US'; }
-  }
-
-  function write(cc) {
-    const code = SUPPORTED.includes(String(cc).toUpperCase())
-      ? String(cc).toUpperCase()
-      : 'US';
-    try { localStorage.setItem(KEY, code); } catch (_e) {}
-    try {
-      document.dispatchEvent(
-        new CustomEvent('mm-locale-change', { detail: { locale: code } })
-      );
-    } catch (_e) {}
-    return code;
-  }
+  // Region toggle was removed. Marketing visitors get a single canonical
+  // locale ('US'); authenticated users derive their locale from
+  // Settings → Country via /app/'s app.js, which reads profile.country
+  // directly and bypasses this module entirely. These functions are
+  // retained inert so any cached caller continues to work without errors.
+  function read()  { return 'US'; }
+  function write() { return 'US'; }
 
   function presetFor(cc) {
     return PRESETS[String(cc || '').toUpperCase()] || PRESETS.US;

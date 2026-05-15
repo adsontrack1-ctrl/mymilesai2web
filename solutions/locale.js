@@ -7,11 +7,13 @@
  */
 
 /* ── Solutions locale layer ──────────────────────────────────────────────────
-   Single source of truth for all US/CA locale strings and persona data.
+   Single source of truth for the solutions-page string and persona tables.
    Exposes window.MM = { get, set, strings, personas }.
-   Storage key 'mm_region' is shared with MSRegionPill in ms-parts1.jsx.
-   Fires CustomEvent('mm-locale-change', {detail:{locale:'US'|'CA'}}) on change.
-   Sets document.documentElement.dataset.locale on change and on first load.
+   Region toggle (MSRegionPill) was removed — get() always returns 'US' and
+   set() is a no-op. Settings → Country drives the authenticated /app/
+   experience; marketing visitors get a single canonical locale.
+   data-locale="us" is set on <html> for any CSS [data-locale] selectors
+   that still target it.
 ──────────────────────────────────────────────────────────────────────────── */
 (function () {
   'use strict';
@@ -229,15 +231,13 @@
   };
 
   /* ── Public API ──────────────────────────────────────────────────────── */
-  function get() {
-    try { return localStorage.getItem(KEY) || 'US'; } catch (e) { return 'US'; }
-  }
-
-  function set(r) {
-    try { localStorage.setItem(KEY, r); } catch (e) {}
-    try { document.documentElement.setAttribute('data-locale', r.toLowerCase()); } catch (e) {}
-    try { document.dispatchEvent(new CustomEvent('mm-locale-change', { detail: { locale: r } })); } catch (e) {}
-  }
+  /* Region toggle removed — marketing site now serves a single canonical
+     locale. get() always returns 'US'. set() is retained as a no-op for
+     backward compatibility with any cached caller, but never writes
+     localStorage or fires events. Settings → Country drives the
+     authenticated /app/ experience. */
+  function get() { return 'US'; }
+  function set() { /* no-op */ }
 
   window.MM = { get: get, set: set, strings: STRINGS, personas: PERSONAS };
 

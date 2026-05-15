@@ -112,7 +112,7 @@ const MSPricing = () => {
     'Tax-ready PDF exports',
     'CSV export for QuickBooks, Xero, FreshBooks',
     'Real-time deduction counter ($0.725/mi or $0.73/km)',
-    'US + Canada with standard mileage rates built in',
+    'Country-aware tax rates built in (multi-region support)',
     'Works offline — syncs when back online',
     'Client and purpose tagging',
     'Multi-vehicle support',
@@ -203,7 +203,7 @@ const MSAbout = () => {
         </h2>
         <div style={{fontSize:16,lineHeight:1.7,color:'#374151',display:'flex',flexDirection:'column',gap:20}}>
           <p>We drove for work. We forgot to log. We lost thousands at tax time — and we knew exactly where the money went. Just nowhere. Unclaimed. Gone.</p>
-          <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals across the US and Canada. Every feature exists because a real driver asked for it.</p>
+          <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals wherever they drive for work. Every feature exists because a real driver asked for it.</p>
           <p>We built it privacy-first because we don't want your location data — we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours.</p>
         </div>
       </div>
@@ -257,7 +257,7 @@ const MSFooter = () => (
     <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr 1fr 1fr 1fr',gap:40,marginBottom:64}}>
       <div>
         <MSLogo onDark={true} size={22}/>
-        <p style={{fontSize:16,marginTop:20,maxWidth:280,lineHeight:1.55,color:'rgba(246,243,238,0.6)'}}>The automatic mileage tracker for self-employed professionals in the US and Canada.</p>
+        <p style={{fontSize:16,marginTop:20,maxWidth:280,lineHeight:1.55,color:'rgba(246,243,238,0.6)'}}>The automatic mileage tracker for self-employed professionals.</p>
         <div style={{marginTop:20,display:'flex',flexDirection:'column',gap:6,fontSize:15}}>
           <a href="mailto:support@mymilesai.com" style={{color:'rgba(246,243,238,0.6)',textDecoration:'none'}}>support@mymilesai.com</a>
           <a href="mailto:hello@mymilesai.com" style={{color:'rgba(246,243,238,0.6)',textDecoration:'none'}}>hello@mymilesai.com</a>
@@ -276,7 +276,7 @@ const MSFooter = () => (
     </div>
     <div style={{display:'flex',justifyContent:'space-between',paddingTop:32,borderTop:'1px solid rgba(246,243,238,0.1)',fontSize:13,fontFamily:'ui-monospace,\'SF Mono\',Menlo,monospace',letterSpacing:'0.05em'}}>
       <span>© 2026 Harijas LLC · All rights reserved</span>
-      <span>US + CANADA</span>
+      <span>MULTI-REGION</span>
     </div>
     <div style={{paddingTop:24,fontSize:14,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
       <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available guidance and may not reflect your specific tax situation. Consult a qualified tax professional for tax advice. Use of MyMilesAI does not guarantee tax-authority acceptance of your records or your tax return.
