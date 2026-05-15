@@ -1,0 +1,1430 @@
+const BlogFeatured = () => {
+  const svgs = [React.createElement("svg", {
+    key: "s0",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    width: "400",
+    height: "112",
+    fill: "#0d1627"
+  }), React.createElement("ellipse", {
+    cx: "200",
+    cy: "112",
+    rx: "200",
+    ry: "22",
+    fill: "#1B4DDB",
+    fillOpacity: "0.2"
+  }), React.createElement("polygon", {
+    points: "80,220 320,220 238,116 162,116",
+    fill: "#141f35"
+  }), React.createElement("polygon", {
+    points: "80,220 98,220 162,116 144,116",
+    fill: "#1c2c48"
+  }), React.createElement("polygon", {
+    points: "320,220 302,220 238,116 256,116",
+    fill: "#1c2c48"
+  }), React.createElement("line", {
+    x1: "200",
+    y1: "210",
+    x2: "200",
+    y2: "196",
+    stroke: "#C9A96E",
+    strokeWidth: "3",
+    strokeLinecap: "round"
+  }), React.createElement("line", {
+    x1: "200",
+    y1: "183",
+    x2: "200",
+    y2: "169",
+    stroke: "#C9A96E",
+    strokeWidth: "3",
+    strokeLinecap: "round"
+  }), React.createElement("line", {
+    x1: "200",
+    y1: "156",
+    x2: "200",
+    y2: "142",
+    stroke: "#C9A96E",
+    strokeWidth: "3",
+    strokeLinecap: "round"
+  }), React.createElement("line", {
+    x1: "200",
+    y1: "130",
+    x2: "200",
+    y2: "120",
+    stroke: "#C9A96E",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeOpacity: "0.4"
+  }), React.createElement("text", {
+    x: "58",
+    y: "185",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "100",
+    fill: "#C9A96E",
+    fillOpacity: "0.9"
+  }, "$"), React.createElement("rect", {
+    x: "250",
+    y: "46",
+    width: "132",
+    height: "56",
+    rx: "10",
+    fill: "#1B4DDB",
+    fillOpacity: "0.35"
+  }), React.createElement("rect", {
+    x: "250",
+    y: "46",
+    width: "132",
+    height: "56",
+    rx: "10",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1.5"
+  }), React.createElement("text", {
+    x: "316",
+    y: "70",
+    fontFamily: "system-ui,sans-serif",
+    fontWeight: "600",
+    fontSize: "11",
+    fill: "#E8EEFF",
+    textAnchor: "middle",
+    letterSpacing: "1.5"
+  }, "2026 RATE"), React.createElement("text", {
+    x: "316",
+    y: "94",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "22",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "$0.725/mi"), React.createElement("circle", {
+    cx: "32",
+    cy: "32",
+    r: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.5"
+  }), React.createElement("circle", {
+    cx: "90",
+    cy: "18",
+    r: "1",
+    fill: "#E8EEFF",
+    fillOpacity: "0.35"
+  }), React.createElement("circle", {
+    cx: "155",
+    cy: "30",
+    r: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.4"
+  }), React.createElement("circle", {
+    cx: "355",
+    cy: "22",
+    r: "1",
+    fill: "#C9A96E",
+    fillOpacity: "0.5"
+  }), React.createElement("circle", {
+    cx: "385",
+    cy: "55",
+    r: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.3"
+  })), React.createElement("svg", {
+    key: "s1",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#E8EEFF"
+  }), React.createElement("rect", {
+    y: "152",
+    width: "400",
+    height: "68",
+    fill: "#cdd7f5"
+  }), React.createElement("rect", {
+    y: "158",
+    width: "400",
+    height: "26",
+    fill: "#bfcbee"
+  }), React.createElement("rect", {
+    x: "30",
+    y: "167",
+    width: "28",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "110",
+    y: "167",
+    width: "28",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "190",
+    y: "167",
+    width: "28",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "270",
+    y: "167",
+    width: "28",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "350",
+    y: "167",
+    width: "28",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "82",
+    y: "116",
+    width: "185",
+    height: "44",
+    rx: "8",
+    fill: "#1B4DDB"
+  }), React.createElement("path", {
+    d: "M108 116 Q118 86 148 82 L202 82 Q228 82 242 116 Z",
+    fill: "#1B4DDB"
+  }), React.createElement("path", {
+    d: "M114 114 Q122 90 150 87 L200 87 Q224 87 236 114 Z",
+    fill: "#E8EEFF",
+    fillOpacity: "0.2"
+  }), React.createElement("circle", {
+    cx: "118",
+    cy: "162",
+    r: "18",
+    fill: "#0a0f1e"
+  }), React.createElement("circle", {
+    cx: "118",
+    cy: "162",
+    r: "9",
+    fill: "#7a8aaa"
+  }), React.createElement("circle", {
+    cx: "232",
+    cy: "162",
+    r: "18",
+    fill: "#0a0f1e"
+  }), React.createElement("circle", {
+    cx: "232",
+    cy: "162",
+    r: "9",
+    fill: "#7a8aaa"
+  }), React.createElement("line", {
+    x1: "60",
+    y1: "122",
+    x2: "80",
+    y2: "122",
+    stroke: "#1B4DDB",
+    strokeWidth: "3",
+    strokeLinecap: "round",
+    strokeOpacity: "0.4"
+  }), React.createElement("line", {
+    x1: "45",
+    y1: "132",
+    x2: "80",
+    y2: "132",
+    stroke: "#1B4DDB",
+    strokeWidth: "3",
+    strokeLinecap: "round",
+    strokeOpacity: "0.25"
+  }), React.createElement("line", {
+    x1: "55",
+    y1: "142",
+    x2: "80",
+    y2: "142",
+    stroke: "#1B4DDB",
+    strokeWidth: "3",
+    strokeLinecap: "round",
+    strokeOpacity: "0.15"
+  }), React.createElement("rect", {
+    x: "285",
+    y: "55",
+    width: "62",
+    height: "108",
+    rx: "11",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "285",
+    y: "55",
+    width: "62",
+    height: "108",
+    rx: "11",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1.5"
+  }), React.createElement("rect", {
+    x: "289",
+    y: "65",
+    width: "54",
+    height: "88",
+    rx: "7",
+    fill: "#1B4DDB",
+    fillOpacity: "0.75"
+  }), React.createElement("rect", {
+    x: "303",
+    y: "58",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#0F1729"
+  }), React.createElement("circle", {
+    cx: "316",
+    cy: "87",
+    r: "11",
+    fill: "#C9A96E",
+    fillOpacity: "0.3"
+  }), React.createElement("circle", {
+    cx: "316",
+    cy: "87",
+    r: "5",
+    fill: "#C9A96E"
+  }), React.createElement("rect", {
+    x: "297",
+    y: "104",
+    width: "38",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.45"
+  }), React.createElement("rect", {
+    x: "303",
+    y: "113",
+    width: "26",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.25"
+  }), React.createElement("text", {
+    x: "316",
+    y: "142",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "20",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "$")), React.createElement("svg", {
+    key: "s2",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "52",
+    y: "28",
+    width: "188",
+    height: "168",
+    rx: "8",
+    fill: "#141f35"
+  }), React.createElement("rect", {
+    x: "52",
+    y: "28",
+    width: "188",
+    height: "168",
+    rx: "8",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1.5",
+    strokeOpacity: "0.5"
+  }), React.createElement("rect", {
+    x: "104",
+    y: "19",
+    width: "84",
+    height: "22",
+    rx: "7",
+    fill: "#1B4DDB",
+    fillOpacity: "0.45"
+  }), React.createElement("rect", {
+    x: "128",
+    y: "15",
+    width: "36",
+    height: "14",
+    rx: "5",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "128",
+    y: "15",
+    width: "36",
+    height: "14",
+    rx: "5",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1.5"
+  }), React.createElement("path", {
+    d: "M75 64 L80 70 L92 56",
+    stroke: "#4ade80",
+    strokeWidth: "2.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "62",
+    width: "124",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.14"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "70",
+    width: "96",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.1"
+  }), React.createElement("path", {
+    d: "M75 89 L80 95 L92 81",
+    stroke: "#4ade80",
+    strokeWidth: "2.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "87",
+    width: "112",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.14"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "95",
+    width: "78",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.1"
+  }), React.createElement("path", {
+    d: "M75 114 L80 120 L92 106",
+    stroke: "#4ade80",
+    strokeWidth: "2.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "112",
+    width: "120",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.14"
+  }), React.createElement("rect", {
+    x: "98",
+    y: "120",
+    width: "88",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.1"
+  }), React.createElement("rect", {
+    x: "74",
+    y: "132",
+    width: "14",
+    height: "14",
+    rx: "3",
+    fill: "#C9A96E",
+    fillOpacity: "0.28"
+  }), React.createElement("text", {
+    x: "81",
+    y: "143",
+    fontFamily: "system-ui",
+    fontWeight: "700",
+    fontSize: "9",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "?"), React.createElement("rect", {
+    x: "98",
+    y: "134",
+    width: "100",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.14"
+  }), React.createElement("rect", {
+    x: "74",
+    y: "157",
+    width: "14",
+    height: "14",
+    rx: "3",
+    fill: "#C9A96E",
+    fillOpacity: "0.28"
+  }), React.createElement("text", {
+    x: "81",
+    y: "168",
+    fontFamily: "system-ui",
+    fontWeight: "700",
+    fontSize: "9",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "!"), React.createElement("rect", {
+    x: "98",
+    y: "159",
+    width: "86",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.14"
+  }), React.createElement("circle", {
+    cx: "290",
+    cy: "120",
+    r: "52",
+    fill: "#1B4DDB",
+    fillOpacity: "0.07"
+  }), React.createElement("circle", {
+    cx: "282",
+    cy: "112",
+    r: "50",
+    fill: "#141f35",
+    stroke: "#1B4DDB",
+    strokeWidth: "3"
+  }), React.createElement("circle", {
+    cx: "282",
+    cy: "112",
+    r: "40",
+    fill: "#0d1627"
+  }), React.createElement("rect", {
+    x: "263",
+    y: "96",
+    width: "38",
+    height: "3.5",
+    rx: "1.75",
+    fill: "#E8EEFF",
+    fillOpacity: "0.22"
+  }), React.createElement("rect", {
+    x: "263",
+    y: "106",
+    width: "30",
+    height: "3.5",
+    rx: "1.75",
+    fill: "#E8EEFF",
+    fillOpacity: "0.22"
+  }), React.createElement("rect", {
+    x: "263",
+    y: "116",
+    width: "38",
+    height: "3.5",
+    rx: "1.75",
+    fill: "#E8EEFF",
+    fillOpacity: "0.22"
+  }), React.createElement("rect", {
+    x: "263",
+    y: "126",
+    width: "24",
+    height: "3.5",
+    rx: "1.75",
+    fill: "#C9A96E",
+    fillOpacity: "0.55"
+  }), React.createElement("line", {
+    x1: "318",
+    y1: "148",
+    x2: "345",
+    y2: "175",
+    stroke: "#1B4DDB",
+    strokeWidth: "7",
+    strokeLinecap: "round"
+  })), React.createElement("svg", {
+    key: "s3",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#E8EEFF"
+  }), React.createElement("rect", {
+    width: "400",
+    height: "112",
+    fill: "#d8e4fb"
+  }), React.createElement("rect", {
+    y: "155",
+    width: "400",
+    height: "65",
+    fill: "#c8d4f0"
+  }), React.createElement("rect", {
+    y: "160",
+    width: "400",
+    height: "28",
+    fill: "#bcc9e8"
+  }), React.createElement("rect", {
+    x: "40",
+    y: "170",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "118",
+    y: "170",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "196",
+    y: "170",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "274",
+    y: "170",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "352",
+    y: "170",
+    width: "26",
+    height: "6",
+    rx: "3",
+    fill: "#fff",
+    fillOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "38",
+    y: "106",
+    width: "90",
+    height: "58",
+    rx: "4",
+    fill: "#1B4DDB"
+  }), React.createElement("polygon", {
+    points: "25,110 83,62 141,110",
+    fill: "#1432a8"
+  }), React.createElement("rect", {
+    x: "71",
+    y: "130",
+    width: "26",
+    height: "34",
+    rx: "3",
+    fill: "#0F1729"
+  }), React.createElement("circle", {
+    cx: "93",
+    cy: "148",
+    r: "3",
+    fill: "#C9A96E"
+  }), React.createElement("rect", {
+    x: "44",
+    y: "115",
+    width: "24",
+    height: "20",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.4"
+  }), React.createElement("line", {
+    x1: "56",
+    y1: "115",
+    x2: "56",
+    y2: "135",
+    stroke: "#1B4DDB",
+    strokeWidth: "1",
+    strokeOpacity: "0.4"
+  }), React.createElement("line", {
+    x1: "44",
+    y1: "125",
+    x2: "68",
+    y2: "125",
+    stroke: "#1B4DDB",
+    strokeWidth: "1",
+    strokeOpacity: "0.4"
+  }), React.createElement("path", {
+    d: "M 145 162 Q 200 108 270 160",
+    stroke: "#C9A96E",
+    strokeWidth: "3",
+    strokeDasharray: "9,7",
+    fill: "none",
+    strokeLinecap: "round"
+  }), React.createElement("circle", {
+    cx: "295",
+    cy: "142",
+    r: "16",
+    fill: "#C9A96E"
+  }), React.createElement("circle", {
+    cx: "295",
+    cy: "139",
+    r: "7",
+    fill: "#fff"
+  }), React.createElement("line", {
+    x1: "295",
+    y1: "155",
+    x2: "295",
+    y2: "172",
+    stroke: "#C9A96E",
+    strokeWidth: "4",
+    strokeLinecap: "round"
+  }), React.createElement("rect", {
+    x: "192",
+    y: "118",
+    width: "42",
+    height: "17",
+    rx: "5",
+    fill: "#0F1729"
+  }), React.createElement("path", {
+    d: "M199 118 Q204 107 213 105 L220 105 Q230 105 234 118 Z",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "198",
+    y: "108",
+    width: "28",
+    height: "10",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.15"
+  }), React.createElement("circle", {
+    cx: "199",
+    cy: "135",
+    r: "8",
+    fill: "#1a2030"
+  }), React.createElement("circle", {
+    cx: "199",
+    cy: "135",
+    r: "4",
+    fill: "#8899bb"
+  }), React.createElement("circle", {
+    cx: "229",
+    cy: "135",
+    r: "8",
+    fill: "#1a2030"
+  }), React.createElement("circle", {
+    cx: "229",
+    cy: "135",
+    r: "4",
+    fill: "#8899bb"
+  })), React.createElement("svg", {
+    key: "s4",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#0F1729"
+  }), React.createElement("path", {
+    d: "M200 22 L212 42 L235 34 L230 57 L254 60 L236 77 L245 100 L225 91 L218 118 L200 100 L182 118 L175 91 L155 100 L164 77 L146 60 L170 57 L165 34 L188 42 Z",
+    fill: "#1B4DDB",
+    fillOpacity: "0.2"
+  }), React.createElement("path", {
+    d: "M200 22 L212 42 L235 34 L230 57 L254 60 L236 77 L245 100 L225 91 L218 118 L200 100 L182 118 L175 91 L155 100 L164 77 L146 60 L170 57 L165 34 L188 42 Z",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1.5",
+    strokeOpacity: "0.6"
+  }), React.createElement("rect", {
+    x: "196",
+    y: "118",
+    width: "8",
+    height: "24",
+    rx: "4",
+    fill: "#1B4DDB",
+    fillOpacity: "0.35"
+  }), React.createElement("text", {
+    x: "200",
+    y: "180",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "54",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "$0.73"), React.createElement("text", {
+    x: "200",
+    y: "202",
+    fontFamily: "system-ui,sans-serif",
+    fontWeight: "600",
+    fontSize: "12",
+    fill: "#E8EEFF",
+    textAnchor: "middle",
+    letterSpacing: "2"
+  }, "PER KM \xB7 2026"), React.createElement("line", {
+    x1: "60",
+    y1: "155",
+    x2: "340",
+    y2: "155",
+    stroke: "#1B4DDB",
+    strokeWidth: "1",
+    strokeOpacity: "0.25"
+  }), React.createElement("circle", {
+    cx: "28",
+    cy: "28",
+    r: "2",
+    fill: "#C9A96E",
+    fillOpacity: "0.4"
+  }), React.createElement("circle", {
+    cx: "372",
+    cy: "28",
+    r: "2",
+    fill: "#C9A96E",
+    fillOpacity: "0.4"
+  }), React.createElement("circle", {
+    cx: "372",
+    cy: "192",
+    r: "2",
+    fill: "#C9A96E",
+    fillOpacity: "0.3"
+  }), React.createElement("circle", {
+    cx: "28",
+    cy: "192",
+    r: "2",
+    fill: "#C9A96E",
+    fillOpacity: "0.3"
+  })), React.createElement("svg", {
+    key: "s5",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#E8EEFF"
+  }), React.createElement("rect", {
+    x: "78",
+    y: "115",
+    width: "192",
+    height: "14",
+    rx: "4",
+    fill: "#1B4DDB",
+    fillOpacity: "0.25"
+  }), React.createElement("rect", {
+    x: "88",
+    y: "60",
+    width: "172",
+    height: "58",
+    rx: "8",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "94",
+    y: "66",
+    width: "160",
+    height: "46",
+    rx: "4",
+    fill: "#1B4DDB",
+    fillOpacity: "0.8"
+  }), React.createElement("rect", {
+    x: "101",
+    y: "72",
+    width: "58",
+    height: "4",
+    rx: "2",
+    fill: "#C9A96E",
+    fillOpacity: "0.8"
+  }), React.createElement("rect", {
+    x: "101",
+    y: "80",
+    width: "80",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.3"
+  }), React.createElement("rect", {
+    x: "101",
+    y: "87",
+    width: "52",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.3"
+  }), React.createElement("rect", {
+    x: "101",
+    y: "94",
+    width: "68",
+    height: "3",
+    rx: "1.5",
+    fill: "#C9A96E",
+    fillOpacity: "0.5"
+  }), React.createElement("rect", {
+    x: "101",
+    y: "101",
+    width: "42",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.3"
+  }), React.createElement("rect", {
+    x: "280",
+    y: "48",
+    width: "76",
+    height: "118",
+    rx: "6",
+    fill: "#fff"
+  }), React.createElement("rect", {
+    x: "280",
+    y: "48",
+    width: "76",
+    height: "118",
+    rx: "6",
+    fill: "none",
+    stroke: "#d0d8f0",
+    strokeWidth: "1.5"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "58",
+    width: "60",
+    height: "5",
+    rx: "2.5",
+    fill: "#0F1729",
+    fillOpacity: "0.25"
+  }), React.createElement("rect", {
+    x: "294",
+    y: "67",
+    width: "48",
+    height: "4",
+    rx: "2",
+    fill: "#1B4DDB",
+    fillOpacity: "0.5"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "78",
+    width: "60",
+    height: "3",
+    rx: "1.5",
+    fill: "#0F1729",
+    fillOpacity: "0.1"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "85",
+    width: "44",
+    height: "3",
+    rx: "1.5",
+    fill: "#0F1729",
+    fillOpacity: "0.1"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "92",
+    width: "52",
+    height: "3",
+    rx: "1.5",
+    fill: "#0F1729",
+    fillOpacity: "0.1"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "99",
+    width: "38",
+    height: "3",
+    rx: "1.5",
+    fill: "#0F1729",
+    fillOpacity: "0.1"
+  }), React.createElement("rect", {
+    x: "288",
+    y: "106",
+    width: "48",
+    height: "3",
+    rx: "1.5",
+    fill: "#0F1729",
+    fillOpacity: "0.1"
+  }), React.createElement("line", {
+    x1: "288",
+    y1: "118",
+    x2: "348",
+    y2: "118",
+    stroke: "#0F1729",
+    strokeWidth: "1",
+    strokeOpacity: "0.12"
+  }), React.createElement("text", {
+    x: "318",
+    y: "135",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "15",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "$8,700"), React.createElement("text", {
+    x: "318",
+    y: "148",
+    fontFamily: "system-ui",
+    fontSize: "8",
+    fill: "#0F1729",
+    fillOpacity: "0.4",
+    textAnchor: "middle",
+    letterSpacing: "1"
+  }, "DEDUCTION"), React.createElement("rect", {
+    x: "108",
+    y: "142",
+    width: "100",
+    height: "36",
+    rx: "8",
+    fill: "#1B4DDB"
+  }), React.createElement("path", {
+    d: "M124 142 Q132 126 148 123 L168 123 Q186 124 194 142 Z",
+    fill: "#1B4DDB"
+  }), React.createElement("rect", {
+    x: "132",
+    y: "125",
+    width: "60",
+    height: "18",
+    rx: "3",
+    fill: "#E8EEFF",
+    fillOpacity: "0.18"
+  }), React.createElement("circle", {
+    cx: "124",
+    cy: "180",
+    r: "12",
+    fill: "#1a2030"
+  }), React.createElement("circle", {
+    cx: "124",
+    cy: "180",
+    r: "6",
+    fill: "#8899bb"
+  }), React.createElement("circle", {
+    cx: "192",
+    cy: "180",
+    r: "12",
+    fill: "#1a2030"
+  }), React.createElement("circle", {
+    cx: "192",
+    cy: "180",
+    r: "6",
+    fill: "#8899bb"
+  })), React.createElement("svg", {
+    key: "s6",
+    viewBox: "0 0 400 220",
+    fill: "none",
+    style: {
+      display: 'block',
+      width: '100%'
+    }
+  }, React.createElement("rect", {
+    width: "400",
+    height: "220",
+    fill: "#0F1729"
+  }), React.createElement("rect", {
+    x: "148",
+    y: "18",
+    width: "104",
+    height: "184",
+    rx: "16",
+    fill: "#141f35"
+  }), React.createElement("rect", {
+    x: "148",
+    y: "18",
+    width: "104",
+    height: "184",
+    rx: "16",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "2"
+  }), React.createElement("rect", {
+    x: "154",
+    y: "32",
+    width: "92",
+    height: "156",
+    rx: "10",
+    fill: "#1B4DDB",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "174",
+    y: "22",
+    width: "52",
+    height: "10",
+    rx: "5",
+    fill: "#141f35"
+  }), React.createElement("rect", {
+    x: "162",
+    y: "42",
+    width: "44",
+    height: "6",
+    rx: "3",
+    fill: "#C9A96E",
+    fillOpacity: "0.8"
+  }), React.createElement("rect", {
+    x: "162",
+    y: "58",
+    width: "76",
+    height: "24",
+    rx: "6",
+    fill: "#E8EEFF",
+    fillOpacity: "0.08"
+  }), React.createElement("circle", {
+    cx: "172",
+    cy: "70",
+    r: "7",
+    fill: "#C9A96E",
+    fillOpacity: "0.35"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "63",
+    width: "42",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.4"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "71",
+    width: "30",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.2"
+  }), React.createElement("rect", {
+    x: "162",
+    y: "87",
+    width: "76",
+    height: "24",
+    rx: "6",
+    fill: "#E8EEFF",
+    fillOpacity: "0.08"
+  }), React.createElement("circle", {
+    cx: "172",
+    cy: "99",
+    r: "7",
+    fill: "#C9A96E",
+    fillOpacity: "0.35"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "92",
+    width: "42",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.4"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "100",
+    width: "30",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.2"
+  }), React.createElement("rect", {
+    x: "162",
+    y: "116",
+    width: "76",
+    height: "24",
+    rx: "6",
+    fill: "#E8EEFF",
+    fillOpacity: "0.08"
+  }), React.createElement("circle", {
+    cx: "172",
+    cy: "128",
+    r: "7",
+    fill: "#C9A96E",
+    fillOpacity: "0.35"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "121",
+    width: "42",
+    height: "4",
+    rx: "2",
+    fill: "#E8EEFF",
+    fillOpacity: "0.4"
+  }), React.createElement("rect", {
+    x: "183",
+    y: "129",
+    width: "30",
+    height: "3",
+    rx: "1.5",
+    fill: "#E8EEFF",
+    fillOpacity: "0.2"
+  }), React.createElement("rect", {
+    x: "162",
+    y: "148",
+    width: "76",
+    height: "34",
+    rx: "7",
+    fill: "#C9A96E",
+    fillOpacity: "0.2"
+  }), React.createElement("text", {
+    x: "200",
+    y: "168",
+    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+    fontWeight: "800",
+    fontSize: "14",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "$6,500"), React.createElement("text", {
+    x: "200",
+    y: "178",
+    fontFamily: "system-ui",
+    fontSize: "8",
+    fill: "#E8EEFF",
+    fillOpacity: "0.45",
+    textAnchor: "middle",
+    letterSpacing: "1"
+  }, "SAVED THIS YEAR"), React.createElement("path", {
+    d: "M72 46 L75 38 L78 46 L86 49 L78 52 L75 60 L72 52 L64 49 Z",
+    fill: "#C9A96E"
+  }), React.createElement("path", {
+    d: "M320 34 L322 28 L324 34 L330 36 L324 38 L322 44 L320 38 L314 36 Z",
+    fill: "#E8EEFF",
+    fillOpacity: "0.55"
+  }), React.createElement("path", {
+    d: "M78 162 L80 156 L82 162 L88 164 L82 166 L80 172 L78 166 L72 164 Z",
+    fill: "#1B4DDB",
+    fillOpacity: "0.7"
+  }), React.createElement("path", {
+    d: "M316 152 L319 144 L322 152 L330 155 L322 158 L319 166 L316 158 L308 155 Z",
+    fill: "#C9A96E",
+    fillOpacity: "0.65"
+  }), React.createElement("rect", {
+    x: "36",
+    y: "76",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "#1B4DDB",
+    fillOpacity: "0.28"
+  }), React.createElement("rect", {
+    x: "36",
+    y: "76",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1"
+  }), React.createElement("text", {
+    x: "85",
+    y: "93",
+    fontFamily: "system-ui",
+    fontWeight: "600",
+    fontSize: "10",
+    fill: "#E8EEFF",
+    fillOpacity: "0.85",
+    textAnchor: "middle"
+  }, "Bulk Classify"), React.createElement("rect", {
+    x: "266",
+    y: "76",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "#1B4DDB",
+    fillOpacity: "0.28"
+  }), React.createElement("rect", {
+    x: "266",
+    y: "76",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "none",
+    stroke: "#1B4DDB",
+    strokeWidth: "1"
+  }), React.createElement("text", {
+    x: "315",
+    y: "93",
+    fontFamily: "system-ui",
+    fontWeight: "600",
+    fontSize: "10",
+    fill: "#E8EEFF",
+    fillOpacity: "0.85",
+    textAnchor: "middle"
+  }, "Export"), React.createElement("rect", {
+    x: "36",
+    y: "118",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "#C9A96E",
+    fillOpacity: "0.18"
+  }), React.createElement("rect", {
+    x: "36",
+    y: "118",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "none",
+    stroke: "#C9A96E",
+    strokeWidth: "1"
+  }), React.createElement("text", {
+    x: "85",
+    y: "135",
+    fontFamily: "system-ui",
+    fontWeight: "600",
+    fontSize: "10",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "AI Classify"), React.createElement("rect", {
+    x: "266",
+    y: "118",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "#C9A96E",
+    fillOpacity: "0.18"
+  }), React.createElement("rect", {
+    x: "266",
+    y: "118",
+    width: "98",
+    height: "26",
+    rx: "13",
+    fill: "none",
+    stroke: "#C9A96E",
+    strokeWidth: "1"
+  }), React.createElement("text", {
+    x: "315",
+    y: "135",
+    fontFamily: "system-ui",
+    fontWeight: "600",
+    fontSize: "10",
+    fill: "#C9A96E",
+    textAnchor: "middle"
+  }, "CSV Export"))];
+  const posts = [{
+    cat: 'IRS Tax Guide',
+    title: 'The 2026 IRS mileage rate, explained in plain English',
+    excerpt: '$0.725 per mile for business driving in 2026. Here\'s what that means for your taxes, who qualifies, and how to calculate your exact deduction — in plain English.',
+    read: '6 min',
+    d: 'Apr 2026',
+    href: 'blog/irs-mileage-rate-2026.html'
+  }, {
+    cat: 'For Rideshare Drivers',
+    title: 'Uber drivers: what your 1099-K doesn\'t tell you about deductions',
+    excerpt: 'Your 1099-K shows gross earnings. It doesn\'t show your deductible miles. Here\'s the full picture of what rideshare drivers can claim — and what most miss.',
+    read: '9 min',
+    d: 'Apr 2026',
+    href: 'blog/uber-driver-deductions-2026.html'
+  }, {
+    cat: 'Audit Prep',
+    title: 'What an IRS mileage audit actually looks like (and how to survive one)',
+    excerpt: 'The IRS audits mileage claims more than almost anything else on a self-employment return. Here\'s exactly what they want to see — and how a good mileage log protects you.',
+    read: '12 min',
+    d: 'Mar 2026',
+    href: 'blog/irs-mileage-audit-guide.html'
+  }, {
+    cat: 'For Real Estate Agents',
+    title: 'Every showing, every open house: the realtor deduction map',
+    excerpt: 'Real estate agents drive more than almost any other self-employed profession. Here\'s a complete breakdown of every deductible trip — and the ones agents most often forget.',
+    read: '7 min',
+    d: 'Mar 2026',
+    href: 'blog/realtor-mileage-deductions.html'
+  }, {
+    cat: 'CRA Tax Guide',
+    title: 'CRA mileage rates for 2026: what Canadian self-employed workers need to know',
+    excerpt: '$0.73/km for the first 5,000 km, $0.67/km after. Here\'s the full CRA 2026 guide for contractors, agents, and self-employed workers in Canada.',
+    read: '5 min',
+    d: 'Feb 2026',
+    href: 'blog/cra-mileage-rates-2026.html'
+  }, {
+    cat: 'For Freelancers',
+    title: 'The freelancer\'s complete guide to vehicle deductions in 2026',
+    excerpt: 'Standard mileage vs. actual expenses — which method saves you more? We ran the numbers for common freelancer scenarios. The answer might surprise you.',
+    read: '8 min',
+    d: 'Feb 2026',
+    href: 'blog/freelancer-vehicle-deductions-2026.html'
+  }, {
+    cat: 'Product Update',
+    title: 'New in MyMilesAI: bulk classification, CRA support, and CSV exports',
+    excerpt: 'Three features you\'ve been asking for: classify a whole week of trips at once, full CRA 2026 rate support for Canadian users, and CSV exports for QuickBooks and Xero.',
+    read: '3 min',
+    d: 'Jan 2026',
+    href: 'blog/new-features-bulk-classify-cra-csv.html'
+  }];
+  return React.createElement("section", {
+    style: {
+      padding: '64px 56px 100px',
+      background: '#FFFFFF'
+    }
+  }, React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,1fr)',
+      gap: 24
+    }
+  }, posts.map((p, i) => React.createElement("a", {
+    key: i,
+    href: p.href,
+    style: {
+      background: '#FFFFFF',
+      border: '1px solid #E5E7EB',
+      borderRadius: 16,
+      padding: 24,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 14,
+      textDecoration: 'none',
+      color: 'inherit',
+      transition: 'box-shadow 0.2s ease, transform 0.2s ease'
+    },
+    onMouseOver: e => {
+      e.currentTarget.style.boxShadow = '0 16px 40px -8px rgba(27,77,219,0.14)';
+      e.currentTarget.style.transform = 'scale(1.02)';
+    },
+    onMouseOut: e => {
+      e.currentTarget.style.boxShadow = 'none';
+      e.currentTarget.style.transform = 'scale(1)';
+    }
+  }, React.createElement("div", {
+    style: {
+      borderRadius: 8,
+      overflow: 'hidden'
+    }
+  }, svgs[i]), React.createElement("div", {
+    style: {
+      fontFamily: "'DM Sans',system-ui,sans-serif",
+      fontSize: 12,
+      fontWeight: 600,
+      color: '#1B4DDB'
+    }
+  }, p.cat), React.createElement("h3", {
+    style: {
+      fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+      fontWeight: 700,
+      fontSize: 17,
+      lineHeight: 1.35,
+      letterSpacing: '-0.01em',
+      flex: 1,
+      color: '#0B0F0E'
+    }
+  }, p.title), React.createElement("p", {
+    style: {
+      fontSize: 13,
+      color: '#6B7280',
+      lineHeight: 1.5
+    }
+  }, p.excerpt), React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12,
+      color: '#9CA3AF',
+      fontFamily: "'DM Sans',system-ui,sans-serif",
+      paddingTop: 8,
+      borderTop: '1px solid #F3F4F6'
+    }
+  }, React.createElement("span", null, p.d), React.createElement("span", null, p.read, " read"))))));
+};
+const Site = () => React.createElement(React.Fragment, null, React.createElement(MSNav, null), React.createElement("section", {
+  className: "page-hero"
+}, React.createElement("div", {
+  className: "eyebrow"
+}, "\u2014 The MyMilesAI Blog"), React.createElement("h1", null, "Tax tips, mileage guides, and product updates."), React.createElement("p", null, "Plain-English guides for self-employed drivers. No jargon, no filler \u2014 just the information you need to stop leaving deductions on the table.")), React.createElement(BlogFeatured, null), React.createElement(MSCTA, null), React.createElement(MSFooter, null));
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Site, null));

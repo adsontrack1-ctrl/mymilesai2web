@@ -1,0 +1,17 @@
+{
+  "name": "mymilesai2web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marketing + logged-in app shell for mymilesai.com. Plain static HTML/CSS/JS deployed to GitHub Pages.",
+  "scripts": {
+    "build": "node tools/build-jsx.mjs",
+    "serve": "python3 -m http.server 8000",
+    "preflight": "node tools/build-jsx.mjs && node tools/smoke.mjs"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "@babel/preset-react": "^7.28.5"
+  }
+}

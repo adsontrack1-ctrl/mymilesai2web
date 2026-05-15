@@ -298,6 +298,8 @@
   .cls-pill:hover{opacity:0.72}
   .cls-pill.cls-biz{background:#1B4DDB;color:#FFFFFF}
   .cls-pill.cls-pers{background:#E5E7EB;color:#0B0F0E}
+  .cls-pill.cls-med{background:#FEE2E2;color:#B91C1C}
+  .cls-pill.cls-char{background:#FCE7F3;color:#9D174D}
   .cls-pill.cls-unreviewed{background:#EFF4FF;color:#185FA5}
   .cls-pill[aria-busy="true"]{opacity:0.5;cursor:wait}
   /* ─── CLASSIFY DROPDOWN ─── */
@@ -323,7 +325,11 @@
   .ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;color:#1B4DDB}
   /* ─── NEEDS REVIEW PULSE ─── */
   @keyframes numPulse{0%,100%{opacity:1}50%{opacity:0.65}}
-  .v.pulsing{animation:numPulse 1.5s ease-in-out infinite}
+  /* Pulse fires three times then settles, so the dashboard signals "needs
+     attention" on landing but doesn't anxiety-induce a user who's mid-task.
+     The .pulsing class is re-applied by app.js whenever needsReview changes,
+     so a new unclassified trip will pulse again. */
+  .v.pulsing{animation:numPulse 1.5s ease-in-out 3}
   /* ─── TRIP ROW POLISH ─── */
   .trip:hover{background:#EFF4FF;border-radius:8px}
   .trip-route{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
@@ -586,6 +592,7 @@
           <div class="snav" data-sp="automation">Automation</div>
           <div class="snav" data-sp="tax">Tax preferences</div>
           <div class="snav" data-sp="billing">Billing</div>
+          <div class="snav" data-sp="trash">Recently deleted</div>
           <div class="snav" data-sp="security">Security</div>
         </div>
         <div>
@@ -652,6 +659,15 @@
             <div class="coming-soon" style="min-height:200px">
               <div class="cs-eyebrow">INVOICES &amp; BILLING EMAIL · COMING SOON</div>
               <p>Invoice history, downloadable receipts, billing-email overrides, and Tax ID / VAT entry will live here in a future release.</p>
+            </div>
+          </div>
+
+          <!-- RECENTLY DELETED -->
+          <div class="set-panel sp" id="sp-trash">
+            <h3>Recently deleted</h3>
+            <div class="sub">Trips you delete are hidden from reports and KPIs for 30 days, then permanently removed. Restore any of them below.</div>
+            <div data-mmai="trash-list" class="set-group" style="border-top:none;padding-top:0">
+              <div class="empty" data-mmai="trash-empty" hidden>Nothing here yet. Trips you delete will appear here for 30 days.</div>
             </div>
           </div>
 
@@ -728,6 +744,8 @@ document.querySelectorAll('.set-nav .snav').forEach(n => {
     document.querySelectorAll('.sp').forEach(p => p.classList.remove('on'));
     const panel = document.getElementById('sp-' + target);
     if (panel) panel.classList.add('on');
+    // Recently-deleted is lazy-loaded — app.js exposes window.mmaiRefreshTrash.
+    if (target === 'trash' && window.mmaiRefreshTrash) window.mmaiRefreshTrash();
   });
 });
 // "Manage plan" jump-to-billing.
