@@ -1789,15 +1789,15 @@
           source: 'web',
         };
         if (vehicleId) row.vehicle_id = vehicleId;
-        // Idempotent upsert on (user_id, trip_uid). A double-click,
-        // network retry, or backgrounded re-submission re-sends the SAME
-        // trip_uid (generated once at row construction above), so the DB
-        // returns a single row rather than two duplicates. This pattern
-        // mirrors iOS tripsRepo.upsert and depends on the UNIQUE
-        // (user_id, trip_uid) constraint added in migration
-        // 20260514_trips_trip_uid_unique.sql.
+        // Idempotent upsert on trip_uid. A double-click, network retry,
+        // or backgrounded re-submission re-sends the SAME trip_uid
+        // (generated once at row construction above), so the DB returns
+        // a single row instead of two duplicates. Matches the live
+        // `trips_trip_uid_unique` constraint (globally unique on
+        // trip_uid; the iOS app's `tripsRepo.upsert` comment about
+        // "can't guarantee UNIQUE" is stale — the guarantee holds).
         const { error } = await _sb.from('trips').upsert(row, {
-          onConflict: 'user_id,trip_uid',
+          onConflict: 'trip_uid',
           ignoreDuplicates: false,
         });
         if (error) throw new Error(error.message);
