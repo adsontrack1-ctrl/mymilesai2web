@@ -47,7 +47,7 @@ const MSAudience = () => {
     {t:'Sales Representatives',s:'Territory coverage & demos',c:'#C9A96E',i:'user'},
     {t:'Electricians & Plumbers',s:'Emergency calls & service jobs',c:'#C9A96E',i:'bolt'},
     {t:'Nonprofit & Charity Workers',s:'Outreach drives & charity miles',c:'#378ADD',i:'globe'},
-    {t:'Accountants & CPAs',s:'Client office visits & audits',c:'#378ADD',i:'chart'},
+    {t:'Accountants & Bookkeepers',s:'Client office visits & engagement work',c:'#378ADD',i:'chart'},
     {t:'Insurance Adjusters',s:'Claim sites & damage assessments',c:'#1B4DDB',i:'shield'},
     {t:'Construction Foremen',s:'Site supervision & crew coordination',c:'#C9A96E',i:'crane'},
   ];
@@ -279,7 +279,7 @@ const MSFooter = () => (
       <span>US + CANADA</span>
     </div>
     <div style={{paddingTop:24,fontSize:14,lineHeight:1.6,color:'rgba(246,243,238,0.45)',maxWidth:900}}>
-      <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available guidance and may not reflect your specific tax situation. Consult a qualified CPA or tax professional for tax advice. Use of MyMilesAI does not guarantee tax-authority acceptance of your records or your tax return.
+      <strong style={{color:'rgba(246,243,238,0.7)'}}>Disclaimer:</strong> MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service. Mileage rates and deduction calculations shown are based on publicly available guidance and may not reflect your specific tax situation. Consult a qualified tax professional for tax advice. Use of MyMilesAI does not guarantee tax-authority acceptance of your records or your tax return.
     </div>
   </footer>
 );

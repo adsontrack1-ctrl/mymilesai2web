@@ -1125,7 +1125,7 @@
     doc.setTextColor(85, 85, 85);
     doc.text(`${label} · Driver: ${drvName} · Generated ${new Date().toLocaleString()}`, margin, margin + 24);
 
-    // PUB 463 badge (top-right)
+    // Verified badge (top-right)
     const badgeText = 'VERIFIED';
     const badgeW = doc.getTextWidth(badgeText) + 14;
     const badgeX = pageW - margin - badgeW;
@@ -1227,7 +1227,7 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(102, 102, 102);
-    const notice = 'Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified CPA or tax professional before filing.';
+    const notice = 'Method: Standard mileage rate. This log records the four required elements for each business trip: date, destination, business purpose, and miles driven. Vehicle records and odometer readings are maintained separately by the driver. Personal trips are listed for completeness but do not contribute to the deduction. MyMilesAI is a recordkeeping tool, not a tax preparer or tax-advice service — consult a qualified tax professional before filing.';
     const lines = doc.splitTextToSize(notice, pageW - margin * 2);
     doc.text(lines, margin, y);
 
@@ -1265,7 +1265,7 @@
     }
   }
 
-  // Quick PDF/CSV exports from the Dashboard "Export for your CPA" card —
+  // Quick PDF/CSV exports from the Dashboard "Export for tax filing" card —
   // YTD, business-only PDF; YTD, all-trips CSV. No filter UI; one tap.
   function quickPdfExport() {
     if (!_allTrips || !_allTrips.length) {
