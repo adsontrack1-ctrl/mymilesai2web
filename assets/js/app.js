@@ -172,7 +172,7 @@
 
   async function loadTripsYtd(userId) {
     const year = new Date().getFullYear();
-    const cols = 'id,from_addr,to_addr,miles,type,purpose,trip_purpose,client,notes,trip_date,trip_time,duration_mins,deductible,vehicle_id';
+    const cols = 'id,trip_uid,from_addr,to_addr,miles,type,purpose,trip_purpose,client,notes,trip_date,trip_time,duration_mins,deductible,vehicle_id';
     const { data, error } = await _sb
       .from('trips')
       .select(cols)
@@ -1432,6 +1432,34 @@
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
 
+  // Audit-trail snapshot. Fire-and-forget — never block the user's download.
+  // The DB function (record_trip_export, migration 20260515000003) snapshots
+  // every trip's category + deductible at this moment, and the AFTER-UPDATE
+  // trigger on trips will record any subsequent drift as an "amendment".
+  // Without this call, the trip_exports / trip_amendments tables stay empty
+  // even though the trigger is armed.
+  async function recordExport(exporter, trips, note) {
+    const tripUids = (trips || []).map((t) => t.trip_uid).filter(Boolean);
+    if (!tripUids.length) return;
+    const dates = trips.map((t) => t.trip_date).filter(Boolean).sort();
+    const rangeStart = dates.length ? dates[0] : null;
+    const rangeEnd = dates.length ? dates[dates.length - 1] : null;
+    try {
+      const { error } = await _sb.rpc('record_trip_export', {
+        p_exporter: exporter,
+        p_trip_uids: tripUids,
+        p_range_start: rangeStart,
+        p_range_end: rangeEnd,
+        p_app_version: 'web',
+        p_app_build: '20260515',
+        p_note: note || null,
+      });
+      if (error) console.warn('[mmai] record_trip_export:', error.message);
+    } catch (err) {
+      console.warn('[mmai] record_trip_export threw:', err);
+    }
+  }
+
   function generateReport() {
     const trips = tripsForReport();
     const profile = _profileRef;
@@ -1440,12 +1468,16 @@
     const stamp = new Date().toISOString().slice(0, 10);
     switch (_reportState.format) {
       case 'pdf':
+        void recordExport('web_pdf', trips, label);
         return triggerDownload(genPDF(trips, profile, label), `mileage-${slug}-${stamp}.pdf`);
       case 'csv':
+        void recordExport('web_csv', trips, label);
         return downloadFile(`mileage-${slug}-${stamp}.csv`, 'text/csv', genCSV(trips, profile));
       case 'quickbooks':
+        void recordExport('web_quickbooks', trips, label);
         return downloadFile(`mileage-${slug}-${stamp}-quickbooks.csv`, 'text/csv', genQuickBooksCSV(trips, profile));
       case 'xero':
+        void recordExport('web_xero', trips, label);
         return downloadFile(`mileage-${slug}-${stamp}-xero.csv`, 'text/csv', genXeroCSV(trips, profile));
     }
   }
@@ -1460,6 +1492,7 @@
     const yr = new Date().getFullYear();
     const trips = _allTrips.filter((t) => isBusiness(t.type) && new Date(t.trip_date).getFullYear() === yr);
     const stamp = new Date().toISOString().slice(0, 10);
+    void recordExport('web_pdf', trips, `Year-to-date ${yr}`);
     triggerDownload(genPDF(trips, _profileRef, `Year-to-date ${yr}`), `mileage-ytd-${yr}-${stamp}.pdf`);
   }
 
@@ -1471,6 +1504,7 @@
     const yr = new Date().getFullYear();
     const trips = _allTrips.filter((t) => new Date(t.trip_date).getFullYear() === yr);
     const stamp = new Date().toISOString().slice(0, 10);
+    void recordExport('web_csv', trips, `Year-to-date ${yr}`);
     downloadFile(`mileage-ytd-${yr}-${stamp}.csv`, 'text/csv', genCSV(trips, _profileRef));
   }
 
@@ -1485,8 +1519,10 @@
     const stamp = new Date().toISOString().slice(0, 10);
     const filterLabel = _tripsFilter === 'all' ? 'all' : _tripsFilter;
     if (format === 'pdf') {
+      void recordExport('web_pdf', trips, `Trips · ${filterLabel}`);
       triggerDownload(genPDF(trips, _profileRef, `Trips · ${filterLabel}`), `mileage-trips-${filterLabel}-${stamp}.pdf`);
     } else {
+      void recordExport('web_csv', trips, `Trips · ${filterLabel}`);
       downloadFile(`mileage-trips-${filterLabel}-${stamp}.csv`, 'text/csv', genCSV(trips, _profileRef));
     }
   }
