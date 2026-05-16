@@ -16,7 +16,7 @@
  *  - Self-update on every load: a new SW takes control within seconds.
  */
 
-const CACHE_VERSION = 'mmai-v1-2026-05-14';
+const CACHE_VERSION = 'mmai-v2-2026-05-15-outbox';
 const PRECACHE = [
   '/',
   '/offline.html',
@@ -75,4 +75,32 @@ self.addEventListener('fetch', (event) => {
       return res;
     }))
   );
+});
+
+// ───────── Background Sync backstop for the trip outbox ─────────
+//
+// Fires when the browser independently decides the device has a stable
+// connection (works even after the tab is closed, on supported browsers:
+// Chrome, Edge, Android Chrome). Safari does NOT implement Background
+// Sync — that path falls through to `boot()` drain on next page open.
+//
+// Why we don't drain directly here: the Supabase JS session lives in
+// localStorage, which Service Workers can't access (W3C separation).
+// Mirroring the session into IndexedDB at sign-in time is a real
+// refactor we'd want to do once we ship native push too. For now the
+// SW's job is to wake a visible client and ping the page-side drain.
+self.addEventListener('sync', (event) => {
+  if (event.tag !== 'mmai-trip-outbox-sync') return;
+  event.waitUntil((async () => {
+    const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
+    if (clients.length === 0) {
+      // No window is open. The next page load will call boot() which
+      // drains the outbox immediately. The queued trips are durable
+      // in IndexedDB regardless.
+      return;
+    }
+    for (const client of clients) {
+      try { client.postMessage({ type: 'mmai-outbox-synced' }); } catch (_e) {}
+    }
+  })());
 });

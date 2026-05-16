@@ -1861,20 +1861,72 @@
           source: 'web',
         };
         if (vehicleId) row.vehicle_id = vehicleId;
-        // Idempotent upsert on trip_uid. A double-click, network retry,
-        // or backgrounded re-submission re-sends the SAME trip_uid
-        // (generated once at row construction above), so the DB returns
-        // a single row instead of two duplicates. Matches the live
-        // `trips_trip_uid_unique` constraint (globally unique on
-        // trip_uid; the iOS app's `tripsRepo.upsert` comment about
-        // "can't guarantee UNIQUE" is stale — the guarantee holds).
-        const { error } = await _sb.from('trips').upsert(row, {
-          onConflict: 'trip_uid',
-          ignoreDuplicates: false,
-        });
-        if (error) throw new Error(error.message);
+        // Outbox-first save: write to IndexedDB BEFORE attempting the
+        // network call. Survives offline state, laptop shutdown, browser
+        // crash, even Supabase being down. The drain loop picks it up
+        // on the next online/visibility/boot trigger and idempotent-
+        // UPSERTs against the live trips_trip_uid_unique constraint, so
+        // a retry after the foreground call already succeeded is a no-op.
+        //
+        // We DO still try the foreground network call in best-effort
+        // mode — when online, the trip appears in Supabase before the
+        // modal closes (and refreshAfterMutation pulls it back, which is
+        // how the realtime channel learns about it on this client too).
+        try {
+          if (window.MMAIOutbox) {
+            await window.MMAIOutbox.put(row);
+          }
+        } catch (idbErr) {
+          // IndexedDB unavailable (private-mode Safari, etc.). Fall back
+          // to direct-only save and let the user see the failure if it
+          // happens — at least we tried.
+          console.warn('[mmai] outbox.put failed (continuing with direct save):', idbErr);
+        }
+        // Optimistic UI: add the row to the local cache before any
+        // network round-trip so the trip is visible immediately.
+        _allTrips.unshift(Object.assign({ id: row.trip_uid }, row));
+        recomputeAndRenderCounts();
+        reapplyTripsView();
         closeModal();
-        await refreshAfterMutation(session);
+        showToast(navigator.onLine
+          ? 'Trip saved · syncing…'
+          : 'Trip saved — will sync when you’re back online');
+        renderOutboxStatus();
+        // Try the foreground sync. If it fails (offline / 5xx / etc.),
+        // the trip stays in the outbox and the next drain trigger picks
+        // it up. If it succeeds, the drain loop will simply find an
+        // empty outbox next time it runs.
+        if (navigator.onLine) {
+          try {
+            const { error } = await _sb.from('trips').upsert(row, {
+              onConflict: 'trip_uid',
+              ignoreDuplicates: false,
+            });
+            if (error) {
+              console.warn('[mmai] foreground save returned error (outbox will retry):', error.message);
+            } else if (window.MMAIOutbox) {
+              // Foreground succeeded — clear from outbox so the drain
+              // loop doesn't redundantly re-send.
+              await window.MMAIOutbox.remove(row.trip_uid);
+            }
+          } catch (netErr) {
+            console.warn('[mmai] foreground save threw (outbox will retry):', netErr);
+          }
+        }
+        // Refresh-after-mutation pulls back the canonical row from
+        // Supabase so trip_id (UUID) replaces the trip_uid placeholder
+        // and any server-side defaults land in the UI.
+        try { await refreshAfterMutation(session); } catch (_e) {}
+        renderOutboxStatus();
+        // Register SW Background Sync as a backstop for the
+        // "shut-the-laptop-immediately" case. Best-effort; ignored on
+        // Safari (no support) and reverts to next-boot drain there.
+        try {
+          if ('serviceWorker' in navigator && 'SyncManager' in window) {
+            const reg = await navigator.serviceWorker.ready;
+            await reg.sync.register('mmai-trip-outbox-sync');
+          }
+        } catch (_e) { /* SW sync registration is opportunistic */ }
       },
     });
   }
@@ -2668,14 +2720,120 @@
     });
   }
 
+  // ───────── Offline outbox UI + drain triggers ─────────
+  // The outbox lives in IndexedDB (see assets/js/outbox.js). Three UI
+  // surfaces communicate its state to the user:
+  //
+  //   1. Persistent banner at the top of the page when the browser is
+  //      offline OR there are queued trips that haven't synced.
+  //   2. Toast on successful background drain ("3 trips synced").
+  //   3. Sign-out confirmation includes a count so a user doesn't
+  //      unintentionally walk away from un-synced trips on this device.
+  //
+  // The banner is created lazily so older browsers without IndexedDB
+  // (which don't expose window.MMAIOutbox) just don't see it.
+  let _outboxBanner = null;
+  function ensureOutboxBanner() {
+    if (_outboxBanner) return _outboxBanner;
+    const el = document.createElement('div');
+    el.id = 'mmai-outbox-banner';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    el.style.cssText = [
+      'position:fixed', 'top:0', 'left:0', 'right:0', 'z-index:400',
+      'background:#1B4DDB', 'color:#FFFFFF',
+      'font-family:inherit', 'font-size:13px', 'font-weight:500',
+      'padding:10px 18px', 'display:none',
+      'box-shadow:0 4px 14px -4px rgba(11,15,30,0.25)',
+      'text-align:center', 'letter-spacing:-0.005em',
+    ].join(';');
+    document.body.appendChild(el);
+    _outboxBanner = el;
+    return el;
+  }
+  async function renderOutboxStatus() {
+    if (!window.MMAIOutbox || !_session) return;
+    const banner = ensureOutboxBanner();
+    let queued = 0;
+    try { queued = await window.MMAIOutbox.countForUser(_session.user.id); } catch (_e) {}
+    const offline = !navigator.onLine;
+    if (offline && queued > 0) {
+      banner.textContent = `Offline — ${queued} trip${queued === 1 ? '' : 's'} queued. They’ll sync when you’re back online.`;
+      banner.style.display = 'block';
+      banner.style.background = '#0B0F0E';
+    } else if (offline) {
+      banner.textContent = 'You’re offline. New trips will save locally and sync when you reconnect.';
+      banner.style.display = 'block';
+      banner.style.background = '#0B0F0E';
+    } else if (queued > 0) {
+      banner.textContent = `Syncing ${queued} trip${queued === 1 ? '' : 's'}…`;
+      banner.style.display = 'block';
+      banner.style.background = '#1B4DDB';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  // Single entry point used by every drain trigger. Idempotent + locked
+  // inside the outbox module so concurrent calls collapse into one drain.
+  async function drainNow(session) {
+    if (!window.MMAIOutbox || !session) return;
+    const result = await window.MMAIOutbox.drain(_sb, session);
+    if (result && result.synced > 0) {
+      showToast(`Synced ${result.synced} trip${result.synced === 1 ? '' : 's'}`);
+      try { await refreshAfterMutation(session); } catch (_e) {}
+    }
+    renderOutboxStatus();
+  }
+
+  function wireOutboxDrainTriggers(session) {
+    // Trigger 1: network came back online.
+    window.addEventListener('online', () => {
+      renderOutboxStatus();
+      drainNow(session);
+    });
+    // Trigger 2: network dropped — re-render banner.
+    window.addEventListener('offline', () => { renderOutboxStatus(); });
+    // Trigger 3: user switched back to this tab.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        renderOutboxStatus();
+        drainNow(session);
+      }
+    });
+    // Trigger 4: Service Worker tells us a Background Sync just succeeded.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'mmai-outbox-synced') {
+          renderOutboxStatus();
+          drainNow(session);
+        }
+      });
+    }
+    // Trigger 5 lives in boot() — drainNow runs immediately after the
+    // first render so a returning user sees pre-queued trips converge.
+  }
+
   // ───────── Sign-out ─────────
   function wireSignOut() {
     $$('[data-mmai="signout"]').forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
+        // Block sign-out if there are queued trips that haven't synced —
+        // signing out on another device won't sync them, and a user who
+        // doesn't return to this exact browser would lose them. We don't
+        // hard-block: a user who really wants to sign out can do so, but
+        // they see the count first.
+        let queued = 0;
+        if (window.MMAIOutbox && _session) {
+          try { queued = await window.MMAIOutbox.countForUser(_session.user.id); } catch (_e) {}
+        }
+        const body = queued > 0
+          ? `${queued} trip${queued === 1 ? '' : 's'} on this browser haven’t synced yet. If you sign out now they’ll sync the next time you sign in on this same browser. Sign out anyway?`
+          : 'You can sign back in any time with the same email. Your trips and settings stay synced.';
         const ok = await mmaiConfirm({
           title: 'Sign out of this browser?',
-          body: 'You can sign back in any time with the same email. Your trips and settings stay synced.',
+          body,
           confirmLabel: 'Sign out',
         });
         if (!ok) return;
@@ -2766,6 +2924,14 @@
     // ~1-3s without a manual refresh. Debounced because a bulk-apply or
     // outbox drain can fire dozens of row-level events back to back.
     wireRealtime(session);
+
+    // Outbox: drain any trips this browser queued offline (or in a
+    // crashed prior session) before showing the user their dashboard
+    // state. Idempotent — a fresh sign-in with an empty IndexedDB
+    // store is a 0-cost no-op.
+    wireOutboxDrainTriggers(session);
+    renderOutboxStatus();
+    void drainNow(session);
   }
 
   // ───────── Realtime ─────────
