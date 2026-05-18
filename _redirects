@@ -1,0 +1,13 @@
+# MyMilesAI — Cloudflare Pages redirects
+# Format: <source>  <destination>  <status>
+# Takes effect after the Cloudflare Pages cutover.
+
+# www → apex
+https://www.mymilesai.com/*  https://mymilesai.com/:splat  301!
+
+# Apple may also probe /apple-app-site-association at the root in addition
+# to /.well-known/. Mirror so both paths resolve.
+/apple-app-site-association  /.well-known/apple-app-site-association  200
+
+# Legacy paths that may show up in old links (none deployed yet, but if any
+# blog URL shape changes in the future, add entries here so SEO is preserved).

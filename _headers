@@ -1,0 +1,66 @@
+# MyMilesAI — HTTP response headers for Cloudflare Pages
+# Takes effect once mymilesai.com is migrated from GitHub Pages to
+# Cloudflare Pages (DNS cutover completed 2026-04-24; Pages flip pending).
+# Until then, GitHub Pages ignores this file; it does no harm.
+#
+# Pattern matching: most-specific first, then a catch-all `/*`. Each rule's
+# header block applies in addition to the catch-all unless explicitly
+# overridden. Cloudflare merges; we keep rules minimal and explicit.
+
+# ─── /.well-known/apple-app-site-association ─────────────────────────
+# Apple requires application/json. GitHub Pages serves this as
+# octet-stream; Cloudflare Pages will respect the override below.
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600
+
+# ─── Service worker ───────────────────────────────────────────────────
+# Never cache the SW itself or the install will lag a release by hours.
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /
+
+# ─── Static fingerprinted assets ──────────────────────────────────────
+# Compiled JS, vendored JS, CSS, fonts — all cache-busted via ?v= query.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/*.compiled.js
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/*.inline.js
+  Cache-Control: public, max-age=86400
+  X-Content-Type-Options: nosniff
+
+# ─── Auth-aware pages (no caching) ────────────────────────────────────
+# /app/ pulls live Supabase data; cached HTML serves stale dashboards.
+/app/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/auth-callback/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/signin/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/signup/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/welcome/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# ─── Global security headers (apply to every response) ────────────────
+# CSP via HTTP header so `frame-ancestors` is actually enforced
+# (browsers ignore frame-ancestors in <meta> CSP — CSP Level 3 spec).
+# `connect-src` includes Cloudflare Turnstile when captcha is enabled.
+# `script-src` includes Turnstile's challenge runtime.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' data: https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://accounts.google.com https://appleid.apple.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  Cross-Origin-Opener-Policy: same-origin-allow-popups

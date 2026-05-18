@@ -8,7 +8,7 @@
 -->
 <html lang="en">
 <head>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' data: https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://accounts.google.com https://appleid.apple.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' data: https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://accounts.google.com https://appleid.apple.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" />
 <meta charset="utf-8" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,7 +30,12 @@
 <script>
   window.__MMAI_CONFIG__ = {
     SUPABASE_URL: 'https://dxpuuiqibtizewbbffjk.supabase.co',
-    SUPABASE_ANON_KEY: 'sb_publishable_fiH2OGcy-0lon9qlXxFFIg_QqTDhm3u'
+    SUPABASE_ANON_KEY: 'sb_publishable_fiH2OGcy-0lon9qlXxFFIg_QqTDhm3u',
+    // Cloudflare Turnstile site key. Activates the captcha widget below
+    // when set to a real site key. Leave empty/null to disable captcha
+    // (e.g. in local dev). Pair this with the matching secret key in
+    // Supabase Dashboard → Auth → Bot & Abuse Protection.
+    TURNSTILE_SITE_KEY: ''
   };
 </script>
 </head>
@@ -62,8 +67,16 @@
       </div>
       <div class="field">
         <label for="password">Password</label>
-        <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="pw-strength-label pw-strength-hint" />
+        <div class="pw-strength" aria-hidden="false">
+          <div class="pw-strength-bar"><span id="pw-strength-fill" style="width:0%"></span></div>
+          <div class="pw-strength-row">
+            <span id="pw-strength-label" aria-live="polite">Enter a password</span>
+            <span id="pw-strength-hint">8+ chars, mix upper, lower, number</span>
+          </div>
+        </div>
       </div>
+      <div id="captcha-mount" class="captcha-mount" aria-live="polite"></div>
       <button type="submit" class="btn-primary">Create account</button>
     </form>
 

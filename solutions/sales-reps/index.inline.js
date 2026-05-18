@@ -278,13 +278,9 @@ const PERSONA = {
   }, {
     q: 'Can I use this for both personal deductions and employer reimbursement?',
     a: 'Yes — export filtered logs for reimbursement and a full log for your annual tax filing. Two reports, one log.'
-  }],
-  testimonial: {
-    quote: "I drive 40,000 miles a year across my territory. MyMilesAI pays for itself in the first week. My accountant loves the export format — everything is exactly where it needs to be.",
-    name: "Tanya R.",
-    role: "Regional Sales Rep · Denver, CO",
-    initials: "TR"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial returns null when none is provided.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

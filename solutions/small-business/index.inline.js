@@ -278,13 +278,9 @@ const PERSONA = {
   }, {
     q: 'What if employees drive for business too?',
     a: 'Each driver can use their own account. Mileage logs remain separate and exportable per driver.'
-  }],
-  testimonial: {
-    quote: "I run three locations and two delivery vehicles. MyMilesAI keeps everything straight — my accountant said my mileage records are the cleanest she's ever seen.",
-    name: "James O.",
-    role: "Owner, Riverside Supply Co. · Portland, OR",
-    initials: "JO"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial returns null when none is provided.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

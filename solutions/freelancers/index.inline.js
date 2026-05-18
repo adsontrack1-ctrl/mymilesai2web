@@ -278,13 +278,9 @@ const PERSONA = {
   }, {
     q: 'Does it work with an irregular schedule?',
     a: 'Yes. There is no fixed schedule required — MyMilesAI detects every drive automatically, any day or time.'
-  }],
-  testimonial: {
-    quote: "I was billing clients precisely but losing mileage money every quarter. MyMilesAI recovered over $5,000 I had no idea I was leaving behind.",
-    name: "Priya M.",
-    role: "Independent UX Consultant · Austin, TX",
-    initials: "PM"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial returns null when none is provided.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

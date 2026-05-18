@@ -81,7 +81,7 @@
 .ba-bottom{display:flex;justify-content:space-between;align-items:center;opacity:1}
 .ba-bottom-label{font-size:9.5px;color:#6B7280;font-family:'DM Sans',monospace}
 .ba-total-num{color:#1B4DDB;font-weight:700;font-size:13px;font-family:'DM Sans',monospace;min-width:68px;text-align:right}
-.ba-total-num::after{content:"$2,183.14"}
+.ba-total-num::after{content:"Sample export"}
 
 /* ── Arrow ── */
 .ba-arrow-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;animation:ba-arrow-pulse 2s ease-in-out infinite}
@@ -158,16 +158,11 @@
     100%   {opacity:0}
   }
 
-  .ba-total-num::after{animation:ba-countup 8s linear infinite}
-  @keyframes ba-countup{
-    0%,74%    {content:"$0.00"}
-    78%       {content:"$437.00"}
-    81%       {content:"$875.00"}
-    83.5%     {content:"$1,312.00"}
-    85.5%     {content:"$1,750.00"}
-    87.5%,94% {content:"$2,183.14"}
-    95%,100%  {content:"$0.00"}
-  }
+  /* Static "Sample export" label — replaced the prior count-up animation that
+     could read as a real customer outcome. The before/after widget is now a
+     purely visual transition (paper → digital list) without a fabricated dollar
+     amount on the digital side. */
+  .ba-total-num::after{content:"Sample export";opacity:1}
 }
 
 /* ── Mobile: stack vertically, arrow points down ── */

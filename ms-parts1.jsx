@@ -171,13 +171,13 @@ const MSHero = () => {
             <div style={{fontSize:13,fontWeight:700,color:'#0B0F0E'}}>12.4 mi</div>
             <div style={{fontSize:11,color:'#16A34A',fontWeight:600,marginTop:2}}>+$8.99 deduction</div>
           </div>
-          <div className="hero-card2" style={{position:'absolute',top:'32%',right:-144,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.35)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:134,zIndex:3,pointerEvents:'none'}}>
-            <div style={{fontSize:11,fontWeight:600,color:'#C9A96E',fontFamily:"'DM Sans',system-ui,sans-serif",marginBottom:4}}>Q1 total</div>
-            <div style={{fontSize:14,fontWeight:700,color:'#0B0F0E'}}>247 trips</div>
+          <div className="hero-card2" aria-label="Illustrative example" style={{position:'absolute',top:'32%',right:-144,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.35)',borderRadius:12,padding:'10px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:134,zIndex:3,pointerEvents:'none'}}>
+            <div style={{fontSize:11,fontWeight:600,color:'#C9A96E',fontFamily:"'DM Sans',system-ui,sans-serif",marginBottom:4}}>Q1 total · Sample</div>
+            <div style={{fontSize:14,fontWeight:700,color:'#0B0F0E'}}>Your numbers</div>
           </div>
-          <div className="hero-card3" style={{position:'absolute',bottom:86,left:-152,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.25)',borderRadius:12,padding:'12px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:148,zIndex:3,pointerEvents:'none'}}>
-            <div style={{fontSize:11,fontWeight:600,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",marginBottom:4}}>Deductible</div>
-            <div style={{fontSize:20,fontWeight:800,color:'#C9A96E',fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif"}}>$2,183.14</div>
+          <div className="hero-card3" aria-label="Illustrative example" style={{position:'absolute',bottom:86,left:-152,background:'#FFFFFF',border:'1px solid rgba(201,169,110,0.25)',borderRadius:12,padding:'12px 14px',boxShadow:'0 8px 24px rgba(0,0,0,0.08)',width:148,zIndex:3,pointerEvents:'none'}}>
+            <div style={{fontSize:11,fontWeight:600,color:'#6B7280',fontFamily:"'DM Sans',system-ui,sans-serif",marginBottom:4}}>Deductible · Sample</div>
+            <div style={{fontSize:14,fontWeight:700,color:'#0B0F0E',fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif"}}>Tax-year total</div>
           </div>
         </div>
       </div>
@@ -390,7 +390,7 @@ const MSHow = () => {
     <section style={{padding:'120px 56px',background:'#FFFFFF'}}>
       <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontSize:14,fontWeight:600,color:'#1B4DDB',marginBottom:24}}>— How it works</div>
       <h2 style={{fontFamily:"'Plus Jakarta Sans',system-ui,sans-serif",fontWeight:800,fontSize:'clamp(32px,3.8vw,48px)',lineHeight:1.08,letterSpacing:'-0.025em',marginBottom:56,maxWidth:780}}>
-        Three steps. $2,183.14 recovered, on average, every quarter.
+        Three steps to a complete mileage log.
       </h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32}}>
         {steps.map(s=>(
@@ -506,8 +506,8 @@ const FeatVisAudit = () => (
       </div>
     ))}
     <div style={{marginTop:16,paddingTop:12,borderTop:'1px solid #0B0F0E',display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
-      <span style={{color:'#6B7280'}}>Q1 TOTAL · 247 TRIPS</span>
-      <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:24,color:'#1B4DDB'}}>$2,183.14</span>
+      <span style={{color:'#6B7280'}}>ILLUSTRATIVE · SAMPLE EXPORT</span>
+      <span style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:700,fontSize:14,color:'#6B7280'}}>Your numbers will differ</span>
     </div>
   </div>
 );

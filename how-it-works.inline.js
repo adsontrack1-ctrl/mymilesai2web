@@ -1730,7 +1730,7 @@ const BeforeAfterWidget = () => React.createElement("div", {
   className: "ba-bottom"
 }, React.createElement("span", {
   className: "ba-bottom-label"
-}, "Q1 Total \xB7 247 trips"), React.createElement("span", {
+}, "Illustrative \xB7 Sample"), React.createElement("span", {
   className: "ba-total-num"
 }))));
 const Site = () => React.createElement(React.Fragment, null, React.createElement(MSNav, null), React.createElement("section", {

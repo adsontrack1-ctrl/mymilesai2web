@@ -278,13 +278,9 @@ const PERSONA = {
   }, {
     q: 'Do I need to manually tag trip types?',
     a: 'No. The AI classifies business vs. personal automatically based on your driving patterns and time of day.'
-  }],
-  testimonial: {
-    quote: "I drive for three apps. Before MyMilesAI I was constantly losing track of deadhead miles. Now everything is logged automatically — I recovered $9,400 last year that I had no idea I was missing.",
-    name: "Marcus T.",
-    role: "Full-time Rideshare Driver · Atlanta, GA",
-    initials: "MT"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial returns null when none is provided.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

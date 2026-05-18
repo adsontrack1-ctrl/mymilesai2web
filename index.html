@@ -18,11 +18,69 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="MyMilesAI" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
+<meta name="description" content="Automatic mileage tracking for self-employed drivers. Country-aware tax rates (US/UK/CA/AU/DE/FR/IE/NL/IN) and tax-ready PDF, CSV, QuickBooks &amp; Xero exports. 7-day free trial." />
 <meta property="og:title" content="MyMilesAI — Every mile, automatically deducted." />
 <meta property="og:description" content="Automatic mileage tracking for self-employed drivers. Country-aware tax rates and tax-ready exports in one tap." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://mymilesai.com/" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:site_name" content="MyMilesAI" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image" content="https://mymilesai.com/assets/og/mymilesai-og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="MyMilesAI — every mile, automatically deducted." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="MyMilesAI — Every mile, automatically deducted." />
+<meta name="twitter:description" content="Automatic mileage tracking for self-employed drivers. Country-aware tax rates and tax-ready exports in one tap." />
+<meta name="twitter:image" content="https://mymilesai.com/assets/og/mymilesai-og.png" />
+<meta name="twitter:image:alt" content="MyMilesAI — every mile, automatically deducted." />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://mymilesai.com/#organization",
+      "name": "MyMilesAI",
+      "legalName": "Harijas LLC",
+      "url": "https://mymilesai.com/",
+      "logo": "https://mymilesai.com/favicon.svg",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "email": "support@mymilesai.com",
+        "contactType": "customer support",
+        "availableLanguage": ["en"]
+      }]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://mymilesai.com/#website",
+      "url": "https://mymilesai.com/",
+      "name": "MyMilesAI",
+      "publisher": { "@id": "https://mymilesai.com/#organization" },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://mymilesai.com/#software",
+      "name": "MyMilesAI",
+      "operatingSystem": "iOS, Web",
+      "applicationCategory": "FinanceApplication",
+      "description": "Automatic mileage tracking for self-employed drivers. On-device classification, country-aware tax rates (US, UK, Canada, Australia, Germany, France, Ireland, Netherlands, India), and tax-ready PDF, CSV, QuickBooks and Xero exports.",
+      "offers": {
+        "@type": "Offer",
+        "price": "69.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2027-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://mymilesai.com/pricing.html"
+      },
+      "publisher": { "@id": "https://mymilesai.com/#organization" },
+      "url": "https://mymilesai.com/"
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -35,7 +93,9 @@
 <!-- build-jsx: compiled -->
 </head>
 <body>
-<div id="root"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+<style>.skip-link{position:absolute;left:-9999px;top:0;background:#0B0F0E;color:#FFFFFF;padding:12px 16px;font:600 14px/'DM Sans',system-ui,sans-serif;z-index:9999;border-radius:8px;text-decoration:none}.skip-link:focus{left:16px;top:16px}</style>
+<main id="main" tabindex="-1"><div id="root"></div></main>
 <script src="assets/vendor/react.production.min.js"></script>
 <script src="assets/vendor/react-dom.production.min.js"></script><script src="assets/vendor/jspdf.umd.min.js?v=20260504c"></script>
 <script src="assets/vendor/jspdf.plugin.autotable.min.js?v=20260504c"></script>

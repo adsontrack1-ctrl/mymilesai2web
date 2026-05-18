@@ -281,13 +281,10 @@ const PERSONA = {
   }, {
     q: 'Do I need to tag every trip?',
     a: 'No. The AI handles classification. You can review trips in the app, but tagging is never required.'
-  }],
-  testimonial: {
-    quote: "I used to dread mileage at tax time. Now I just export and hand it to my accountant. Last year I recovered over $11,000 I would have completely missed.",
-    name: "Sarah K.",
-    role: "Licensed Realtor · Chicago, IL",
-    initials: "SK"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial in sol-parts.jsx returns null when no
+  // testimonial is provided, so the page collapses gracefully.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

@@ -657,6 +657,7 @@ const MSHero = () => {
     }
   }, "+$8.99 deduction")), React.createElement("div", {
     className: "hero-card2",
+    "aria-label": "Illustrative example",
     style: {
       position: 'absolute',
       top: '32%',
@@ -678,14 +679,15 @@ const MSHero = () => {
       fontFamily: "'DM Sans',system-ui,sans-serif",
       marginBottom: 4
     }
-  }, "Q1 total"), React.createElement("div", {
+  }, "Q1 total \xB7 Sample"), React.createElement("div", {
     style: {
       fontSize: 14,
       fontWeight: 700,
       color: '#0B0F0E'
     }
-  }, "247 trips")), React.createElement("div", {
+  }, "Your numbers")), React.createElement("div", {
     className: "hero-card3",
+    "aria-label": "Illustrative example",
     style: {
       position: 'absolute',
       bottom: 86,
@@ -707,14 +709,14 @@ const MSHero = () => {
       fontFamily: "'DM Sans',system-ui,sans-serif",
       marginBottom: 4
     }
-  }, "Deductible"), React.createElement("div", {
+  }, "Deductible \xB7 Sample"), React.createElement("div", {
     style: {
-      fontSize: 20,
-      fontWeight: 800,
-      color: '#C9A96E',
+      fontSize: 14,
+      fontWeight: 700,
+      color: '#0B0F0E',
       fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif"
     }
-  }, "$2,183.14")))), React.createElement("style", null, `
+  }, "Tax-year total")))), React.createElement("style", null, `
         @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
         @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         @keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
@@ -1033,7 +1035,7 @@ const MSHow = () => {
       marginBottom: 56,
       maxWidth: 780
     }
-  }, "Three steps. $2,183.14 recovered, on average, every quarter."), React.createElement("div", {
+  }, "Three steps to a complete mileage log."), React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3,1fr)',
@@ -1456,14 +1458,14 @@ const FeatVisAudit = () => React.createElement("div", {
   style: {
     color: '#6B7280'
   }
-}, "Q1 TOTAL \xB7 247 TRIPS"), React.createElement("span", {
+}, "ILLUSTRATIVE \xB7 SAMPLE EXPORT"), React.createElement("span", {
   style: {
     fontFamily: "'DM Sans',system-ui,sans-serif",
     fontWeight: 700,
-    fontSize: 24,
-    color: '#1B4DDB'
+    fontSize: 14,
+    color: '#6B7280'
   }
-}, "$2,183.14")));
+}, "Your numbers will differ")));
 const HeroPhone = () => React.createElement("div", {
   style: {
     width: 340,

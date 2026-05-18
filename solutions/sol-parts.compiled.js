@@ -1332,71 +1332,74 @@ const SolFAQ = ({
 };
 const SolTestimonial = ({
   data
-}) => React.createElement("section", {
-  className: "sol-testimonial"
-}, React.createElement("div", {
-  style: {
-    maxWidth: 680,
-    margin: '0 auto'
-  }
-}, React.createElement("svg", {
-  viewBox: "0 0 40 32",
-  width: 36,
-  height: 28,
-  fill: "none",
-  style: {
-    marginBottom: 20
-  },
-  "aria-hidden": "true"
-}, React.createElement("path", {
-  d: "M0 32V18.7C0 8.4 6.5 2.3 19.5 0l2 3.8C14.3 5.5 10.3 9 9.7 14.7H18V32H0zm22 0V18.7C22 8.4 28.5 2.3 41.5 0l2 3.8C36.3 5.5 32.3 9 31.7 14.7H40V32H22z",
-  fill: "rgba(201,169,110,0.35)"
-})), React.createElement("blockquote", {
-  style: {
-    fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
-    fontWeight: 700,
-    fontSize: 'clamp(1.25rem,2.2vw,1.6rem)',
-    lineHeight: 1.35,
-    color: '#F8F9FA',
-    marginBottom: 24,
-    letterSpacing: '-0.02em'
-  }
-}, "\"", data.quote, "\""), React.createElement("div", {
-  style: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    justifyContent: 'center'
-  }
-}, React.createElement("div", {
-  style: {
-    width: 40,
-    height: 40,
-    borderRadius: '50%',
-    background: 'rgba(248,249,250,0.15)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 16,
-    fontWeight: 700,
-    color: '#F8F9FA'
-  }
-}, data.initials), React.createElement("div", {
-  style: {
-    textAlign: 'left'
-  }
-}, React.createElement("div", {
-  style: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: '#F8F9FA'
-  }
-}, data.name), React.createElement("div", {
-  style: {
-    fontSize: 12,
-    color: 'rgba(248,249,250,0.55)'
-  }
-}, data.role)))));
+}) => {
+  if (!data || !data.quote) return null;
+  return React.createElement("section", {
+    className: "sol-testimonial"
+  }, React.createElement("div", {
+    style: {
+      maxWidth: 680,
+      margin: '0 auto'
+    }
+  }, React.createElement("svg", {
+    viewBox: "0 0 40 32",
+    width: 36,
+    height: 28,
+    fill: "none",
+    style: {
+      marginBottom: 20
+    },
+    "aria-hidden": "true"
+  }, React.createElement("path", {
+    d: "M0 32V18.7C0 8.4 6.5 2.3 19.5 0l2 3.8C14.3 5.5 10.3 9 9.7 14.7H18V32H0zm22 0V18.7C22 8.4 28.5 2.3 41.5 0l2 3.8C36.3 5.5 32.3 9 31.7 14.7H40V32H22z",
+    fill: "rgba(201,169,110,0.35)"
+  })), React.createElement("blockquote", {
+    style: {
+      fontFamily: "'Plus Jakarta Sans',system-ui,sans-serif",
+      fontWeight: 700,
+      fontSize: 'clamp(1.25rem,2.2vw,1.6rem)',
+      lineHeight: 1.35,
+      color: '#F8F9FA',
+      marginBottom: 24,
+      letterSpacing: '-0.02em'
+    }
+  }, "\"", data.quote, "\""), React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      justifyContent: 'center'
+    }
+  }, React.createElement("div", {
+    style: {
+      width: 40,
+      height: 40,
+      borderRadius: '50%',
+      background: 'rgba(248,249,250,0.15)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 16,
+      fontWeight: 700,
+      color: '#F8F9FA'
+    }
+  }, data.initials), React.createElement("div", {
+    style: {
+      textAlign: 'left'
+    }
+  }, React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: '#F8F9FA'
+    }
+  }, data.name), React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: 'rgba(248,249,250,0.55)'
+    }
+  }, data.role)))));
+};
 const SolPageCTA = ({
   personaName,
   locale
