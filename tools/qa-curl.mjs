@@ -156,6 +156,10 @@ for (const url of allUrls) {
   const ogImage = (html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i) || [])[1];
   const twitterCard = (html.match(/<meta\s+name=["']twitter:card["']\s+content=["']([^"']+)["']/i) || [])[1];
   const skipLink = /<a[^>]*class=["'][^"']*\bskip-link\b/.test(html);
+  // noindex pages (welcome / auth-callback / app / signin / signup / offline) don't
+  // need a meta description or og:image — they're not crawled or shared. Skip the
+  // description / og:image / skip-link requirements for them.
+  const isNoindex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
   // JSON-LD
   const ldBlocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/g)];
@@ -190,15 +194,17 @@ for (const url of allUrls) {
   let pageOk = true;
   const reasons = [];
   if (!title) { report.totals.missingMeta++; reasons.push('no title'); pageOk = false; }
-  if (!desc) { report.totals.missingMeta++; reasons.push('no desc'); pageOk = false; }
+  // Skip description requirement on noindex pages (welcome, auth-callback, app, signin, signup, offline).
+  if (!desc && !isNoindex) { report.totals.missingMeta++; reasons.push('no desc'); pageOk = false; }
   if (requiresJsonLd(url) && (!ldResults.length || !ldResults.every((r) => r.ok))) {
     report.totals.ldParseFail += ldResults.filter((r) => r.parseError).length;
     report.totals.ldSchemaFail += ldResults.filter((r) => r.violations?.length > 0).length;
     reasons.push(`ld(${ldResults.length} blocks, ok=${ldResults.every((r) => r.ok)})`);
     pageOk = false;
   }
-  if (requiresOg(url) && !ogImage) { report.totals.missingOg++; reasons.push('no og:image'); pageOk = false; }
-  if (isMarketing(url) && !skipLink) { report.totals.missingSkip++; reasons.push('no skip-link'); pageOk = false; }
+  // og:image / skip-link required only on indexed marketing pages.
+  if (requiresOg(url) && !isNoindex && !ogImage) { report.totals.missingOg++; reasons.push('no og:image'); pageOk = false; }
+  if (isMarketing(url) && !isNoindex && !skipLink) { report.totals.missingSkip++; reasons.push('no skip-link'); pageOk = false; }
   if (brokenOutbound.length) { report.totals.brokenOutbound += brokenOutbound.length; reasons.push(`broken: ${brokenOutbound.map(b => b.href).join(',')}`); pageOk = false; }
 
   console.log(`  ${pageOk ? '✅' : '🔴'} ${url.padEnd(60)} ${reasons.join('; ')}`);
