@@ -292,6 +292,7 @@ const MSHomeAudience = () => {
     }
   }, c.desc), React.createElement("a", {
     href: "features.html",
+    "aria-label": `Learn more about MyMilesAI features for ${c.title}`,
     style: {
       fontSize: 16,
       color: '#1B4DDB',
