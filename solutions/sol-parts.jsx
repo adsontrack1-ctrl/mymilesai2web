@@ -402,12 +402,12 @@ const SolNav = () => {
    SolPersonaCard — one card in the hub grid
 ───────────────────────────────────────────────────────────────── */
 const SOL_VALUE_PROPS = {
-  realtors:        (d, u) => `Track every showing and open house. Deduct up to ${d} in business ${u}.`,
-  rideshare:       (d, u) => `Capture deadhead and delivery ${u}. Deduct up to ${d} per year.`,
-  freelancers:     (d, u) => `Log client ${u} by project. Deduct up to ${d} per year.`,
-  'small-business':(d, u) => `Track every business run and delivery. Deduct up to ${d} in ${u}.`,
-  construction:    (d, u) => `Log job site, materials, and equipment ${u}. Deduct up to ${d}.`,
-  'sales-reps':    (d, u) => `Track territory ${u} by account. Deduct up to ${d} per year.`,
+  realtors:        (d, u) => `Track every showing and open house. Audit-ready ${u} log for tax time.`,
+  rideshare:       (d, u) => `Capture deadhead and delivery ${u} across every app.`,
+  freelancers:     (d, u) => `Log client ${u} by project. One export at tax time.`,
+  'small-business':(d, u) => `Track every business run and delivery. Per-driver ${u} logs.`,
+  construction:    (d, u) => `Log job site, materials, and equipment ${u} automatically.`,
+  'sales-reps':    (d, u) => `Track territory ${u} by account. One log, two reports.`,
 };
 
 const SolPersonaCard = ({slug, locale}) => {
@@ -662,9 +662,12 @@ const SolPersonaPage = ({persona}) => {
           <div>
             <div className="sol-page-eyebrow">— {SOL_PERSONA_META[persona.slug].name}</div>
             <h1 className="sol-page-h1">
-              {SOL_PERSONA_META[persona.slug].name} miss{' '}
-              <em>{p.deduction}</em> in deductions every year.<br/>You won't.
+              Capture every business {s.unit}.<br/>
+              Claim every dollar.
             </h1>
+            <p className="sol-page-illustrative">
+              Illustrative: a {SOL_PERSONA_META[persona.slug].name.toLowerCase()} driving {p.distance} business {s.unit} a year deducts <em>{p.deduction}</em> at the 2026 {s.rate.split(' (')[0]} rate. Your actual deduction depends on the {s.unit} you log.
+            </p>
             <p className="sol-page-sub">{typeof persona.heroSub === 'function' ? persona.heroSub(s) : persona.heroSub}</p>
             <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:24}}>
               <a href="/signup/" style={{background:'#1B4DDB',color:'#fff',padding:'14px 28px',borderRadius:100,fontSize:15,fontWeight:700,textDecoration:'none',display:'inline-flex',alignItems:'center',gap:8,boxShadow:'0 12px 28px -10px rgba(27,77,219,0.4)',whiteSpace:'nowrap'}}>
