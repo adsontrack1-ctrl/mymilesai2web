@@ -662,11 +662,11 @@ const SolPersonaPage = ({persona}) => {
           <div>
             <div className="sol-page-eyebrow">— {SOL_PERSONA_META[persona.slug].name}</div>
             <h1 className="sol-page-h1">
-              Capture every business {s.unit}.<br/>
+              Every business {s.unit === 'miles' ? 'mile' : 'kilometre'}, captured.<br/>
               Claim every dollar.
             </h1>
             <p className="sol-page-illustrative">
-              Illustrative: a {SOL_PERSONA_META[persona.slug].name.toLowerCase()} driving {p.distance} business {s.unit} a year deducts <em>{p.deduction}</em> at the 2026 {s.rate.split(' (')[0]} rate. Your actual deduction depends on the {s.unit} you log.
+              Illustrative: {p.distance.split(' ')[0]} business {s.unit} a year × the 2026 {s.rate.split(' (')[0]} rate ≈ <em>{p.deduction}</em>. Your actual deduction depends on the {s.unit} you log.
             </p>
             <p className="sol-page-sub">{typeof persona.heroSub === 'function' ? persona.heroSub(s) : persona.heroSub}</p>
             <div style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:24}}>
