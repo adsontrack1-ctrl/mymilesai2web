@@ -1552,9 +1552,9 @@ const SolPersonaPage = ({
     className: "sol-page-eyebrow"
   }, "\u2014 ", SOL_PERSONA_META[persona.slug].name), React.createElement("h1", {
     className: "sol-page-h1"
-  }, "Capture every business ", s.unit, ".", React.createElement("br", null), "Claim every dollar."), React.createElement("p", {
+  }, "Every business ", s.unit === 'miles' ? 'mile' : 'kilometre', ", captured.", React.createElement("br", null), "Claim every dollar."), React.createElement("p", {
     className: "sol-page-illustrative"
-  }, "Illustrative: a ", SOL_PERSONA_META[persona.slug].name.toLowerCase(), " driving ", p.distance, " business ", s.unit, " a year deducts ", React.createElement("em", null, p.deduction), " at the 2026 ", s.rate.split(' (')[0], " rate. Your actual deduction depends on the ", s.unit, " you log."), React.createElement("p", {
+  }, "Illustrative: ", p.distance.split(' ')[0], " business ", s.unit, " a year \xD7 the 2026 ", s.rate.split(' (')[0], " rate \u2248 ", React.createElement("em", null, p.deduction), ". Your actual deduction depends on the ", s.unit, " you log."), React.createElement("p", {
     className: "sol-page-sub"
   }, typeof persona.heroSub === 'function' ? persona.heroSub(s) : persona.heroSub), React.createElement("div", {
     style: {
