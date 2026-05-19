@@ -1,0 +1,18 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["UPU6GJ5B68.com.harijasllc.mymilesaiapp"],
+        "components": [
+          { "/": "/app/*", "comment": "Authenticated dashboard" },
+          { "/": "/app", "comment": "Authenticated dashboard (no trailing slash)" },
+          { "/": "/welcome/*", "comment": "Post-signup landing" },
+          { "/": "/auth-callback/*", "comment": "OAuth + email-confirmation redirect target" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["UPU6GJ5B68.com.harijasllc.mymilesaiapp"]
+  }
+}

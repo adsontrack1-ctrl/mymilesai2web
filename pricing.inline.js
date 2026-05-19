@@ -96,7 +96,7 @@ const PricingFAQ = () => {
     a: 'Yes. We support CSV import so you don\'t lose your mileage history. Export your data from MileIQ, import it into MyMilesAI, and your records are intact. You get the new features without starting from scratch.'
   }, {
     q: 'Is my location data safe?',
-    a: 'Yes. MyMilesAI uses on-device processing — your GPS data is processed and stored on your phone, not on our servers. We never sell your location data or driving history to third parties. We make money from subscriptions, not from your data.'
+    a: 'Yes. Trip classification runs on-device, and your trip data syncs to your own private cloud account (Supabase) so you keep history across devices. Storage is encrypted in transit and at rest. We never sell your location data or driving history to third parties — we make money from subscriptions, not from your data. You can export or delete all of your data at any time; account deletion purges cloud copies within 30 days.'
   }, {
     q: 'What happens to my data if I cancel?',
     a: 'Your trip logs remain accessible during your active subscription period. We recommend exporting your data before canceling. After cancellation, your account data is retained for 90 days in case you resubscribe, then deleted.'

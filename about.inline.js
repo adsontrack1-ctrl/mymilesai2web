@@ -62,7 +62,7 @@ const AboutPage = () => React.createElement(React.Fragment, null, React.createEl
     lineHeight: 1.7,
     color: '#374151'
   }
-}, React.createElement("p", null, "MyMilesAI is a product of Harijas LLC. We're based in Canada, and we serve self-employed professionals wherever they drive for work \u2014 freelancers, real estate agents, rideshare and delivery drivers, 1099 contractors, and small business owners who drive for work and need a paper trail."), React.createElement("p", null, "We built MyMilesAI because the existing options were either too expensive, too complicated, or built for enterprise fleet management rather than individual workers. MileIQ is fine if you want to pay Microsoft for a cloud-based mileage log. We wanted something that handled multiple countries, processed data on-device instead of sending it to a server, and cost less than a cup of coffee a month."), React.createElement("p", null, "Every feature in MyMilesAI exists because a real driver asked for it. The AI classification, the country-aware tax rates, the offline mode, the QuickBooks CSV exports \u2014 all of it came from actual users telling us what they needed at tax time."))), React.createElement("div", {
+}, React.createElement("p", null, "MyMilesAI is a product of Harijas LLC, serving self-employed professionals who drive for work \u2014 freelancers, real estate agents, rideshare and delivery drivers, 1099 contractors, and small business owners who need a paper trail."), React.createElement("p", null, "We built MyMilesAI because the existing options were either too expensive, too complicated, or built for enterprise fleet management rather than individual workers. We wanted something that ran classification on-device for fast tagging, kept your data in your own private cloud account so history follows you across phones, supported multiple countries, and cost less than a cup of coffee a month."), React.createElement("p", null, "Every feature in MyMilesAI exists because a real driver asked for it. The AI classification, the country-aware tax rates, the offline mode, the QuickBooks CSV exports \u2014 all of it came from actual users telling us what they needed at tax time."))), React.createElement("div", {
   style: {
     display: 'flex',
     flexDirection: 'column',
@@ -157,7 +157,7 @@ const AboutPage = () => React.createElement(React.Fragment, null, React.createEl
     strokeDasharray: "2 4"
   })),
   title: 'Privacy is not a feature. It\'s the baseline.',
-  desc: 'Your location data is yours. We process trips on-device. We never sell your driving history to data brokers, insurers, or marketers. We make money from subscriptions — full stop.'
+  desc: 'Your data is yours. Trip classification runs on-device; trip records sync encrypted to your private cloud account so your history is portable. We never sell your driving history to data brokers, insurers, or marketers. We make money from subscriptions — full stop.'
 }, {
   icon: React.createElement("svg", {
     viewBox: "0 0 24 24",

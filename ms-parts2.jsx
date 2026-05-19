@@ -116,7 +116,7 @@ const MSPricing = () => {
     'Works offline — syncs when back online',
     'Client and purpose tagging',
     'Multi-vehicle support',
-    'Privacy-first: on-device processing, no data selling',
+    'Privacy-first: classification runs on-device; encrypted trip data syncs to your private cloud account. We never sell your data.',
   ];
   return (
     <section id="pricing" style={{padding:'120px 56px'}}>
@@ -203,13 +203,13 @@ const MSAbout = () => {
         </h2>
         <div style={{fontSize:16,lineHeight:1.7,color:'#374151',display:'flex',flexDirection:'column',gap:20}}>
           <p>We drove for work. We forgot to log. We lost thousands at tax time — and we knew exactly where the money went. Just nowhere. Unclaimed. Gone.</p>
-          <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals wherever they drive for work. Every feature exists because a real driver asked for it.</p>
-          <p>We built it privacy-first because we don't want your location data — we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours.</p>
+          <p>So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, serving self-employed professionals who drive for work. Every feature exists because a real driver asked for it.</p>
+          <p>We built it privacy-first because we don't want your location data — we want you to keep your deductions. Classification runs on your device; trip records sync encrypted to your own private cloud account so your history follows you across phones. We never sell your driving history.</p>
         </div>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:32,padding:'40px 0',borderTop:'1px solid #E5E7EB',borderBottom:'1px solid #E5E7EB',marginBottom:64}}>
         {[
-          {label:'Privacy-first by design',desc:'On-device processing. We never sell your location data or driving history.'},
+          {label:'Privacy-first by design',desc:'Classification runs on-device; trip data syncs encrypted to your private cloud account. We never sell your location data or driving history.'},
           {label:'Simple and affordable',desc:'$6.99/month. Less than what you\'d lose by forgetting a single client visit.'},
           {label:'Built for real workers',desc:'Not enterprise fleet management. Built for freelancers, realtors, and gig drivers.'},
         ].map(v=>(

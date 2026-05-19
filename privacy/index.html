@@ -53,25 +53,28 @@
   </header>
 
   <h2>1. Information We Collect</h2>
-  <p>We collect GPS location data, trip distances, timestamps, and classifications for mileage tracking and tax deduction calculation. We also collect your account email address for authentication.</p>
+  <p>We collect GPS location data, trip distances and timestamps, your trip classifications, and your account email address. We also collect minimal telemetry needed to operate the service (e.g. error reports tied to your user ID so we can fix bugs).</p>
 
-  <h2>2. Cloud Storage</h2>
-  <p>Your trip data is securely stored in the cloud (Supabase / AWS), encrypted at rest and in transit. Cloud storage enables backup, multi-device sync, and account recovery. On-device caching is used for performance only.</p>
+  <h2>2. On-Device Processing</h2>
+  <p>Trip classification (business vs personal) is performed on your device using a Core ML model. No raw GPS traces leave your device for classification purposes. Your trip <em>records</em> (start, end, distance, classification, your notes) sync from your device to your private cloud account.</p>
 
-  <h2>3. How We Use Your Data</h2>
-  <p>Your data is used exclusively to provide mileage tracking, generate tax reports, and sync your account. We do not use your data for advertising or share it with third parties.</p>
+  <h2>3. Cloud Storage</h2>
+  <p>Your trip data is stored in your own private account on Supabase (PostgreSQL on AWS infrastructure), encrypted in transit (TLS) and at rest. Row-level security means only you can read your data. Cloud storage exists so your history survives a lost phone, so you can sign in on a new device, and so you can access your dashboard at <a href="https://mymilesai.com/app/">mymilesai.com/app/</a>. We do not run analytics on your trip data.</p>
 
-  <h2>4. Data Sharing</h2>
-  <p>Data is shared only with Stripe (payment processing) and Supabase (secure cloud storage). We do not sell your data.</p>
+  <h2>4. How We Use Your Data</h2>
+  <p>We use your data exclusively to provide mileage tracking, generate your tax reports, and sync your account across your devices. We do not use your data for advertising and do not share it with third parties except as listed in §5.</p>
 
-  <h2>5. Speedometer</h2>
+  <h2>5. Subprocessors</h2>
+  <p>We use the following subprocessors to operate the service: Supabase Inc. (managed PostgreSQL, authentication, and Realtime), Apple Inc. (App Store payments &amp; receipts), and Google LLC and Apple Inc. (OAuth sign-in providers, only if you choose to use them). We do not use Stripe at this time. We do not sell your data to anyone.</p>
+
+  <h2>6. Speedometer</h2>
   <p>The in-app speedometer is for reference only and is not calibrated to DMV, state, or federal standards. Do not rely on it for legal purposes.</p>
 
-  <h2>6. Your Rights</h2>
-  <p>You may export or delete all data at any time. Account deletion removes all cloud data within 30 days.</p>
+  <h2>7. Your Rights</h2>
+  <p>You may export all of your data at any time as PDF or CSV. You may delete individual trips (recoverable for 30 days) or delete your entire account from Settings. Account deletion purges all cloud data within 30 days. EU/UK residents may exercise GDPR rights (access, rectification, erasure, portability) by emailing <a href="mailto:privacy@mymilesai.com">privacy@mymilesai.com</a>; California residents may exercise CCPA/CPRA rights at the same address. We do not sell personal information.</p>
 
-  <h2>7. Contact</h2>
-  <p>Questions about this policy? Email <a href="mailto:privacy@mymilesai.com">privacy@mymilesai.com</a>.</p>
+  <h2>8. Contact</h2>
+  <p>Questions about this policy? Email <a href="mailto:privacy@mymilesai.com">privacy@mymilesai.com</a>. Harijas LLC, Manteca, CA.</p>
 </main>
 
 </body>

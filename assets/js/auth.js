@@ -27,6 +27,8 @@
   // privileges. Keep it private.
 
   const CALLBACK_URL = 'https://mymilesai.com/auth-callback/';
+  const TURNSTILE_SITE_KEY = (cfg.TURNSTILE_SITE_KEY || '').trim();
+  const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__mmaiTurnstileReady';
 
   // ──────── helpers ────────
   const $ = (sel, root) => (root || document).querySelector(sel);
@@ -37,6 +39,110 @@
     el.className = 'auth-msg' + (tone ? ' ' + tone : '');
   };
 
+  // ──────── Cloudflare Turnstile (CAPTCHA) ────────
+  // No-op when TURNSTILE_SITE_KEY is empty — signup/signin behave exactly
+  // as they did before the captcha was added. When the key is set:
+  // 1. The widget mounts inside #captcha-mount.
+  // 2. signUp / signInWithPassword / signInWithOAuth / resetPasswordForEmail
+  //    all pass `options.captchaToken` to Supabase.
+  // 3. Supabase verifies the token server-side against Cloudflare's API
+  //    (config in Supabase Dashboard → Auth → Bot & Abuse Protection).
+  // Tokens are single-use; the widget auto-rotates on `expired-callback`
+  // and we explicitly reset after each submission attempt.
+  const captcha = (function () {
+    const enabled = !!TURNSTILE_SITE_KEY;
+    let widgetId = null;
+    let lastToken = null;
+    let loadPromise = null;
+
+    function loadScript() {
+      if (!enabled) return Promise.resolve();
+      if (loadPromise) return loadPromise;
+      loadPromise = new Promise((resolve, reject) => {
+        window.__mmaiTurnstileReady = () => resolve();
+        const s = document.createElement('script');
+        s.src = TURNSTILE_SCRIPT;
+        s.async = true;
+        s.defer = true;
+        s.onerror = () => reject(new Error('turnstile script failed to load'));
+        document.head.appendChild(s);
+      });
+      return loadPromise;
+    }
+
+    function mount() {
+      if (!enabled) return;
+      const el = document.getElementById('captcha-mount');
+      if (!el) return;
+      loadScript().then(() => {
+        if (widgetId !== null) return;
+        try {
+          widgetId = window.turnstile.render(el, {
+            sitekey: TURNSTILE_SITE_KEY,
+            theme: 'light',
+            size: 'normal',
+            callback: (token) => { lastToken = token; },
+            'expired-callback': () => { lastToken = null; },
+            'error-callback': () => { lastToken = null; },
+          });
+        } catch (e) {
+          console.warn('[auth] turnstile render:', e && e.message);
+        }
+      }).catch((e) => console.warn('[auth] turnstile load:', e && e.message));
+    }
+
+    function token() { return enabled ? lastToken : undefined; }
+
+    function reset() {
+      if (!enabled || widgetId === null || !window.turnstile) return;
+      try { window.turnstile.reset(widgetId); } catch (_e) {}
+      lastToken = null;
+    }
+
+    return { enabled, mount, token, reset };
+  })();
+
+  // ──────── Password strength meter (signup only) ────────
+  // Scoring is a conservative length × character-class entropy estimate.
+  // Bucket cutoffs (entropy bits): <28 weak, 28-39 fair, 40-59 good, 60+ strong.
+  // We block submit at "weak" but allow "fair" so we don't add unnecessary
+  // friction for users who chose a passphrase the meter underestimates.
+  const pwMeter = (function () {
+    function score(pw) {
+      if (!pw) return { level: 0, label: 'Enter a password', bits: 0 };
+      let charset = 0;
+      if (/[a-z]/.test(pw)) charset += 26;
+      if (/[A-Z]/.test(pw)) charset += 26;
+      if (/[0-9]/.test(pw)) charset += 10;
+      if (/[^A-Za-z0-9]/.test(pw)) charset += 32;
+      const bits = pw.length * Math.log2(Math.max(charset, 2));
+      let level = 1, label = 'Weak';
+      if (bits >= 60) { level = 4; label = 'Strong'; }
+      else if (bits >= 40) { level = 3; label = 'Good'; }
+      else if (bits >= 28) { level = 2; label = 'Fair'; }
+      return { level, label, bits: Math.round(bits) };
+    }
+    function attach() {
+      const pw = document.getElementById('password');
+      if (!pw) return null;
+      const bar = document.querySelector('.pw-strength-bar');
+      const fill = document.getElementById('pw-strength-fill');
+      const label = document.getElementById('pw-strength-label');
+      if (!bar || !fill || !label) return null;
+      const update = () => {
+        const s = score(pw.value);
+        const pct = Math.min(100, (s.level / 4) * 100);
+        fill.style.width = pct + '%';
+        bar.className = 'pw-strength-bar ' + ['', 's-weak', 's-fair', 's-good', 's-strong'][s.level];
+        label.textContent = s.label + (s.bits ? ' · ' + s.bits + ' bits' : '');
+      };
+      pw.addEventListener('input', update);
+      update();
+      return { check: () => score(pw.value) };
+    }
+    return { attach };
+  })();
+
   // ──────── already-signed-in redirect ────────
   async function bounceIfSignedIn() {
     const { data } = await _sb.auth.getSession();
@@ -44,7 +150,7 @@
   }
 
   // ──────── Email/password ────────
-  function wireEmailForm(formSel, mode /* 'signin' | 'signup' */) {
+  function wireEmailForm(formSel, mode /* 'signin' | 'signup' */, meter) {
     const form = $(formSel);
     if (!form) return;
     form.addEventListener('submit', async (e) => {
@@ -52,19 +158,40 @@
       const email = $('[name=email]', form).value.trim();
       const password = $('[name=password]', form).value;
       const btn = $('button[type=submit]', form);
+
+      // Block weak passwords at signup time. Fair+ is allowed.
+      if (mode === 'signup' && meter) {
+        const s = meter.check();
+        if (s.level <= 1) {
+          msg('#auth-msg', 'Please choose a stronger password (mix upper, lower, number, or 12+ characters).', 'err');
+          return;
+        }
+      }
+
+      if (captcha.enabled && !captcha.token()) {
+        msg('#auth-msg', 'Please complete the human-check below.', 'err');
+        return;
+      }
+
       if (btn) { btn.disabled = true; btn.dataset._orig = btn.textContent; btn.textContent = '…'; }
 
+      const captchaToken = captcha.token();
       let result;
       if (mode === 'signup') {
         result = await _sb.auth.signUp({
           email, password,
-          options: { emailRedirectTo: CALLBACK_URL },
+          options: { emailRedirectTo: CALLBACK_URL, captchaToken },
         });
       } else {
-        result = await _sb.auth.signInWithPassword({ email, password });
+        result = await _sb.auth.signInWithPassword({
+          email, password,
+          options: { captchaToken },
+        });
       }
 
       if (btn) { btn.disabled = false; btn.textContent = btn.dataset._orig; }
+      // Turnstile tokens are single-use; rotate so the next attempt has a fresh one.
+      captcha.reset();
 
       if (result.error) {
         msg('#auth-msg', result.error.message, 'err');
@@ -77,7 +204,7 @@
         return;
       }
 
-      // New web signups land on the iOS onboarding page first.
+      // New web signups land on the welcome page first.
       const dest = (mode === 'signup') ? '/welcome/' : '/app/';
       location.replace(dest);
     });
@@ -89,9 +216,10 @@
     if (document.body.dataset.authPage === 'signup') {
       try { localStorage.setItem('mmai_after_auth', 'welcome'); } catch (_e) {}
     }
+    const captchaToken = captcha.token();
     const { error } = await _sb.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: CALLBACK_URL },
+      options: { redirectTo: CALLBACK_URL, captchaToken },
     });
     if (error) msg('#auth-msg', error.message, 'err');
   }
@@ -116,7 +244,9 @@
         emailField && emailField.focus();
         return;
       }
-      const { error } = await _sb.auth.resetPasswordForEmail(email, { redirectTo: CALLBACK_URL });
+      const captchaToken = captcha.token();
+      const { error } = await _sb.auth.resetPasswordForEmail(email, { redirectTo: CALLBACK_URL, captchaToken });
+      captcha.reset();
       if (error) msg('#auth-msg', error.message, 'err');
       else msg('#auth-msg', 'Reset link sent. Check your email.', 'ok');
     });
@@ -240,9 +370,11 @@
   const page = document.body.dataset.authPage;
   if (page === 'signin' || page === 'signup') {
     bounceIfSignedIn();
-    wireEmailForm('#auth-form', page);
+    const meter = (page === 'signup') ? pwMeter.attach() : null;
+    wireEmailForm('#auth-form', page, meter);
     wireOAuthButtons();
     wireForgot();
+    captcha.mount();
   } else if (page === 'callback') {
     handleCallback();
   }

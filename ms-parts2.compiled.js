@@ -385,7 +385,7 @@ const MSTestimonials = () => {
   return null;
 };
 const MSPricing = () => {
-  const features = ['Unlimited automatic trip tracking', 'AI business/personal classification', 'Tax-ready PDF exports', 'CSV export for QuickBooks, Xero, FreshBooks', 'Real-time deduction counter ($0.725/mi or $0.73/km)', 'Country-aware tax rates built in (multi-region support)', 'Works offline — syncs when back online', 'Client and purpose tagging', 'Multi-vehicle support', 'Privacy-first: on-device processing, no data selling'];
+  const features = ['Unlimited automatic trip tracking', 'AI business/personal classification', 'Tax-ready PDF exports', 'CSV export for QuickBooks, Xero, FreshBooks', 'Real-time deduction counter ($0.725/mi or $0.73/km)', 'Country-aware tax rates built in (multi-region support)', 'Works offline — syncs when back online', 'Client and purpose tagging', 'Multi-vehicle support', 'Privacy-first: classification runs on-device; encrypted trip data syncs to your private cloud account. We never sell your data.'];
   return React.createElement("section", {
     id: "pricing",
     style: {
@@ -734,7 +734,7 @@ const MSAbout = () => {
       flexDirection: 'column',
       gap: 20
     }
-  }, React.createElement("p", null, "We drove for work. We forgot to log. We lost thousands at tax time \u2014 and we knew exactly where the money went. Just nowhere. Unclaimed. Gone."), React.createElement("p", null, "So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, based in Canada and serving self-employed professionals wherever they drive for work. Every feature exists because a real driver asked for it."), React.createElement("p", null, "We built it privacy-first because we don't want your location data \u2014 we want you to keep your deductions. On-device processing, no data selling, no cloud tracking. Your trips stay yours."))), React.createElement("div", {
+  }, React.createElement("p", null, "We drove for work. We forgot to log. We lost thousands at tax time \u2014 and we knew exactly where the money went. Just nowhere. Unclaimed. Gone."), React.createElement("p", null, "So we built the app we wished existed. MyMilesAI is a product of Harijas LLC, serving self-employed professionals who drive for work. Every feature exists because a real driver asked for it."), React.createElement("p", null, "We built it privacy-first because we don't want your location data \u2014 we want you to keep your deductions. Classification runs on your device; trip records sync encrypted to your own private cloud account so your history follows you across phones. We never sell your driving history."))), React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3,1fr)',
@@ -746,7 +746,7 @@ const MSAbout = () => {
     }
   }, [{
     label: 'Privacy-first by design',
-    desc: 'On-device processing. We never sell your location data or driving history.'
+    desc: 'Classification runs on-device; trip data syncs encrypted to your private cloud account. We never sell your location data or driving history.'
   }, {
     label: 'Simple and affordable',
     desc: '$6.99/month. Less than what you\'d lose by forgetting a single client visit.'

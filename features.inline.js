@@ -254,14 +254,14 @@ const FeatVisAudit = () => React.createElement("div", {
   style: {
     color: '#6B7280'
   }
-}, "Q1 total \xB7 247 trips"), React.createElement("span", {
+}, "Illustrative \xB7 Sample export"), React.createElement("span", {
   style: {
     fontFamily: "'DM Sans',system-ui,sans-serif",
     fontWeight: 700,
-    fontSize: 24,
-    color: '#1B4DDB'
+    fontSize: 14,
+    color: '#6B7280'
   }
-}, "$2,183.14")));
+}, "Your numbers will differ")));
 const FeatFeatures = () => {
   const feats = [{
     k: 'Auto GPS tracking',
@@ -367,7 +367,7 @@ const FeatAdditional = () => {
       d: "M2 12h20M12 2a14 14 0 010 20M12 2a14 14 0 000 20"
     })),
     title: 'Privacy-First',
-    desc: 'Your location data stays on your device. We use on-device processing — your trips are never sold to third parties, never used for advertising, never shared with data brokers. We make money from subscriptions, not from your location history.'
+    desc: 'Trip classification runs on your device. Your trip records sync encrypted to your own private cloud account so your history follows you across phones. Your data is never sold, never used for advertising, and never shared with data brokers. We make money from subscriptions, not from your location history.'
   }, {
     icon: React.createElement("svg", {
       viewBox: "0 0 24 24",

@@ -278,13 +278,9 @@ const PERSONA = {
   }, {
     q: 'Can I track multiple active job sites at the same time?',
     a: 'Yes. MyMilesAI logs all drives regardless of how many sites you are running. Each trip records the exact start and end point.'
-  }],
-  testimonial: {
-    quote: "I drive 300+ miles a week between sites and suppliers. I had no idea how much I was missing until MyMilesAI showed me — $13,000 in deductions I had been leaving on the table every year.",
-    name: "Derek B.",
-    role: "General Contractor · Phoenix, AZ",
-    initials: "DB"
-  }
+  }]
+  // Customer testimonials are intentionally omitted until we have real, consented
+  // quotes on file. SolTestimonial returns null when none is provided.
 };
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SolPersonaPage, {
   persona: PERSONA

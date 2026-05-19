@@ -1,0 +1,140 @@
+<!doctype html>
+<!--
+  MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+  Source HTML for the 1200x630 OG card. Rasterize with:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+      --window-size=1200,630 \
+      --screenshot=mymilesai-og.png \
+      "file:///Users/swaranadmn/Code/mymilesai2web/assets/og/og.html"
+  Idempotent — re-render any time copy/brand changes.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MyMilesAI OG</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse 80% 60% at 100% 0%, rgba(27,77,219,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(201,169,110,0.12) 0%, transparent 60%),
+      #FFFFFF;
+    color: #0B0F0E;
+    position: relative;
+    overflow: hidden;
+  }
+  .card {
+    position: absolute;
+    inset: 60px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 56px 64px;
+    border: 1px solid #E5E7EB;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.035em;
+  }
+  .brand svg { width: 36px; height: 36px; flex-shrink: 0; }
+  .brand .ai {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #C9A96E;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+  }
+  .headline {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 78px;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: #0B0F0E;
+    max-width: 980px;
+  }
+  .headline em {
+    color: #1B4DDB;
+    font-style: normal;
+  }
+  .sub {
+    font-size: 26px;
+    line-height: 1.4;
+    color: #374151;
+    max-width: 820px;
+    font-weight: 500;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E5E7EB;
+    padding-top: 24px;
+  }
+  .tags {
+    display: flex;
+    gap: 14px;
+  }
+  .tag {
+    background: #EEF2FF;
+    color: #1B4DDB;
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .domain {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: #6B7280;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="12" cy="50" r="6" fill="#0B0F0E"/>
+        <path d="M 12 50 Q 12 30 28 22 T 52 14" stroke="#1B4DDB" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <circle cx="52" cy="14" r="7" fill="#1B4DDB"/>
+        <circle cx="52" cy="14" r="3" fill="#FFFFFF"/>
+      </svg>
+      <span>MyMiles<span class="ai">.AI</span></span>
+    </div>
+
+    <div class="body">
+      <div class="headline">Every mile,<br><em>automatically deducted.</em></div>
+      <div class="sub">Auto GPS tracking · AI trip classification · Tax-ready PDF, CSV, QuickBooks &amp; Xero exports.</div>
+    </div>
+
+    <div class="footer">
+      <div class="tags">
+        <span class="tag">$0.725 / mi · 2026</span>
+        <span class="tag">7-day free trial</span>
+        <span class="tag">9 countries</span>
+      </div>
+      <div class="domain">mymilesai.com</div>
+    </div>
+  </div>
+</body>
+</html>
