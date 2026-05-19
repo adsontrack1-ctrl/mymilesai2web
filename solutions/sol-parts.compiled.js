@@ -1011,12 +1011,12 @@ const SolNav = () => {
   }, "Sign In \u2192"))));
 };
 const SOL_VALUE_PROPS = {
-  realtors: (d, u) => `Track every showing and open house. Deduct up to ${d} in business ${u}.`,
-  rideshare: (d, u) => `Capture deadhead and delivery ${u}. Deduct up to ${d} per year.`,
-  freelancers: (d, u) => `Log client ${u} by project. Deduct up to ${d} per year.`,
-  'small-business': (d, u) => `Track every business run and delivery. Deduct up to ${d} in ${u}.`,
-  construction: (d, u) => `Log job site, materials, and equipment ${u}. Deduct up to ${d}.`,
-  'sales-reps': (d, u) => `Track territory ${u} by account. Deduct up to ${d} per year.`
+  realtors: (d, u) => `Track every showing and open house. Audit-ready ${u} log for tax time.`,
+  rideshare: (d, u) => `Capture deadhead and delivery ${u} across every app.`,
+  freelancers: (d, u) => `Log client ${u} by project. One export at tax time.`,
+  'small-business': (d, u) => `Track every business run and delivery. Per-driver ${u} logs.`,
+  construction: (d, u) => `Log job site, materials, and equipment ${u} automatically.`,
+  'sales-reps': (d, u) => `Track territory ${u} by account. One log, two reports.`
 };
 const SolPersonaCard = ({
   slug,
@@ -1552,7 +1552,9 @@ const SolPersonaPage = ({
     className: "sol-page-eyebrow"
   }, "\u2014 ", SOL_PERSONA_META[persona.slug].name), React.createElement("h1", {
     className: "sol-page-h1"
-  }, SOL_PERSONA_META[persona.slug].name, " miss", ' ', React.createElement("em", null, p.deduction), " in deductions every year.", React.createElement("br", null), "You won't."), React.createElement("p", {
+  }, "Capture every business ", s.unit, ".", React.createElement("br", null), "Claim every dollar."), React.createElement("p", {
+    className: "sol-page-illustrative"
+  }, "Illustrative: a ", SOL_PERSONA_META[persona.slug].name.toLowerCase(), " driving ", p.distance, " business ", s.unit, " a year deducts ", React.createElement("em", null, p.deduction), " at the 2026 ", s.rate.split(' (')[0], " rate. Your actual deduction depends on the ", s.unit, " you log."), React.createElement("p", {
     className: "sol-page-sub"
   }, typeof persona.heroSub === 'function' ? persona.heroSub(s) : persona.heroSub), React.createElement("div", {
     style: {

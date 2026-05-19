@@ -324,8 +324,20 @@
   color: #111827;
   margin-bottom: 16px;
 }
-.sol-page-h1 em { font-style: normal; color: #1B4DDB; }
+.sol-page-h1 em { font-style: normal; color: #1B4DDB; font-weight: 800; }
 .sol-page-sub { font-size: 1.25rem; line-height: 1.65; color: #4B5563; max-width: 480px; margin-bottom: 28px; }
+.sol-page-illustrative {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #6B7280;
+  max-width: 540px;
+  margin: -6px 0 24px;
+  padding: 12px 14px;
+  border-left: 3px solid #C9A96E;
+  background: #F8F4EC;
+  border-radius: 0 8px 8px 0;
+}
+.sol-page-illustrative em { font-style: normal; font-weight: 700; color: #C9A96E; }
 .sol-trust-strip {
   background: #F8F9FA;
   border-top: 1px solid #E5E7EB;
