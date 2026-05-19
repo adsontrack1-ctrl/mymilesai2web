@@ -16,7 +16,7 @@
  *  - Self-update on every load: a new SW takes control within seconds.
  */
 
-const CACHE_VERSION = 'mmai-v2-2026-05-15-outbox';
+const CACHE_VERSION = 'mmai-v3-2026-05-18-solutions-hotfix';
 const PRECACHE = [
   '/',
   '/offline.html',
