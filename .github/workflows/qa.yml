@@ -1,0 +1,87 @@
+# MyMilesAI - Copyright (c) 2025-2026 Harijas LLC. All rights reserved.
+#
+# Per-PR QA gate. Runs the same checks that caught (or would have caught)
+# every regression in May 2026:
+#
+#   1. tools/qa-smoke.mjs (static) — fails on any React-mounting page
+#      whose <div id="root"> sits AFTER the first <script> in body.
+#      Catches the Solutions hub render-blank class of bug.
+#
+#   2. tools/qa-smoke.mjs --render — spins up python3 -m http.server,
+#      renders every page through headless Chrome with virtual-time-
+#      budget=12s, fails on any Uncaught / SyntaxError / TypeError /
+#      ReferenceError / Identifier-already-declared / React-#NNN error.
+#      Catches the features.html duplicate-const class of bug.
+#
+#   3. tools/qa-curl.mjs (only on push to main, against prod) — fetches
+#      every sitemap URL + extras, validates JSON-LD parse + schema-
+#      required-fields, OG image, AASA, skip-link presence, broken
+#      outbound HEAD checks, robots sanity.
+#
+# Any failure blocks the merge (qa-smoke) or surfaces an issue on main
+# (qa-curl).
+name: QA
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  qa-smoke:
+    name: qa-smoke (static + render)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dev deps (babel for build-jsx)
+        run: npm ci || npm install
+
+      - name: Install Chrome for headless rendering
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Verify compiled .js is in sync with .jsx sources
+        run: |
+          node tools/build-jsx.mjs
+          if ! git diff --quiet -- '*.compiled.js' 'solutions/sol-parts.compiled.js'; then
+            echo "::error::Compiled JS is stale. Run 'node tools/build-jsx.mjs' locally and commit the output."
+            git diff --stat -- '*.compiled.js' 'solutions/sol-parts.compiled.js'
+            exit 1
+          fi
+
+      - name: qa-smoke static — script ordering
+        run: node tools/qa-smoke.mjs
+
+      - name: qa-smoke runtime — headless render every page
+        env:
+          # qa-smoke.mjs hardcodes the macOS Chrome path. Point at the
+          # Linux binary that setup-chrome provided.
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path || '/usr/bin/google-chrome-stable' }}
+        run: |
+          # Patch CHROME path at runtime so qa-smoke uses the linux binary.
+          # Fast and safe: just swaps the constant with sed for this run.
+          sed -i.bak "s|'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'|process.env.CHROME_BIN \|\| '/usr/bin/google-chrome-stable'|" tools/qa-smoke.mjs
+          node tools/qa-smoke.mjs --render
+          mv tools/qa-smoke.mjs.bak tools/qa-smoke.mjs
+
+  qa-prod-smoke:
+    name: qa-curl (production)
+    if: github.ref == 'refs/heads/main'
+    needs: qa-smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Wait 90s for GitHub Pages / Cloudflare Pages to pick up the merge
+        run: sleep 90
+      - name: qa-curl against production
+        run: node tools/qa-curl.mjs --base https://mymilesai.com
